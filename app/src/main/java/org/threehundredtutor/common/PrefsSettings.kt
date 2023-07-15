@@ -11,6 +11,7 @@ object PrefsSettings {
     private const val PREFS_ACCOUNT_LOGIN_KEY = "PREFS_ACCOUNT_LOGIN_KEY"
     private const val PREFS_DOMAIN_KEY = "PREFS_DOMAIN_KEY"
 
+    //TODO защитить преференсы как в аффилейте
     fun getFirstStartApp(): Boolean = getAppContext().getSharedPreferences(
         PREFS_SETTINGS_FILE,
         Context.MODE_PRIVATE

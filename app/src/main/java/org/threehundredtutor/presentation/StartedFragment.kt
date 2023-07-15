@@ -1,13 +1,12 @@
 package org.threehundredtutor.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import org.threehundredtutor.R
 import org.threehundredtutor.common.PrefsSettings
-import org.threehundredtutor.common.navigateTo
 import org.threehundredtutor.databinding.StartedFragmentLayoutBinding
 
 class StartedFragment : Fragment(R.layout.started_fragment_layout) {
@@ -22,9 +21,10 @@ class StartedFragment : Fragment(R.layout.started_fragment_layout) {
             binding.titleStartedFragment.isVisible = false
             binding.domainSpinner.isVisible = false
             if (prefsSettings.getAccountLogin().isNotEmpty()) {
-                navigateTo(HomeFragment(), R.id.contentContainer)
+                findNavController().navigate(R.id.action_startedFragment_to_homeFragment)
             } else {
-                navigateTo(AuthorizationFragment(), R.id.contentContainer)
+                //TODO логика перехода на авторизацию если уже зарегистрирован
+                findNavController().navigate(R.id.action_startedFragment_to_registrationFragment)
             }
         } else {
             binding.domainSpinner.isVisible = true
