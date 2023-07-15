@@ -7,10 +7,11 @@ ext.versions = [
         okhttp          : '5.0.0-alpha.2',
         okhttpLogging   : '4.11.0',
         retrofit2       : '2.9.0',
-        dagger          : '2.38.1',
+        dagger          : '2.41',
         glide           : '4.15.1',
         coil            : '2.2.2',
         coroutineAdapter: '0.9.2',
         lifecycle       : '2.6.1',
-        ktxFragment     : '1.6.0'
+        ktxFragment     : '1.6.0',
+        navigation      : '2.6.0'
 ]
