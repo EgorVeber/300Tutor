@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="StartedFragment"
-        android:textColor="@color/black"
+        android:textColor="@color/default_black"
         android:textSize="32sp" />
 
     <Spinner

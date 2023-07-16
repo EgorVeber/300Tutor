@@ -1,2 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <dimen name="size_2">2dp</dimen>
+    <dimen name="size_4">4dp</dimen>
+    <dimen name="size_8">8dp</dimen>
+    <dimen name="size_10">10dp</dimen>
+    <dimen name="size_12">12dp</dimen>
+    <dimen name="size_16">16dp</dimen>
+    <dimen name="size_24">24dp</dimen>
+    <dimen name="size_32">32dp</dimen>
+    <dimen name="size_40">40dp</dimen>
+    <dimen name="size_44">44dp</dimen>
+    <dimen name="size_48">48dp</dimen>
+    <dimen name="size_56">56dp</dimen>
+    <dimen name="size_64">64dp</dimen>
+    <dimen name="size_72">72dp</dimen>
+    <dimen name="size_80">80dp</dimen>
+    <dimen name="size_96">96dp</dimen>
+    <dimen name="size_128">128dp</dimen>
+    <dimen name="size_144">144dp</dimen>
+    <dimen name="size_192">192dp</dimen>
+    <dimen name="size_256">256dp</dimen>
+
+    <dimen name="space_2">2dp</dimen>
+    <dimen name="space_4">4dp</dimen>
+    <dimen name="space_6">6dp</dimen>
+    <dimen name="space_8">8dp</dimen>
+    <dimen name="space_10">10dp</dimen>
+    <dimen name="space_12">12dp</dimen>
+    <dimen name="space_16">16dp</dimen>
+    <dimen name="space_24">24dp</dimen>
+    <dimen name="space_32">32dp</dimen>
+    <dimen name="space_40">40dp</dimen>
+    <dimen name="space_48">48dp</dimen>
+    <dimen name="space_56">56dp</dimen>
+    <dimen name="space_64">64dp</dimen>
+    <dimen name="space_72">72dp</dimen>
+    <dimen name="space_80">80dp</dimen>
+    <dimen name="space_96">96dp</dimen>
+    <dimen name="space_144">144dp</dimen>
+    <dimen name="space_192">192dp</dimen>
+    <dimen name="space_256">256dp</dimen>
+
+    <dimen name="margin_2">2dp</dimen>
+    <dimen name="margin_4">4dp</dimen>
+    <dimen name="margin_6">6dp</dimen>
+    <dimen name="margin_8">8dp</dimen>
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_12">12dp</dimen>
+    <dimen name="margin_16">16dp</dimen>
+    <dimen name="margin_24">24dp</dimen>
+    <dimen name="margin_32">32dp</dimen>
+    <dimen name="margin_40">40dp</dimen>
+    <dimen name="margin_48">48dp</dimen>
+    <dimen name="margin_56">56dp</dimen>
+    <dimen name="margin_64">64dp</dimen>
+    <dimen name="margin_72">72dp</dimen>
+    <dimen name="margin_80">80dp</dimen>
+    <dimen name="margin_96">96dp</dimen>
+    <dimen name="margin_144">144dp</dimen>
+    <dimen name="margin_192">192dp</dimen>
+    <dimen name="margin_256">256dp</dimen>
+
+    <dimen name="small_margin_dynamic">4dp</dimen>
+    <dimen name="medium_margin_dynamic">8dp</dimen>
+    <dimen name="large_margin_dynamic">12dp</dimen>
+    <dimen name="extra_margin_dynamic">16dp</dimen>
+
+    <dimen name="radius_2">2dp</dimen>
+    <dimen name="radius_4">4dp</dimen>
+    <dimen name="radius_6">6dp</dimen>
+    <dimen name="radius_8">8dp</dimen>
+    <dimen name="radius_10">10dp</dimen>
+    <dimen name="radius_12">12dp</dimen>
+    <dimen name="radius_16">16dp</dimen>
+    <dimen name="radius_20">20dp</dimen>
+    <dimen name="radius_24">24dp</dimen>
+    <dimen name="radius_full">360dp</dimen>
+
+    <dimen name="text_8">8sp</dimen>
+    <dimen name="text_10">10sp</dimen>
+    <dimen name="text_12">12sp</dimen>
+    <dimen name="text_14">14sp</dimen>
+    <dimen name="text_16">16sp</dimen>
+    <dimen name="text_18">18sp</dimen>
+    <dimen name="text_20">20sp</dimen>
+    <dimen name="text_24">24sp</dimen>
+    <dimen name="text_28">28sp</dimen>
+    <dimen name="text_32">32sp</dimen>
+    <dimen name="text_40">40sp</dimen>
+</resources>
