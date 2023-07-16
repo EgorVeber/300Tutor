@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="HomeFragment"
-        android:textColor="@color/black"
+        android:textColor="?attr/defaultBlack"
         android:textSize="32sp" />
 
     <androidx.fragment.app.FragmentContainerView
