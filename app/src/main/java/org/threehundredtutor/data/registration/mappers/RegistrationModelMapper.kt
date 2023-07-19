@@ -7,7 +7,7 @@ import org.threehundredtutor.domain.registration.models.RegistrationModel
 
 fun RegisterResponse.toRegistrationModelMapper(): RegistrationModel {
     return RegistrationModel(
-        succeded = succeded ?: false,
+        succeded = succeeded ?: false,
         errorMessage = errorMessage.orEmpty(),
         errorType = errorType ?: ErrorType.NONE,
         registeredUser = RegisteredUserModel(

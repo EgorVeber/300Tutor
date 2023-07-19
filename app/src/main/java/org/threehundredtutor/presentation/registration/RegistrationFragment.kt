@@ -16,7 +16,7 @@ import org.threehundredtutor.presentation.registration.viewmodel.RegistrationVie
 
 class RegistrationFragment : Fragment(R.layout.registration_fragment_layout) {
 
-    val viewModel: RegistrationViewModel by viewModels()
+    private val viewModel: RegistrationViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val binding = RegistrationFragmentLayoutBinding.bind(view)
@@ -34,6 +34,7 @@ class RegistrationFragment : Fragment(R.layout.registration_fragment_layout) {
     }
 
     private fun observeData() {
+        //TODO завести observeWithLifecycle
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.getRegistrationState().collect { registeredUser ->
@@ -41,10 +42,16 @@ class RegistrationFragment : Fragment(R.layout.registration_fragment_layout) {
                         val toast = Toast.makeText(context, "User registered", Toast.LENGTH_LONG)
                         toast.show()
                         findNavController().navigate(R.id.action_registrationFragment_to_authorizationFragment)
-                    } else {
-                        val toast = Toast.makeText(context, registeredUser.errorMessage, Toast.LENGTH_LONG)
-                        toast.show()
                     }
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getErrorState().collect { errorText ->
+                        val toast =
+                            Toast.makeText(context, errorText, Toast.LENGTH_LONG)
+                        toast.show()
                 }
             }
         }

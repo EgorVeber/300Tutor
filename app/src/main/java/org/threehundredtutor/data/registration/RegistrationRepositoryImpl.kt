@@ -42,7 +42,6 @@ class RegistrationRepositoryImpl {
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
         return retrofit
     }
 }
