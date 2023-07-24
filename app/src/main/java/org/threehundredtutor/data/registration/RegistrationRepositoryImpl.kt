@@ -1,6 +1,6 @@
 package org.threehundredtutor.data.registration
 
-import org.threehundredtutor.common.TUTOR_API
+import org.threehundredtutor.common.BASE_KURSBIO_URL
 import org.threehundredtutor.data.registration.mappers.toRegistrationModelMapper
 import org.threehundredtutor.data.registration.models.RegisterParams
 import org.threehundredtutor.data.registration.models.RegisterResponse
@@ -16,7 +16,7 @@ class RegistrationRepositoryImpl {
     private lateinit var retrofit: Retrofit
 
     private val createService: RegistrationService
-        get() = getClient(TUTOR_API).create(RegistrationService::class.java)
+        get() = getClient(BASE_KURSBIO_URL).create(RegistrationService::class.java)
     suspend fun registerUser(params: RegistrationParams): RegistrationModel {
         val registerParams = RegisterParams(
             email = params.email,

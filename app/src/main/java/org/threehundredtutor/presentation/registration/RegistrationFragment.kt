@@ -31,6 +31,10 @@ class RegistrationFragment : Fragment(R.layout.registration_fragment_layout) {
             )
         }
         observeData()
+
+        binding.authButton.setOnClickListener {
+            findNavController().navigate(R.id.action_registrationFragment_to_authorizationFragment)
+        }
     }
 
     private fun observeData() {
@@ -49,9 +53,9 @@ class RegistrationFragment : Fragment(R.layout.registration_fragment_layout) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.getErrorState().collect { errorText ->
-                        val toast =
-                            Toast.makeText(context, errorText, Toast.LENGTH_LONG)
-                        toast.show()
+                    val toast =
+                        Toast.makeText(context, errorText, Toast.LENGTH_LONG)
+                    toast.show()
                 }
             }
         }

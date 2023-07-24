@@ -4,11 +4,15 @@
     <string name="main_menu_profile_title">Профиль</string>
     <string name="main_menu_test_solving_title">Решение тестов</string>
     <string name="register_button">Register</string>
+    <string name="register_text">Регистрация</string>
     <string name="email_text">Email</string>
     <string name="name_text">Name</string>
     <string name="surname_text">Surname</string>
     <string name="phone_text">Phone</string>
     <string name="password_text">Password</string>
     <string name="patronymic_text">Patronymic</string>
-
+    <string name="authorization_text">Авторизация</string>
+    <string name="password_text_ru">Пароль</string>
+    <string name="email_text_ru">Почта</string>
+    <string name="sign_in">Войти</string>
 </resources>
