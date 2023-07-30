@@ -15,4 +15,12 @@
     <string name="password_text_ru">Пароль</string>
     <string name="email_text_ru">Почта</string>
     <string name="sign_in">Войти</string>
+    <string name="register_success_message">Регистрация прошла успешно</string>
+
+
+<!--    errors-->
+    <string name="unknown_error_message">Произошла неизвестная ошибка. Повторите попытку позже</string>
+    <string name="wrong_data_error_message">Ошибка! Проверьте введеные данные</string>
+    <string name="server_error_message">Неизвестная ошибка на сервере. Повторите попытку позже</string>
+    <string name="unathorized_error_message">Произошла ошибка авторизации</string>
 </resources>

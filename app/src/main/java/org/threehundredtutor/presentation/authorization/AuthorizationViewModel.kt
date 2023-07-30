@@ -1,8 +1,8 @@
 package org.threehundredtutor.presentation.authorization
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.asSharedFlow
+import org.threehundredtutor.base.BaseViewModel
 import org.threehundredtutor.common.extentions.SingleSharedFlow
 import org.threehundredtutor.common.extentions.launchJob
 import org.threehundredtutor.data.core.models.ErrorType
@@ -12,7 +12,7 @@ import org.threehundredtutor.domain.authorization.LoginUseCase
 
 class AuthorizationViewModel(
     private val loginUseCase: LoginUseCase = LoginUseCase(),
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val openScreenEventState = SingleSharedFlow<NavigateScreenState>()
     private val errorEventState = SingleSharedFlow<String>()
@@ -25,9 +25,9 @@ class AuthorizationViewModel(
         viewModelScope.launchJob(tryBlock = {
             val loginModel = loginUseCase(LoginDateModel(password, false, email))
             if (loginModel.succeeded) openScreenEventState.emit(NavigateScreenState.NavigateHomeScreen)
-            else handleError(loginModel)
-        }, catchBlock = {
-            errorEventState.tryEmit(it.toString())
+            else extractError(loginModel)
+        }, catchBlock = { throwable ->
+            handleError(throwable)
         })
     }
 
@@ -35,7 +35,7 @@ class AuthorizationViewModel(
         openScreenEventState.tryEmit(NavigateScreenState.NavigateRegistrationScreen)
     }
 
-    private fun handleError(loginModel: LoginModel) {
+    private fun extractError(loginModel: LoginModel) {
         when (loginModel.errorType) {
             ErrorType.REGISTRATION_NOT_ENABLED,
             ErrorType.ALREADY_AUTHENTICATED,

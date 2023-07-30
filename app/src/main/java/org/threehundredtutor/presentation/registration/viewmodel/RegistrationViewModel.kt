@@ -1,26 +1,24 @@
 package org.threehundredtutor.presentation.registration.viewmodel
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.launch
+import org.threehundredtutor.base.BaseViewModel
+import org.threehundredtutor.common.extentions.SingleSharedFlow
+import org.threehundredtutor.common.extentions.launchJob
 import org.threehundredtutor.domain.registration.models.RegistrationModel
 import org.threehundredtutor.domain.registration.usecases.RegistrationUseCase
 
-class RegistrationViewModel : ViewModel() {
+class RegistrationViewModel : BaseViewModel() {
 
     private val registrationState = MutableStateFlow(RegistrationModel.empty())
 
-    private val errorState = MutableSharedFlow<String>(replay = 0, extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    private val resultNotSuccededFlow = SingleSharedFlow<String>()
 
     private val registrationUseCase: RegistrationUseCase = RegistrationUseCase()
     fun getRegistrationState(): Flow<RegistrationModel> = registrationState
-    fun getErrorState(): SharedFlow<String> = errorState
+    fun getResultNotSuccededFlow(): SharedFlow<String> = resultNotSuccededFlow
 
     fun register(
         email: String,
@@ -30,20 +28,24 @@ class RegistrationViewModel : ViewModel() {
         phoneNumber: String,
         password: String
     ) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val result = registrationUseCase.invoke(
-                email = email,
-                name = name,
-                surname = surname,
-                patronymic = patronymic,
-                phoneNumber = phoneNumber,
-                password = password
-            )
-            if (result.succeded) {
-                registrationState.emit(result)
-            } else {
-                errorState.tryEmit(result.errorMessage)
+        viewModelScope.launchJob(
+            tryBlock = {
+                val result = registrationUseCase.invoke(
+                    email = email,
+                    name = name,
+                    surname = surname,
+                    patronymic = patronymic,
+                    phoneNumber = phoneNumber,
+                    password = password
+                )
+                if (result.succeded) {
+                    registrationState.emit(result)
+                } else {
+                    resultNotSuccededFlow.tryEmit(result.errorMessage)
+                }
+            }, catchBlock = { error ->
+                handleError(error)
             }
-        }
+        )
     }
 }
