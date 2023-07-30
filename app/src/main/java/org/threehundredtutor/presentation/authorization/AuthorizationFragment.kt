@@ -2,20 +2,22 @@ package org.threehundredtutor.presentation.authorization
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import org.threehundredtutor.R
+import org.threehundredtutor.base.BaseFragment
 import org.threehundredtutor.common.extentions.navigate
 import org.threehundredtutor.common.extentions.observeFlow
 import org.threehundredtutor.common.extentions.showMessage
 import org.threehundredtutor.databinding.AuthorizationFragmentLayoutBinding
 
-class AuthorizationFragment : Fragment(R.layout.authorization_fragment_layout) {
+class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment_layout) {
 
-    private val viewModel: AuthorizationViewModel by viewModels()
+    override val viewModel: AuthorizationViewModel by viewModels()
+
     lateinit var binding: AuthorizationFragmentLayoutBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding = AuthorizationFragmentLayoutBinding.bind(view)
         onInitView()
         onObserveData()

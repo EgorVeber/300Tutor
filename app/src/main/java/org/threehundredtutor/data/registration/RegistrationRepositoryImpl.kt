@@ -9,7 +9,6 @@ import org.threehundredtutor.domain.registration.models.RegistrationParams
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.lang.Exception
 
 class RegistrationRepositoryImpl {
 
@@ -17,6 +16,7 @@ class RegistrationRepositoryImpl {
 
     private val createService: RegistrationService
         get() = getClient(BASE_KURSBIO_URL).create(RegistrationService::class.java)
+
     suspend fun registerUser(params: RegistrationParams): RegistrationModel {
         val registerParams = RegisterParams(
             email = params.email,
@@ -32,8 +32,7 @@ class RegistrationRepositoryImpl {
         return extractValue(response)?.toRegistrationModelMapper() ?: throw Exception()
     }
 
-    private fun extractValue(response: Response<RegisterResponse>): RegisterResponse?{
-        //TODO проверить статус код и создать интерцепторп для ерроров
+    private fun extractValue(response: Response<RegisterResponse>): RegisterResponse? {
         return response.body()
     }
 

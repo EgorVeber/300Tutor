@@ -2,23 +2,21 @@ package org.threehundredtutor.presentation.registration
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import kotlinx.coroutines.launch
 import org.threehundredtutor.R
+import org.threehundredtutor.base.BaseFragment
+import org.threehundredtutor.common.extentions.observeFlow
+import org.threehundredtutor.common.extentions.showMessage
 import org.threehundredtutor.databinding.RegistrationFragmentLayoutBinding
 import org.threehundredtutor.presentation.registration.viewmodel.RegistrationViewModel
 
-class RegistrationFragment : Fragment(R.layout.registration_fragment_layout) {
+class RegistrationFragment : BaseFragment(R.layout.registration_fragment_layout) {
 
-    private val viewModel: RegistrationViewModel by viewModels()
+    override val viewModel: RegistrationViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val binding = RegistrationFragmentLayoutBinding.bind(view)
         binding.buttonRegister.setOnClickListener {
             viewModel.register(
@@ -38,26 +36,14 @@ class RegistrationFragment : Fragment(R.layout.registration_fragment_layout) {
     }
 
     private fun observeData() {
-        //TODO завести observeWithLifecycle
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.getRegistrationState().collect { registeredUser ->
-                    if (registeredUser.succeded) {
-                        val toast = Toast.makeText(context, "User registered", Toast.LENGTH_LONG)
-                        toast.show()
-                        findNavController().navigate(R.id.action_registrationFragment_to_authorizationFragment)
-                    }
-                }
+        viewModel.getRegistrationState().observeFlow(this) { registeredUser ->
+            if (registeredUser.succeded) {
+                showMessage(getString(R.string.register_success_message))
+                findNavController().navigate(R.id.action_registrationFragment_to_authorizationFragment)
             }
         }
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.getErrorState().collect { errorText ->
-                    val toast =
-                        Toast.makeText(context, errorText, Toast.LENGTH_LONG)
-                    toast.show()
-                }
-            }
+        viewModel.getResultNotSuccededFlow().observeFlow(this) { errorText ->
+            showMessage(errorText)
         }
     }
 }
