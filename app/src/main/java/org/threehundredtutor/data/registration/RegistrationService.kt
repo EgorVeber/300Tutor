@@ -9,5 +9,5 @@ import retrofit2.http.POST
 interface RegistrationService {
 
     @POST("account/Register")
-    suspend fun register(@Body params: RegisterParams): Response<RegisterResponse>
+    suspend fun register(@Body params: RegisterParams): RegisterResponse
 }

@@ -7,6 +7,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.threehundredtutor.base.network.ServerErrorInterceptor
 import org.threehundredtutor.common.BASE_KURSBIO_URL
 import org.threehundredtutor.data.authorization.AuthorizationService
+import org.threehundredtutor.data.registration.RegistrationService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -17,6 +18,13 @@ open class NetworkModule {
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .build().create(AuthorizationService::class.java)
+
+    fun createRegistrationService(): RegistrationService =
+        Retrofit.Builder().baseUrl(BASE_KURSBIO_URL)
+            .client(getOkHttp())
+            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .build().create(RegistrationService::class.java)
 
     private fun getOkHttp() = OkHttpClient.Builder()
         .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))

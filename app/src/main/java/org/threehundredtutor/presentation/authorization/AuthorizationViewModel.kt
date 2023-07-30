@@ -25,7 +25,7 @@ class AuthorizationViewModel(
         viewModelScope.launchJob(tryBlock = {
             val loginModel = loginUseCase(LoginDateModel(password, false, email))
             if (loginModel.succeeded) openScreenEventState.emit(NavigateScreenState.NavigateHomeScreen)
-            else handleError(loginModel)
+            else extractError(loginModel)
         }, catchBlock = { throwable ->
             handleError(throwable)
         })
@@ -35,7 +35,7 @@ class AuthorizationViewModel(
         openScreenEventState.tryEmit(NavigateScreenState.NavigateRegistrationScreen)
     }
 
-    private fun handleError(loginModel: LoginModel) {
+    private fun extractError(loginModel: LoginModel) {
         when (loginModel.errorType) {
             ErrorType.REGISTRATION_NOT_ENABLED,
             ErrorType.ALREADY_AUTHENTICATED,

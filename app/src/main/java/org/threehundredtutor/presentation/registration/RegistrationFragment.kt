@@ -15,9 +15,14 @@ class RegistrationFragment : BaseFragment(R.layout.registration_fragment_layout)
 
     override val viewModel: RegistrationViewModel by viewModels()
 
+    lateinit var binding: RegistrationFragmentLayoutBinding
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding = RegistrationFragmentLayoutBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
-        val binding = RegistrationFragmentLayoutBinding.bind(view)
+    }
+
+    override fun onInitView() {
         binding.buttonRegister.setOnClickListener {
             viewModel.register(
                 email = binding.etEmail.text.toString(),
@@ -28,14 +33,13 @@ class RegistrationFragment : BaseFragment(R.layout.registration_fragment_layout)
                 password = binding.etPassword.text.toString()
             )
         }
-        observeData()
-
         binding.authButton.setOnClickListener {
             findNavController().navigate(R.id.action_registrationFragment_to_authorizationFragment)
         }
     }
 
-    private fun observeData() {
+
+    override fun onObserveData() {
         viewModel.getRegistrationState().observeFlow(this) { registeredUser ->
             if (registeredUser.succeded) {
                 showMessage(getString(R.string.register_success_message))

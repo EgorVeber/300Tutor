@@ -17,13 +17,11 @@ class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment_layou
     lateinit var binding: AuthorizationFragmentLayoutBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         binding = AuthorizationFragmentLayoutBinding.bind(view)
-        onInitView()
-        onObserveData()
+        super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun onInitView() {
+    override fun onInitView() {
         binding.passwordEditText.setText("VbAn@9873")
         binding.emailEditText.setText("newjamesohara@gmail.com")
         binding.signInButton.setOnClickListener {
@@ -36,7 +34,7 @@ class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment_layou
         }
     }
 
-    private fun onObserveData() {
+    override fun onObserveData() {
         viewModel.getOpenScreenEventStateFlow().observeFlow(this) { screen ->
             when (screen) {
                 AuthorizationViewModel.NavigateScreenState.NavigateHomeScreen ->

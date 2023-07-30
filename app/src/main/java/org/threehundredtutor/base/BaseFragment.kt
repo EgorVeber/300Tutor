@@ -16,6 +16,7 @@ abstract class BaseFragment(@LayoutRes layoutResourceId: Int) : Fragment(layoutR
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        onInject()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,8 +26,16 @@ abstract class BaseFragment(@LayoutRes layoutResourceId: Int) : Fragment(layoutR
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        onInitView()
+        onObserveData()
         onObserveError()
     }
+
+    protected open fun onInject() {}
+
+    protected open fun onInitView() {}
+
+    protected open fun onObserveData() {}
 
     protected open fun onObserveError() {
         viewModel.getErrorState().observeFlow(this) { errorState ->
