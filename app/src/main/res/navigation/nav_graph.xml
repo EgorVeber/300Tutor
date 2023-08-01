@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_authorizationFragment_to_registration"
             app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_authorizationFragment_to_restorPasswordFragment"
+            app:destination="@id/restorPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
@@ -38,4 +41,12 @@
         android:id="@+id/homeFragment"
         android:name="org.threehundredtutor.presentation.HomeFragment"
         android:label="HomeFragment" />
+    <fragment
+        android:id="@+id/restorPasswordFragment"
+        android:name="org.threehundredtutor.presentation.restore.RestorePasswordFragment"
+        android:label="RestorPasswordFragment" >
+        <action
+            android:id="@+id/action_restorPasswordFragment_to_authorizationFragment"
+            app:destination="@id/authorizationFragment" />
+    </fragment>
 </navigation>

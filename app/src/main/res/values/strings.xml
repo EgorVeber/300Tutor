@@ -5,7 +5,10 @@
     <string name="main_menu_test_solving_title">Решение тестов</string>
     <string name="register_button">Register</string>
     <string name="register_text">Регистрация</string>
-    <string name="email_text">Email</string>
+    <string name="email_text">E-mail</string>
+    <string name="code">Код</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="code_plus_7">+7</string>
     <string name="name_text">Name</string>
     <string name="surname_text">Surname</string>
     <string name="phone_text">Phone</string>
@@ -14,7 +17,9 @@
     <string name="authorization_text">Авторизация</string>
     <string name="password_text_ru">Пароль</string>
     <string name="email_text_ru">Почта</string>
+    <string name="forgot_your_password">Забыли пароль?</string>
     <string name="sign_in">Войти</string>
+    <string name="phone_example">9123456789</string>
     <string name="register_success_message">Регистрация прошла успешно</string>
 
 

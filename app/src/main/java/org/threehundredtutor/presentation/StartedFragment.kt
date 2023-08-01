@@ -3,17 +3,29 @@ package org.threehundredtutor.presentation
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import org.threehundredtutor.R
+import org.threehundredtutor.base.BaseFragment
+import org.threehundredtutor.base.BaseViewModel
 import org.threehundredtutor.common.PrefsSettings
-import org.threehundredtutor.databinding.StartedFragmentLayoutBinding
+import org.threehundredtutor.databinding.StartedFragmentBinding
 
-class StartedFragment : Fragment(R.layout.started_fragment_layout) {
+class StartedFragment : BaseFragment(R.layout.started_fragment) {
+
     private val prefsSettings by lazy { PrefsSettings }
 
+    override val viewModel: BaseViewModel by viewModels()
+
+    private lateinit var binding: StartedFragmentBinding
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val binding = StartedFragmentLayoutBinding.bind(view)
+        binding = StartedFragmentBinding.bind(view)
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onInitView() {
+        super.onInitView()
         if (prefsSettings.getFirstStartApp()) {
             binding.domainSpinner.isVisible = true
             prefsSettings.setFirstStartApp()
