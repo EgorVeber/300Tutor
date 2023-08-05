@@ -8,17 +8,17 @@ import org.threehundredtutor.R
 import org.threehundredtutor.base.BaseFragment
 import org.threehundredtutor.common.extentions.observeFlow
 import org.threehundredtutor.common.extentions.showMessage
-import org.threehundredtutor.databinding.RegistrationFragmentLayoutBinding
+import org.threehundredtutor.databinding.RegistrationFragmentBinding
 import org.threehundredtutor.presentation.registration.viewmodel.RegistrationViewModel
 
-class RegistrationFragment : BaseFragment(R.layout.registration_fragment_layout) {
+class RegistrationFragment : BaseFragment(R.layout.registration_fragment) {
 
     override val viewModel: RegistrationViewModel by viewModels()
 
-    lateinit var binding: RegistrationFragmentLayoutBinding
+    lateinit var binding: RegistrationFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding = RegistrationFragmentLayoutBinding.bind(view)
+        binding = RegistrationFragmentBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
     }
 

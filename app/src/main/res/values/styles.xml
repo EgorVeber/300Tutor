@@ -1,2 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+    <style name="EditTextCursorColor" parent="Theme.MaterialComponents">
+        <item name="colorControlActivated">?attr/primary</item>
+        <item name="colorControlNormal">?attr/secondary</item>
+    </style>
+
+    <style name="EditTextHintTextAppearance" parent="">
+        <item name="android:textColor">?attr/secondary</item>
+        <item name="android:textSize">@dimen/text_12</item>
+        <item name="fontFamily">@font/roboto</item>
+    </style>
+
+    <style name="TitleToolbarTextAppearance" parent="@style/Base.TextAppearance.AppCompat.Title">
+        <item name="fontFamily">@font/roboto_medium</item>
+    </style>
+</resources>

@@ -45,4 +45,6 @@
     <attr name="contentBackground" format="reference" />
     <attr name="warning" format="reference" />
     <attr name="warningBackground" format="reference" />
+    <attr name="ripple" format="reference" />
+    <attr name="ripple15" format="reference" />
 </resources>
