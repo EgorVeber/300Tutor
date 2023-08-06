@@ -11,7 +11,7 @@ import org.threehundredtutor.common.extentions.showMessage
 import org.threehundredtutor.databinding.RegistrationFragmentBinding
 import org.threehundredtutor.presentation.registration.viewmodel.RegistrationViewModel
 
-class RegistrationFragment : BaseFragment(R.layout.registration_fragment) {
+class RegistrationFragment : BaseFragment(R.layout.registration_fragment)  {
 
     override val viewModel: RegistrationViewModel by viewModels()
 
@@ -24,12 +24,21 @@ class RegistrationFragment : BaseFragment(R.layout.registration_fragment) {
 
     override fun onInitView() {
         binding.buttonRegister.setOnClickListener {
+            val passwordText = binding.etPassword.text.toString()
+            if(passwordText.length < 6 || passwordText.contains("[0-9]".toRegex()).not()){
+                showMessage(getString(R.string.password_wrong))
+                return@setOnClickListener
+            }
+            if(binding.etEmail.text.toString().contains("@").not()){
+                showMessage(getString(R.string.email_wrong))
+                return@setOnClickListener
+            }
             viewModel.register(
                 email = binding.etEmail.text.toString(),
                 name = binding.etName.text.toString(),
                 surname = binding.etSurname.text.toString(),
                 patronymic = binding.etPatronymic.text.toString(),
-                phoneNumber = binding.etPhone.text.toString(),
+                phoneNumber = binding.etPhohe.text.toString(),
                 password = binding.etPassword.text.toString()
             )
         }
@@ -50,4 +59,6 @@ class RegistrationFragment : BaseFragment(R.layout.registration_fragment) {
             showMessage(errorText)
         }
     }
+
+
 }

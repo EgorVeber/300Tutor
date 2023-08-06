@@ -4,110 +4,169 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/registrationToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIconTint="?attr/secondary"
+        app:title="@string/register_text"
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/TitleToolbarTextAppearance"
+        app:titleTextColor="?attr/secondary" />
+
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutEmail"
+        android:id="@+id/inputLayoutEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_24"
-        android:layout_marginTop="@dimen/margin_24"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayoutName"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/margin_8"
+        android:hint="@string/email_required_text"
+        android:textColor="?attr/textPrimary"
+        android:textColorHint="?attr/secondary"
+        app:hintTextAppearance="@style/EditTextHintTextAppearance"
+        app:hintTextColor="?attr/primary"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/registrationToolbar">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/email_text" />
+            android:textAlignment="viewStart"
+            android:textColor="?attr/textPrimary"
+            android:theme="@style/EditTextCursorColor" />
     </com.google.android.material.textfield.TextInputLayout>
 
+
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutName"
+        android:id="@+id/inputLayoutName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_24"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayoutSurname"
+        android:layout_marginTop="@dimen/margin_8"
+        android:hint="@string/name_text_ru"
+        android:textColor="?attr/textPrimary"
+        android:textColorHint="?attr/secondary"
+        app:hintTextAppearance="@style/EditTextHintTextAppearance"
+        app:hintTextColor="?attr/primary"
+        app:layout_constraintBottom_toTopOf="@+id/inputLayoutSurname"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEmail">
+        app:layout_constraintTop_toBottomOf="@+id/inputLayoutEmail">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/name_text" />
+            android:textAlignment="viewStart"
+            android:textColor="?attr/textPrimary"
+            android:theme="@style/EditTextCursorColor" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutSurname"
+        android:id="@+id/inputLayoutSurname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_24"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayoutPatronymic"
+        android:layout_marginTop="@dimen/margin_8"
+        android:hint="@string/surname_text_ru"
+        android:textColor="?attr/textPrimary"
+        android:textColorHint="?attr/secondary"
+        app:hintTextAppearance="@style/EditTextHintTextAppearance"
+        app:hintTextColor="?attr/primary"
+        app:layout_constraintBottom_toTopOf="@+id/inputLayoutPatronymic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutName">
+        app:layout_constraintTop_toBottomOf="@+id/inputLayoutName">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etSurname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/surname_text" />
+            android:textAlignment="viewStart"
+            android:textColor="?attr/textPrimary"
+            android:theme="@style/EditTextCursorColor" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutPatronymic"
+        android:id="@+id/inputLayoutPatronymic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_24"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayoutPhone"
+        android:layout_marginTop="@dimen/margin_8"
+        android:hint="@string/patronymic_text_ru"
+        android:textAlignment="viewStart"
+        android:textColor="?attr/textPrimary"
+        android:textColorHint="?attr/secondary"
+        app:hintTextAppearance="@style/EditTextHintTextAppearance"
+        app:hintTextColor="?attr/primary"
+        app:layout_constraintBottom_toTopOf="@+id/inputLayoutPhone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutSurname">
+        app:layout_constraintTop_toBottomOf="@+id/inputLayoutSurname">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etPatronymic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/patronymic_text" />
+            android:textAlignment="viewStart"
+            android:textColor="?attr/textPrimary"
+            android:theme="@style/EditTextCursorColor" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutPhone"
+        android:id="@+id/inputLayoutPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_24"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayoutPassword"
+        android:layout_marginTop="@dimen/margin_8"
+        android:hint="@string/phone_required_text_ru"
+        android:textColor="?attr/textPrimary"
+        android:textColorHint="?attr/secondary"
+        app:hintTextAppearance="@style/EditTextHintTextAppearance"
+        app:hintTextColor="?attr/primary"
+        app:layout_constraintBottom_toTopOf="@+id/inputLayoutPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPatronymic">
+        app:layout_constraintTop_toBottomOf="@+id/inputLayoutPatronymic">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPhone"
+            android:id="@+id/etPhohe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/phone_text" />
+            android:inputType="numberPassword"
+            android:textAlignment="viewStart"
+            android:textColor="?attr/textPrimary"
+            android:theme="@style/EditTextCursorColor" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutPassword"
+        android:id="@+id/inputLayoutPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_24"
+        android:layout_marginTop="@dimen/margin_8"
+        android:hint="@string/password_required_text_ru"
+        android:textColor="?attr/textPrimary"
+        android:textColorHint="?attr/secondary"
+        app:hintTextAppearance="@style/EditTextHintTextAppearance"
+        app:hintTextColor="?attr/primary"
         app:layout_constraintBottom_toTopOf="@+id/buttonRegister"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPhone">
+        app:layout_constraintTop_toBottomOf="@+id/inputLayoutPhone">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/password_text" />
-
+            android:textAlignment="viewStart"
+            android:textColor="?attr/textPrimary"
+            android:theme="@style/EditTextCursorColor" />
     </com.google.android.material.textfield.TextInputLayout>
-
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonRegister"
@@ -115,28 +174,40 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_32"
         android:layout_marginTop="@dimen/margin_10"
+        android:backgroundTint="?attr/primary"
         android:fontFamily="@font/roboto_medium"
-        android:backgroundTint="?attr/defaultGreen"
-        android:text="@string/register_button"
+        android:text="@string/register_button_ru"
         android:textAllCaps="true"
         app:cornerRadius="@dimen/radius_8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPassword"
+        app:layout_constraintTop_toBottomOf="@+id/inputLayoutPassword"
         app:layout_constraintWidth_percent="0.8" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/authButton"
         android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:backgroundTint="?attr/defaultBlue"
+        android:layout_height="@dimen/size_56"
+        android:backgroundTint="?attr/primary"
         android:fontFamily="@font/roboto_medium"
         android:text="@string/authorization_text"
         android:textAllCaps="true"
-        android:textSize="16sp"
+        android:textSize="@dimen/text_16"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/tutorImage"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_10"
+        android:src="@drawable/tutor_back"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toTopOf="@+id/authButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonRegister" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

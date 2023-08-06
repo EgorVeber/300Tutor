@@ -40,7 +40,8 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="org.threehundredtutor.presentation.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="HomeFragment" >
+    </fragment>
     <fragment
         android:id="@+id/restorPasswordFragment"
         android:name="org.threehundredtutor.presentation.restore.RestorePasswordFragment"
