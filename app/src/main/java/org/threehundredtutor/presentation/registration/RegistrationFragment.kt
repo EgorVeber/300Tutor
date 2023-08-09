@@ -33,6 +33,10 @@ class RegistrationFragment : BaseFragment(R.layout.registration_fragment)  {
                 showMessage(getString(R.string.email_wrong))
                 return@setOnClickListener
             }
+            if(binding.etPhohe.text.toString().isEmpty()){
+                showMessage(getString(R.string.phone_wrong))
+                return@setOnClickListener
+            }
             viewModel.register(
                 email = binding.etEmail.text.toString(),
                 name = binding.etName.text.toString(),
