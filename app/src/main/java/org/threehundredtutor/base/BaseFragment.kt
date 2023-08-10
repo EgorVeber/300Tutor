@@ -6,11 +6,13 @@ import android.util.Log
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import org.threehundredtutor.R
+import org.threehundredtutor.common.BackPressed
 import org.threehundredtutor.common.extentions.observeFlow
 import org.threehundredtutor.common.extentions.showMessage
 
-abstract class BaseFragment(@LayoutRes layoutResourceId: Int) : Fragment(layoutResourceId) {
+abstract class BaseFragment(@LayoutRes layoutResourceId: Int) : Fragment(layoutResourceId), BackPressed {
 
     abstract val viewModel: BaseViewModel
 
@@ -29,6 +31,10 @@ abstract class BaseFragment(@LayoutRes layoutResourceId: Int) : Fragment(layoutR
         onInitView()
         onObserveData()
         onObserveError()
+    }
+
+    override fun onBackPressed() {
+        findNavController().popBackStack()
     }
 
     protected open fun onInject() {}

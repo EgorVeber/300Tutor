@@ -7,21 +7,25 @@
     <fragment
         android:id="@+id/startedFragment"
         android:name="org.threehundredtutor.presentation.StartedFragment"
-        android:label="StartedFragment" >
+        android:label="StartedFragment">
         <action
             android:id="@+id/action_startedFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
         <action
             android:id="@+id/action_startedFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/authorizationFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/authorizationFragment"
         android:name="org.threehundredtutor.presentation.authorization.AuthorizationFragment"
-        android:label="AuthorizationFragment" >
+        android:label="AuthorizationFragment">
         <action
             android:id="@+id/action_authorizationFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/authorizationFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_authorizationFragment_to_registration"
             app:destination="@id/registrationFragment" />
@@ -32,19 +36,21 @@
     <fragment
         android:id="@+id/registrationFragment"
         android:name="org.threehundredtutor.presentation.registration.RegistrationFragment"
-        android:label="RegistrationFragment" >
+        android:label="RegistrationFragment">
         <action
             android:id="@+id/action_registrationFragment_to_authorizationFragment"
-            app:destination="@id/authorizationFragment" />
+            app:destination="@id/authorizationFragment"
+            app:popUpTo="@id/registrationFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="org.threehundredtutor.presentation.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="HomeFragment"></fragment>
     <fragment
         android:id="@+id/restorPasswordFragment"
         android:name="org.threehundredtutor.presentation.restore.RestorePasswordFragment"
-        android:label="RestorPasswordFragment" >
+        android:label="RestorPasswordFragment">
         <action
             android:id="@+id/action_restorPasswordFragment_to_authorizationFragment"
             app:destination="@id/authorizationFragment" />
