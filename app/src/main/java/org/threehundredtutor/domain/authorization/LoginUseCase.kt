@@ -1,8 +1,10 @@
 package org.threehundredtutor.domain.authorization
 
-import org.threehundredtutor.data.authorization.AuthorizationRepositoryImpl
+import javax.inject.Inject
 
-class LoginUseCase(private val repository: AuthorizationRepository = AuthorizationRepositoryImpl()) {
+class LoginUseCase @Inject constructor(
+    private val repository: AuthorizationRepository
+) {
 
     suspend operator fun invoke(loginDateModel: LoginDateModel): LoginModel =
         repository.login(loginDateModel)

@@ -1,8 +1,11 @@
 package org.threehundredtutor.core
 
 import android.app.Application
+import org.threehundredtutor.di.components.DaggerAppComponent
 
 class TutorApp : Application() {
+
+    //TODO Убарть tutorAppInstance не выпускать на ружу контект app использовать провады даггер
     companion object {
         lateinit var tutorAppInstance: TutorApp
     }
@@ -10,5 +13,14 @@ class TutorApp : Application() {
     override fun onCreate() {
         super.onCreate()
         tutorAppInstance = this
+        initDi()
+    }
+
+    private fun initDi() {
+        /**Так сказать поддерживаем JSR 330 **/
+        DiSetHelper.appComponent = DaggerAppComponent
+            .builder()
+            .getBuilder(this)
+            .getAppComponentBuild()
     }
 }

@@ -1,33 +1,14 @@
 package org.threehundredtutor.di.modules
 
-import com.google.gson.GsonBuilder
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import org.threehundredtutor.base.network.ServerErrorInterceptor
-import org.threehundredtutor.common.BASE_KURSBIO_URL
-import org.threehundredtutor.data.authorization.AuthorizationService
-import org.threehundredtutor.data.registration.RegistrationService
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import dagger.Binds
+import dagger.Module
+import org.threehundredtutor.data.core.ServiceGenerator
+import org.threehundredtutor.data.core.ServiceGeneratorProvider
+import javax.inject.Singleton
 
-open class NetworkModule {
-    fun createAuthorizationService(): AuthorizationService =
-        Retrofit.Builder().baseUrl(BASE_KURSBIO_URL)
-            .client(getOkHttp())
-            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .build().create(AuthorizationService::class.java)
-
-    fun createRegistrationService(): RegistrationService =
-        Retrofit.Builder().baseUrl(BASE_KURSBIO_URL)
-            .client(getOkHttp())
-            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .build().create(RegistrationService::class.java)
-
-    private fun getOkHttp() = OkHttpClient.Builder()
-        .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-        .addInterceptor(ServerErrorInterceptor())
-        .build()
+@Module
+abstract class NetworkModule {
+    @Binds
+    @Singleton
+    abstract fun bindsServiceProvider(serviceGenerator: ServiceGenerator): ServiceGeneratorProvider
 }

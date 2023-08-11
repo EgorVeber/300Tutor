@@ -8,11 +8,12 @@ import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import org.threehundredtutor.R
-import org.threehundredtutor.common.BackPressed
 import org.threehundredtutor.common.extentions.observeFlow
 import org.threehundredtutor.common.extentions.showMessage
+import org.threehundredtutor.common.utils.BackPressed
 
-abstract class BaseFragment(@LayoutRes layoutResourceId: Int) : Fragment(layoutResourceId), BackPressed {
+abstract class BaseFragment(@LayoutRes layoutResourceId: Int) : Fragment(layoutResourceId),
+    BackPressed {
 
     abstract val viewModel: BaseViewModel
 
