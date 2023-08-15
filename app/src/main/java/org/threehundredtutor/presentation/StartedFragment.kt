@@ -8,20 +8,26 @@ import androidx.navigation.fragment.findNavController
 import org.threehundredtutor.R
 import org.threehundredtutor.base.BaseFragment
 import org.threehundredtutor.base.BaseViewModel
-import org.threehundredtutor.common.PrefsSettings
+import org.threehundredtutor.common.utils.PrefsSettingsDagger
 import org.threehundredtutor.databinding.StartedFragmentBinding
+import org.threehundredtutor.di.components.StartedComponent
+import javax.inject.Inject
 
 class StartedFragment : BaseFragment(R.layout.started_fragment) {
 
-    private val prefsSettings by lazy { PrefsSettings }
+    private lateinit var binding: StartedFragmentBinding
+
+    @Inject
+    lateinit var prefsSettings: PrefsSettingsDagger
 
     override val viewModel: BaseViewModel by viewModels()
-
-    private lateinit var binding: StartedFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = StartedFragmentBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
+    }
+    override fun onInject() {
+        StartedComponent.createStartedComponent().inject(this)
     }
 
     override fun onInitView() {

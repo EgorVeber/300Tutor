@@ -11,9 +11,10 @@ import org.threehundredtutor.data.core.models.ErrorType
 import org.threehundredtutor.domain.authorization.LoginDateModel
 import org.threehundredtutor.domain.authorization.LoginModel
 import org.threehundredtutor.domain.authorization.LoginUseCase
+import javax.inject.Inject
 
-class AuthorizationViewModel(
-    private val loginUseCase: LoginUseCase = LoginUseCase(),
+class AuthorizationViewModel @Inject constructor(
+    private val loginUseCase: LoginUseCase,
 ) : BaseViewModel() {
 
     private val openScreenEventState = SingleSharedFlow<NavigateScreenState>()

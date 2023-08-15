@@ -13,10 +13,17 @@ import org.threehundredtutor.common.extentions.navigate
 import org.threehundredtutor.common.extentions.observeFlow
 import org.threehundredtutor.common.extentions.showMessage
 import org.threehundredtutor.databinding.AuthorizationFragmentBinding
+import org.threehundredtutor.di.components.AuthorizationComponent
 
 class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment) {
 
-    override val viewModel: AuthorizationViewModel by viewModels()
+    private val authorizationComponent by lazy {
+        AuthorizationComponent.createAuthorizationComponent()
+    }
+
+    override val viewModel by viewModels<AuthorizationViewModel> {
+        authorizationComponent.viewModelMapFactory()
+    }
 
     private lateinit var binding: AuthorizationFragmentBinding
 

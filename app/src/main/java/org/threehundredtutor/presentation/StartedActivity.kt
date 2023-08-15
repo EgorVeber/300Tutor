@@ -2,7 +2,7 @@ package org.threehundredtutor.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import org.threehundredtutor.common.PrefsSettings
+import org.threehundredtutor.common.utils.PrefsSettings
 import org.threehundredtutor.databinding.StartedActivityBinding
 
 class StartedActivity : AppCompatActivity() {
