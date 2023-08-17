@@ -1,6 +1,7 @@
 package org.threehundredtutor.presentation.authorization
 
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
@@ -32,7 +33,7 @@ class AuthorizationViewModel @Inject constructor(
             loadingState.update { true }
             val emailOrPhone = if (inputTypeState.value is InputTypeState.Phone) phone else email
             val loginModel = loginUseCase(LoginDateModel(password, false, emailOrPhone))
-            if (loginModel.succeeded) openScreenEventState.emit(NavigateScreenState.NavigateHomeScreen)
+            if (loginModel.succeeded) openScreenEventState.emit(NavigateScreenState.NavigateHomeScreen("asdasdasdas"))
             else extractError(loginModel)
         }, catchBlock = { throwable ->
             handleError(throwable)
@@ -66,12 +67,13 @@ class AuthorizationViewModel @Inject constructor(
         else inputTypeState.update { InputTypeState.Email }
     }
 
-    sealed class NavigateScreenState() {
+    sealed class NavigateScreenState {
+        data class NavigateHomeScreen(val loginName: String) : NavigateScreenState()
+
         object NavigateRegistrationScreen : NavigateScreenState()
-        object NavigateHomeScreen : NavigateScreenState()
     }
 
-    sealed class InputTypeState() {
+    sealed class InputTypeState {
         object Phone : InputTypeState()
         object Email : InputTypeState()
     }

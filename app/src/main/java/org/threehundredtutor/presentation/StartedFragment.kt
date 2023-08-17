@@ -26,6 +26,7 @@ class StartedFragment : BaseFragment(R.layout.started_fragment) {
         binding = StartedFragmentBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
     }
+
     override fun onInject() {
         StartedComponent.createStartedComponent().inject(this)
     }

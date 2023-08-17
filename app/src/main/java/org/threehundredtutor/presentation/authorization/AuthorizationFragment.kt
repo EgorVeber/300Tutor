@@ -12,8 +12,10 @@ import org.threehundredtutor.base.BaseFragment
 import org.threehundredtutor.common.extentions.navigate
 import org.threehundredtutor.common.extentions.observeFlow
 import org.threehundredtutor.common.extentions.showMessage
+import org.threehundredtutor.common.utils.PrefsSettings
 import org.threehundredtutor.databinding.AuthorizationFragmentBinding
 import org.threehundredtutor.di.components.AuthorizationComponent
+import org.threehundredtutor.presentation.LoadingDialog
 
 class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment) {
 
@@ -67,16 +69,20 @@ class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment) {
             true
         }
         //TODO Test--Удалить
+
     }
 
     override fun onObserveData() {
         viewModel.getOpenScreenEventStateFlow().observeFlow(this) { screen ->
             when (screen) {
-                AuthorizationViewModel.NavigateScreenState.NavigateHomeScreen ->
+                is AuthorizationViewModel.NavigateScreenState.NavigateHomeScreen -> {
+                    PrefsSettings.setAccountLogin(screen.loginName)
                     navigate(R.id.action_authorizationFragment_to_homeFragment)
+                }
 
                 AuthorizationViewModel.NavigateScreenState.NavigateRegistrationScreen ->
                     navigate(R.id.action_authorizationFragment_to_registration)
+
             }
         }
         viewModel.getErrorEventStateFlow().observeFlow(this) { errorMessage ->
@@ -89,14 +95,11 @@ class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment) {
             }
         }
 
-        //TODO TutorAndroid-10 Добавить Диалог Фрагмент
         viewModel.getLoadingStateFlow().observeFlow(this) { loading ->
             if (loading) {
-                binding.progress.isVisible = true
-                binding.mainContainer.alpha = 0.5F
+                LoadingDialog.show(requireActivity().supportFragmentManager)
             } else {
-                binding.progress.isVisible = false
-                binding.mainContainer.alpha = 1F
+                LoadingDialog.close(requireActivity().supportFragmentManager)
             }
         }
     }

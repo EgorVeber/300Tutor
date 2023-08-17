@@ -5,9 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import org.threehundredtutor.R
 import org.threehundredtutor.common.EMPTY_STRING
 import org.threehundredtutor.common.KEY_THEME_DEFAULT
-import org.threehundredtutor.common.getAppContext
 import javax.inject.Inject
-
 
 // TODO использовать когда везде появяться виюмодели
 class PrefsSettingsDagger @Inject constructor(

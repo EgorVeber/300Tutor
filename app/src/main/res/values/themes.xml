@@ -67,6 +67,7 @@
         <item name="primary">@color/primary_tutor</item>
         <item name="secondary">@color/secondary_tutor</item>
         <item name="secondary40">@color/secondary_40_tutor</item>
+        <item name="secondary60">@color/secondary_60_tutor</item>
         <item name="separator60">@color/separator_60_tutor</item>
         <item name="textPrimary">@color/text_primary_tutor</item>
         <item name="background">@color/background_tutor</item>
