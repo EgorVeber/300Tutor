@@ -39,6 +39,7 @@
     <attr name="primary" format="reference" />
     <attr name="secondary" format="reference" />
     <attr name="secondary40" format="reference" />
+    <attr name="secondary60" format="reference" />
     <attr name="separator60" format="reference" />
     <attr name="textPrimary" format="reference" />
     <attr name="background" format="reference" />

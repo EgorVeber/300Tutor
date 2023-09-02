@@ -19,6 +19,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "BASE_URL", "\"https://api.kursbio.ru/api/\""
+        //buildConfigField "String", "BASE_URL", "\"https://mini-apps.crocosoft.ru/api/\""
     }
 
     buildTypes {
@@ -61,6 +62,8 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$versions.retrofit2"
     implementation "com.squareup.okhttp3:okhttp:$versions.okhttp"
     implementation "com.squareup.okhttp3:logging-interceptor:$versions.okhttpLogging"
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:$versions.okhttpUrlconnection"
+
     implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$versions.coroutineAdapter"
 
     //Room

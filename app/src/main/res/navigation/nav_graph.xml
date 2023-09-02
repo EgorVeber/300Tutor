@@ -46,13 +46,25 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="org.threehundredtutor.presentation.HomeFragment"
-        android:label="HomeFragment"></fragment>
+        android:label="HomeFragment">
+        <action
+            android:id="@+id/action_homeFragment_to_accountFragment"
+            app:destination="@id/accountFragment" />
+    </fragment>
     <fragment
         android:id="@+id/restorPasswordFragment"
         android:name="org.threehundredtutor.presentation.restore.RestorePasswordFragment"
         android:label="RestorPasswordFragment">
         <action
             android:id="@+id/action_restorPasswordFragment_to_authorizationFragment"
+            app:destination="@id/authorizationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="org.threehundredtutor.presentation.account.AccountFragment"
+        android:label="AccountFragment" >
+        <action
+            android:id="@+id/action_accountFragment_to_authorizationFragment"
             app:destination="@id/authorizationFragment" />
     </fragment>
 </navigation>

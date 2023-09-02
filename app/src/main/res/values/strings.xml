@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">300Tutor</string>
     <string name="main_menu_home_title">Главная</string>
-    <string name="main_menu_profile_title">Профиль</string>
+    <string name="main_menu_profile_title">Аккаунт</string>
     <string name="main_menu_test_solving_title">Решение тестов</string>
     <string name="register_button">Register</string>
     <string name="register_text">Регистрация</string>
@@ -24,7 +24,6 @@
     <string name="password_wrong">Пароль должен содержать не менее 6 символов, включая минимум 1 цифру</string>
     <string name="email_wrong">Используйте корректный адрес электронной почты</string>
     <string name="phone_wrong">Введите номер телефона</string>
-
 <!--ru strings-->
     <string name="password_text_ru">Пароль</string>
     <string name="name_text_ru">Имя</string>
@@ -34,12 +33,14 @@
     <string name="patronymic_text_ru">Отчество</string>
     <string name="register_button_ru">Регистрация</string>
     <string name="password_required_text_ru">Пароль*</string>
-
-
+    <string name="open_telegram_title">Телеграм бот</string>
 
     <!--    errors-->
     <string name="unknown_error_message">Произошла неизвестная ошибка. Повторите попытку позже</string>
     <string name="wrong_data_error_message">Ошибка! Проверьте введеные данные</string>
     <string name="server_error_message">Неизвестная ошибка на сервере. Повторите попытку позже</string>
     <string name="unathorized_error_message">Произошла ошибка авторизации</string>
+    <string name="logout">Выйти</string>
+    <string name="profile_person_info">Информация</string>
+    <string name="profile_error_account">Ошибка загрузки данных</string>
 </resources>

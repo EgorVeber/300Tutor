@@ -3,12 +3,8 @@ package org.threehundredtutor.di.components
 import dagger.BindsInstance
 import dagger.Component
 import org.threehundredtutor.common.utils.PrefsSettingsDagger
-import org.threehundredtutor.common.utils.ResourceProvider
 import org.threehundredtutor.core.DiSetHelper
-import org.threehundredtutor.data.core.ServiceGeneratorProvider
 import org.threehundredtutor.di.ScreenScope
-import org.threehundredtutor.di.ViewModelMapFactory
-import org.threehundredtutor.di.modules.AuthorizationModule
 import org.threehundredtutor.presentation.StartedFragment
 
 /**

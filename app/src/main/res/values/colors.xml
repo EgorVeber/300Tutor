@@ -41,6 +41,7 @@
     <color name="primary_tutor">#E7B12C</color>
     <color name="secondary_tutor">#79939D</color>
     <color name="secondary_40_tutor">#6679939D</color>
+    <color name="secondary_60_tutor">#9979939D</color>
     <color name="separator_60_tutor">#9979939D</color>
     <color name="text_primary_tutor">#1E2329</color>
     <color name="background_tutor">#ECEFF3</color>
