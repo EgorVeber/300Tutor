@@ -58,8 +58,10 @@ class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment) {
 
         //TODO Test--Удалить
         tutorImage.setOnClickListener {
-            passwordEditText.setText("VbAn@9873")
-            emailEditText.setText("newjamesohara@gmail.com")
+            // passwordEditText.setText("VbAn@9873")
+            //  emailEditText.setText("newjamesohara@gmail.com")
+            passwordEditText.setText("1234@Abc")
+            emailEditText.setText("student1@mail.ru")
             phoneInputEt.setText("9208309193")
         }
         tutorImage.setOnLongClickListener {
@@ -77,12 +79,11 @@ class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment) {
             when (screen) {
                 is AuthorizationViewModel.NavigateScreenState.NavigateHomeScreen -> {
                     PrefsSettings.setAccountLogin(screen.loginName)
-                    navigate(R.id.action_authorizationFragment_to_homeFragment)
+                    navigate(R.id.action_authorizationFragment_to_solutionFragment)
                 }
 
                 AuthorizationViewModel.NavigateScreenState.NavigateRegistrationScreen ->
                     navigate(R.id.action_authorizationFragment_to_registration)
-
             }
         }
         viewModel.getErrorEventStateFlow().observeFlow(this) { errorMessage ->

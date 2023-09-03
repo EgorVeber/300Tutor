@@ -18,8 +18,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField "String", "BASE_URL", "\"https://api.kursbio.ru/api/\""
-        //buildConfigField "String", "BASE_URL", "\"https://mini-apps.crocosoft.ru/api/\""
+        //buildConfigField "String", "BASE_URL", "\"https://api.kursbio.ru/api/\""
+        buildConfigField "String", "BASE_URL", "\"https://mini-apps.crocosoft.ru/api/\""
     }
 
     buildTypes {
