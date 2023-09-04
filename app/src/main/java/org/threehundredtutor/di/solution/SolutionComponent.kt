@@ -2,9 +2,6 @@ package org.threehundredtutor.di.solution
 
 import dagger.BindsInstance
 import dagger.Component
-import org.threehundredtutor.common.utils.PrefsCookie
-import org.threehundredtutor.common.utils.PrefsSettingsDagger
-import org.threehundredtutor.common.utils.ResourceProvider
 import org.threehundredtutor.core.DiSetHelper
 import org.threehundredtutor.data.core.ServiceGeneratorProvider
 import org.threehundredtutor.di.ScreenScope

@@ -81,4 +81,11 @@ dependencies {
     //navigation
     implementation("androidx.navigation:navigation-fragment-ktx:$versions.navigation")
     implementation("androidx.navigation:navigation-ui-ktx:$versions.navigation")
+
+    implementation 'org.jsoup:jsoup:1.13.1'
+
+    //DelegateAdapter
+    implementation 'com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:4.3.2'
+
+    implementation "com.github.chrisbanes:PhotoView:2.3.0"
 }
