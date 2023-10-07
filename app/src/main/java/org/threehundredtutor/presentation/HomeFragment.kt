@@ -25,7 +25,7 @@ class HomeFragment : BaseFragment(R.layout.home_fragment) {
                 }
 
                 R.id.testSolvingMenuItem -> {
-
+                    this.navigate(R.id.action_homeFragment_to_solutionFragment)
                 }
 
                 R.id.profileMenuItem -> {

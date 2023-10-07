@@ -24,7 +24,7 @@
     <string name="password_wrong">Пароль должен содержать не менее 6 символов, включая минимум 1 цифру</string>
     <string name="email_wrong">Используйте корректный адрес электронной почты</string>
     <string name="phone_wrong">Введите номер телефона</string>
-<!--ru strings-->
+    <!--ru strings-->
     <string name="password_text_ru">Пароль</string>
     <string name="name_text_ru">Имя</string>
     <string name="surname_text_ru">Фамилия</string>
@@ -43,4 +43,15 @@
     <string name="logout">Выйти</string>
     <string name="profile_person_info">Информация</string>
     <string name="profile_error_account">Ошибка загрузки данных</string>
+    <string name="solution_image">solutionImage</string>
+    <string name="answer_with_errors_helper_text">Введите правильный ответ</string>
+    <string name="answer_verify_text">Проверить</string>
+
+    //Solution
+    <string name="your_answer">Ваш ответ:</string>
+    <string name="correct_answer_without_errors">Правильный ответ (без ошибок):</string>
+    <string name="incorrect_answer">Неправильный ответ</string>
+    <string name="correct_answer">Правильный ответ</string>
+    <string name="allmost_the_right_answer">Почти правильный ответ</string>
+    <string name="your_detailed_answer">Ваш развернутый ответ</string>
 </resources>

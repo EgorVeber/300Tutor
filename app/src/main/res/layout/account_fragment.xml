@@ -182,7 +182,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_8"
             android:layout_marginBottom="@dimen/margin_16"
-            android:background="@drawable/circle_shape"
+            android:background="@drawable/rectangle_12_content_background"
             android:orientation="horizontal"
             android:paddingVertical="@dimen/margin_8"
             app:layout_constraintBottom_toBottomOf="parent"
