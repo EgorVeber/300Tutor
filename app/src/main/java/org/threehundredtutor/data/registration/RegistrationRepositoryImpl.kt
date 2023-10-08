@@ -1,17 +1,18 @@
 package org.threehundredtutor.data.registration
 
 
+import org.threehundredtutor.data.registration.mappers.toRegistrationModelMapper
 import org.threehundredtutor.data.registration.models.RegisterParams
 import org.threehundredtutor.domain.registration.models.RegistrationModel
 import org.threehundredtutor.domain.registration.models.RegistrationParams
+import org.threehundredtutor.domain.registration.repository.RegistrationRepository
+import javax.inject.Inject
 
-class RegistrationRepositoryImpl {
+class RegistrationRepositoryImpl @Inject constructor(
+    private val registrationRemoteDataSource: RegistrationRemoteDataSource
+) : RegistrationRepository {
 
-    // TODO TutorAndroid-12 Переделать Регистрацию на новый Dagger
-    //private val registrationService: RegistrationService =
-    //  ServiceGenerator().getService(RegistrationService::class)
-
-    suspend fun registerUser(params: RegistrationParams): RegistrationModel {
+    override suspend fun register(params: RegistrationParams): RegistrationModel {
         val registerParams = RegisterParams(
             email = params.email,
             noEmail = params.noEmail,
@@ -22,9 +23,8 @@ class RegistrationRepositoryImpl {
             noPhoneNumber = params.noPhoneNumber,
             password = params.password
         )
-        //     val response = registrationService.register(registerParams)
+        val response = registrationRemoteDataSource.register(registerParams)
 
-        //    return response.toRegistrationModelMapper()
-        return RegistrationModel.empty()
+        return response.toRegistrationModelMapper()
     }
 }

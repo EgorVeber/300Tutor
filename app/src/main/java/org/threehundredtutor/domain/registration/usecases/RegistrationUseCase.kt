@@ -1,10 +1,13 @@
 package org.threehundredtutor.domain.registration.usecases
 
-import org.threehundredtutor.data.registration.RegistrationRepositoryImpl
 import org.threehundredtutor.domain.registration.models.RegistrationModel
 import org.threehundredtutor.domain.registration.models.RegistrationParams
+import org.threehundredtutor.domain.registration.repository.RegistrationRepository
+import javax.inject.Inject
 
-class RegistrationUseCase {
+class RegistrationUseCase @Inject constructor(
+    private val repository: RegistrationRepository
+) {
 
     suspend operator fun invoke(
         email: String,
@@ -24,7 +27,6 @@ class RegistrationUseCase {
             noPhoneNumber = phoneNumber.isEmpty(),
             password = password
         )
-        val repository = RegistrationRepositoryImpl()
-        return repository.registerUser(registrationParams)
+        return repository.register(registrationParams)
     }
 }

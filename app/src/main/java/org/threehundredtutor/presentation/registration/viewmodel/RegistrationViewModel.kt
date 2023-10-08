@@ -9,14 +9,16 @@ import org.threehundredtutor.common.extentions.SingleSharedFlow
 import org.threehundredtutor.common.extentions.launchJob
 import org.threehundredtutor.domain.registration.models.RegistrationModel
 import org.threehundredtutor.domain.registration.usecases.RegistrationUseCase
+import javax.inject.Inject
 
-class RegistrationViewModel : BaseViewModel() {
+class RegistrationViewModel @Inject constructor(
+    private val registrationUseCase: RegistrationUseCase
+) : BaseViewModel() {
 
     private val registrationState = MutableStateFlow(RegistrationModel.empty())
 
     private val resultNotSuccededFlow = SingleSharedFlow<String>()
 
-    private val registrationUseCase: RegistrationUseCase = RegistrationUseCase()
     fun getRegistrationState(): Flow<RegistrationModel> = registrationState
     fun getResultNotSuccededFlow(): SharedFlow<String> = resultNotSuccededFlow
 
