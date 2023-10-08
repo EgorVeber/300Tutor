@@ -16,8 +16,6 @@
         android:padding="@dimen/space_4"
         android:background="@drawable/rectangle_12_background"
         android:hint="@string/your_detailed_answer"
-        android:imeOptions="actionDone"
-        android:inputType="textEmailAddress|textMultiLine"
         android:minLines="5"
         android:maxLines="10"
         android:scrollbars="horizontal"
@@ -34,7 +32,7 @@
         android:backgroundTint="?attr/primary"
         android:text="@string/answer_verify_text"
         android:textSize="@dimen/text_16"
-        app:cornerRadius="16dp" />
+        app:cornerRadius="@dimen/radius_16" />
 
 </LinearLayout>
 

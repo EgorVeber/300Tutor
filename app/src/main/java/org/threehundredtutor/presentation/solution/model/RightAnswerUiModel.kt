@@ -2,8 +2,7 @@ package org.threehundredtutor.presentation.solution.model
 
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerValidationResultType
 
-// TODO исопльзуется в 2 ответах переделать.
-data class AnswerUiModel(
+data class RightAnswerUiModel(
     val answer: String,
     val rightAnswer: String,
     val answerValidationResultType: AnswerValidationResultType,

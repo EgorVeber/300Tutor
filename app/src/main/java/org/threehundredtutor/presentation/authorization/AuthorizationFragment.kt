@@ -60,8 +60,8 @@ class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment) {
         tutorImage.setOnClickListener {
             // passwordEditText.setText("VbAn@9873")
             //  emailEditText.setText("newjamesohara@gmail.com")
-            passwordEditText.setText("1234@Abc")
-            emailEditText.setText("student1@mail.ru")
+            passwordEditText.setText("Qwert1234Y")
+            emailEditText.setText("James@e-mail.ru")
             phoneInputEt.setText("9208309193")
         }
         tutorImage.setOnLongClickListener {
