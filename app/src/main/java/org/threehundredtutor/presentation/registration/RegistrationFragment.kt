@@ -9,13 +9,20 @@ import org.threehundredtutor.base.BaseFragment
 import org.threehundredtutor.common.extentions.observeFlow
 import org.threehundredtutor.common.extentions.showMessage
 import org.threehundredtutor.databinding.RegistrationFragmentBinding
+import org.threehundredtutor.di.registration.RegistrationComponent
 import org.threehundredtutor.presentation.registration.viewmodel.RegistrationViewModel
 
-class RegistrationFragment : BaseFragment(R.layout.registration_fragment)  {
-
-    override val viewModel: RegistrationViewModel by viewModels()
+class RegistrationFragment : BaseFragment(R.layout.registration_fragment) {
 
     lateinit var binding: RegistrationFragmentBinding
+
+    override val viewModel by viewModels<RegistrationViewModel> {
+        registrationComponent.viewModelMapFactory()
+    }
+
+    private val registrationComponent by lazy {
+        RegistrationComponent.createRegistrationComponent()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = RegistrationFragmentBinding.bind(view)
@@ -25,15 +32,15 @@ class RegistrationFragment : BaseFragment(R.layout.registration_fragment)  {
     override fun onInitView() {
         binding.buttonRegister.setOnClickListener {
             val passwordText = binding.etPassword.text.toString()
-            if(passwordText.length < 6 || passwordText.contains("[0-9]".toRegex()).not()){
+            if (passwordText.length < 6 || passwordText.contains("[0-9]".toRegex()).not()) {
                 showMessage(getString(R.string.password_wrong))
                 return@setOnClickListener
             }
-            if(binding.etEmail.text.toString().contains("@").not()){
+            if (binding.etEmail.text.toString().contains("@").not()) {
                 showMessage(getString(R.string.email_wrong))
                 return@setOnClickListener
             }
-            if(binding.etPhohe.text.toString().isEmpty()){
+            if (binding.etPhohe.text.toString().isEmpty()) {
                 showMessage(getString(R.string.phone_wrong))
                 return@setOnClickListener
             }
@@ -51,7 +58,6 @@ class RegistrationFragment : BaseFragment(R.layout.registration_fragment)  {
         }
     }
 
-
     override fun onObserveData() {
         viewModel.getRegistrationState().observeFlow(this) { registeredUser ->
             if (registeredUser.succeded) {
@@ -63,6 +69,4 @@ class RegistrationFragment : BaseFragment(R.layout.registration_fragment)  {
             showMessage(errorText)
         }
     }
-
-
 }

@@ -1,8 +1,9 @@
 package org.threehundredtutor.domain.registration.repository
 
-import org.threehundredtutor.domain.registration.models.RegisteredUserModel
+import org.threehundredtutor.domain.registration.models.RegistrationModel
+import org.threehundredtutor.domain.registration.models.RegistrationParams
 
 interface RegistrationRepository {
 
-    fun register(): RegisteredUserModel
+    suspend fun register(params: RegistrationParams): RegistrationModel
 }
