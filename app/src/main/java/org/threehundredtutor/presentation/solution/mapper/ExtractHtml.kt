@@ -1,6 +1,6 @@
 package org.threehundredtutor.presentation.solution.mapper
 
-import org.threehundredtutor.common.EMPTY_STRING
+import org.threehundredtutor.domain.solution.models.solution_models.AnswerValidationResultType
 import org.threehundredtutor.domain.solution.models.test_model.AnswerXModel
 import org.threehundredtutor.domain.solution.models.test_model.QuestionModel
 import org.threehundredtutor.presentation.solution.html_helper.HtmlHelper
@@ -8,10 +8,24 @@ import org.threehundredtutor.presentation.solution.model.AnswerCheckedUiModel
 import org.threehundredtutor.presentation.solution.model.HtmlItem
 import org.threehundredtutor.presentation.solution.model.QuestionAnswerWithErrorsUiModel
 import org.threehundredtutor.presentation.solution.model.QuestionDetailedAnswerUiModel
+import org.threehundredtutor.presentation.solution.model.QuestionRightAnswerUiModel
 import org.threehundredtutor.presentation.solution.model.SelectRightAnswerOrAnswersUiModel
 
 fun QuestionModel.extractHtml(solutionId: String): List<HtmlItem> =
     HtmlHelper.getHtmlItemList(this, solutionId = solutionId)
+
+// SelectRightAnswerOrAnswers, TypeRightAnswer, DetailedAnswer, TypeAnswerWithErrors ]
+fun QuestionModel.toQuestionRightAnswerUiModel(
+    rightAnswers: List<String>,
+    caseInSensitive: Boolean
+): QuestionRightAnswerUiModel =
+    QuestionRightAnswerUiModel(
+        questionId = id,
+        title = title,
+        testQuestionType = testQuestionType,
+        caseInSensitive = caseInSensitive,
+        rightAnswers = rightAnswers
+    )
 
 fun QuestionModel.toQuestionAnswerWithErrorsUiModel(
     solutionId: String,
@@ -46,7 +60,8 @@ fun QuestionModel.toSelectRightAnswerOrAnswersUiModel(
         testQuestionType = testQuestionType,
         selectRightAnswerTitle = selectRightAnswerOrAnswersDataModel.selectRightAnswerTitle,
         rightAnswersCount = selectRightAnswerOrAnswersDataModel.rightAnswersCount,
-        answers = selectRightAnswerOrAnswersDataModel.answers.map { it.toAnswerCheckedUiModel(id) }
+        answers = selectRightAnswerOrAnswersDataModel.answers.map { it.toAnswerCheckedUiModel(id) },
+        answerValidationResultType = AnswerValidationResultType.UNKNOWN
     )
 
 fun AnswerXModel.toAnswerCheckedUiModel(questionId: String): AnswerCheckedUiModel =

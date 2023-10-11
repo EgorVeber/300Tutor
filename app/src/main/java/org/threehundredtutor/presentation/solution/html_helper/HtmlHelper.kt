@@ -1,5 +1,6 @@
 package org.threehundredtutor.presentation.solution.html_helper
 
+import android.util.Log
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
@@ -7,6 +8,7 @@ import org.threehundredtutor.domain.solution.models.test_model.QuestionModel
 import org.threehundredtutor.domain.solution.models.test_model.TestQuestionType
 import org.threehundredtutor.presentation.solution.mapper.toQuestionAnswerWithErrorsUiModel
 import org.threehundredtutor.presentation.solution.mapper.toQuestionDetailedAnswerUiModel
+import org.threehundredtutor.presentation.solution.mapper.toQuestionRightAnswerUiModel
 import org.threehundredtutor.presentation.solution.mapper.toSelectRightAnswerOrAnswersUiModel
 import org.threehundredtutor.presentation.solution.model.DividerHtmlItem
 import org.threehundredtutor.presentation.solution.model.FooterHtmlItem
@@ -15,6 +17,7 @@ import org.threehundredtutor.presentation.solution.model.ImageHtmlItem
 import org.threehundredtutor.presentation.solution.model.SupSubHtmlItem
 import org.threehundredtutor.presentation.solution.model.TextHtmlItem
 import org.threehundredtutor.presentation.solution.model.TitleHtmlItem
+import org.threehundredtutor.presentation.solution.model.YoutubeUiModel
 
 
 // TODO Сделать через даггер
@@ -28,6 +31,8 @@ object HtmlHelper {
     private const val SUB_TEXT_TAG = "sub"
     private const val H_ALIGN_ATTR = "h-align"
     private const val FILE_ID_ATTR = "file-id"
+    private const val EXTERNAL_VIDEO = "external-video"
+    private const val LINK = "link"
 
     fun getHtmlItemList(
         questionModel: QuestionModel,
@@ -48,7 +53,7 @@ object HtmlHelper {
             val itemImage: Elements = element.getElementsByTag(FILE_IMAGE_TAG)
             val itemSub: Elements = element.getElementsByTag(SUP_TEXT_TAG)
             val itemSup: Elements = element.getElementsByTag(SUB_TEXT_TAG)
-
+            val itemVideo: Elements = element.getElementsByTag(EXTERNAL_VIDEO)
             if (itemImage.size == 0) {
                 val text: String = element.text()
                 if (text.isNotEmpty()) {
@@ -60,6 +65,8 @@ object HtmlHelper {
                     } else {
                         bodyChildList.add(SupSubHtmlItem(element.toString(), gravityAlign))
                     }
+                } else if (itemVideo.attr(LINK).isNotEmpty()) {
+                    bodyChildList.add(YoutubeUiModel(element.attr(LINK)))
                 } else {
                     bodyChildList.add(DividerHtmlItem(DividerColor.CONTENT_BACKGROUND))
                 }
@@ -83,7 +90,12 @@ object HtmlHelper {
             }
 
             TestQuestionType.TYPE_RIGHT_ANSWER -> {
-
+                bodyChildList.add(
+                    questionModel.toQuestionRightAnswerUiModel(
+                        rightAnswers = questionModel.typeRightAnswerQuestionDataModel.rightAnswers,
+                        caseInSensitive = questionModel.typeRightAnswerQuestionDataModel.caseInSensitive,
+                    )
+                )
             }
 
             TestQuestionType.DETAILED_ANSWER -> {

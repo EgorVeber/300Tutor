@@ -85,6 +85,7 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.13.1'
 
     //DelegateAdapter
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0'
     implementation 'com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:4.3.2'
 
     implementation "com.github.chrisbanes:PhotoView:2.3.0"

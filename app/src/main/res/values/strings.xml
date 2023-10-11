@@ -46,12 +46,15 @@
     <string name="solution_image">solutionImage</string>
     <string name="answer_with_errors_helper_text">Введите правильный ответ</string>
     <string name="answer_verify_text">Проверить</string>
+    <string name="video_action">Открыть</string>
+    <string name="video_title">К вопросу прикреплено видео.</string>
 
     //Solution
     <string name="your_answer">Ваш ответ:</string>
     <string name="correct_answer_without_errors">Правильный ответ (без ошибок):</string>
     <string name="incorrect_answer">Неправильный ответ</string>
     <string name="correct_answer">Правильный ответ</string>
+    <string name="correct_answers">Правильные ответы:</string>
     <string name="allmost_the_right_answer">Почти правильный ответ</string>
     <string name="your_detailed_answer">Ваш развернутый ответ</string>
 </resources>
