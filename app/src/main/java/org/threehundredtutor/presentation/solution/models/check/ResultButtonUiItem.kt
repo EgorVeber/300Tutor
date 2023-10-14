@@ -1,0 +1,6 @@
+package org.threehundredtutor.presentation.solution.models.check
+
+import org.threehundredtutor.domain.solution.models.solution_models.AnswerValidationResultType
+import org.threehundredtutor.presentation.solution.models.SolutionItem
+
+class ResultButtonUiItem(val answerValidationResultType: AnswerValidationResultType) : SolutionItem

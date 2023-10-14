@@ -1,0 +1,3 @@
+package org.threehundredtutor.common
+
+interface UiItemPayload

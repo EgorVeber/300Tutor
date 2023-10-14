@@ -71,7 +71,6 @@ class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment) {
             true
         }
         //TODO Test--Удалить
-
     }
 
     override fun onObserveData() {

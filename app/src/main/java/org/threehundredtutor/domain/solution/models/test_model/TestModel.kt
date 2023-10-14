@@ -2,7 +2,6 @@ package org.threehundredtutor.domain.solution.models.test_model
 
 import org.threehundredtutor.common.DEFAULT_NOT_VALID_VALUE_INT
 import org.threehundredtutor.common.EMPTY_STRING
-import org.threehundredtutor.presentation.solution.model.HtmlItem
 
 data class TestModel(
     val description: String,
@@ -33,13 +32,13 @@ data class QuestionModel(
 
 //Данные для построения интерфейса для вопроса с типом "Выбрать правильный ответ"
 data class SelectRightAnswerOrAnswersDataModel(
-    val answers: List<AnswerXModel>, //	 Варианты ответов на вопрос
+    val answersList: List<AnswerXModel>, //	 Варианты ответов на вопрос
     val rightAnswersCount: Int,// Количество правильных ответов
     val selectRightAnswerTitle: String,//  Текст выбора правильного ответа
 ) {
     companion object {
         val EMPTY = SelectRightAnswerOrAnswersDataModel(
-            answers = emptyList(),
+            answersList = emptyList(),
             rightAnswersCount = DEFAULT_NOT_VALID_VALUE_INT,
             selectRightAnswerTitle = EMPTY_STRING
         )

@@ -1,11 +1,12 @@
-package org.threehundredtutor.presentation.solution.model
+package org.threehundredtutor.presentation.solution.models.answer
 
 import org.threehundredtutor.domain.solution.models.test_model.TestQuestionType
-data class QuestionAnswerWithErrorsUiModel(
-    val solutionId: String,
+import org.threehundredtutor.presentation.solution.models.SolutionItem
+
+data class AnswerWithErrorsUiModel(
     var questionId: String,
     val title: String,
     val testQuestionType: TestQuestionType,
     val rightAnswer: String,
-) : HtmlItem
+) : SolutionItem
 

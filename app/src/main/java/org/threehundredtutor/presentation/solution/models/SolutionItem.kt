@@ -1,0 +1,3 @@
+package org.threehundredtutor.presentation.solution.models
+
+interface SolutionItem

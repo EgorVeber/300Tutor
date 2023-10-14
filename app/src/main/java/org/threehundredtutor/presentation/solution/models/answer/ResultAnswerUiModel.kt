@@ -1,11 +1,10 @@
-package org.threehundredtutor.presentation.solution.model
+package org.threehundredtutor.presentation.solution.models.answer
 
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerValidationResultType
+import org.threehundredtutor.presentation.solution.models.SolutionItem
 
-// TODO исопльзуется в 2 ответах переделать.
-data class AnswerUiModel(
+data class ResultAnswerUiModel(
     val answer: String,
     val rightAnswer: String,
     val answerValidationResultType: AnswerValidationResultType,
-) : HtmlItem
-
+) : SolutionItem

@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingHorizontal="@dimen/space_4"
     android:background="?attr/contentBackground"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/space_4">
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/answerEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto"
-        android:imeOptions="actionDone"
-        android:inputType="text"
-        android:includeFontPadding="false"
         android:hint="@string/answer_with_errors_helper_text"
+        android:imeOptions="actionDone"
+        android:includeFontPadding="false"
+        android:inputType="text"
         android:textAlignment="viewStart"
-        android:textColorHint="?attr/textPrimary"
         android:textColor="?attr/textPrimary"
+        android:textColorHint="?attr/textPrimary"
         android:theme="@style/EditTextCursorColor" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/checkButton"
         android:layout_width="wrap_content"
-        app:cornerRadius="@dimen/radius_16"
-        android:layout_marginTop="@dimen/margin_4"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
+        android:layout_marginTop="@dimen/margin_4"
         android:backgroundTint="?attr/primary"
         android:text="@string/answer_verify_text"
-        android:textSize="@dimen/text_16" />
+        android:textSize="@dimen/text_16"
+        app:cornerRadius="@dimen/radius_16" />
 
 </LinearLayout>
 

@@ -1,20 +1,25 @@
 package org.threehundredtutor.presentation.solution.adapter
 
+import android.text.InputFilter
+import android.text.InputFilter.AllCaps
 import androidx.core.view.isVisible
+import com.google.android.material.button.MaterialButton
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegate
-import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import org.threehundredtutor.R
+import org.threehundredtutor.common.applyBackground
 import org.threehundredtutor.common.fromHtml
 import org.threehundredtutor.common.getColorAttr
 import org.threehundredtutor.common.hideKeyboard
 import org.threehundredtutor.common.loadServer
-import org.threehundredtutor.databinding.AnswerWithErrorsItemBinding
+import org.threehundredtutor.databinding.AnswerButtonItemBinding
+import org.threehundredtutor.databinding.AnswerResultItemBinding
 import org.threehundredtutor.databinding.QuestionAnswerWithErrorsItemBinding
 import org.threehundredtutor.databinding.QuestionDetailedAnswerItemBinding
 import org.threehundredtutor.databinding.QuestionRightAnswerItemBinding
-import org.threehundredtutor.databinding.SelectRightAnswerOrAnswersItemBinding
-import org.threehundredtutor.databinding.SelectRightAnswerOrAnswersItemItemBinding
+import org.threehundredtutor.databinding.SelectRightAnswerOrAnswersItemNewBinding
+import org.threehundredtutor.databinding.SolutionAnswerTitleItemBinding
+import org.threehundredtutor.databinding.SolutionCheckButtonItemBinding
 import org.threehundredtutor.databinding.SolutionDividerItemBinding
 import org.threehundredtutor.databinding.SolutionFooterItemBinding
 import org.threehundredtutor.databinding.SolutionImageItemBinding
@@ -26,29 +31,30 @@ import org.threehundredtutor.databinding.SolutionYoutubeItemBinding
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerValidationResultType
 import org.threehundredtutor.presentation.solution.html_helper.DividerColor
 import org.threehundredtutor.presentation.solution.html_helper.GravityAlign.Companion.getGravity
-import org.threehundredtutor.presentation.solution.model.AnswerCheckedUiModel
-import org.threehundredtutor.presentation.solution.model.AnswerUiModel
-import org.threehundredtutor.presentation.solution.model.DividerHtmlItem
-import org.threehundredtutor.presentation.solution.model.FooterHtmlItem
-import org.threehundredtutor.presentation.solution.model.HtmlItem
-import org.threehundredtutor.presentation.solution.model.ImageHtmlItem
-import org.threehundredtutor.presentation.solution.model.QuestionAnswerWithErrorsUiModel
-import org.threehundredtutor.presentation.solution.model.QuestionDetailedAnswerUiModel
-import org.threehundredtutor.presentation.solution.model.QuestionRightAnswerUiModel
-import org.threehundredtutor.presentation.solution.model.SelectRightAnswerOrAnswersUiModel
-import org.threehundredtutor.presentation.solution.model.SeparatorHtmlItem
-import org.threehundredtutor.presentation.solution.model.SupSubHtmlItem
-import org.threehundredtutor.presentation.solution.model.TextHtmlItem
-import org.threehundredtutor.presentation.solution.model.TitleHtmlItem
-import org.threehundredtutor.presentation.solution.model.YoutubeUiModel
+import org.threehundredtutor.presentation.solution.models.item.DividerSolutionItem
+import org.threehundredtutor.presentation.solution.models.item.FooterSolutionItem
+import org.threehundredtutor.presentation.solution.models.item.ImageSolutionItem
+import org.threehundredtutor.presentation.solution.models.item.SeparatorSolutionItem
+import org.threehundredtutor.presentation.solution.models.SolutionItem
+import org.threehundredtutor.presentation.solution.models.item.SupSubSolutionItem
+import org.threehundredtutor.presentation.solution.models.item.TextSolutionItem
+import org.threehundredtutor.presentation.solution.models.answer.TitleAnswerUiItem
+import org.threehundredtutor.presentation.solution.models.item.TitleSolutionItem
+import org.threehundredtutor.presentation.solution.models.item.YoutubeUiItem
+import org.threehundredtutor.presentation.solution.models.answer.AnswerWithErrorsUiModel
+import org.threehundredtutor.presentation.solution.models.answer.AnswerXUiModel
+import org.threehundredtutor.presentation.solution.models.answer.DetailedAnswerUiModel
+import org.threehundredtutor.presentation.solution.models.answer.ResultAnswerUiModel
+import org.threehundredtutor.presentation.solution.models.answer.RightAnswerUiModel
+import org.threehundredtutor.presentation.solution.models.check.CheckButtonUiItem
+import org.threehundredtutor.presentation.solution.models.check.ResultButtonUiItem
+
 
 object SolutionDelegate {
     fun getTextHtmlItemDelegate() =
-        adapterDelegateViewBinding<TextHtmlItem, HtmlItem, SolutionTextItemBinding>({ layoutInflater, root ->
+        adapterDelegateViewBinding<TextSolutionItem, SolutionItem, SolutionTextItemBinding>({ layoutInflater, root ->
             SolutionTextItemBinding.inflate(
-                layoutInflater,
-                root,
-                false
+                layoutInflater, root, false
             )
         }) {
             bind {
@@ -58,7 +64,7 @@ object SolutionDelegate {
         }
 
     fun getSupSubHtmlItemDelegate() =
-        adapterDelegateViewBinding<SupSubHtmlItem, HtmlItem, SolutionSupSubItemBinding>({ layoutInflater, root ->
+        adapterDelegateViewBinding<SupSubSolutionItem, SolutionItem, SolutionSupSubItemBinding>({ layoutInflater, root ->
             SolutionSupSubItemBinding.inflate(
                 layoutInflater, root, false
             )
@@ -70,7 +76,7 @@ object SolutionDelegate {
         }
 
     fun getImageHtmlItemDelegate(itemClickedListener: (String) -> Unit) =
-        adapterDelegateViewBinding<ImageHtmlItem, HtmlItem, SolutionImageItemBinding>({ layoutInflater, root ->
+        adapterDelegateViewBinding<ImageSolutionItem, SolutionItem, SolutionImageItemBinding>({ layoutInflater, root ->
             SolutionImageItemBinding.inflate(
                 layoutInflater, root, false
             )
@@ -82,7 +88,7 @@ object SolutionDelegate {
         }
 
     fun getTitleHtmlItemDelegate() =
-        adapterDelegateViewBinding<TitleHtmlItem, HtmlItem, SolutionTitleItemBinding>({ layoutInflater, root ->
+        adapterDelegateViewBinding<TitleSolutionItem, SolutionItem, SolutionTitleItemBinding>({ layoutInflater, root ->
             SolutionTitleItemBinding.inflate(
                 layoutInflater, root, false
             )
@@ -90,8 +96,17 @@ object SolutionDelegate {
             bind { binding.solutionTitle.text = item.title }
         }
 
-    fun getDividerHtmlItemDelegate(): AdapterDelegate<List<HtmlItem>> =
-        adapterDelegateViewBinding<DividerHtmlItem, HtmlItem, SolutionDividerItemBinding>({ layoutInflater, root ->
+    fun getTitleAnswerItemDelegate() =
+        adapterDelegateViewBinding<TitleAnswerUiItem, SolutionItem, SolutionAnswerTitleItemBinding>({ layoutInflater, root ->
+            SolutionAnswerTitleItemBinding.inflate(
+                layoutInflater, root, false
+            )
+        }) {
+            bind { binding.title.text = item.title }
+        }
+
+    fun getDividerHtmlItemDelegate(): AdapterDelegate<List<SolutionItem>> =
+        adapterDelegateViewBinding<DividerSolutionItem, SolutionItem, SolutionDividerItemBinding>({ layoutInflater, root ->
             SolutionDividerItemBinding.inflate(
                 layoutInflater, root, false
             )
@@ -106,8 +121,8 @@ object SolutionDelegate {
             }
         }
 
-    fun getFooterHtmlItemDelegate(): AdapterDelegate<List<HtmlItem>> =
-        adapterDelegateViewBinding<FooterHtmlItem, HtmlItem, SolutionFooterItemBinding>({ layoutInflater, root ->
+    fun getFooterHtmlItemDelegate(): AdapterDelegate<List<SolutionItem>> =
+        adapterDelegateViewBinding<FooterSolutionItem, SolutionItem, SolutionFooterItemBinding>({ layoutInflater, root ->
             SolutionFooterItemBinding.inflate(
                 layoutInflater, root, false
             )
@@ -115,17 +130,54 @@ object SolutionDelegate {
             bind {}
         }
 
-    fun getSeparatorHtmlItemDelegate(): AdapterDelegate<List<HtmlItem>> =
-        adapterDelegateViewBinding<SeparatorHtmlItem, HtmlItem, SolutionSeparatorItemBinding>({ layoutInflater, root ->
-            SolutionSeparatorItemBinding.inflate(
-                layoutInflater, root, false
-            )
-        }) {
+    fun getSeparatorHtmlItemDelegate(): AdapterDelegate<List<SolutionItem>> =
+        adapterDelegateViewBinding<SeparatorSolutionItem, SolutionItem, SolutionSeparatorItemBinding>(
+            { layoutInflater, root ->
+                SolutionSeparatorItemBinding.inflate(
+                    layoutInflater, root, false
+                )
+            }) {
             bind {}
         }
 
-    fun getQuestionAnswerWithErrorsHtmlItemDelegate(itemClickedListener: (QuestionAnswerWithErrorsUiModel, String) -> Unit): AdapterDelegate<List<HtmlItem>> =
-        adapterDelegateViewBinding<QuestionAnswerWithErrorsUiModel, HtmlItem, QuestionAnswerWithErrorsItemBinding>(
+    fun getYoutubeHtmlItemDelegate(itemClickedListener: (String) -> Unit): AdapterDelegate<List<SolutionItem>> =
+        adapterDelegateViewBinding<YoutubeUiItem, SolutionItem, SolutionYoutubeItemBinding>({ layoutInflater, root ->
+            SolutionYoutubeItemBinding.inflate(
+                layoutInflater, root, false
+            )
+        }) {
+            binding.openYoutube.setOnClickListener {
+                itemClickedListener.invoke(item.link)
+            }
+            bind {}
+        }
+
+    fun getResultButtonUiItemDelegate(): AdapterDelegate<List<SolutionItem>> =
+        adapterDelegateViewBinding<ResultButtonUiItem, SolutionItem, AnswerButtonItemBinding>({ layoutInflater, root ->
+            AnswerButtonItemBinding.inflate(
+                layoutInflater, root, false
+            )
+        }) {
+            bind {
+                binding.answerResultButton.bindResultType(item.answerValidationResultType)
+            }
+        }
+
+    fun getResultAnswerDelegate(): AdapterDelegate<List<SolutionItem>> =
+        adapterDelegateViewBinding<ResultAnswerUiModel, SolutionItem, AnswerResultItemBinding>({ layoutInflater, root ->
+            AnswerResultItemBinding.inflate(
+                layoutInflater, root, false
+            )
+        }) {
+            bind {
+                binding.correctAnswerValue.text = item.rightAnswer
+                binding.yourAnswerValue.text = item.answer
+                binding.answerResultButton.bindResultType(item.answerValidationResultType)
+            }
+        }
+
+    fun getAnswerWithErrorsDelegate(itemClickedListener: (AnswerWithErrorsUiModel, String) -> Unit): AdapterDelegate<List<SolutionItem>> =
+        adapterDelegateViewBinding<AnswerWithErrorsUiModel, SolutionItem, QuestionAnswerWithErrorsItemBinding>(
             { layoutInflater, root ->
                 QuestionAnswerWithErrorsItemBinding.inflate(
                     layoutInflater, root, false
@@ -141,13 +193,14 @@ object SolutionDelegate {
             bind {}
         }
 
-    fun getQuestionRightAnswerHtmlItemDelegate(itemClickedListener: (QuestionRightAnswerUiModel, String) -> Unit): AdapterDelegate<List<HtmlItem>> =
-        adapterDelegateViewBinding<QuestionRightAnswerUiModel, HtmlItem, QuestionRightAnswerItemBinding>(
+    fun getRightAnswerDelegate(itemClickedListener: (RightAnswerUiModel, String) -> Unit): AdapterDelegate<List<SolutionItem>> =
+        adapterDelegateViewBinding<RightAnswerUiModel, SolutionItem, QuestionRightAnswerItemBinding>(
             { layoutInflater, root ->
                 QuestionRightAnswerItemBinding.inflate(
                     layoutInflater, root, false
                 )
             }) {
+
             binding.checkButton.setOnClickListener { view ->
                 val answer = binding.answerEditText.text.toString().trim()
                 if (answer.isNotEmpty()) {
@@ -155,170 +208,91 @@ object SolutionDelegate {
                 }
                 view.hideKeyboard()
             }
-            bind {}
+            bind {
+                if (item.caseInSensitive) {
+                    binding.answerEditText.filters = arrayOf<InputFilter>(AllCaps())
+                }
+            }
         }
 
-    fun getQuestionDetailedAnswerHtmlItemDelegate(itemClickedListener: (QuestionDetailedAnswerUiModel, String) -> Unit): AdapterDelegate<List<HtmlItem>> =
-        adapterDelegateViewBinding<QuestionDetailedAnswerUiModel, HtmlItem, QuestionDetailedAnswerItemBinding>(
+    fun getDetailedAnswerDelegate(itemClickedListener: (DetailedAnswerUiModel, String) -> Unit): AdapterDelegate<List<SolutionItem>> =
+        adapterDelegateViewBinding<DetailedAnswerUiModel, SolutionItem, QuestionDetailedAnswerItemBinding>(
             { layoutInflater, root ->
                 QuestionDetailedAnswerItemBinding.inflate(
                     layoutInflater, root, false
                 )
             }) {
-            bind {
-                binding.checkButton.setOnClickListener {
-                    val answer = binding.answerEditText.text.toString().trim()
-                    if (answer.isNotEmpty()) {
-                        itemClickedListener.invoke(item, answer)
-                    }
+            binding.checkButton.setOnClickListener {
+                val answer = binding.answerEditText.text.toString().trim()
+                if (answer.isNotEmpty()) {
+                    itemClickedListener.invoke(item, answer)
                 }
-            }
-        }
-
-    fun getYoutubeHtmlItemDelegate(itemClickedListener: (String) -> Unit): AdapterDelegate<List<HtmlItem>> =
-        adapterDelegateViewBinding<YoutubeUiModel, HtmlItem, SolutionYoutubeItemBinding>(
-            { layoutInflater, root ->
-                SolutionYoutubeItemBinding.inflate(
-                    layoutInflater, root, false
-                )
-            }) {
-            binding.openYoutube.setOnClickListener {
-                itemClickedListener.invoke(item.link)
             }
             bind {}
         }
 
-    fun getAnswerHtmlItemDelegate(): AdapterDelegate<List<HtmlItem>> =
-        adapterDelegateViewBinding<AnswerUiModel, HtmlItem, AnswerWithErrorsItemBinding>({ layoutInflater, root ->
-            AnswerWithErrorsItemBinding.inflate(
-                layoutInflater, root, false
-            )
-        }) {
-            bind {
-                binding.correctAnswerValue.text = item.rightAnswer
-                binding.yourAnswerValue.text = item.answer
-                when (item.answerValidationResultType) {
-                    AnswerValidationResultType.NEED_TO_CHECK_BY_YOUR_SELF -> {
-                        // Нужно проверить саостоятельно дургой item возможно
-                    }
-
-                    AnswerValidationResultType.NOT_CORRECT_ANSWER -> {
-                        binding.answerResultButton.setBackgroundColor(
-                            itemView.getColorAttr(R.attr.warning, false)
-                        )
-                        binding.answerResultButton.text =
-                            itemView.context.getString(R.string.incorrect_answer)
-                        binding.answerResultButton.setIconResource(R.drawable.ic_incorrect_answer)
-                    }
-
-                    AnswerValidationResultType.PARTIALLY_CORRECT_ANSWER -> {
-                        binding.answerResultButton.setBackgroundColor(
-                            itemView.getColorAttr(R.attr.primary, false)
-                        )
-                        binding.answerResultButton.text =
-                            itemView.context.getString(R.string.allmost_the_right_answer)
-                        binding.answerResultButton.setIconResource(R.drawable.ic_allmost_answer)
-                    }
-
-                    AnswerValidationResultType.CORRECT_ANSWER -> {
-                        binding.answerResultButton.setBackgroundColor(
-                            itemView.getColorAttr(R.attr.defaultGreen, false)
-                        )
-                        binding.answerResultButton.text =
-                            itemView.context.getString(R.string.correct_answer)
-                        binding.answerResultButton.setIconResource(R.drawable.ic_correct_answer)
-                    }
-
-                    AnswerValidationResultType.UNKNOWN -> {
-                        throw IllegalArgumentException(" Answer result UNKNOWN type")
-                    }
-                }
-            }
-        }
-
-    fun getSelectRightAnswerOrAnswersUiModelHtmlItemDelegate(
-        itemClickedListener: (SelectRightAnswerOrAnswersUiModel) -> Unit,
-        itemChecked: (String, Boolean, String) -> Unit
-    ): AdapterDelegate<List<HtmlItem>> =
-        adapterDelegateViewBinding<SelectRightAnswerOrAnswersUiModel, HtmlItem, SelectRightAnswerOrAnswersItemBinding>(
+    fun getAnswerXDelegate(itemChecked: (String, String, Boolean) -> Unit): AdapterDelegate<List<SolutionItem>> =
+        adapterDelegateViewBinding<AnswerXUiModel, SolutionItem, SelectRightAnswerOrAnswersItemNewBinding>(
             { layoutInflater, root ->
-                SelectRightAnswerOrAnswersItemBinding.inflate(layoutInflater, root, false).apply {
-                    recyclerSelectAnswers.adapter = AsyncListDifferDelegationAdapter(
-                        SolutionManager.DIFF_CALLBACK,
-                        getSelectRightAnswerOrAnswersItemHtmlItemDelegate(itemChecked)
-                    )
-                }
-            }) {
-            binding.checkButton.setOnClickListener {
-                if (item.answers.all { !it.checked }) return@setOnClickListener
-                itemClickedListener.invoke(item)
-            }
-            bind {
-                (binding.recyclerSelectAnswers.adapter as AsyncListDifferDelegationAdapter<HtmlItem>).items =
-                    item.answers
-                binding.title.text = item.selectRightAnswerTitle
-                val visible = item.answerValidationResultType != AnswerValidationResultType.UNKNOWN
-                binding.checkButton.isVisible = !visible
-                binding.answerResultButton.isVisible = visible
-                when (item.answerValidationResultType) {
-                    AnswerValidationResultType.NOT_CORRECT_ANSWER -> {
-                        binding.answerResultButton.setBackgroundColor(
-                            itemView.getColorAttr(R.attr.warning, false)
-                        )
-                        binding.answerResultButton.text =
-                            itemView.context.getString(R.string.incorrect_answer)
-                        binding.answerResultButton.setIconResource(R.drawable.ic_incorrect_answer)
-                    }
-
-                    AnswerValidationResultType.PARTIALLY_CORRECT_ANSWER -> {
-                        binding.answerResultButton.setBackgroundColor(
-                            itemView.getColorAttr(R.attr.primary, false)
-                        )
-                        binding.answerResultButton.text =
-                            itemView.context.getString(R.string.allmost_the_right_answer)
-                        binding.answerResultButton.setIconResource(R.drawable.ic_allmost_answer)
-                    }
-
-                    AnswerValidationResultType.CORRECT_ANSWER -> {
-                        binding.answerResultButton.setBackgroundColor(
-                            itemView.getColorAttr(R.attr.defaultGreen, false)
-                        )
-                        binding.answerResultButton.text =
-                            itemView.context.getString(R.string.correct_answer)
-                        binding.answerResultButton.setIconResource(R.drawable.ic_correct_answer)
-                    }
-
-                    else -> {}
-                }
-            }
-        }
-
-    private fun getSelectRightAnswerOrAnswersItemHtmlItemDelegate(itemChecked: (String, Boolean, String) -> Unit): AdapterDelegate<List<HtmlItem>> =
-        adapterDelegateViewBinding<AnswerCheckedUiModel, HtmlItem, SelectRightAnswerOrAnswersItemItemBinding>(
-            { layoutInflater, root ->
-                SelectRightAnswerOrAnswersItemItemBinding.inflate(
-                    layoutInflater,
-                    root,
-                    false
+                SelectRightAnswerOrAnswersItemNewBinding.inflate(
+                    layoutInflater, root, false
                 )
             }) {
             binding.checkbox.setOnCheckedChangeListener { view, cheked ->
                 if (view.isPressed) {
-                    item.checked = cheked
-                    itemChecked.invoke(item.text, cheked, item.questionId)
+                    itemChecked.invoke(item.questionId, item.answer, cheked)
                 }
             }
             bind {
-                binding.checkbox.text = item.text
+                binding.checkbox.text = item.answer
                 binding.checkbox.isChecked = item.checked
                 binding.checkbox.isEnabled = item.enabled
-                if (!item.enabled) {
-                    binding.iconCorrect.isVisible = item.isRightAnswer
-                    binding.iconIncorrect.isVisible = !item.isRightAnswer
+                binding.iconContainer.isVisible = !item.enabled
+                if (item.enabled) return@bind
+                if (item.rightAnswer) {
+                    binding.icon.setImageResource(R.drawable.ic_check)
+                    binding.iconContainer.applyBackground(R.attr.defaultGreen)
                 } else {
-                    binding.iconCorrect.isVisible = false
-                    binding.iconIncorrect.isVisible = false
+                    binding.icon.setImageResource(R.drawable.ic_incorrect_answer)
+                    binding.iconContainer.applyBackground(R.attr.warning)
                 }
             }
         }
+
+
+    fun getCheckButtonDelegate(itemChecked: (String) -> Unit): AdapterDelegate<List<SolutionItem>> =
+        adapterDelegateViewBinding<CheckButtonUiItem, SolutionItem, SolutionCheckButtonItemBinding>(
+            { layoutInflater, root ->
+                SolutionCheckButtonItemBinding.inflate(layoutInflater, root, false)
+            })
+        {
+            binding.checkButton.setOnClickListener {
+                itemChecked.invoke(item.questionId)
+            }
+            bind {}
+        }
+
+    private fun MaterialButton.bindResultType(type: AnswerValidationResultType) {
+        when (type) {
+            AnswerValidationResultType.NOT_CORRECT_ANSWER -> {
+                setBackgroundColor(getColorAttr(R.attr.warning, false))
+                text = context.getString(R.string.incorrect_answer)
+                setIconResource(R.drawable.ic_incorrect_answer)
+            }
+
+            AnswerValidationResultType.PARTIALLY_CORRECT_ANSWER -> {
+                setBackgroundColor(getColorAttr(R.attr.primary, false))
+                text = context.getString(R.string.allmost_the_right_answer)
+                setIconResource(R.drawable.ic_allmost_answer)
+            }
+
+            AnswerValidationResultType.CORRECT_ANSWER -> {
+                setBackgroundColor(getColorAttr(R.attr.defaultGreen, false))
+                text = context.getString(R.string.correct_answer)
+                setIconResource(R.drawable.ic_correct_answer)
+            }
+
+            else -> {}
+        }
+    }
 }

@@ -22,11 +22,11 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
         imageClick = { Toast.makeText(this.requireContext(), it, Toast.LENGTH_LONG).show() },
         answerWithErrorsClick = { questionAnswerWithErrorsUiModel, answer ->
             viewModel.answerWithErrorsClicked(
-                questionAnswerWithErrorsUiModel = questionAnswerWithErrorsUiModel,
+                answerWithErrorsUiModel = questionAnswerWithErrorsUiModel,
                 answer = answer
             )
         },
-        rightAnswerWithErrorsClick = { rightAnswerModel, answer ->
+        checkButtonAnswerClick = { rightAnswerModel, answer ->
             viewModel.rightAnswerClicked(
                 rightAnswerModel,
                 answer
@@ -34,20 +34,20 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
         },
         detailedAnswerClick = { questionDetailedAnswerUiModel, answer ->
             viewModel.detailedAnswerClicked(
-                questionAnswerWithErrorsUiModel = questionDetailedAnswerUiModel,
+                detailedAnswerUiModel = questionDetailedAnswerUiModel,
                 answer = answer
             )
-        },
-        selectRightAnswerOrAnswersClick = { selectRightAnswerOrAnswersUiModel ->
-            viewModel.selectRightAnswerOrAnswersClick(selectRightAnswerOrAnswersUiModel)
-        },
-        itemChecked = { answerText, checked, questionId ->
-            viewModel.itemChecked(answerText, checked, questionId)
         },
         youtubeClick = { link ->
             viewModel.openYoutube(link)
             //TODO TutorAndroid-21  Добавить поддержку youtube в решении теста.
             openYoutubeLink(link)
+        },
+        itemChecked = { qId, text, cheked ->
+            viewModel.itemChecked(qId, text, cheked)
+        },
+        checkButtonSelectAnswerClick = { questionId ->
+            viewModel.checkButtonClicked(questionId)
         }
     )
 
@@ -91,7 +91,7 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
 
     private fun openYoutubeLink(link: String) {
         // TODO TutorAndroid-21
-        val id  = link.videoId()
+        val id = link.videoId()
         val intentApp = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id))
         val intentBrowser =
             Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + id))
