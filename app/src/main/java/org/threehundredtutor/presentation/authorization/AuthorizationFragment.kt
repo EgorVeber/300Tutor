@@ -15,7 +15,7 @@ import org.threehundredtutor.common.extentions.showMessage
 import org.threehundredtutor.common.utils.PrefsSettings
 import org.threehundredtutor.databinding.AuthorizationFragmentBinding
 import org.threehundredtutor.di.components.AuthorizationComponent
-import org.threehundredtutor.presentation.LoadingDialog
+import org.threehundredtutor.presentation.common.LoadingDialog
 
 class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment) {
 

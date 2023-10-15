@@ -2,23 +2,33 @@ package org.threehundredtutor.presentation.solution
 
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.threehundredtutor.base.BaseViewModel
 import org.threehundredtutor.common.EMPTY_STRING
+import org.threehundredtutor.common.extentions.SingleSharedFlow
 import org.threehundredtutor.common.extentions.launchJob
+import org.threehundredtutor.domain.solution.models.TestSolutionGeneralModel
+import org.threehundredtutor.domain.solution.models.params_model.QuestionSolutionIdParamsModel
+import org.threehundredtutor.domain.solution.models.params_model.SaveQuestionPointsValidationParamsModel
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerValidationResultType
 import org.threehundredtutor.domain.solution.usecase.CheckAnswerUseCase
 import org.threehundredtutor.domain.solution.usecase.GetSolutionUseCase
-import org.threehundredtutor.presentation.solution.html_helper.SolutionFactory
-import org.threehundredtutor.presentation.solution.models.SolutionItem
-import org.threehundredtutor.presentation.solution.models.answer.AnswerWithErrorsUiModel
-import org.threehundredtutor.presentation.solution.models.answer.AnswerXUiModel
-import org.threehundredtutor.presentation.solution.models.answer.DetailedAnswerUiModel
-import org.threehundredtutor.presentation.solution.models.answer.ResultAnswerUiModel
-import org.threehundredtutor.presentation.solution.models.answer.RightAnswerUiModel
-import org.threehundredtutor.presentation.solution.models.check.CheckButtonUiItem
-import org.threehundredtutor.presentation.solution.models.check.ResultButtonUiItem
+import org.threehundredtutor.domain.solution.usecase.ResultQuestionsValidationSaveUseCase
+import org.threehundredtutor.presentation.solution.solution_factory.SolutionFactory
+import org.threehundredtutor.presentation.solution.ui_models.SolutionUiItem
+import org.threehundredtutor.presentation.solution.ui_models.answer_erros.AnswerWithErrorsResultUiItem
+import org.threehundredtutor.presentation.solution.ui_models.answer_erros.AnswerWithErrorsUiModel
+import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerResultUiItem
+import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerUiItem
+import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerValidationUiItem
+import org.threehundredtutor.presentation.solution.ui_models.item_common.ResultButtonUiItem
+import org.threehundredtutor.presentation.solution.ui_models.right_answer.RightAnswerResultUiItem
+import org.threehundredtutor.presentation.solution.ui_models.right_answer.RightAnswerUiModel
+import org.threehundredtutor.presentation.solution.ui_models.select_right_answer.AnswerSelectRightUiModel
+import org.threehundredtutor.presentation.solution.ui_models.select_right_answer.SelectRightAnswerCheckButtonUiItem
 import java.util.Collections
 import javax.inject.Inject
 
@@ -26,25 +36,30 @@ class SolutionViewModel @Inject constructor(
     solutionFactory: SolutionFactory,
     getSolutionUseCase: GetSolutionUseCase,
     private val checkAnswerUseCase: CheckAnswerUseCase,
+    private val validationSaveUseCase: ResultQuestionsValidationSaveUseCase,
 ) : BaseViewModel() {
 
     private val loadingState = MutableStateFlow(false)
-    private val uiItemsState = MutableStateFlow<List<SolutionItem>>(listOf())
+    private val uiItemsState = MutableStateFlow<List<SolutionUiItem>>(listOf())
+    private val uiEventState = SingleSharedFlow<UiEvent>()
+    private val testInfoState = MutableStateFlow<TestSolutionGeneralModel?>(null)
 
     private var currentSolutionId: String = EMPTY_STRING
 
     fun getUiItemStateFlow() = uiItemsState.asStateFlow()
     fun getLoadingStateFlow() = loadingState.asStateFlow()
+    fun getUiEventStateFlow() = uiEventState.asSharedFlow()
+    fun getTestInfoStateFlow() = testInfoState.asSharedFlow()
 
-    // TODO унести в дата сорс а может и нет.
     private var questionMap: MutableMap<String, List<String>> = mutableMapOf()
 
     init {
         viewModelScope.launchJob(tryBlock = {
             loadingState.update { true }
-            val mainModel = getSolutionUseCase.invoke(CURRENT_SOLUTION_ID)
-            currentSolutionId = mainModel.solutionId
-            val uiItemList = solutionFactory.createSolution(mainModel.testModel.questionList)
+            val testSolutionModel = getSolutionUseCase.invoke(CURRENT_SOLUTION_ID)
+            currentSolutionId = testSolutionModel.solutionId
+            testInfoState.update { testSolutionModel }
+            val uiItemList = solutionFactory.createSolution(testSolutionModel)
             uiItemsState.update { uiItemList }
 
         }, catchBlock = { throwable ->
@@ -54,23 +69,28 @@ class SolutionViewModel @Inject constructor(
         })
     }
 
-    fun answerWithErrorsClicked(
+    fun onAnswerWithErrorClicked(
         answerWithErrorsUiModel: AnswerWithErrorsUiModel, answer: String
     ) {
         viewModelScope.launchJob(tryBlock = {
             loadingState.update { true }
-            val resultType = checkAnswerUseCase(
+
+            val (isSucceeded, message, answerModel) = checkAnswerUseCase(
                 solutionId = currentSolutionId,
                 questionId = answerWithErrorsUiModel.questionId,
                 answerOrAnswers = answer
-            ).responseObject.resultType
+            )
+
+            if (!isSucceeded) {
+                uiEventState.emit(UiEvent.ShowMessage(message))
+                return@launchJob
+            }
 
             val currentList = uiItemsState.value.toMutableList()
-
-            val newValue = ResultAnswerUiModel(
+            val newValue = AnswerWithErrorsResultUiItem(
                 answer = answer,
                 rightAnswer = answerWithErrorsUiModel.rightAnswer,
-                answerValidationResultType = AnswerValidationResultType.getType(resultType)
+                answerValidationResultType = answerModel.answerValidationResultType
             )
 
             Collections.replaceAll(currentList, answerWithErrorsUiModel, newValue)
@@ -82,24 +102,28 @@ class SolutionViewModel @Inject constructor(
         })
     }
 
-    fun rightAnswerClicked(rightAnswerModel: RightAnswerUiModel, answer: String) {
+    fun onRightAnswerClicked(rightAnswerUiModel: RightAnswerUiModel, answer: String) {
         viewModelScope.launchJob(tryBlock = {
             loadingState.update { true }
-            val resultType = checkAnswerUseCase(
+            val (isSucceeded, message, answerModel) = checkAnswerUseCase(
                 solutionId = currentSolutionId,
-                questionId = rightAnswerModel.questionId,
+                questionId = rightAnswerUiModel.questionId,
                 answerOrAnswers = answer
-            ).responseObject.resultType
+            )
+
+            if (!isSucceeded) {
+                uiEventState.emit(UiEvent.ShowMessage(message))
+                return@launchJob
+            }
 
             val currentList = uiItemsState.value.toMutableList()
-            val answers = rightAnswerModel.rightAnswers.joinToString(separator = "\n")
-
-            val newValue = ResultAnswerUiModel(
+            val newValue = RightAnswerResultUiItem(
                 answer = answer,
-                rightAnswer = answers,
-                answerValidationResultType = AnswerValidationResultType.getType(resultType)
+                rightAnswer = rightAnswerUiModel.rightAnswers.joinToString(separator = "\n"),
+                answerValidationResultType = answerModel.answerValidationResultType
             )
-            Collections.replaceAll(currentList, rightAnswerModel, newValue)
+
+            Collections.replaceAll(currentList, rightAnswerUiModel, newValue)
             uiItemsState.update { currentList }
         }, catchBlock = { throwable ->
             handleError(throwable)
@@ -108,53 +132,39 @@ class SolutionViewModel @Inject constructor(
         })
     }
 
-    fun detailedAnswerClicked(detailedAnswerUiModel: DetailedAnswerUiModel, answer: String) {}
-
-    fun openYoutube(link: String) {}
-
-    fun itemChecked(questionId: String, answerText: String, checked: Boolean) {
-        val answersList = questionMap.getOrPut(key = questionId, defaultValue = { emptyList() })
-        if (checked) {
-            questionMap[questionId] = answersList + listOf(answerText)
-        } else {
-            questionMap[questionId] = answersList - listOf(answerText).toSet()
-        }
-
-        val currentList = uiItemsState.value.toMutableList().map { solutionItem ->
-            if (solutionItem is AnswerXUiModel && solutionItem.questionId == questionId && solutionItem.answer == answerText) {
-                return@map solutionItem.copy(checked = checked)
-            }
-            solutionItem
-        }
-
-        uiItemsState.update { currentList }
-    }
-
-    fun checkButtonClicked(questionId: String) {
-        val answerJoin =
-            questionMap.getOrPut(questionId) { emptyList() }.joinToString(separator = ";")
-        if (answerJoin.isEmpty()) return
-
+    fun onSelectRightAnswerCheckButtonClicked(questionId: String) {
         viewModelScope.launchJob(tryBlock = {
             loadingState.update { true }
-            val resultType = checkAnswerUseCase(
+            val answerJoin = questionMap.getOrPut(key = questionId, defaultValue = { emptyList() })
+                .joinToString(separator = ANSWERS_SEPARATOR)
+            if (answerJoin.isEmpty()) return@launchJob
+
+            val (isSucceeded, message, answerModel) = checkAnswerUseCase(
                 solutionId = currentSolutionId,
                 questionId = questionId,
                 answerOrAnswers = answerJoin
-            ).responseObject.resultType
+            )
 
-            val currentList = uiItemsState.value.toMutableList().map { solutionItem ->
-                if (solutionItem is AnswerXUiModel && solutionItem.questionId == questionId) {
-                    return@map solutionItem.copy(enabled = false)
+            if (!isSucceeded) {
+                uiEventState.emit(UiEvent.ShowMessage(message))
+                return@launchJob
+            }
+
+            val currentList = uiItemsState.value.toMutableList().map { solutionUiItem ->
+                if (solutionUiItem is AnswerSelectRightUiModel && solutionUiItem.questionId == questionId) {
+                    solutionUiItem.copy(enabled = false)
+                } else {
+                    solutionUiItem
                 }
-                solutionItem
             }
 
-            val oldItem = currentList.find { solutionItem ->
-                solutionItem is CheckButtonUiItem && solutionItem.questionId == questionId
+            val oldItem = currentList.find { solutionUiItem ->
+                solutionUiItem is SelectRightAnswerCheckButtonUiItem && solutionUiItem.questionId == questionId
             }
-            oldItem ?: return@launchJob
-            val newItem = ResultButtonUiItem(AnswerValidationResultType.getType(resultType))
+
+            oldItem ?: throw IllegalArgumentException()
+
+            val newItem = ResultButtonUiItem(answerModel.answerValidationResultType)
             Collections.replaceAll(currentList, oldItem, newItem)
 
             uiItemsState.update { currentList }
@@ -165,8 +175,117 @@ class SolutionViewModel @Inject constructor(
         })
     }
 
+    fun onCheckedChangeSelectRightAnswer(questionId: String, answerText: String, checked: Boolean) {
+        val answersList = questionMap.getOrPut(key = questionId, defaultValue = { emptyList() })
+        if (checked) {
+            questionMap[questionId] = answersList + listOf(answerText)
+        } else {
+            questionMap[questionId] = answersList - listOf(answerText).toSet()
+        }
+
+        val currentList = uiItemsState.value.toMutableList().map { solutionUiItem ->
+            if (solutionUiItem is AnswerSelectRightUiModel && solutionUiItem.questionId == questionId && solutionUiItem.answer == answerText) {
+                solutionUiItem.copy(checked = checked)
+            } else {
+                solutionUiItem
+            }
+        }
+
+        uiItemsState.update { currentList }
+    }
+
+    fun onDetailedAnswerClicked(detailedAnswerUiItem: DetailedAnswerUiItem, answer: String) {
+        viewModelScope.launchJob(tryBlock = {
+            val (isSucceeded, message, answerModel) = checkAnswerUseCase(
+                solutionId = currentSolutionId,
+                questionId = detailedAnswerUiItem.questionId,
+                answerOrAnswers = answer
+            )
+
+            if (!isSucceeded) {
+                uiEventState.emit(UiEvent.ShowMessage(message))
+                return@launchJob
+            }
+
+            val currentList = uiItemsState.value.toMutableList()
+            val index = currentList.indexOf(detailedAnswerUiItem)
+            if (index == -1) throw IllegalArgumentException()
+
+            Collections.replaceAll(
+                currentList,
+                detailedAnswerUiItem,
+                DetailedAnswerResultUiItem(answer)
+            )
+
+            if (currentList.size >= index + 1) {
+                currentList.addAll(
+                    index + 1, detailedAnswerUiItem.explanationList + listOf(
+                        ResultButtonUiItem(AnswerValidationResultType.NEED_TO_CHECK_BY_YOUR_SELF),
+                        DetailedAnswerValidationUiItem(
+                            inputPoint = EMPTY_STRING,
+                            pointTotal = answerModel.pointsValidationModel.questionTotalPoints.toString(),
+                            questionId = detailedAnswerUiItem.questionId,
+                            type = AnswerValidationResultType.UNKNOWN,
+                            isValidated = answerModel.pointsValidationModel.isValidated
+                        )
+                    )
+                )
+                uiItemsState.update { currentList }
+            } else throw IllegalArgumentException()
+        }, catchBlock = { throwable ->
+            handleError(throwable)
+        })
+    }
+
+    fun onDetailedAnswerValidationClicked(
+        answerValidationItemUiModel: DetailedAnswerValidationUiItem,
+        inputPoint: String
+    ) {
+        viewModelScope.launchJob(tryBlock = {
+            loadingState.update { true }
+
+            val result = validationSaveUseCase(
+                SaveQuestionPointsValidationParamsModel(
+                    answerPoints = inputPoint.toInt(),
+                    description = EMPTY_STRING,
+                    questionSolutionIdParamsModel = QuestionSolutionIdParamsModel(
+                        questionId = answerValidationItemUiModel.questionId,
+                        solutionId = currentSolutionId
+                    ),
+                    questionTotalPoints = answerValidationItemUiModel.pointTotal.toInt()
+                )
+            )
+
+            uiEventState.emit(UiEvent.ShowMessage(result.message))
+
+        }, catchBlock = { throwable ->
+            handleError(throwable)
+        }, finallyBlock = {
+            loadingState.update { false }
+        })
+    }
+
+    fun onYoutubeClicked(link: String) {
+        uiEventState.tryEmit(UiEvent.OpenYoutube(link))
+    }
+
+    fun onImageClicked(imageId: String) {
+        if (imageId.isNotEmpty()) uiEventState.tryEmit(UiEvent.NavigatePhotoDetailed(imageId))
+    }
+
+    sealed interface UiEvent {
+        data class ShowMessage(val message: String) : UiEvent
+        data class OpenYoutube(val link: String) : UiEvent
+        data class NavigatePhotoDetailed(val imageId: String) : UiEvent
+
+        // TODO стейты на будущие
+        data class ShowSnack(val message: String, val typeColorSnackBar: String) : UiEvent
+        data class ScrollToQuestion(val position: Int) : UiEvent
+        object ErrorSolution : UiEvent
+    }
+
     companion object {
-        var TAG = this::class.java.name
-        const val CURRENT_SOLUTION_ID = "897dbe82-3387-43ac-afd6-7d495114238f"
+        const val CURRENT_SOLUTION_ID = "21d17092-3b89-4da8-afe6-e0024e359cdb"
+        const val ANSWERS_SEPARATOR = ";"
     }
 }

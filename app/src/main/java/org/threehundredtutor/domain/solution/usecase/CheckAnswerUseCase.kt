@@ -1,7 +1,7 @@
 package org.threehundredtutor.domain.solution.usecase
 
-import org.threehundredtutor.data.solution.models.answer_response.QuestionAnswerWithResultBaseApiResponse
 import org.threehundredtutor.domain.solution.SolutionRepository
+import org.threehundredtutor.domain.solution.models.QuestionAnswerWithResultBaseApiModel
 import javax.inject.Inject
 
 class CheckAnswerUseCase @Inject constructor(
@@ -11,7 +11,7 @@ class CheckAnswerUseCase @Inject constructor(
         solutionId: String,
         questionId: String,
         answerOrAnswers: String
-    ): QuestionAnswerWithResultBaseApiResponse =
+    ): QuestionAnswerWithResultBaseApiModel =
         solutionRepository.checkAnswer(
             solutionId = solutionId,
             questionId = questionId,

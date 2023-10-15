@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/contentBackground"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/solution_item_space_horizontal">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_8"
+        android:text="@string/points_answer"
+        android:textColor="?attr/defaultBlack"
+        android:textSize="@dimen/text_18" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/inputPointEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_4"
+        android:fontFamily="@font/roboto"
+        android:hint="@string/detailed_answer_received"
+        android:imeOptions="actionDone"
+        android:includeFontPadding="false"
+        android:inputType="text"
+        android:textAlignment="viewStart"
+        android:textColor="?attr/textPrimary"
+        android:textColorHint="?attr/textPrimary"
+        android:theme="@style/EditTextCursorColor" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/totalPointEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_4"
+        android:enabled="false"
+        android:fontFamily="@font/roboto"
+        android:hint="@string/detailed_answer_total"
+        android:imeOptions="actionDone"
+        android:includeFontPadding="false"
+        android:inputType="text"
+        android:textAlignment="viewStart"
+        android:textColor="?attr/textPrimary"
+        android:textColorHint="?attr/textPrimary"
+        android:theme="@style/EditTextCursorColor" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/estimateResultButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_8"
+        android:alpha="0.9"
+        android:clickable="false"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/estimate_text"
+        android:textSize="@dimen/text_16"
+        app:cornerRadius="@dimen/radius_8"
+        app:iconGravity="textStart"
+        app:iconSize="@dimen/size_24" />
+</LinearLayout>

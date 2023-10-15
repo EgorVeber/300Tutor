@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/solutionTitle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rectangle_12_top_content_background"
+    android:paddingHorizontal="@dimen/solution_item_space_horizontal"
+    android:textColor="?attr/secondary"
+    android:textSize="@dimen/text_20"
+    tools:text="Вопрос #2 по предмету Математика ЕГЭ" />
