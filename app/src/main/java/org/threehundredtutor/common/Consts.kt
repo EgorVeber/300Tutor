@@ -9,5 +9,3 @@ const val TELEGRAM_KURSBIO_BOT_URL = "https://telegram.me/kursbio_bot"
 // Retrofit
 const val HEADER_SET_COOKIE = "Set-Cookie"
 
-// Log const
-const val COOKIE_ANALYTICS = "CookieAnalytics"

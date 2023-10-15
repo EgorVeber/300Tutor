@@ -2,7 +2,6 @@ package org.threehundredtutor.common.utils
 
 import android.content.Context
 import android.util.Log
-import org.threehundredtutor.common.COOKIE_ANALYTICS
 import javax.inject.Inject
 
 class PrefsCookie @Inject constructor(
@@ -14,7 +13,7 @@ class PrefsCookie @Inject constructor(
             Context.MODE_PRIVATE
         ).getStringSet(PREFS_COOKIE_KEY, setOf("")) ?: setOf("")
 
-        Log.d(COOKIE_ANALYTICS, "$GET_COOKIE$cookie")
+        Log.d(COOKIE_ANALYTICS_TAG, "$GET_COOKIE$cookie")
         return cookie
     }
 
@@ -22,7 +21,7 @@ class PrefsCookie @Inject constructor(
         PREFS_COOKIE_FILE,
         Context.MODE_PRIVATE
     ).edit().putStringSet(PREFS_COOKIE_KEY, cookieSet).apply().apply {
-        Log.d(COOKIE_ANALYTICS, "$SET_COOKIE$cookieSet")
+        Log.d(COOKIE_ANALYTICS_TAG, "$SET_COOKIE$cookieSet")
     }
 
     fun clear() = context.getSharedPreferences(
@@ -31,6 +30,8 @@ class PrefsCookie @Inject constructor(
     ).edit().putStringSet(PREFS_COOKIE_KEY, setOf()).apply()
     
     companion object {
+        // Log const
+        private  const val COOKIE_ANALYTICS_TAG = "CookieAnalytics"
         private const val PREFS_COOKIE_FILE = "PREFS_COOKIE_FILE"
         private const val PREFS_COOKIE_KEY = "PREFS_COOKIE_KEY"
         private const val GET_COOKIE = "-Get->"

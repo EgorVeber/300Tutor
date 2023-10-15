@@ -1,12 +1,16 @@
 package org.threehundredtutor.common
 
 import android.content.Context
+import android.text.Editable
 import android.text.Spanned
+import android.text.TextWatcher
 import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.ImageView
 import androidx.annotation.AttrRes
+import androidx.cardview.widget.CardView
 import androidx.core.text.HtmlCompat
 import coil.load
 import coil.transform.RoundedCornersTransformation
@@ -39,6 +43,24 @@ fun ImageView.loadCoin(id: String) {
         crossfade(true)
         transformations(RoundedCornersTransformation(25f))
     }
+}
+
+fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
+    this.addTextChangedListener(object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        }
+
+        override fun afterTextChanged(editable: Editable?) {
+            afterTextChanged.invoke(editable.toString())
+        }
+    })
+}
+
+fun CardView.applyBackground(colorId: Int) {
+    setCardBackgroundColor(getColorAttr(colorId, false))
 }
 
 fun View.getColorAttr(@AttrRes attrRes: Int, needResId: Boolean = true): Int {

@@ -34,7 +34,7 @@ fun AnswerXResponse.toAnswerXModel(): AnswerXModel =
 
 fun SelectRightAnswerOrAnswersDataResponse.toSelectRightAnswerOrAnswersDataModel(): SelectRightAnswerOrAnswersDataModel =
     SelectRightAnswerOrAnswersDataModel(
-        answers = answers?.map { it.toAnswerXModel() } ?: emptyList(),
+        answersList = answers?.map { it.toAnswerXModel() } ?: emptyList(),
         rightAnswersCount = rightAnswersCount.orDefaultNotValidValue(),
         selectRightAnswerTitle = selectRightAnswerTitle.orEmpty(),
     )
