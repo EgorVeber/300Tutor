@@ -98,4 +98,5 @@
             android:id="@+id/action_photoDetailsFragment_to_solutionFragment"
             app:destination="@id/solutionFragment" />
     </fragment>
+
 </navigation>

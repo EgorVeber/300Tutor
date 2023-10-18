@@ -13,7 +13,6 @@ import com.google.android.material.appbar.MaterialToolbar
 import org.threehundredtutor.R
 import org.threehundredtutor.common.loadServer
 
-
 class PhotoDetailsFragment : Fragment() {
 
     private val args: PhotoDetailsFragmentArgs by navArgs()
