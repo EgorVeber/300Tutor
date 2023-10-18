@@ -5,8 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import org.threehundredtutor.R
 import org.threehundredtutor.base.BaseFragment
 import org.threehundredtutor.common.extentions.observeFlow
@@ -19,7 +19,11 @@ import org.threehundredtutor.presentation.solution.adapter.SolutionManager
 class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
 
     private val delegateAdapter: SolutionManager = SolutionManager(
-        imageClick = { Toast.makeText(this.requireContext(), it, Toast.LENGTH_LONG).show() },
+        imageClick = {
+            findNavController().navigate(
+                SolutionFragmentDirections.actionSolutionFragmentToPhotoDetailsFragment(it)
+            )
+        },
         answerWithErrorsClick = { questionAnswerWithErrorsUiModel, answer ->
             viewModel.answerWithErrorsClicked(
                 answerWithErrorsUiModel = questionAnswerWithErrorsUiModel,
