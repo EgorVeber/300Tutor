@@ -57,4 +57,5 @@
     <string name="correct_answers">Правильные ответы:</string>
     <string name="allmost_the_right_answer">Почти правильный ответ</string>
     <string name="your_detailed_answer">Ваш развернутый ответ</string>
+    <string name="image">Image</string>
 </resources>
