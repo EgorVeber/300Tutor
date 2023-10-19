@@ -25,8 +25,12 @@ class PhotoDetailsFragment :
 
     override fun onInitView() {
         super.onInitView()
-        val photoView = binding.photoView
-        photoView.loadServerOriginal(arguments?.getString(PHOTO_DETAILED_KEY).toString())
+        val imageUrl = arguments?.getString(PHOTO_DETAILED_KEY).toString()
+        if (imageUrl.isNotEmpty()) {
+            binding.photoView.loadServerOriginal(imageUrl)
+        } else {
+            findNavController().popBackStack()
+        }
         requireActivity().window.statusBarColor = Color.BLACK
         requireActivity().window.navigationBarColor = Color.BLACK
         val toolbar = binding.photoViewToolBar

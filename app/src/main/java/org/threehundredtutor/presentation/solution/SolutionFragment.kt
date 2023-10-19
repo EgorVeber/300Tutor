@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import org.threehundredtutor.R
@@ -21,11 +22,13 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
 
     private val delegateAdapter: SolutionManager = SolutionManager(
         imageClick = {
-            val bundle = Bundle()
-            bundle.putString(PHOTO_DETAILED_KEY, it)
-            findNavController().navigate(
-                R.id.action_solutionFragment_to_photoDetailsFragment, bundle
-            )
+            if (it.isNotEmpty()) {
+                val bundle = Bundle()
+                bundle.putString(PHOTO_DETAILED_KEY, it)
+                findNavController().navigate(
+                    R.id.action_solutionFragment_to_photoDetailsFragment, bundle
+                )
+            }
         },
         answerWithErrorsClick = { questionAnswerWithErrorsUiModel, answer ->
             viewModel.answerWithErrorsClicked(
