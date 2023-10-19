@@ -40,7 +40,6 @@ fun ImageView.loadServer(id: String) {
 
 fun ImageView.loadServerOriginal(id: String) {
     Glide.with(context).load(static + id + ".jpg")
-        .transform(MultiTransformation(RoundedCorners(25)))
         .into(this)
 }
 

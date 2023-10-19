@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import org.threehundredtutor.R
 import org.threehundredtutor.base.BaseFragment
+import org.threehundredtutor.common.PHOTO_DETAILED_KEY
 import org.threehundredtutor.common.extentions.observeFlow
 import org.threehundredtutor.common.videoId
 import org.threehundredtutor.databinding.SolutionFragmentBinding
@@ -18,11 +19,10 @@ import org.threehundredtutor.presentation.solution.adapter.SolutionManager
 
 class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
 
-    private val bundle = Bundle()
-
     private val delegateAdapter: SolutionManager = SolutionManager(
         imageClick = {
-            bundle.putString("MyArg", it)
+            val bundle = Bundle()
+            bundle.putString(PHOTO_DETAILED_KEY, it)
             findNavController().navigate(
                 R.id.action_solutionFragment_to_photoDetailsFragment, bundle
             )

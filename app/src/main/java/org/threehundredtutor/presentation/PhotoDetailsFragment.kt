@@ -5,11 +5,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.github.chrisbanes.photoview.PhotoView
-import com.google.android.material.appbar.MaterialToolbar
 import org.threehundredtutor.R
 import org.threehundredtutor.base.BaseFragment
 import org.threehundredtutor.base.BaseViewModel
+import org.threehundredtutor.common.PHOTO_DETAILED_KEY
 import org.threehundredtutor.common.loadServerOriginal
 import org.threehundredtutor.databinding.FragmentPhotoDetailsBinding
 
@@ -22,8 +21,12 @@ class PhotoDetailsFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentPhotoDetailsBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onInitView() {
+        super.onInitView()
         val photoView = binding.photoView
-        photoView.loadServerOriginal(arguments?.getString("MyArg").toString())
+        photoView.loadServerOriginal(arguments?.getString(PHOTO_DETAILED_KEY).toString())
         requireActivity().window.statusBarColor = Color.BLACK
         requireActivity().window.navigationBarColor = Color.BLACK
         val toolbar = binding.photoViewToolBar
