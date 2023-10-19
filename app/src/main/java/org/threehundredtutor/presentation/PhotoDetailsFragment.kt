@@ -2,48 +2,39 @@ package org.threehundredtutor.presentation
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.android.material.appbar.MaterialToolbar
 import org.threehundredtutor.R
-import org.threehundredtutor.common.loadServer
+import org.threehundredtutor.base.BaseFragment
+import org.threehundredtutor.base.BaseViewModel
+import org.threehundredtutor.common.loadServerOriginal
+import org.threehundredtutor.databinding.FragmentPhotoDetailsBinding
 
-class PhotoDetailsFragment : Fragment() {
+class PhotoDetailsFragment :
+    BaseFragment(R.layout.fragment_photo_details) {
 
-    private val args: PhotoDetailsFragmentArgs by navArgs()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(
-            org.threehundredtutor.R.layout.fragment_photo_details,
-            container,
-            false
-        )
-    }
+    override val viewModel: BaseViewModel by viewModels()
+    private lateinit var binding: FragmentPhotoDetailsBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding = FragmentPhotoDetailsBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
-        val photoView = view.findViewById(org.threehundredtutor.R.id.photoView) as PhotoView
-        val photoId = args.image
-        photoView.loadServer(photoId)
+        val photoView = binding.photoView
+        photoView.loadServerOriginal(arguments?.getString("MyArg").toString())
         requireActivity().window.statusBarColor = Color.BLACK
         requireActivity().window.navigationBarColor = Color.BLACK
-        val toolbar = view.findViewById<MaterialToolbar>(R.id.photoViewToolBar)
+        val toolbar = binding.photoViewToolBar
         toolbar.setNavigationOnClickListener {
-            findNavController().navigate(R.id.action_photoDetailsFragment_to_solutionFragment)
+            findNavController().popBackStack()
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         requireActivity().window.statusBarColor = Color.alpha(0)
-        requireActivity().window.navigationBarColor = Color.alpha(0)
+        requireActivity().window.navigationBarColor = Color.WHITE
     }
 }

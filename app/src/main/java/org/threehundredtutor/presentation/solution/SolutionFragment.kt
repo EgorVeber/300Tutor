@@ -18,10 +18,13 @@ import org.threehundredtutor.presentation.solution.adapter.SolutionManager
 
 class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
 
+    private val bundle = Bundle()
+
     private val delegateAdapter: SolutionManager = SolutionManager(
         imageClick = {
+            bundle.putString("MyArg", it)
             findNavController().navigate(
-                SolutionFragmentDirections.actionSolutionFragmentToPhotoDetailsFragment(it)
+                R.id.action_solutionFragment_to_photoDetailsFragment, bundle
             )
         },
         answerWithErrorsClick = { questionAnswerWithErrorsUiModel, answer ->

@@ -38,6 +38,12 @@ fun ImageView.loadServer(id: String) {
         .into(this)
 }
 
+fun ImageView.loadServerOriginal(id: String) {
+    Glide.with(context).load(static + id + ".jpg")
+        .transform(MultiTransformation(RoundedCorners(25)))
+        .into(this)
+}
+
 fun ImageView.loadCoin(id: String) {
     load(staticDomain + id + ".jpg") {
         crossfade(true)
