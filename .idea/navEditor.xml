@@ -55,6 +55,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_authorizationFragment_to_solutionFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
                         </option>
                       </LayoutPositions>
@@ -82,6 +87,18 @@
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="photoDetailsFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="838" />
+                            <option name="y" value="-422" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -145,8 +162,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="12" />
-                            <option name="y" value="54" />
+                            <option name="x" value="4" />
+                            <option name="y" value="651" />
                           </Point>
                         </option>
                         <option name="myPositions">

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/startedFragment">
 
@@ -68,7 +69,7 @@
     <fragment
         android:id="@+id/accountFragment"
         android:name="org.threehundredtutor.presentation.account.AccountFragment"
-        android:label="AccountFragment" >
+        android:label="AccountFragment">
         <action
             android:id="@+id/action_accountFragment_to_authorizationFragment"
             app:destination="@id/authorizationFragment" />
@@ -76,5 +77,25 @@
     <fragment
         android:id="@+id/solutionFragment"
         android:name="org.threehundredtutor.presentation.solution.SolutionFragment"
-        android:label="SolutionFragment" />
+        android:label="SolutionFragment">
+        <action
+            android:id="@+id/action_solutionFragment_to_photoDetailsFragment"
+            app:destination="@id/photoDetailsFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/photoDetailsFragment"
+        android:name="org.threehundredtutor.presentation.PhotoDetailsFragment"
+        android:label="fragment_photo_details"
+        tools:layout="@layout/fragment_photo_details">
+        <argument
+            android:name="image"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_photoDetailsFragment_to_solutionFragment"
+            app:destination="@id/solutionFragment" />
+    </fragment>
 </navigation>
