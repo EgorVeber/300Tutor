@@ -1,11 +1,11 @@
 package org.threehundredtutor.domain.registration.usecases
 
-import org.threehundredtutor.domain.registration.models.RegistrationModel
+import org.threehundredtutor.domain.registration.models.RegistrationAccountAndSignInModel
 import org.threehundredtutor.domain.registration.models.RegistrationParams
 import org.threehundredtutor.domain.registration.repository.RegistrationRepository
 import javax.inject.Inject
 
-class RegistrationUseCase @Inject constructor(
+class RegistrationAccountUseCase @Inject constructor(
     private val repository: RegistrationRepository
 ) {
 
@@ -16,7 +16,7 @@ class RegistrationUseCase @Inject constructor(
         patronymic: String,
         phoneNumber: String,
         password: String
-    ): RegistrationModel {
+    ): RegistrationAccountAndSignInModel {
         val registrationParams = RegistrationParams(
             email = email,
             noEmail = email.isEmpty(),
@@ -27,6 +27,6 @@ class RegistrationUseCase @Inject constructor(
             noPhoneNumber = phoneNumber.isEmpty(),
             password = password
         )
-        return repository.register(registrationParams)
+        return repository.registerAccount(registrationParams)
     }
 }

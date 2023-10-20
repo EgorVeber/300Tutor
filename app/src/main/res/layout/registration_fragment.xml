@@ -167,6 +167,19 @@
             android:theme="@style/EditTextCursorColor" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/checkbox_student_title"
+        android:textColor="?attr/defaultBlack"
+        android:textSize="@dimen/text_16"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toTopOf="@id/buttonRegister"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputLayoutPatronymic" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonRegister"
         android:layout_width="match_parent"
@@ -178,9 +191,10 @@
         android:text="@string/register_button_ru"
         android:textAllCaps="true"
         app:cornerRadius="@dimen/radius_8"
+        app:layout_constraintBottom_toTopOf="@+id/authButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputLayoutPatronymic"
+        app:layout_constraintTop_toBottomOf="@+id/checkbox"
         app:layout_constraintWidth_percent="0.8" />
 
     <com.google.android.material.button.MaterialButton
