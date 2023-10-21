@@ -17,185 +17,197 @@
         app:titleTextAppearance="@style/TitleToolbarTextAppearance"
         app:titleTextColor="?attr/secondary" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputLayoutEmail"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_24"
-        android:layout_marginTop="@dimen/margin_12"
-        android:hint="@string/email_required_text"
-        android:textColor="?attr/textPrimary"
-        android:textColorHint="?attr/secondary"
-        app:hintTextAppearance="@style/EditTextHintTextAppearance"
-        app:hintTextColor="?attr/primary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registrationToolbar">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="viewStart"
-            android:textColor="?attr/textPrimary"
-            android:theme="@style/EditTextCursorColor" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputLayoutPhone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_24"
-        android:layout_marginTop="@dimen/margin_12"
-        android:hint="@string/phone_required_text_ru"
-        android:textColor="?attr/textPrimary"
-        android:textColorHint="?attr/secondary"
-        app:hintTextAppearance="@style/EditTextHintTextAppearance"
-        app:hintTextColor="?attr/primary"
-        app:layout_constraintBottom_toTopOf="@+id/inputLayoutPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputLayoutEmail">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPhohe"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberPassword"
-            android:textAlignment="viewStart"
-            android:textColor="?attr/textPrimary"
-            android:theme="@style/EditTextCursorColor" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputLayoutPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_24"
-        android:layout_marginTop="@dimen/margin_12"
-        android:hint="@string/password_required_text_ru"
-        android:textColor="?attr/textPrimary"
-        android:textColorHint="?attr/secondary"
-        app:hintTextAppearance="@style/EditTextHintTextAppearance"
-        app:hintTextColor="?attr/primary"
-        app:layout_constraintBottom_toTopOf="@+id/inputLayoutName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputLayoutPhone">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="viewStart"
-            android:textColor="?attr/textPrimary"
-            android:theme="@style/EditTextCursorColor" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputLayoutName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_24"
-        android:layout_marginTop="@dimen/margin_12"
-        android:hint="@string/name_text_ru"
-        android:textColor="?attr/textPrimary"
-        android:textColorHint="?attr/secondary"
-        app:hintTextAppearance="@style/EditTextHintTextAppearance"
-        app:hintTextColor="?attr/primary"
-        app:layout_constraintBottom_toTopOf="@+id/inputLayoutSurname"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputLayoutPassword">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="viewStart"
-            android:textColor="?attr/textPrimary"
-            android:theme="@style/EditTextCursorColor" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputLayoutSurname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_24"
-        android:layout_marginTop="@dimen/margin_12"
-        android:hint="@string/surname_text_ru"
-        android:textColor="?attr/textPrimary"
-        android:textColorHint="?attr/secondary"
-        app:hintTextAppearance="@style/EditTextHintTextAppearance"
-        app:hintTextColor="?attr/primary"
-        app:layout_constraintBottom_toTopOf="@+id/inputLayoutPatronymic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputLayoutName">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etSurname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="viewStart"
-            android:textColor="?attr/textPrimary"
-            android:theme="@style/EditTextCursorColor" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputLayoutPatronymic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_24"
-        android:layout_marginTop="@dimen/margin_12"
-        android:hint="@string/patronymic_text_ru"
-        android:textAlignment="viewStart"
-        android:textColor="?attr/textPrimary"
-        android:textColorHint="?attr/secondary"
-        app:hintTextAppearance="@style/EditTextHintTextAppearance"
-        app:hintTextColor="?attr/primary"
-        app:layout_constraintBottom_toTopOf="@+id/buttonRegister"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputLayoutSurname">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPatronymic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="viewStart"
-            android:textColor="?attr/textPrimary"
-            android:theme="@style/EditTextCursorColor" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <CheckBox
-        android:id="@+id/checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/checkbox_student_title"
-        android:textColor="?attr/defaultBlack"
-        android:textSize="@dimen/text_16"
-        app:layout_constrainedWidth="true"
-        app:layout_constraintBottom_toTopOf="@id/buttonRegister"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputLayoutPatronymic" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonRegister"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_24"
-        android:layout_marginTop="@dimen/margin_10"
-        android:backgroundTint="?attr/primary"
-        android:fontFamily="@font/roboto_medium"
-        android:text="@string/register_button_ru"
-        android:textAllCaps="true"
-        app:cornerRadius="@dimen/radius_8"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/authButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkbox"
-        app:layout_constraintWidth_percent="0.8" />
+        app:layout_constraintTop_toBottomOf="@+id/registrationToolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputLayoutEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_12"
+                android:hint="@string/email_required_text"
+                android:textColor="?attr/textPrimary"
+                android:textColorHint="?attr/secondary"
+                app:hintTextAppearance="@style/EditTextHintTextAppearance"
+                app:hintTextColor="?attr/primary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewStart"
+                    android:textColor="?attr/textPrimary"
+                    android:theme="@style/EditTextCursorColor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputLayoutPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_12"
+                android:hint="@string/phone_required_text_ru"
+                android:textColor="?attr/textPrimary"
+                android:textColorHint="?attr/secondary"
+                app:hintTextAppearance="@style/EditTextHintTextAppearance"
+                app:hintTextColor="?attr/primary"
+                app:layout_constraintBottom_toTopOf="@+id/inputLayoutPassword"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/inputLayoutEmail">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPhohe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberPassword"
+                    android:textAlignment="viewStart"
+                    android:textColor="?attr/textPrimary"
+                    android:theme="@style/EditTextCursorColor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputLayoutPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_12"
+                android:hint="@string/password_required_text_ru"
+                android:textColor="?attr/textPrimary"
+                android:textColorHint="?attr/secondary"
+                app:hintTextAppearance="@style/EditTextHintTextAppearance"
+                app:hintTextColor="?attr/primary"
+                app:layout_constraintBottom_toTopOf="@+id/inputLayoutName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/inputLayoutPhone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewStart"
+                    android:textColor="?attr/textPrimary"
+                    android:theme="@style/EditTextCursorColor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputLayoutName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_12"
+                android:hint="@string/name_text_ru"
+                android:textColor="?attr/textPrimary"
+                android:textColorHint="?attr/secondary"
+                app:hintTextAppearance="@style/EditTextHintTextAppearance"
+                app:hintTextColor="?attr/primary"
+                app:layout_constraintBottom_toTopOf="@+id/inputLayoutSurname"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/inputLayoutPassword">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewStart"
+                    android:textColor="?attr/textPrimary"
+                    android:theme="@style/EditTextCursorColor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputLayoutSurname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_12"
+                android:hint="@string/surname_text_ru"
+                android:textColor="?attr/textPrimary"
+                android:textColorHint="?attr/secondary"
+                app:hintTextAppearance="@style/EditTextHintTextAppearance"
+                app:hintTextColor="?attr/primary"
+                app:layout_constraintBottom_toTopOf="@+id/inputLayoutPatronymic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/inputLayoutName">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etSurname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewStart"
+                    android:textColor="?attr/textPrimary"
+                    android:theme="@style/EditTextCursorColor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputLayoutPatronymic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_12"
+                android:hint="@string/patronymic_text_ru"
+                android:textAlignment="viewStart"
+                android:textColor="?attr/textPrimary"
+                android:textColorHint="?attr/secondary"
+                app:hintTextAppearance="@style/EditTextHintTextAppearance"
+                app:hintTextColor="?attr/primary"
+                app:layout_constraintBottom_toTopOf="@+id/checkbox"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/inputLayoutSurname">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPatronymic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewStart"
+                    android:textColor="?attr/textPrimary"
+                    android:theme="@style/EditTextCursorColor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <CheckBox
+                android:id="@+id/checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/checkbox_student_title"
+                android:textColor="?attr/defaultBlack"
+                android:textSize="@dimen/text_16"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/inputLayoutPatronymic" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:backgroundTint="?attr/primary"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/register_button_ru"
+                android:textAllCaps="true"
+                app:cornerRadius="@dimen/radius_8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/checkbox"
+                app:layout_constraintWidth_percent="0.8" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/authButton"
@@ -210,17 +222,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/tutorImage"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/margin_10"
-        android:src="@drawable/tutor_back"
-        app:layout_constrainedHeight="true"
-        app:layout_constraintBottom_toTopOf="@+id/authButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonRegister" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
