@@ -5,7 +5,7 @@ import org.threehundredtutor.data.authorization.models.LoginResponse
 
 class AccountRegisterAndSignInResponse(
     @SerializedName("registrationResult")
-    val registerResponse: RegisterResponse,
+    val registerResponse: RegisterResponse?,
     @SerializedName("loginResult")
-    val loginResponse: LoginResponse,
+    val loginResponse: LoginResponse?,
 )

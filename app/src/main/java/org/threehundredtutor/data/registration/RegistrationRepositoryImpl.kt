@@ -1,12 +1,11 @@
 package org.threehundredtutor.data.registration
 
 
-import org.threehundredtutor.data.authorization.mapper.toLoginModel
-import org.threehundredtutor.data.registration.mappers.toRegistrationModelMapper
+import org.threehundredtutor.data.registration.mappers.toAccountRegisterAndSignInResponseMapper
 import org.threehundredtutor.data.registration.mappers.toRegistrationStudentAndSignInModel
-import org.threehundredtutor.data.registration.models.RegisterParams
+import org.threehundredtutor.data.registration.models.RegisteRequest
 import org.threehundredtutor.domain.registration.models.RegistrationAccountAndSignInModel
-import org.threehundredtutor.domain.registration.models.RegistrationParams
+import org.threehundredtutor.domain.registration.models.RegistrationParamsModel
 import org.threehundredtutor.domain.registration.models.RegistrationStudentAndSignInModel
 import org.threehundredtutor.domain.registration.repository.RegistrationRepository
 import javax.inject.Inject
@@ -15,8 +14,8 @@ class RegistrationRepositoryImpl @Inject constructor(
     private val registrationRemoteDataSource: RegistrationRemoteDataSource
 ) : RegistrationRepository {
 
-    override suspend fun registerAccount(params: RegistrationParams): RegistrationAccountAndSignInModel {
-        val registerParams = RegisterParams(
+    override suspend fun registerAccount(params: RegistrationParamsModel): RegistrationAccountAndSignInModel {
+        val registeRequest = RegisteRequest(
             email = params.email,
             noEmail = params.noEmail,
             name = params.name,
@@ -26,16 +25,13 @@ class RegistrationRepositoryImpl @Inject constructor(
             noPhoneNumber = params.noPhoneNumber,
             password = params.password
         )
-        val response = registrationRemoteDataSource.registerAccountAndSignIn(registerParams)
+        val response = registrationRemoteDataSource.registerAccountAndSignIn(registeRequest)
 
-        return RegistrationAccountAndSignInModel(
-            response.registerResponse.toRegistrationModelMapper(),
-            response.loginResponse.toLoginModel()
-        )
+        return response.toAccountRegisterAndSignInResponseMapper()
     }
 
-    override suspend fun registerStudent(params: RegistrationParams): RegistrationStudentAndSignInModel {
-        val registerParams = RegisterParams(
+    override suspend fun registerStudent(params: RegistrationParamsModel): RegistrationStudentAndSignInModel {
+        val registeRequest = RegisteRequest(
             email = params.email,
             noEmail = params.noEmail,
             name = params.name,
@@ -45,7 +41,7 @@ class RegistrationRepositoryImpl @Inject constructor(
             noPhoneNumber = params.noPhoneNumber,
             password = params.password
         )
-        val response = registrationRemoteDataSource.registerStudentAndSignIn(registerParams)
+        val response = registrationRemoteDataSource.registerStudentAndSignIn(registeRequest)
 
         return response.toRegistrationStudentAndSignInModel()
     }

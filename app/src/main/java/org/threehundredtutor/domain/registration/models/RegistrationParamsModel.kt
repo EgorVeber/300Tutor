@@ -1,6 +1,6 @@
-package org.threehundredtutor.data.registration.models
+package org.threehundredtutor.domain.registration.models
 
-class RegisterParams(
+data class RegistrationParamsModel(
     val email: String,
     val noEmail: Boolean,
     val name: String,
@@ -8,5 +8,5 @@ class RegisterParams(
     val patronymic: String,
     val phoneNumber: String,
     val noPhoneNumber: Boolean,
-    val password: String,
+    val password: String
 )

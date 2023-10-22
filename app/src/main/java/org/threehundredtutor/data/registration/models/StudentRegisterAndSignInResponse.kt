@@ -2,7 +2,7 @@ package org.threehundredtutor.data.registration.models
 
 import com.google.gson.annotations.SerializedName
 
-class StudentRegisterAndSignIn(
+class StudentRegisterAndSignInResponse(
     @SerializedName("succeeded")
     val succeded: Boolean?,
     @SerializedName("message")

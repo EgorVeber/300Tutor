@@ -2,8 +2,8 @@ package org.threehundredtutor.data.registration
 
 import org.threehundredtutor.data.core.ServiceGeneratorProvider
 import org.threehundredtutor.data.registration.models.AccountRegisterAndSignInResponse
-import org.threehundredtutor.data.registration.models.RegisterParams
-import org.threehundredtutor.data.registration.models.StudentRegisterAndSignIn
+import org.threehundredtutor.data.registration.models.RegisteRequest
+import org.threehundredtutor.data.registration.models.StudentRegisterAndSignInResponse
 import javax.inject.Inject
 
 class RegistrationRemoteDataSource @Inject constructor(
@@ -13,9 +13,9 @@ class RegistrationRemoteDataSource @Inject constructor(
     private val service: RegistrationService =
         serviceGeneratorProvider.getService(RegistrationService::class)
 
-    suspend fun registerAccountAndSignIn(registerParams: RegisterParams): AccountRegisterAndSignInResponse =
-        service.registerAccountAndSignIn(registerParams)
+    suspend fun registerAccountAndSignIn(registeRequest: RegisteRequest): AccountRegisterAndSignInResponse =
+        service.registerAccountAndSignIn(registeRequest)
 
-    suspend fun registerStudentAndSignIn(registerParams: RegisterParams): StudentRegisterAndSignIn =
-        service.registerStudentAndSignIn(registerParams)
+    suspend fun registerStudentAndSignIn(registeRequest: RegisteRequest): StudentRegisterAndSignInResponse =
+        service.registerStudentAndSignIn(registeRequest)
 }

@@ -47,7 +47,6 @@
                     android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="viewStart"
                     android:textColor="?attr/textPrimary"
                     android:theme="@style/EditTextCursorColor" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -73,7 +72,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberPassword"
-                    android:textAlignment="viewStart"
                     android:textColor="?attr/textPrimary"
                     android:theme="@style/EditTextCursorColor" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -98,7 +96,6 @@
                     android:id="@+id/etPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="viewStart"
                     android:textColor="?attr/textPrimary"
                     android:theme="@style/EditTextCursorColor" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -123,7 +120,6 @@
                     android:id="@+id/etName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="viewStart"
                     android:textColor="?attr/textPrimary"
                     android:theme="@style/EditTextCursorColor" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -148,7 +144,6 @@
                     android:id="@+id/etSurname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="viewStart"
                     android:textColor="?attr/textPrimary"
                     android:theme="@style/EditTextCursorColor" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -160,7 +155,6 @@
                 android:layout_marginHorizontal="@dimen/margin_24"
                 android:layout_marginTop="@dimen/margin_12"
                 android:hint="@string/patronymic_text_ru"
-                android:textAlignment="viewStart"
                 android:textColor="?attr/textPrimary"
                 android:textColorHint="?attr/secondary"
                 app:hintTextAppearance="@style/EditTextHintTextAppearance"
@@ -174,7 +168,6 @@
                     android:id="@+id/etPatronymic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="viewStart"
                     android:textColor="?attr/textPrimary"
                     android:theme="@style/EditTextCursorColor" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -183,6 +176,7 @@
                 android:id="@+id/checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/space_8"
                 android:text="@string/checkbox_student_title"
                 android:textColor="?attr/defaultBlack"
                 android:textSize="@dimen/text_16"
@@ -215,6 +209,8 @@
         android:layout_height="@dimen/size_56"
         android:backgroundTint="?attr/primary"
         android:fontFamily="@font/roboto_medium"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
         android:text="@string/authorization_text"
         android:textAllCaps="true"
         android:textSize="@dimen/text_16"
