@@ -34,6 +34,7 @@
     <string name="register_button_ru">Регистрация</string>
     <string name="password_required_text_ru">Пароль*</string>
     <string name="open_telegram_title">Телеграм бот</string>
+    <string name="checkbox_student_title">Зарегистрироваться как студент</string>
 
     <!--    errors-->
     <string name="unknown_error_message">Произошла неизвестная ошибка. Повторите попытку позже</string>

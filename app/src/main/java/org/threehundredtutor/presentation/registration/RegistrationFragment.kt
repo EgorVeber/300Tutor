@@ -44,14 +44,25 @@ class RegistrationFragment : BaseFragment(R.layout.registration_fragment) {
                 showMessage(getString(R.string.phone_wrong))
                 return@setOnClickListener
             }
-            viewModel.register(
-                email = binding.etEmail.text.toString(),
-                name = binding.etName.text.toString(),
-                surname = binding.etSurname.text.toString(),
-                patronymic = binding.etPatronymic.text.toString(),
-                phoneNumber = binding.etPhohe.text.toString(),
-                password = binding.etPassword.text.toString()
-            )
+            if (binding.checkbox.isEnabled) {
+                viewModel.registerStudent(
+                    email = binding.etEmail.text.toString(),
+                    name = binding.etName.text.toString(),
+                    surname = binding.etSurname.text.toString(),
+                    patronymic = binding.etPatronymic.text.toString(),
+                    phoneNumber = binding.etPhohe.text.toString(),
+                    password = binding.etPassword.text.toString()
+                )
+            } else {
+                viewModel.registerAccount(
+                    email = binding.etEmail.text.toString(),
+                    name = binding.etName.text.toString(),
+                    surname = binding.etSurname.text.toString(),
+                    patronymic = binding.etPatronymic.text.toString(),
+                    phoneNumber = binding.etPhohe.text.toString(),
+                    password = binding.etPassword.text.toString()
+                )
+            }
         }
         binding.authButton.setOnClickListener {
             findNavController().navigate(R.id.action_registrationFragment_to_authorizationFragment)
@@ -59,10 +70,18 @@ class RegistrationFragment : BaseFragment(R.layout.registration_fragment) {
     }
 
     override fun onObserveData() {
-        viewModel.getRegistrationState().observeFlow(this) { registeredUser ->
-            if (registeredUser.succeded) {
+        viewModel.getRegistrationAccountState().observeFlow(this) { registeredUser ->
+            if (registeredUser.registrationModel.succeded
+                && registeredUser.loginModel.succeeded
+            ) {
                 showMessage(getString(R.string.register_success_message))
-                findNavController().navigate(R.id.action_registrationFragment_to_authorizationFragment)
+                findNavController().navigate(R.id.action_registrationFragment_to_homeFragment)
+            }
+        }
+        viewModel.getRegistrationStudentState().observeFlow(this) { registeredStudent ->
+            if (registeredStudent.succeded) {
+                showMessage(getString(R.string.register_success_message))
+                findNavController().navigate(R.id.action_registrationFragment_to_homeFragment)
             }
         }
         viewModel.getResultNotSuccededFlow().observeFlow(this) { errorText ->
