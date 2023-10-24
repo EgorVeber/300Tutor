@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="DialogTheme_transparent" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
     <style name="EditTextCursorColor" parent="Theme.MaterialComponents">
         <item name="colorControlActivated">?attr/primary</item>
         <item name="colorControlNormal">?attr/secondary</item>
