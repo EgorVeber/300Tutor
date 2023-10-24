@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/defaultWhite"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/dialogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_16"
+        android:gravity="center"
+        android:text="AAAAAAAAAAAAAAAAAAAAAAAAA"
+        android:textColor="?attr/primary"
+        android:textSize="@dimen/text_20" />
+
+    <TextView
+        android:id="@+id/dialogDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_8"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_20"
+        android:gravity="center"
+        android:text="MessageMessageMessageMessageMessageMessageMessageMessageMessageMessageMessageMessageMessageMessage"
+        android:textColor="?attr/textPrimary"
+        android:textSize="@dimen/text_16" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/separator" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/positiveButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/defaultWhite"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:text="Ok"
+        android:textColor="?attr/primary"
+        android:textSize="@dimen/text_16"
+        app:cornerRadius="0dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/separator" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/negativeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/defaultWhite"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:text="Cancel"
+        android:textColor="?attr/primary"
+        android:textSize="@dimen/text_16"
+        app:cornerRadius="0dp" />
+</LinearLayout>

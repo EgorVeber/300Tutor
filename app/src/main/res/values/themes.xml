@@ -78,4 +78,9 @@
         <item name="ripple">@color/ripple_tutor</item>
         <item name="ripple15">@color/ripple_15_tutor</item>
     </style>
+
+    <style name="ThemeOverlay.App.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
+        <item name="buttonBarButtonStyle">@style/Widget.App.Button</item>
+    </style>
 </resources>
