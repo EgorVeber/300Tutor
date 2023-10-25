@@ -18,7 +18,6 @@ class ActionDialogFragment : DialogFragment() {
     private var onPositiveClick: (() -> Unit)? = null
     private var onNegativeClick: (() -> Unit)? = null
 
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         isCancelable = false
         val inflater = requireActivity().layoutInflater
