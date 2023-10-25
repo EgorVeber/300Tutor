@@ -20,7 +20,6 @@ class ActionDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         isCancelable = false
-        val inflater = requireActivity().layoutInflater
         val binding = DialogFragmentBinding.inflate(layoutInflater)
         val view = binding.root
 
@@ -60,8 +59,8 @@ class ActionDialogFragment : DialogFragment() {
             message: String,
             positiveText: String,
             negativeText: String,
-            onPositiveClick: () -> Unit,
-            onNegativeClick: () -> Unit
+            onPositiveClick: (() -> Unit)? = null,
+            onNegativeClick: (() -> Unit)? = null
         ) {
             val dialogFragment = ActionDialogFragment()
             dialogFragment.title = title

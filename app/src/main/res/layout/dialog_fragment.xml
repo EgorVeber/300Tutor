@@ -10,7 +10,7 @@
         android:id="@+id/dialogTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/margin_16"
+        android:layout_marginHorizontal="@dimen/margin_16"
         android:layout_marginTop="@dimen/margin_16"
         android:gravity="center"
         android:text="AAAAAAAAAAAAAAAAAAAAAAAAA"
@@ -21,9 +21,8 @@
         android:id="@+id/dialogDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginHorizontal="@dimen/margin_16"
         android:layout_marginTop="@dimen/margin_8"
-        android:layout_marginEnd="@dimen/margin_16"
         android:layout_marginBottom="@dimen/margin_20"
         android:gravity="center"
         android:text="MessageMessageMessageMessageMessageMessageMessageMessageMessageMessageMessageMessageMessageMessage"
@@ -47,7 +46,8 @@
         android:text="Ok"
         android:textColor="?attr/primary"
         android:textSize="@dimen/text_16"
-        app:cornerRadius="0dp" />
+        app:cornerRadius="0dp"
+        app:rippleColor="?attr/background" />
 
     <View
         android:layout_width="match_parent"
@@ -66,5 +66,6 @@
         android:text="Cancel"
         android:textColor="?attr/primary"
         android:textSize="@dimen/text_16"
-        app:cornerRadius="0dp" />
+        app:cornerRadius="0dp"
+        app:rippleColor="?attr/background" />
 </LinearLayout>
