@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="MaterialAlertDialog.App" parent="MaterialAlertDialog.MaterialComponents">
+        <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
+    </style>
+
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_8</item>
+    </style>
+
     <style name="EditTextCursorColor" parent="Theme.MaterialComponents">
         <item name="colorControlActivated">?attr/primary</item>
         <item name="colorControlNormal">?attr/secondary</item>
