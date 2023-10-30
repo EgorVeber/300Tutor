@@ -1,6 +1,7 @@
 package org.threehundredtutor.common
 
 import android.content.Context
+import android.net.Uri
 import android.text.Editable
 import android.text.Spanned
 import android.text.TextWatcher
@@ -12,6 +13,7 @@ import android.widget.ImageView
 import androidx.annotation.AttrRes
 import androidx.cardview.widget.CardView
 import androidx.core.text.HtmlCompat
+import androidx.fragment.app.Fragment
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.bumptech.glide.Glide
@@ -68,14 +70,27 @@ fun CardView.applyBackground(colorId: Int) {
     setCardBackgroundColor(getColorAttr(colorId, false))
 }
 
+fun EditText.trimText(): String = text.toString().trim()
+
 fun View.getColorAttr(@AttrRes attrRes: Int, needResId: Boolean = true): Int {
     val typedValue = TypedValue()
     context.theme.resolveAttribute(attrRes, typedValue, true)
     return if (needResId) typedValue.resourceId else typedValue.data
 }
 
+fun Fragment.getColorAttr(@AttrRes attrRes: Int, needResId: Boolean = true): Int {
+    val typedValue = TypedValue()
+    context?.theme?.resolveAttribute(attrRes, typedValue, true)
+    return if (needResId) typedValue.resourceId else typedValue.data
+}
 
 fun String.fromHtml(): Spanned = HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_COMPACT)
+
+private const val VND_YOUTUBE_APP = "vnd.youtube:"
+private const val VND_YOUTUBE_BROWSER = "http://www.youtube.com/watch?v="
+
+fun String.getUrlYoutube(): Pair<Uri, Uri> =
+    Uri.parse(VND_YOUTUBE_APP + this.videoId()) to Uri.parse(VND_YOUTUBE_BROWSER + this.videoId())
 
 fun String.videoId() =
     this.substringAfterLast('=')

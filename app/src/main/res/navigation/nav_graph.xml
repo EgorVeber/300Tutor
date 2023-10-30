@@ -94,9 +94,7 @@
         android:name="org.threehundredtutor.presentation.PhotoDetailsFragment"
         android:label="fragment_photo_details"
         tools:layout="@layout/fragment_photo_details">
-        <argument
-            android:name="image"
-            app:argType="string" />
+
         <action
             android:id="@+id/action_photoDetailsFragment_to_solutionFragment"
             app:destination="@id/solutionFragment" />

@@ -43,6 +43,7 @@
     <dimen name="space_144">144dp</dimen>
     <dimen name="space_192">192dp</dimen>
     <dimen name="space_256">256dp</dimen>
+    <dimen name="solution_item_space_horizontal">6dp</dimen>
 
     <dimen name="margin_2">2dp</dimen>
     <dimen name="margin_4">4dp</dimen>
@@ -95,4 +96,6 @@
     <dimen name="text_28">28sp</dimen>
     <dimen name="text_32">32sp</dimen>
     <dimen name="text_40">40sp</dimen>
+
+
 </resources>

@@ -6,7 +6,7 @@ import org.threehundredtutor.core.DiSetHelper
 import org.threehundredtutor.data.core.ServiceGeneratorProvider
 import org.threehundredtutor.di.ScreenScope
 import org.threehundredtutor.di.ViewModelMapFactory
-import org.threehundredtutor.presentation.solution.html_helper.SolutionFactory
+import org.threehundredtutor.presentation.solution.solution_factory.SolutionFactory
 
 @Component(modules = [SolutionModule::class])
 @ScreenScope

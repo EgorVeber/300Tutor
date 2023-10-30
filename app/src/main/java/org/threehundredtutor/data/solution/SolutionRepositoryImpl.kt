@@ -1,31 +1,40 @@
 package org.threehundredtutor.data.solution
 
-import org.threehundredtutor.data.solution.mappers.toTestSolutionQueryModel
-import org.threehundredtutor.data.solution.models.answer_response.QuestionAnswerWithResultBaseApiResponse
+import org.threehundredtutor.data.solution.mappers.request.toSaveQuestionPointsValidationRequest
+import org.threehundredtutor.data.solution.mappers.toBaseApiModel
+import org.threehundredtutor.data.solution.mappers.toQuestionAnswerWithResultBaseApiModel
+import org.threehundredtutor.data.solution.mappers.toTestSolutionGeneralModel
 import org.threehundredtutor.data.solution.models.request.AnswerRequest
 import org.threehundredtutor.data.solution.models.request.CheckAnswerRequest
 import org.threehundredtutor.domain.solution.SolutionRepository
-import org.threehundredtutor.domain.solution.models.TestSolutionQueryModel
+import org.threehundredtutor.domain.solution.models.BaseApiModel
+import org.threehundredtutor.domain.solution.models.QuestionAnswerWithResultBaseApiModel
+import org.threehundredtutor.domain.solution.models.TestSolutionGeneralModel
+import org.threehundredtutor.domain.solution.models.params_model.SaveQuestionPointsValidationParamsModel
 import javax.inject.Inject
 
 class SolutionRepositoryImpl @Inject constructor(
     private val solutionRemoteDataSource: SolutionRemoteDataSource,
 ) : SolutionRepository {
-    override suspend fun getSolution(solutionId: String): TestSolutionQueryModel =
-        solutionRemoteDataSource.getSolution(solutionId).toTestSolutionQueryModel()
+    override suspend fun getSolution(solutionId: String): TestSolutionGeneralModel =
+        solutionRemoteDataSource.getSolution(solutionId).toTestSolutionGeneralModel()
 
     override suspend fun checkAnswer(
         solutionId: String,
         questionId: String,
         answerOrAnswers: String
-    ): QuestionAnswerWithResultBaseApiResponse =
+    ): QuestionAnswerWithResultBaseApiModel =
         solutionRemoteDataSource.checkAnswer(
-            CheckAnswerRequest(
+            checkAnswerRequest = CheckAnswerRequest(
                 solutionId = solutionId,
-                AnswerRequest(
-                    questionId = questionId,
-                    answerOrAnswers = answerOrAnswers
-                )
+                answer = AnswerRequest(questionId = questionId, answerOrAnswers = answerOrAnswers)
             )
-        )
+        ).toQuestionAnswerWithResultBaseApiModel()
+
+    override suspend fun resultQuestionsValidationSave(
+        saveQuestionPointsValidationParamsModel: SaveQuestionPointsValidationParamsModel
+    ): BaseApiModel =
+        solutionRemoteDataSource.resultQuestionsValidationSave(
+            saveQuestionPointsValidationParamsModel.toSaveQuestionPointsValidationRequest()
+        ).toBaseApiModel()
 }
