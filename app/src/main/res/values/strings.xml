@@ -1,3 +1,61 @@
 <resources>
     <string name="app_name">300Tutor</string>
+    <string name="main_menu_home_title">Главная</string>
+    <string name="main_menu_profile_title">Аккаунт</string>
+    <string name="main_menu_test_solving_title">Решение тестов</string>
+    <string name="register_button">Register</string>
+    <string name="register_text">Регистрация</string>
+    <string name="email_text">E-mail</string>
+    <string name="email_required_text">E-mail*</string>
+    <string name="code">Код</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="code_plus_7">+7</string>
+    <string name="name_text">Name</string>
+    <string name="surname_text">Surname</string>
+    <string name="phone_text">Phone</string>
+    <string name="password_text">Password</string>
+    <string name="password_required_text">Password*</string>
+    <string name="patronymic_text">Patronymic</string>
+    <string name="authorization_text">Авторизация</string>
+    <string name="forgot_your_password">Забыли пароль?</string>
+    <string name="sign_in">Войти</string>
+    <string name="phone_example">9123456789</string>
+    <string name="register_success_message">Регистрация прошла успешно</string>
+    <string name="password_wrong">Пароль должен содержать не менее 6 символов, включая минимум 1 цифру</string>
+    <string name="email_wrong">Используйте корректный адрес электронной почты</string>
+    <string name="phone_wrong">Введите номер телефона</string>
+    <!--ru strings-->
+    <string name="password_text_ru">Пароль</string>
+    <string name="name_text_ru">Имя</string>
+    <string name="surname_text_ru">Фамилия</string>
+    <string name="phone_text_ru">Телефон</string>
+    <string name="phone_required_text_ru">Телефон*</string>
+    <string name="patronymic_text_ru">Отчество</string>
+    <string name="register_button_ru">Регистрация</string>
+    <string name="password_required_text_ru">Пароль*</string>
+    <string name="open_telegram_title">Телеграм бот</string>
+    <string name="checkbox_student_title">Зарегистрироваться как студент</string>
+
+    <!--    errors-->
+    <string name="unknown_error_message">Произошла неизвестная ошибка. Повторите попытку позже</string>
+    <string name="wrong_data_error_message">Ошибка! Проверьте введеные данные</string>
+    <string name="server_error_message">Неизвестная ошибка на сервере. Повторите попытку позже</string>
+    <string name="unathorized_error_message">Произошла ошибка авторизации</string>
+    <string name="logout">Выйти</string>
+    <string name="profile_person_info">Информация</string>
+    <string name="profile_error_account">Ошибка загрузки данных</string>
+    <string name="solution_image">solutionImage</string>
+    <string name="answer_with_errors_helper_text">Введите правильный ответ</string>
+    <string name="answer_verify_text">Проверить</string>
+    <string name="video_action">Открыть</string>
+    <string name="video_title">К вопросу прикреплено видео.</string>
+
+    //Solution
+    <string name="your_answer">Ваш ответ:</string>
+    <string name="correct_answer_without_errors">Правильный ответ (без ошибок):</string>
+    <string name="incorrect_answer">Неправильный ответ</string>
+    <string name="correct_answer">Правильный ответ</string>
+    <string name="correct_answers">Правильные ответы:</string>
+    <string name="allmost_the_right_answer">Почти правильный ответ</string>
+    <string name="your_detailed_answer">Ваш развернутый ответ</string>
 </resources>

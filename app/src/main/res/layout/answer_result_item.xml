@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/contentBackground"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/space_4">
+
+    <TextView
+        android:id="@+id/yourAnswerTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/your_answer"
+        android:textColor="?attr/defaultBlack"
+        android:textSize="@dimen/text_16" />
+
+    <TextView
+        android:id="@+id/yourAnswerValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_2"
+        android:textColor="?attr/defaultBlack"
+        android:textSize="@dimen/text_16"
+        tools:text="246" />
+
+    <TextView
+        android:id="@+id/correctAnswerTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_8"
+        android:text="@string/correct_answer_without_errors"
+        android:textColor="?attr/defaultBlack"
+        android:textSize="@dimen/text_16" />
+
+    <TextView
+        android:id="@+id/correctAnswerValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_2"
+        android:textColor="?attr/defaultBlack"
+        android:textSize="@dimen/text_16"
+        tools:text="244" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/answerResultButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16"
+        android:alpha="0.9"
+        android:clickable="false"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        app:cornerRadius="@dimen/radius_8"
+        app:iconGravity="textStart"
+        app:iconSize="@dimen/size_24"
+        tools:icon="@drawable/ic_allmost_answer"
+        tools:text="@string/allmost_the_right_answer" />
+</LinearLayout>
