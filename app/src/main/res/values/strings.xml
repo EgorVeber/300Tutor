@@ -47,15 +47,28 @@
     <string name="solution_image">solutionImage</string>
     <string name="answer_with_errors_helper_text">Введите правильный ответ</string>
     <string name="answer_verify_text">Проверить</string>
+    <string name="answer_send_text">Отправить</string>
     <string name="video_action">Открыть</string>
     <string name="video_title">К вопросу прикреплено видео.</string>
 
     //Solution
     <string name="your_answer">Ваш ответ:</string>
     <string name="correct_answer_without_errors">Правильный ответ (без ошибок):</string>
+    <string name="explanation_answer">Пояснения к ответу на вопрос</string>
     <string name="incorrect_answer">Неправильный ответ</string>
     <string name="correct_answer">Правильный ответ</string>
     <string name="correct_answers">Правильные ответы:</string>
     <string name="allmost_the_right_answer">Почти правильный ответ</string>
+    <string name="estimate_text">Оценить</string>
     <string name="your_detailed_answer">Ваш развернутый ответ</string>
+    <string name="detailed_answer_received">Получено:</string>
+    <string name="detailed_answer_total">Всего:</string>
+    <string name="points_answer">Баллы за ответ:</string>
+    <string name="question_has_been_rated">Установлена оценка для вопроса</string>
+    <string name="answer_needs_to_be_checked">Ответ необходимо оценить</string>
+    <string name="attention">Внимание</string>
+    <string name="ok">ОК</string>
+    <string name="accepted">Понятно</string>
+    <string name="cancel">Отмена</string>
+    <string name="open_youtube_message">Открыть youtube для просмотра видео ?</string>
 </resources>

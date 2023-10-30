@@ -2,65 +2,93 @@ package org.threehundredtutor.presentation.solution.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
-import org.threehundredtutor.presentation.solution.adapter.SolutionDelegate.getResultAnswerDelegate
-import org.threehundredtutor.presentation.solution.adapter.SolutionDelegate.getCheckButtonDelegate
-import org.threehundredtutor.presentation.solution.adapter.SolutionDelegate.getDividerHtmlItemDelegate
-import org.threehundredtutor.presentation.solution.adapter.SolutionDelegate.getFooterHtmlItemDelegate
-import org.threehundredtutor.presentation.solution.adapter.SolutionDelegate.getImageHtmlItemDelegate
-import org.threehundredtutor.presentation.solution.adapter.SolutionDelegate.getAnswerWithErrorsDelegate
-import org.threehundredtutor.presentation.solution.adapter.SolutionDelegate.getDetailedAnswerDelegate
-import org.threehundredtutor.presentation.solution.adapter.SolutionDelegate.getRightAnswerDelegate
-import org.threehundredtutor.presentation.solution.adapter.SolutionDelegate.getResultButtonUiItemDelegate
-import org.threehundredtutor.presentation.solution.adapter.SolutionDelegate.getSeparatorHtmlItemDelegate
-import org.threehundredtutor.presentation.solution.adapter.SolutionDelegate.getAnswerXDelegate
-import org.threehundredtutor.presentation.solution.adapter.SolutionDelegate.getSupSubHtmlItemDelegate
-import org.threehundredtutor.presentation.solution.adapter.SolutionDelegate.getTextHtmlItemDelegate
-import org.threehundredtutor.presentation.solution.adapter.SolutionDelegate.getTitleAnswerItemDelegate
-import org.threehundredtutor.presentation.solution.adapter.SolutionDelegate.getTitleHtmlItemDelegate
-import org.threehundredtutor.presentation.solution.adapter.SolutionDelegate.getYoutubeHtmlItemDelegate
-import org.threehundredtutor.presentation.solution.models.answer.AnswerWithErrorsUiModel
-import org.threehundredtutor.presentation.solution.models.answer.DetailedAnswerUiModel
-import org.threehundredtutor.presentation.solution.models.answer.RightAnswerUiModel
-import org.threehundredtutor.presentation.solution.models.SolutionItem
+import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getAnswerSelectRightUiModelAdapter
+import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getAnswerWithErrorsResultUiItemAdapter
+import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getAnswerWithErrorsUiModelAdapter
+import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getDetailedAnswerResultUiItemAdapter
+import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getDetailedAnswerUiItemAdapter
+import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getDetailedAnswerValidationUiItemAdapted
+import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getDividerUiItemAdapter
+import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getFooterUiItemAdapter
+import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getHeaderUiItemAdapter
+import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getImageUiItemAdapter
+import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getResultButtonUiItemAdapter
+import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getRightAnswerResultUiItemAdapter
+import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getRightAnswerUiModelAdapter
+import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getSelectRightAnswerCheckButtonUiItemAdapter
+import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getSelectRightAnswerTitleUiItemAdapter
+import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getSeparatorUiItemAdapter
+import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getSupSubUiItemAdapter
+import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getTextUiItemAdapter
+import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getYoutubeUiItemAdapter
+import org.threehundredtutor.presentation.solution.ui_models.SolutionUiItem
+import org.threehundredtutor.presentation.solution.ui_models.answer_erros.AnswerWithErrorsUiModel
+import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerUiItem
+import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerValidationUiItem
+import org.threehundredtutor.presentation.solution.ui_models.right_answer.RightAnswerUiModel
+import org.threehundredtutor.presentation.solution.ui_models.select_right_answer.AnswerSelectRightUiModel
 
 class SolutionManager(
-    imageClick: (String) -> Unit,
-    answerWithErrorsClick: (AnswerWithErrorsUiModel, String) -> Unit,
-    checkButtonAnswerClick: (RightAnswerUiModel, String) -> Unit,
-    detailedAnswerClick: (DetailedAnswerUiModel, String) -> Unit,
-    youtubeClick: (String) -> Unit,
-    itemChecked: (String, String, Boolean) -> Unit,
-    checkButtonSelectAnswerClick: (String) -> Unit,
-) : AsyncListDifferDelegationAdapter<SolutionItem>(DIFF_CALLBACK) {
+    imageClickListener: (String) -> Unit,
+    youtubeClickListener: (String) -> Unit,
+    selectRightAnswerClickListener: (String, String, Boolean) -> Unit,
+    selectRightAnswerCheckButtonClickListener: (String) -> Unit,
+    rightAnswerClickListener: (RightAnswerUiModel, String) -> Unit,
+    answerWithErrorsClickListener: (AnswerWithErrorsUiModel, String) -> Unit,
+    detailedAnswerClickListener: (DetailedAnswerUiItem, String) -> Unit,
+    detailedAnswerValidationClickListener: (DetailedAnswerValidationUiItem, String) -> Unit,
+) : AsyncListDifferDelegationAdapter<SolutionUiItem>(DIFF_CALLBACK) {
 
     init {
         delegatesManager
-            .addDelegate(getTextHtmlItemDelegate())
-            .addDelegate(getImageHtmlItemDelegate(imageClick))
-            .addDelegate(getTitleHtmlItemDelegate())
-            .addDelegate(getDividerHtmlItemDelegate())
-            .addDelegate(getSupSubHtmlItemDelegate())
-            .addDelegate(getFooterHtmlItemDelegate())
-            .addDelegate(getAnswerWithErrorsDelegate(answerWithErrorsClick))
-            .addDelegate(getDetailedAnswerDelegate(detailedAnswerClick))
-            .addDelegate(getRightAnswerDelegate(checkButtonAnswerClick))
-            .addDelegate(getAnswerXDelegate(itemChecked))
-            .addDelegate(getSeparatorHtmlItemDelegate())
-            .addDelegate(getYoutubeHtmlItemDelegate(youtubeClick))
-            .addDelegate(getResultAnswerDelegate())
-            .addDelegate(getCheckButtonDelegate(checkButtonSelectAnswerClick))
-            .addDelegate(getResultButtonUiItemDelegate())
-            .addDelegate(getTitleAnswerItemDelegate())
+            .addDelegate(getHeaderUiItemAdapter())
+            .addDelegate(getFooterUiItemAdapter())
+            .addDelegate(getTextUiItemAdapter())
+            .addDelegate(getImageUiItemAdapter(imageClickListener))
+            .addDelegate(getYoutubeUiItemAdapter(youtubeClickListener))
+            .addDelegate(getSupSubUiItemAdapter())
+            .addDelegate(getDividerUiItemAdapter())
+            .addDelegate(getSeparatorUiItemAdapter())
+            .addDelegate(getResultButtonUiItemAdapter())
+            .addDelegate(getSelectRightAnswerTitleUiItemAdapter())
+            .addDelegate(getAnswerSelectRightUiModelAdapter(selectRightAnswerClickListener))
+            .addDelegate(
+                getSelectRightAnswerCheckButtonUiItemAdapter(
+                    selectRightAnswerCheckButtonClickListener
+                )
+            )
+            .addDelegate(getRightAnswerUiModelAdapter(rightAnswerClickListener))
+            .addDelegate(getRightAnswerResultUiItemAdapter())
+            .addDelegate(getAnswerWithErrorsUiModelAdapter(answerWithErrorsClickListener))
+            .addDelegate(getAnswerWithErrorsResultUiItemAdapter())
+            .addDelegate(getDetailedAnswerUiItemAdapter(detailedAnswerClickListener))
+            .addDelegate(getDetailedAnswerResultUiItemAdapter())
+            .addDelegate(
+                getDetailedAnswerValidationUiItemAdapted(detailedAnswerValidationClickListener)
+            )
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<SolutionItem>() {
-            override fun areItemsTheSame(oldItem: SolutionItem, newItem: SolutionItem): Boolean {
+
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<SolutionUiItem>() {
+            override fun areItemsTheSame(
+                oldItem: SolutionUiItem,
+                newItem: SolutionUiItem
+            ): Boolean {
                 return oldItem.javaClass == newItem.javaClass
             }
 
-            override fun areContentsTheSame(oldItem: SolutionItem, newItem: SolutionItem): Boolean {
+            override fun areContentsTheSame(
+                oldItem: SolutionUiItem,
+                newItem: SolutionUiItem
+            ): Boolean {
                 return oldItem.equals(newItem)
+            }
+
+            override fun getChangePayload(oldItem: SolutionUiItem, newItem: SolutionUiItem): Any? {
+                return if (oldItem is AnswerSelectRightUiModel && newItem is AnswerSelectRightUiModel && oldItem.checked != newItem.checked) {
+                    true
+                } else null
             }
         }
     }

@@ -25,7 +25,6 @@ class ServerErrorInterceptor : Interceptor {
 }
 
 
-
 // TODO вынести в отдельные классы
 open class ServerException : Exception()
 

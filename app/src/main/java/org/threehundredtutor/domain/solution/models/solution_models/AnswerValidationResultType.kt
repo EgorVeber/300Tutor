@@ -1,10 +1,10 @@
 package org.threehundredtutor.domain.solution.models.solution_models
 
 enum class AnswerValidationResultType {
-    NEED_TO_CHECK_BY_YOUR_SELF,// Проверить самостоятельно
-    NOT_CORRECT_ANSWER,// Неправильный ответ
-    PARTIALLY_CORRECT_ANSWER, // Частично
-    CORRECT_ANSWER, // Правльный
+    NEED_TO_CHECK_BY_YOUR_SELF,
+    NOT_CORRECT_ANSWER,
+    PARTIALLY_CORRECT_ANSWER,
+    CORRECT_ANSWER,
     UNKNOWN;
 
     companion object {
