@@ -4,6 +4,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
+import org.threehundredtutor.common.TutorSnackbar
 
 fun View?.findSuitableParent(): ViewGroup? {
     var view = this
@@ -24,4 +27,16 @@ fun View?.findSuitableParent(): ViewGroup? {
         }
     } while (view != null)
     return fallback
+}
+
+fun Fragment.showSnackbar(
+    backgroundColor: Int,
+    title: String,
+    description: String,
+    buttonText: String? = null,
+    length: Int? = Snackbar.LENGTH_LONG,
+    buttonClick: (() -> Unit)? = null
+) {
+    TutorSnackbar.make(this.requireView(), backgroundColor, title, description, buttonText, length, buttonClick)
+        .show()
 }
