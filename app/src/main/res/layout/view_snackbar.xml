@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:layout_height="wrap_content"
+    tools:layout_width="match_parent"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <ImageView
+        android:id="@+id/icSnackbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_info" />
+
+    <TextView
+        android:id="@+id/titleSnackbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Title snackbar"
+        android:textColor="#28140c"
+        app:layout_constraintBottom_toTopOf="@id/messageSnackbar"
+        app:layout_constraintEnd_toStartOf="@id/snackbarButton"
+        app:layout_constraintStart_toEndOf="@id/icSnackbar"
+        app:layout_constraintTop_toTopOf="@id/icSnackbar" />
+
+    <TextView
+        android:id="@+id/messageSnackbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Message messageSnackbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/titleSnackbar"
+        app:layout_constraintStart_toStartOf="@id/titleSnackbar"
+        app:layout_constraintTop_toBottomOf="@id/titleSnackbar" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/snackbarButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ok"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/titleSnackbar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</merge>
