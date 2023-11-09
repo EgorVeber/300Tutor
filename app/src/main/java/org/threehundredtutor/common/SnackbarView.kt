@@ -54,11 +54,13 @@ class SnackbarView @JvmOverloads constructor(
         binding.titleSnackbar.text = text
     }
 
-    fun setMessage(text: String) {
+    fun setMessage(text: String?) {
+        binding.messageSnackbar.visibility = VISIBLE
         binding.messageSnackbar.text = text
     }
 
     fun setButton(text: String?) {
+        binding.snackbarButton.visibility = VISIBLE
         binding.snackbarButton.text = text
     }
 }
