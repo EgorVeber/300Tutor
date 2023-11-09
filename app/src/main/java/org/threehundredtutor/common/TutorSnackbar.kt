@@ -16,12 +16,7 @@ import org.threehundredtutor.common.extentions.findSuitableParent
 
 class TutorSnackbar(
     parent: ViewGroup,
-    content: SnackbarView,
-    title: String,
-    message: String?,
-    imageResId: Int?,
-    buttonText: String?,
-    private val buttonClick: (() -> Unit)?
+    content: SnackbarView
 ) : BaseTransientBottomBar<TutorSnackbar>(parent, content, content) {
 
     init {
@@ -32,36 +27,6 @@ class TutorSnackbar(
             )
         )
         getView().setPadding(0, 0, 0, 0)
-
-        val imageView = getView().findViewById<ImageView>(R.id.icSnackbar)
-        imageResId?.let {
-            imageView.setImageResource(it)
-        } ?: run {
-            imageView.setImageResource(R.drawable.ic_info)
-        }
-
-        val button = getView().findViewById<MaterialButton>(R.id.snackbarButton)
-        if (buttonClick != null) {
-            val rippleDrawable = RippleDrawable(
-                ColorStateList.valueOf(
-                    ContextCompat.getColor(
-                        view.context,
-                        android.R.color.transparent
-                    )
-                ),
-                null,
-                null
-            )
-            button.background = rippleDrawable
-            button.setOnClickListener {
-                buttonClick.invoke()
-                dismiss()
-            }
-        }
-
-        content.setButton(buttonText)
-        content.setTitle(title)
-        content.setMessage(message)
     }
 
     companion object {
@@ -69,7 +34,7 @@ class TutorSnackbar(
             view: View,
             backgroundColor: Int,
             title: String,
-            message: String?,
+            message: String,
             imageResId: Int?,
             buttonText: String? = null,
             length: Int = Snackbar.LENGTH_LONG,
@@ -85,8 +50,38 @@ class TutorSnackbar(
                 false
             ) as SnackbarView
 
+            val imageView = customView.findViewById<ImageView>(R.id.icSnackbar)
+            imageResId?.let {
+                imageView.setImageResource(it)
+            } ?: run {
+                imageView.setImageResource(R.drawable.ic_info)
+            }
+
+            val button = customView.findViewById<MaterialButton>(R.id.snackbarButton)
+            if (buttonClick != null) {
+                val rippleDrawable = RippleDrawable(
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            view.context,
+                            android.R.color.transparent
+                        )
+                    ),
+                    null,
+                    null
+                )
+                button.background = rippleDrawable
+                button.setOnClickListener {
+                    buttonClick.invoke()
+                    customView.visibility = View.GONE
+                }
+            }
+
+            customView.setButton(buttonText)
+            customView.setTitle(title)
+            customView.setMessage(message)
+
             val attrs = intArrayOf(backgroundColor)
-            val typedArray = view.context.obtainStyledAttributes(attrs)
+            val typedArray = customView.context.obtainStyledAttributes(attrs)
 
             val backgroundColor = typedArray.getColor(0, Color.TRANSPARENT)
             typedArray.recycle()
@@ -95,12 +90,7 @@ class TutorSnackbar(
                 ColorStateList.valueOf(backgroundColor)
             val viewTutorSnackbar = TutorSnackbar(
                 parent,
-                customView,
-                title,
-                message,
-                imageResId,
-                buttonText,
-                buttonClick
+                customView
             )
             viewTutorSnackbar.view.elevation = 0f
             return viewTutorSnackbar.setDuration(length)
