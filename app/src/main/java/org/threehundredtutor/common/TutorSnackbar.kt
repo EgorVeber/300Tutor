@@ -63,11 +63,9 @@ class TutorSnackbar(
                 false
             ) as SnackbarView
 
-            // Получаем атрибуты
             val attrs = intArrayOf(backgroundColor)
             val typedArray = view.context.obtainStyledAttributes(attrs)
 
-            // Извлекаем цвет из атрибутов
             val backgroundColor = typedArray.getColor(0, Color.TRANSPARENT)
             typedArray.recycle()
 
