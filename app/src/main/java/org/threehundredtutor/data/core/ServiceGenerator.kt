@@ -9,7 +9,7 @@ import org.threehundredtutor.BuildConfig
 import org.threehundredtutor.base.network.AddCookiesInterceptor
 import org.threehundredtutor.base.network.GetCookiesInterceptor
 import org.threehundredtutor.base.network.ServerErrorInterceptor
-import org.threehundredtutor.common.utils.PrefsCookie
+import org.threehundredtutor.common.utils.AccountManager
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.CookieManager
@@ -18,7 +18,7 @@ import javax.inject.Inject
 import kotlin.reflect.KClass
 
 class ServiceGenerator @Inject constructor(
-    private val prefsCookie: PrefsCookie
+    accountManager: AccountManager
 ) : ServiceGeneratorProvider {
 
     private val retrofit: Retrofit
@@ -35,8 +35,8 @@ class ServiceGenerator @Inject constructor(
             .readTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
             .addInterceptor(ServerErrorInterceptor())
-            .addInterceptor(GetCookiesInterceptor(prefsCookie))
-            .addInterceptor(AddCookiesInterceptor(prefsCookie))
+            .addInterceptor(GetCookiesInterceptor(accountManager))
+            .addInterceptor(AddCookiesInterceptor(accountManager))
 
         val okHttpClient = builder.build()
 

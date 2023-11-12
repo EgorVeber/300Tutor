@@ -11,7 +11,6 @@ import org.threehundredtutor.base.BaseFragment
 import org.threehundredtutor.common.TELEGRAM_KURSBIO_BOT_URL
 import org.threehundredtutor.common.extentions.navigate
 import org.threehundredtutor.common.extentions.observeFlow
-import org.threehundredtutor.common.utils.PrefsSettings
 import org.threehundredtutor.databinding.AccountFragmentBinding
 import org.threehundredtutor.di.account.AccountComponent
 import org.threehundredtutor.domain.account.AccountModel
@@ -67,7 +66,6 @@ class AccountFragment : BaseFragment(R.layout.account_fragment) {
     }
 
     private fun logout() {
-        PrefsSettings.setAccountLogin("")
         navigate(R.id.action_accountFragment_to_authorizationFragment)
     }
 

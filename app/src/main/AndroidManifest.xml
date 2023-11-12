@@ -16,7 +16,7 @@
         android:theme="@style/Theme.300Tutor"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.StartedActivity"
+            android:name=".presentation.starter.StartedActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

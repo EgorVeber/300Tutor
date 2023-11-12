@@ -11,7 +11,7 @@ import org.threehundredtutor.domain.registration.repository.RegistrationReposito
 import javax.inject.Inject
 
 class RegistrationRepositoryImpl @Inject constructor(
-    private val registrationRemoteDataSource: RegistrationRemoteDataSource
+    private val registrationRemoteDataSource: RegistrationRemoteDataSource,
 ) : RegistrationRepository {
 
     override suspend fun registerAccount(params: RegistrationParamsModel): RegistrationAccountAndSignInModel {

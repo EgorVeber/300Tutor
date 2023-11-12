@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/startedFragment"
-        android:name="org.threehundredtutor.presentation.StartedFragment"
+        android:name="org.threehundredtutor.presentation.starter.StartedFragment"
         android:label="StartedFragment">
         <action
             android:id="@+id/action_startedFragment_to_registrationFragment"
@@ -17,6 +17,9 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/authorizationFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_startedFragment_to_authorizationFragment"
+            app:destination="@id/authorizationFragment" />
     </fragment>
     <fragment
         android:id="@+id/authorizationFragment"

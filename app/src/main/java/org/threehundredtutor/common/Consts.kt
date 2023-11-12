@@ -1,6 +1,5 @@
 package org.threehundredtutor.common
 
-const val KEY_THEME_DEFAULT = 1
 const val DEFAULT_NOT_VALID_VALUE_INT = -1
 const val DEFAULT_NOT_VALID_VALUE_STRING = "-1"
 const val EMPTY_STRING = ""
