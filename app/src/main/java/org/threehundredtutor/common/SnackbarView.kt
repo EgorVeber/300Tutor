@@ -4,6 +4,7 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.view.animation.OvershootInterpolator
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -24,17 +25,7 @@ class SnackbarView @JvmOverloads constructor(
         View.inflate(context, R.layout.view_snackbar, this)
         binding = ViewSnackbarBinding.bind(this)
     }
-
-    override fun animateContentIn(delay: Int, duration: Int) {
-        val scaleX = ObjectAnimator.ofFloat(binding.icSnackbar, View.SCALE_X, 0f, 1f)
-        val scaleY = ObjectAnimator.ofFloat(binding.icSnackbar, View.SCALE_Y, 0f, 1f)
-        val animatorSet = AnimatorSet().apply {
-            interpolator = OvershootInterpolator()
-            setDuration(500)
-            playTogether(scaleX, scaleY)
-        }
-        animatorSet.start()
-    }
+    override fun animateContentIn(delay: Int, duration: Int) {}
 
     override fun animateContentOut(delay: Int, duration: Int) {
         val scaleX = ObjectAnimator.ofFloat(binding.icSnackbar, View.SCALE_X, 1f, 0f)
@@ -56,7 +47,7 @@ class SnackbarView @JvmOverloads constructor(
         binding.messageSnackbar.text = text
     }
 
-    fun setButton(text: String?) {
+    fun setButton(text: String) {
         binding.snackbarButton.visibility = VISIBLE
         binding.snackbarButton.text = text
     }

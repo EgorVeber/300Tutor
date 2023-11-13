@@ -30,14 +30,22 @@ fun View?.findSuitableParent(): ViewGroup? {
 }
 
 fun Fragment.showSnackbar(
-    backgroundColor: Int,
     title: String,
+    backgroundColor: Int? = null,
     description: String? = null,
     buttonText: String? = null,
     length: Int = Snackbar.LENGTH_LONG,
     buttonClick: (() -> Unit)? = null,
     imageResId: Int? = null,
 ) {
-    TutorSnackbar.make(this.requireView(), backgroundColor, title, description, imageResId, buttonText, length, buttonClick)
-        .show()
+    TutorSnackbar.make(
+        view = this.requireView(),
+        backgroundColor = backgroundColor,
+        title = title,
+        message = description,
+        imageResId = imageResId,
+        buttonText = buttonText,
+        length = length,
+        buttonClick = buttonClick
+    ).show()
 }

@@ -1,16 +1,20 @@
 package org.threehundredtutor.presentation.solution
 
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import com.google.android.material.snackbar.Snackbar
 import org.threehundredtutor.R
 import org.threehundredtutor.base.BaseFragment
 import org.threehundredtutor.common.PHOTO_DETAILED_KEY
 import org.threehundredtutor.common.extentions.navigate
 import org.threehundredtutor.common.extentions.observeFlow
 import org.threehundredtutor.common.extentions.showMessage
+import org.threehundredtutor.common.extentions.showSnackbar
+import org.threehundredtutor.common.getColorAttr
 import org.threehundredtutor.common.getUrlYoutube
 import org.threehundredtutor.databinding.SolutionFragmentBinding
 import org.threehundredtutor.di.solution.SolutionComponent
@@ -82,7 +86,15 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
         binding.recyclerSolution.adapter = delegateAdapter
     }
 
+    @SuppressLint("ShowToast")
     override fun onObserveData() {
+        showSnackbar(
+            title = "Вопрос #2 по предмету Математика ЕГЭ",
+            length = Snackbar.LENGTH_INDEFINITE,
+            description = "Решение теста началосьт.",
+            buttonText = "asdasd",
+            buttonClick = {}
+        )
 
         viewModel.getTestInfoStateFlow().observeFlow(this) { testSolutionGeneralModel ->
             testSolutionGeneralModel?.let {

@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:padding="0dp"
+    android:layout_height="wrap_content"
+    tools:background="?attr/primary">
 
     <ImageView
         android:id="@+id/icSnackbar"
@@ -11,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_12"
         android:scaleType="centerCrop"
+        android:src="@drawable/ic_info"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,6 +26,7 @@
         android:layout_marginTop="@dimen/margin_12"
         android:layout_marginBottom="@dimen/margin_4"
         android:textSize="@dimen/text_14"
+        android:textColor="?attr/defaultWhite"
         app:layout_constraintBottom_toTopOf="@id/messageSnackbar"
         app:layout_constraintEnd_toStartOf="@id/snackbarButton"
         app:layout_constraintStart_toEndOf="@id/icSnackbar"
@@ -36,6 +40,7 @@
         android:layout_marginHorizontal="@dimen/margin_12"
         android:layout_marginBottom="@dimen/margin_10"
         android:textSize="@dimen/text_12"
+        android:textColor="?attr/defaultWhite"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/titleSnackbar"
