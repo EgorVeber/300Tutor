@@ -82,7 +82,6 @@ class TutorSnackbar(
 
             val attrs = intArrayOf(backgroundColor)
             val typedArray = customView.context.obtainStyledAttributes(attrs)
-
             val backgroundColor = typedArray.getColor(0, Color.TRANSPARENT)
             typedArray.recycle()
 
