@@ -63,6 +63,9 @@
         <action
             android:id="@+id/action_homeFragment_to_solutionFragment"
             app:destination="@id/solutionFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_subjectFragment"
+            app:destination="@id/subjectFragment" />
     </fragment>
     <fragment
         android:id="@+id/restorPasswordFragment"
@@ -100,6 +103,14 @@
 
         <action
             android:id="@+id/action_photoDetailsFragment_to_solutionFragment"
+            app:destination="@id/solutionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/subjectFragment"
+        android:name="org.threehundredtutor.presentation.subject.SubjectFragment"
+        android:label="SubjectFragment" >
+        <action
+            android:id="@+id/action_subjectFragment_to_solutionFragment"
             app:destination="@id/solutionFragment" />
     </fragment>
 </navigation>

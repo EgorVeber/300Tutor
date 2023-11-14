@@ -1,5 +1,6 @@
 package org.threehundredtutor.data.solution
 
+import org.threehundredtutor.base.network.ServerException
 import org.threehundredtutor.data.solution.mappers.request.toSaveQuestionPointsValidationRequest
 import org.threehundredtutor.data.solution.mappers.toBaseApiModel
 import org.threehundredtutor.data.solution.mappers.toQuestionAnswerWithResultBaseApiModel
@@ -18,6 +19,9 @@ class SolutionRepositoryImpl @Inject constructor(
 ) : SolutionRepository {
     override suspend fun getSolution(solutionId: String): TestSolutionGeneralModel =
         solutionRemoteDataSource.getSolution(solutionId).toTestSolutionGeneralModel()
+
+    override suspend fun startByTestId(testId: String): TestSolutionGeneralModel =
+        solutionRemoteDataSource.startByTestId(testId)?.toTestSolutionGeneralModel() ?: throw ServerException() // TODO сделать
 
     override suspend fun checkAnswer(
         solutionId: String,

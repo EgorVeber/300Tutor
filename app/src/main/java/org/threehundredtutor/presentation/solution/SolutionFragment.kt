@@ -7,6 +7,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import org.threehundredtutor.R
 import org.threehundredtutor.base.BaseFragment
+import org.threehundredtutor.common.EMPTY_STRING
 import org.threehundredtutor.common.PHOTO_DETAILED_KEY
 import org.threehundredtutor.common.extentions.navigate
 import org.threehundredtutor.common.extentions.observeFlow
@@ -17,6 +18,7 @@ import org.threehundredtutor.di.solution.SolutionComponent
 import org.threehundredtutor.presentation.common.ActionDialogFragment
 import org.threehundredtutor.presentation.common.LoadingDialog
 import org.threehundredtutor.presentation.solution.adapter.SolutionManager
+import org.threehundredtutor.presentation.subject.SubjectFragment.Companion.SUBJECT_TEST_KEY
 
 class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
 
@@ -80,6 +82,8 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
     override fun onInitView() {
         super.onInitView()
         binding.recyclerSolution.adapter = delegateAdapter
+        val subjectTestId = arguments?.getString(SUBJECT_TEST_KEY) ?: EMPTY_STRING
+        viewModel.onViewInitiated(subjectTestId)
     }
 
     override fun onObserveData() {

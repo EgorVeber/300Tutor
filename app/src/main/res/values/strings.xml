@@ -70,5 +70,9 @@
     <string name="ok">ОК</string>
     <string name="accepted">Понятно</string>
     <string name="cancel">Отмена</string>
-    <string name="open_youtube_message">Открыть youtube для просмотра видео ?</string>
+    <string name="open_youtube_message">Открыть youtube для просмотра видео?</string>
+    <string name="start_solution_test">Начать решение теста </string>
+    <string name="subject">Предметы</string>
+    <string name="solution">Решение</string>
+    <string name="start">Начать</string>
 </resources>

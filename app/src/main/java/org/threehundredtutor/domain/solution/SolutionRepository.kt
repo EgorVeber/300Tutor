@@ -7,6 +7,7 @@ import org.threehundredtutor.domain.solution.models.params_model.SaveQuestionPoi
 
 interface SolutionRepository {
     suspend fun getSolution(solutionId: String): TestSolutionGeneralModel
+    suspend fun startByTestId(testId: String): TestSolutionGeneralModel
     suspend fun checkAnswer(
         solutionId: String,
         questionId: String,

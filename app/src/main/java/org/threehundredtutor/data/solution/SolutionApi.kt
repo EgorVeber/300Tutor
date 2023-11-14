@@ -5,4 +5,5 @@ object SolutionApi {
     const val TUTOR_TEST_SOLUTION_CHECK_ANSWER = "tutor/test-solution/check-answer"
     const val TUTOR_TEST_SOLUTION_RESULT_QUESTIONS_VALIDATION_SAVE =
         "tutor/test-solution-result/question/validation/save"
+    const val TUTOR_TEST_SOLUTION_START_BY_TEST_ID = "tutor/test-solution/start/By/TestId"
 }
