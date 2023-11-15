@@ -3,7 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:minHeight="@dimen/size_56"
+    android:layout_height="wrap_content"
+    android:padding="0dp"
+    tools:background="?attr/primary">
 
     <ImageView
         android:id="@+id/icSnackbar"
@@ -11,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_12"
         android:scaleType="centerCrop"
+        android:src="@drawable/ic_info"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,11 +26,13 @@
         android:layout_marginHorizontal="@dimen/margin_12"
         android:layout_marginTop="@dimen/margin_12"
         android:layout_marginBottom="@dimen/margin_4"
+        android:textColor="?attr/defaultWhite"
         android:textSize="@dimen/text_14"
         app:layout_constraintBottom_toTopOf="@id/messageSnackbar"
         app:layout_constraintEnd_toStartOf="@id/snackbarButton"
         app:layout_constraintStart_toEndOf="@id/icSnackbar"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
         tools:text="Title snackbar" />
 
     <TextView
@@ -35,10 +41,12 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_12"
         android:layout_marginBottom="@dimen/margin_10"
+        android:textColor="?attr/defaultWhite"
         android:textSize="@dimen/text_12"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/titleSnackbar"
+        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toEndOf="@id/icSnackbar"
         app:layout_constraintTop_toBottomOf="@id/titleSnackbar"
         tools:text="Message messageSnackbar" />
