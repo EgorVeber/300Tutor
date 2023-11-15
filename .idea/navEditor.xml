@@ -13,8 +13,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="12" />
-                            <option name="y" value="12" />
+                            <option name="x" value="-293" />
+                            <option name="y" value="-32" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -100,6 +100,15 @@
                             <option name="y" value="-422" />
                           </Point>
                         </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_photoDetailsFragment_to_solutionFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
                       </LayoutPositions>
                     </value>
                   </entry>
@@ -115,6 +124,11 @@
                         <option name="myPositions">
                           <map>
                             <entry key="action_registrationFragment_to_authorizationFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_registrationFragment_to_homeFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -154,6 +168,15 @@
                             <option name="y" value="-51" />
                           </Point>
                         </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_solutionFragment_to_photoDetailsFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
                       </LayoutPositions>
                     </value>
                   </entry>
@@ -162,12 +185,17 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="4" />
-                            <option name="y" value="651" />
+                            <option name="x" value="-304" />
+                            <option name="y" value="389" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_startedFragment_to_authorizationFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_startedFragment_to_homeFragment">
                               <value>
                                 <LayoutPositions />

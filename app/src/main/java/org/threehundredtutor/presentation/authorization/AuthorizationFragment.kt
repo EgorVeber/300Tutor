@@ -12,7 +12,6 @@ import org.threehundredtutor.base.BaseFragment
 import org.threehundredtutor.common.extentions.navigate
 import org.threehundredtutor.common.extentions.observeFlow
 import org.threehundredtutor.common.extentions.showMessage
-import org.threehundredtutor.common.utils.PrefsSettings
 import org.threehundredtutor.databinding.AuthorizationFragmentBinding
 import org.threehundredtutor.di.components.AuthorizationComponent
 import org.threehundredtutor.presentation.common.LoadingDialog
@@ -77,8 +76,7 @@ class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment) {
         viewModel.getOpenScreenEventStateFlow().observeFlow(this) { screen ->
             when (screen) {
                 is AuthorizationViewModel.NavigateScreenState.NavigateHomeScreen -> {
-                    PrefsSettings.setAccountLogin(screen.loginName)
-                    navigate(R.id.action_authorizationFragment_to_solutionFragment)
+                    navigate(R.id.action_authorizationFragment_to_homeFragment)
                 }
 
                 AuthorizationViewModel.NavigateScreenState.NavigateRegistrationScreen ->
