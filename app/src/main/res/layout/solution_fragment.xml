@@ -20,7 +20,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/ic_back"
             app:navigationIconTint="?attr/secondary"
-            app:title="Решение"
+            app:title="@string/solution"
             app:titleCentered="true"
             app:titleTextAppearance="@style/TitleToolbarTextAppearance"
             app:titleTextColor="?attr/secondary" />

@@ -26,3 +26,12 @@ class TestSolutionQueryResponse(
     @SerializedName("test")
     val testResponse: TestResponse?
 )
+
+class StartTestResponse(
+    @SerializedName("isSucceeded")
+    val isSucceeded: Boolean?,
+    @SerializedName("message")
+    val message: String?,
+    @SerializedName("responseObject")
+    val testSolutionQueryResponse: TestSolutionQueryResponse?,
+)

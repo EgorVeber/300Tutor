@@ -16,5 +16,6 @@ abstract class AppModule {
     abstract fun bindsResourceProvider(resourceProviderImpl: ResourceProviderImpl): ResourceProvider
 
     @Binds
+    @Singleton
     abstract fun bindsAccountManagerRepository(accountManagerRepositoryImpl: AccountManagerRepositoryImpl): AccountManagerRepository
 }

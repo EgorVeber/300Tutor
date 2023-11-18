@@ -24,13 +24,18 @@ class HomeFragment : BaseFragment(R.layout.home_fragment) {
 
                 }
 
+                R.id.subjectMenuItem -> {
+                    navigate(R.id.action_homeFragment_to_subjectFragment)
+                }
+
                 R.id.testSolvingMenuItem -> {
-                    this.navigate(R.id.action_homeFragment_to_solutionFragment)
+                    navigate(R.id.action_homeFragment_to_solutionFragment)
                 }
 
                 R.id.profileMenuItem -> {
-                    this.navigate(R.id.action_homeFragment_to_accountFragment)
+                    navigate(R.id.action_homeFragment_to_accountFragment)
                 }
+
             }
             true
         }

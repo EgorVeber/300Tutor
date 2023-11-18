@@ -2,7 +2,6 @@ package org.threehundredtutor.presentation.solution
 
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -17,6 +16,7 @@ import org.threehundredtutor.domain.solution.models.solution_models.AnswerValida
 import org.threehundredtutor.domain.solution.usecase.CheckAnswerUseCase
 import org.threehundredtutor.domain.solution.usecase.GetSolutionUseCase
 import org.threehundredtutor.domain.solution.usecase.ResultQuestionsValidationSaveUseCase
+import org.threehundredtutor.domain.solution.usecase.StartTestUseCase
 import org.threehundredtutor.presentation.solution.solution_factory.SolutionFactory
 import org.threehundredtutor.presentation.solution.ui_models.SolutionUiItem
 import org.threehundredtutor.presentation.solution.ui_models.answer_erros.AnswerWithErrorsResultUiItem
@@ -33,8 +33,9 @@ import java.util.Collections
 import javax.inject.Inject
 
 class SolutionViewModel @Inject constructor(
-    solutionFactory: SolutionFactory,
-    getSolutionUseCase: GetSolutionUseCase,
+    private val solutionFactory: SolutionFactory,
+    private val getSolutionUseCase: GetSolutionUseCase,
+    private val startTestUseCase: StartTestUseCase,
     private val checkAnswerUseCase: CheckAnswerUseCase,
     private val validationSaveUseCase: ResultQuestionsValidationSaveUseCase,
 ) : BaseViewModel() {
@@ -45,6 +46,7 @@ class SolutionViewModel @Inject constructor(
     private val testInfoState = MutableStateFlow<TestSolutionGeneralModel?>(null)
 
     private var currentSolutionId: String = EMPTY_STRING
+    private var currentSubjectTestId: String = EMPTY_STRING
 
     fun getUiItemStateFlow() = uiItemsState.asStateFlow()
     fun getLoadingStateFlow() = loadingState.asStateFlow()
@@ -53,10 +55,14 @@ class SolutionViewModel @Inject constructor(
 
     private var questionMap: MutableMap<String, List<String>> = mutableMapOf()
 
-    init {
+    fun onViewInitiated(subjectTestId: String) {
+        if (currentSubjectTestId == subjectTestId) return
         viewModelScope.launchJob(tryBlock = {
             loadingState.update { true }
-            val testSolutionModel = getSolutionUseCase.invoke(CURRENT_SOLUTION_ID)
+            // getSolutionUseCase.invoke(CURRENT_SOLUTяION_ID) // TODO TutorAndroid-38
+            currentSubjectTestId = subjectTestId
+            val testSolutionModel = startTestUseCase.invoke(currentSubjectTestId)
+
             currentSolutionId = testSolutionModel.solutionId
             testInfoState.update { testSolutionModel }
             val uiItemList = solutionFactory.createSolution(testSolutionModel)
@@ -285,7 +291,6 @@ class SolutionViewModel @Inject constructor(
     }
 
     companion object {
-        const val CURRENT_SOLUTION_ID = "21d17092-3b89-4da8-afe6-e0024e359cdb"
         const val ANSWERS_SEPARATOR = ";"
     }
 }
