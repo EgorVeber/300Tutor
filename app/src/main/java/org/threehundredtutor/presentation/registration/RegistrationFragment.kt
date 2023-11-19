@@ -16,6 +16,9 @@ class RegistrationFragment : BaseFragment(R.layout.registration_fragment) {
 
     lateinit var binding: RegistrationFragmentBinding
 
+    override val bottomMenuVisible: Boolean = false
+    override var customHandlerBackStackWithDelay = true
+
     override val viewModel by viewModels<RegistrationViewModel> {
         registrationComponent.viewModelMapFactory()
     }

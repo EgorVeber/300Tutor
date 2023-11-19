@@ -18,11 +18,13 @@ import org.threehundredtutor.di.solution.SolutionComponent
 import org.threehundredtutor.presentation.common.ActionDialogFragment
 import org.threehundredtutor.presentation.common.LoadingDialog
 import org.threehundredtutor.presentation.solution.adapter.SolutionManager
-import org.threehundredtutor.presentation.subject.SubjectFragment.Companion.SUBJECT_TEST_KEY
+import org.threehundredtutor.presentation.home.HomeFragment.Companion.SUBJECT_TEST_KEY
 
 class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
 
     private lateinit var binding: SolutionFragmentBinding
+
+    override val bottomMenuVisible: Boolean = false
 
     private val solutionComponent by lazy {
         SolutionComponent.createSolutionComponent()

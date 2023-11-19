@@ -2,7 +2,7 @@
     <string name="app_name">300Tutor</string>
     <string name="main_menu_home_title">Главная</string>
     <string name="main_menu_profile_title">Аккаунт</string>
-    <string name="main_menu_test_solving_title">Решение тестов</string>
+    <string name="main_menu_test_solution_title">Решение тестов</string>
     <string name="register_button">Register</string>
     <string name="register_text">Регистрация</string>
     <string name="email_text">E-mail</string>
@@ -75,4 +75,7 @@
     <string name="subject">Предметы</string>
     <string name="solution">Решение</string>
     <string name="start">Начать</string>
+    <string name="press_again">Нажмите ещё раз для выхода</string>
+    <string name="confirm_logout">Подтвердите выход</string>
+    <string name="warning_logout">Вы действительно хотите выйти?</string>
 </resources>

@@ -1,7 +1,7 @@
-package org.threehundredtutor.presentation.subject.mapper
+package org.threehundredtutor.presentation.home.mapper
 
 import org.threehundredtutor.domain.subject.models.SearchTestInfoModel
-import org.threehundredtutor.presentation.subject.ui_models.SubjectTestUiModel
+import org.threehundredtutor.presentation.home.ui_models.SubjectTestUiModel
 
 fun SearchTestInfoModel.toSubjectTestUiModel(subjectId: String): SubjectTestUiModel =
     SubjectTestUiModel(

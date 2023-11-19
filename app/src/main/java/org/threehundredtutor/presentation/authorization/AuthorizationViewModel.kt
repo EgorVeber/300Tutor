@@ -52,7 +52,7 @@ class AuthorizationViewModel @Inject constructor(
     private fun extractError(loginModel: LoginModel) {
         when (loginModel.errorType) {
             ErrorType.REGISTRATION_NOT_ENABLED,
-            ErrorType.ALREADY_AUTHENTICATED,
+            ErrorType.AlreadyAuthenticated,
             ErrorType.EMAIL_SHOULD_BE_SET,
             ErrorType.PHONE_NUMBER_SHOULD_BE_SET,
             ErrorType.USER_EMAIL_ALREADY_EXISTS,

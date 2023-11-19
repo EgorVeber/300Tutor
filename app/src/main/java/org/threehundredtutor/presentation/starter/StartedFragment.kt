@@ -13,6 +13,7 @@ import org.threehundredtutor.di.starter.StartedComponent
 class StartedFragment : BaseFragment(R.layout.started_fragment) {
 
     private lateinit var binding: StartedFragmentBinding
+    override val bottomMenuVisible = false
 
     private val startedComponent by lazy {
         StartedComponent.createStartedComponent()
@@ -30,9 +31,18 @@ class StartedFragment : BaseFragment(R.layout.started_fragment) {
     override fun onObserveData() {
         viewModel.getUiEventStateFlow().observeFlow(this) { state ->
             when (state) {
-                StarterViewModel.UiEvent.NavigateAuthorizationScreen -> navigate(R.id.action_startedFragment_to_authorizationFragment)
-                StarterViewModel.UiEvent.NavigateHomeScreen -> navigate(R.id.action_startedFragment_to_homeFragment)
-                StarterViewModel.UiEvent.NavigateRegistrationScreen -> navigate(R.id.action_startedFragment_to_registrationFragment)
+                StarterViewModel.UiEvent.NavigateAuthorizationScreen -> {
+                    navigate(R.id.action_startedFragment_to_authorizationFragment)
+                }
+
+                StarterViewModel.UiEvent.NavigateHomeScreen -> {
+                    navigate(R.id.action_startedFragment_to_homeFragment)
+                }
+
+                StarterViewModel.UiEvent.NavigateRegistrationScreen -> {
+                    navigate(R.id.action_startedFragment_to_registrationFragment)
+                }
+
                 StarterViewModel.UiEvent.Empty -> {}
             }
         }

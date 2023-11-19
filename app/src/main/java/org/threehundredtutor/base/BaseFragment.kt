@@ -6,16 +6,22 @@ import android.util.Log
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import org.threehundredtutor.R
 import org.threehundredtutor.common.extentions.observeFlow
 import org.threehundredtutor.common.extentions.showMessage
 import org.threehundredtutor.common.utils.BackPressed
+import org.threehundredtutor.common.viewcopmponents.addBackPressedCallback
+import org.threehundredtutor.common.viewcopmponents.addBackPressedDelayCallback
+import org.threehundredtutor.presentation.starter.BottomNavigationVisibility
 
 abstract class BaseFragment(@LayoutRes layoutResourceId: Int) : Fragment(layoutResourceId),
     BackPressed {
 
     abstract val viewModel: BaseViewModel
+
+    open val bottomMenuVisible: Boolean = true
+    open var customHandlerBackStack: Boolean = false
+    open var customHandlerBackStackWithDelay: Boolean = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -32,18 +38,25 @@ abstract class BaseFragment(@LayoutRes layoutResourceId: Int) : Fragment(layoutR
         onInitView()
         onObserveData()
         onObserveError()
+        if (customHandlerBackStackWithDelay) {
+            addBackPressedDelayCallback()
+        } else if (customHandlerBackStack) {
+            addBackPressedCallback { onBackPressed() }
+        }
     }
 
-    override fun onBackPressed() {
-        findNavController().popBackStack()
-    }
+    override fun onBackPressed() {}
 
     protected open fun onInject() {}
+
+    override fun onStart() {
+        (requireActivity() as BottomNavigationVisibility).visibility(bottomMenuVisible)
+        super.onStart()
+    }
 
     protected open fun onInitView() {}
 
     protected open fun onObserveData() {}
-
     protected open fun onObserveError() {
         viewModel.getErrorState().observeFlow(this) { errorState ->
             onError(errorState)
@@ -77,5 +90,4 @@ abstract class BaseFragment(@LayoutRes layoutResourceId: Int) : Fragment(layoutR
     private fun showErrorToast(toastText: String) {
         showMessage(toastText)
     }
-
 }

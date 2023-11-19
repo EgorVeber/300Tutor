@@ -8,9 +8,9 @@ import org.threehundredtutor.di.ScreenScope
 import org.threehundredtutor.di.ViewModelMapFactory
 
 
-@Component(modules = [SubjectModule::class])
+@Component(modules = [HomeModule::class])
 @ScreenScope
-interface SubjectComponent {
+interface HomeComponent {
     fun viewModelMapFactory(): ViewModelMapFactory
 
     @Component.Builder
@@ -18,14 +18,14 @@ interface SubjectComponent {
         @BindsInstance
         fun getServiceGeneratorProvider(serviceGeneratorProvider: ServiceGeneratorProvider): Builder
 
-        fun getSubjectComponentBuilder(): SubjectComponent
+        fun getHomeComponentBuilder(): HomeComponent
     }
 
     companion object {
-        fun createSubjectComponent(): SubjectComponent =
-            DaggerSubjectComponent
+        fun createHomeComponent(): HomeComponent =
+            DaggerHomeComponent
                 .builder()
                 .getServiceGeneratorProvider(DiSetHelper.appComponent.getServiceGeneratorProvider())
-                .getSubjectComponentBuilder()
+                .getHomeComponentBuilder()
     }
 }

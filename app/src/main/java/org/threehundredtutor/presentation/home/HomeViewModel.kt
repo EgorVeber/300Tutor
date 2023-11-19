@@ -1,4 +1,4 @@
-package org.threehundredtutor.presentation.subject
+package org.threehundredtutor.presentation.home
 
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,15 +10,15 @@ import org.threehundredtutor.common.extentions.SingleSharedFlow
 import org.threehundredtutor.common.extentions.launchJob
 import org.threehundredtutor.domain.subject.usecase.GetSubjectUseCase
 import org.threehundredtutor.domain.subject.usecase.SearchTestUseCase
-import org.threehundredtutor.presentation.subject.mapper.toSubjectTestUiModel
-import org.threehundredtutor.presentation.subject.ui_models.SubjectHeaderUiItem
-import org.threehundredtutor.presentation.subject.ui_models.SubjectTestUiModel
-import org.threehundredtutor.presentation.subject.ui_models.SubjectUiItem
-import org.threehundredtutor.presentation.subject.ui_models.SubjectUiModel
-import org.threehundredtutor.presentation.subject.ui_models.toSubjectUiModel
+import org.threehundredtutor.presentation.home.mapper.toSubjectTestUiModel
+import org.threehundredtutor.presentation.home.ui_models.SubjectHeaderUiItem
+import org.threehundredtutor.presentation.home.ui_models.SubjectTestUiModel
+import org.threehundredtutor.presentation.home.ui_models.SubjectUiItem
+import org.threehundredtutor.presentation.home.ui_models.SubjectUiModel
+import org.threehundredtutor.presentation.home.ui_models.toSubjectUiModel
 import javax.inject.Inject
 
-class SubjectViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val getSubjectUseCase: GetSubjectUseCase,
     private val searchTestUseCase: SearchTestUseCase
 ) : BaseViewModel() {
@@ -27,7 +27,6 @@ class SubjectViewModel @Inject constructor(
     private val uiEventState = SingleSharedFlow<UiEvent>()
     fun getUiEventStateFlow() = uiEventState.asSharedFlow()
     fun getUiItemStateFlow() = uiItemsState.asStateFlow()
-
 
     // TODO TutorAndroid-37 
     init {
