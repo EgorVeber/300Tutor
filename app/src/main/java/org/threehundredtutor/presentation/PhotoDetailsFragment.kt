@@ -18,6 +18,7 @@ class PhotoDetailsFragment : BaseFragment(R.layout.fragment_photo_details) {
     private lateinit var binding: FragmentPhotoDetailsBinding
 
     override val viewModel: BaseViewModel by viewModels()
+    override val bottomMenuVisible = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentPhotoDetailsBinding.bind(view)

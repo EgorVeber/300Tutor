@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.threehundredtutor.base.BaseViewModel
 import org.threehundredtutor.common.extentions.launchJob
+import org.threehundredtutor.data.core.models.ErrorType
 import org.threehundredtutor.domain.authorization.LoginDateModel
 import org.threehundredtutor.domain.authorization.LoginUseCase
 import org.threehundredtutor.domain.starter.GetAccountInfoUseCase
@@ -13,6 +14,7 @@ import org.threehundredtutor.domain.starter.GetThemePrefsUseCase
 import org.threehundredtutor.domain.starter.SetFirstStartAppUseCase
 import javax.inject.Inject
 
+// TODO сохздаеться 2 вьемодели подумать.
 class StarterViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val getAccountInfoUseCase: GetAccountInfoUseCase,
@@ -34,7 +36,7 @@ class StarterViewModel @Inject constructor(
 
                 login.isNotEmpty() && password.isNotEmpty() -> {
                     val loginModel = loginUseCase.invoke(LoginDateModel(password, false, login))
-                    if (loginModel.succeeded) {
+                    if (loginModel.succeeded || loginModel.errorType == ErrorType.AlreadyAuthenticated) {
                         uiEventState.tryEmit(UiEvent.NavigateHomeScreen)
                     } else {
                         uiEventState.tryEmit(UiEvent.NavigateAuthorizationScreen)
@@ -44,7 +46,6 @@ class StarterViewModel @Inject constructor(
                 else -> {
                     uiEventState.tryEmit(UiEvent.NavigateAuthorizationScreen)
                 }
-
             }
         }, catchBlock = { throwable ->
             handleError(throwable)
@@ -52,7 +53,8 @@ class StarterViewModel @Inject constructor(
     }
 
     fun getUiEventStateFlow() = uiEventState.asStateFlow()
-    fun onCreateActivity(): Int = getThemePrefsUseCase.invoke()
+    fun onCreateActivity(): Int = getThemePrefsUseCase()
+
 
     sealed interface UiEvent {
         object NavigateRegistrationScreen : UiEvent

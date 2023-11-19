@@ -8,15 +8,15 @@ import org.threehundredtutor.data.subject.SubjectRepositoryImpl
 import org.threehundredtutor.di.ScreenScope
 import org.threehundredtutor.di.ViewModelInjectMapKey
 import org.threehundredtutor.domain.subject.SubjectRepository
-import org.threehundredtutor.presentation.subject.SubjectViewModel
+import org.threehundredtutor.presentation.home.HomeViewModel
 
 
 @Module
-abstract class SubjectModule {
+abstract class HomeModule {
     @Binds
     @IntoMap
-    @ViewModelInjectMapKey(SubjectViewModel::class)
-    abstract fun getSubjectViewModel(subjectViewModel: SubjectViewModel): ViewModel
+    @ViewModelInjectMapKey(HomeViewModel::class)
+    abstract fun getHomeViewModel(homeViewModel: HomeViewModel): ViewModel
 
     @Binds
     @ScreenScope

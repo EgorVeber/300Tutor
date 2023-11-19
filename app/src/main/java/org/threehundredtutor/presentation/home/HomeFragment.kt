@@ -1,4 +1,4 @@
-package org.threehundredtutor.presentation.subject
+package org.threehundredtutor.presentation.home
 
 import android.os.Bundle
 import android.view.View
@@ -8,19 +8,21 @@ import org.threehundredtutor.base.BaseFragment
 import org.threehundredtutor.common.extentions.navigate
 import org.threehundredtutor.common.extentions.observeFlow
 import org.threehundredtutor.databinding.SubjectFragmentBinding
-import org.threehundredtutor.di.subject.SubjectComponent
+import org.threehundredtutor.di.subject.HomeComponent
 import org.threehundredtutor.presentation.common.ActionDialogFragment
-import org.threehundredtutor.presentation.subject.adapter.SubjectManager
-import org.threehundredtutor.presentation.subject.ui_models.SubjectTestUiModel
+import org.threehundredtutor.presentation.home.adapter.SubjectManager
+import org.threehundredtutor.presentation.home.ui_models.SubjectTestUiModel
 
-class SubjectFragment : BaseFragment(R.layout.subject_fragment) {
+class HomeFragment : BaseFragment(R.layout.subject_fragment) {
 
-    private val subjectComponent by lazy {
-        SubjectComponent.createSubjectComponent()
+    private val homeComponent by lazy {
+        HomeComponent.createHomeComponent()
     }
 
-    override val viewModel by viewModels<SubjectViewModel> {
-        subjectComponent.viewModelMapFactory()
+    override var customHandlerBackStackWithDelay = true
+
+    override val viewModel by viewModels<HomeViewModel> {
+        homeComponent.viewModelMapFactory()
     }
 
     private val delegateAdapter: SubjectManager = SubjectManager(
@@ -31,7 +33,6 @@ class SubjectFragment : BaseFragment(R.layout.subject_fragment) {
             viewModel.onSubjectTestClicked(subjectTestUiModel)
         }
     )
-
 
     private lateinit var binding: SubjectFragmentBinding
 
@@ -51,13 +52,13 @@ class SubjectFragment : BaseFragment(R.layout.subject_fragment) {
 
         viewModel.getUiEventStateFlow().observeFlow(this) { state ->
             when (state) {
-                is SubjectViewModel.UiEvent.NavigateSolution -> {
+                is HomeViewModel.UiEvent.NavigateSolution -> {
                     navigate(R.id.action_subjectFragment_to_solutionFragment, Bundle().apply {
                         putString(SUBJECT_TEST_KEY, state.subjectTestId)
                     })
                 }
 
-                is SubjectViewModel.UiEvent.ShowDialogStartTest -> {
+                is HomeViewModel.UiEvent.ShowDialogStartTest -> {
                     showActionDialogStartTest(state.subjectTestUiModel)
                 }
             }

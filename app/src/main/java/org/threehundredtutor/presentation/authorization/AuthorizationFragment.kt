@@ -16,11 +16,15 @@ import org.threehundredtutor.databinding.AuthorizationFragmentBinding
 import org.threehundredtutor.di.components.AuthorizationComponent
 import org.threehundredtutor.presentation.common.LoadingDialog
 
+
 class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment) {
 
     private val authorizationComponent by lazy {
         AuthorizationComponent.createAuthorizationComponent()
     }
+
+    override val bottomMenuVisible: Boolean = false
+    override var customHandlerBackStackWithDelay: Boolean = true
 
     override val viewModel by viewModels<AuthorizationViewModel> {
         authorizationComponent.viewModelMapFactory()

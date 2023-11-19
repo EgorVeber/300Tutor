@@ -1,4 +1,4 @@
-package org.threehundredtutor.presentation.subject.ui_models
+package org.threehundredtutor.presentation.home.ui_models
 
 data class SubjectTestUiModel(
     val subjectTestId: String,

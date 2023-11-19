@@ -14,6 +14,7 @@ import org.threehundredtutor.common.extentions.observeFlow
 import org.threehundredtutor.databinding.AccountFragmentBinding
 import org.threehundredtutor.di.account.AccountComponent
 import org.threehundredtutor.domain.account.AccountModel
+import org.threehundredtutor.presentation.common.ActionDialogFragment
 
 class AccountFragment : BaseFragment(R.layout.account_fragment) {
 
@@ -27,15 +28,21 @@ class AccountFragment : BaseFragment(R.layout.account_fragment) {
 
     private lateinit var binding: AccountFragmentBinding
 
+    override var customHandlerBackStack = true
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = AccountFragmentBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
     }
 
+    override fun onBackPressed() {
+        navigate(R.id.action_accountFragment_to_homeFragment)
+    }
+
     override fun onInitView() {
         super.onInitView()
         with(binding) {
-            logout.setOnClickListener { viewModel.onLogoutClick() }
+            logout.setOnClickListener { showLogoutDialog() }
             telegramBotContainer.setOnClickListener { viewModel.onTelegramClicked() }
         }
     }
@@ -59,6 +66,15 @@ class AccountFragment : BaseFragment(R.layout.account_fragment) {
         viewModel.getAccountErrorStateFlow().observeFlow(this) { errorAccount ->
             if (errorAccount) updateAccountError()
         }
+    }
+
+    private fun showLogoutDialog() {
+        ActionDialogFragment.showDialog(
+            title = getString(R.string.confirm_logout),
+            fragmentManager = childFragmentManager,
+            message = getString(R.string.warning_logout),
+            onPositiveClick = { viewModel.onLogoutClick() }
+        )
     }
 
     private fun openTelegram() {

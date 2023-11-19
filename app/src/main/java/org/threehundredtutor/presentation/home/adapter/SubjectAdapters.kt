@@ -1,13 +1,13 @@
-package org.threehundredtutor.presentation.subject.adapter
+package org.threehundredtutor.presentation.home.adapter
 
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import org.threehundredtutor.databinding.SubjectHeaderItemBinding
 import org.threehundredtutor.databinding.SubjectItemBinding
 import org.threehundredtutor.databinding.SubjectTestItemBinding
-import org.threehundredtutor.presentation.subject.ui_models.SubjectHeaderUiItem
-import org.threehundredtutor.presentation.subject.ui_models.SubjectTestUiModel
-import org.threehundredtutor.presentation.subject.ui_models.SubjectUiItem
-import org.threehundredtutor.presentation.subject.ui_models.SubjectUiModel
+import org.threehundredtutor.presentation.home.ui_models.SubjectHeaderUiItem
+import org.threehundredtutor.presentation.home.ui_models.SubjectTestUiModel
+import org.threehundredtutor.presentation.home.ui_models.SubjectUiItem
+import org.threehundredtutor.presentation.home.ui_models.SubjectUiModel
 
 object SubjectAdapters {
 

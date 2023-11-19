@@ -13,23 +13,23 @@
             android:id="@+id/action_startedFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
         <action
-            android:id="@+id/action_startedFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/authorizationFragment"
-            app:popUpToInclusive="true" />
-        <action
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/main_nav_graph"
+            app:popUpToInclusive="true"
             android:id="@+id/action_startedFragment_to_authorizationFragment"
-            app:destination="@id/authorizationFragment" />
+            app:destination="@id/authorizationFragment"
+            />
+        <action
+            android:id="@+id/action_startedFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/authorizationFragment"
+        app:launchSingleTop="true"
+        app:popUpTo="@+id/main_nav_graph"
+        app:popUpToInclusive="true"
         android:name="org.threehundredtutor.presentation.authorization.AuthorizationFragment"
         android:label="AuthorizationFragment">
-        <action
-            android:id="@+id/action_authorizationFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/authorizationFragment"
-            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_authorizationFragment_to_registration"
             app:destination="@id/registrationFragment" />
@@ -37,8 +37,8 @@
             android:id="@+id/action_authorizationFragment_to_restorPasswordFragment"
             app:destination="@id/restorPasswordFragment" />
         <action
-            android:id="@+id/action_authorizationFragment_to_solutionFragment"
-            app:destination="@id/solutionFragment" />
+            android:id="@+id/action_authorizationFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
@@ -52,20 +52,6 @@
         <action
             android:id="@+id/action_registrationFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="org.threehundredtutor.presentation.HomeFragment"
-        android:label="HomeFragment">
-        <action
-            android:id="@+id/action_homeFragment_to_accountFragment"
-            app:destination="@id/accountFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_solutionFragment"
-            app:destination="@id/solutionFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_subjectFragment"
-            app:destination="@id/subjectFragment" />
     </fragment>
     <fragment
         android:id="@+id/restorPasswordFragment"
@@ -82,6 +68,9 @@
         <action
             android:id="@+id/action_accountFragment_to_authorizationFragment"
             app:destination="@id/authorizationFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/solutionFragment"
@@ -106,11 +95,14 @@
             app:destination="@id/solutionFragment" />
     </fragment>
     <fragment
-        android:id="@+id/subjectFragment"
-        android:name="org.threehundredtutor.presentation.subject.SubjectFragment"
-        android:label="SubjectFragment" >
+        android:id="@+id/homeFragment"
+        android:name="org.threehundredtutor.presentation.home.HomeFragment"
+        android:label="HomeFragment">
         <action
             android:id="@+id/action_subjectFragment_to_solutionFragment"
             app:destination="@id/solutionFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_accountFragment"
+            app:destination="@id/accountFragment" />
     </fragment>
 </navigation>
