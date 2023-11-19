@@ -2,22 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/homeMenuItem"
+        android:id="@+id/homeFragment"
         android:icon="@drawable/ic_home"
         android:title="@string/main_menu_home_title"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/subjectMenuItem"
-        android:icon="@drawable/ic_graduation"
-        android:title="@string/subject"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/testSolvingMenuItem"
+        android:id="@+id/solutionHistoryFragment"
         android:icon="@drawable/ic_quality_education"
-        android:title="@string/main_menu_test_solving_title"
+        android:title="@string/main_menu_test_solution_title"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/profileMenuItem"
+        android:id="@+id/accountFragment"
         android:icon="@drawable/ic_persone"
         android:title="@string/main_menu_profile_title"
         app:showAsAction="ifRoom" />

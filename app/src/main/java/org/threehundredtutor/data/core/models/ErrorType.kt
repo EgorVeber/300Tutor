@@ -2,7 +2,7 @@ package org.threehundredtutor.data.core.models
 
 enum class ErrorType {
     REGISTRATION_NOT_ENABLED,
-    ALREADY_AUTHENTICATED,
+    AlreadyAuthenticated,
     EMAIL_SHOULD_BE_SET,
     PHONE_NUMBER_SHOULD_BE_SET,
     USER_EMAIL_ALREADY_EXISTS,

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/subjectLlContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/margin_2"
+    android:layout_marginTop="@dimen/margin_4"
+    android:layout_marginBottom="@dimen/margin_8"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/space_8"
+    android:paddingTop="@dimen/space_4">
+
+    <TextView
+        android:id="@+id/nameTestTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/textPrimary"
+        android:textSize="@dimen/text_18"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Глобальный тест по предмеasdasdasdasdasту ОБЖ ЕГЭ" />
+
+    <TextView
+        android:id="@+id/startTestDateTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_4"
+        android:fontFamily="@font/roboto"
+        android:textColor="?attr/textPrimary"
+        app:layout_constraintStart_toStartOf="@+id/nameTestTv"
+        app:layout_constraintTop_toBottomOf="@+id/nameTestTv"
+        tools:text="Начало: 17:58, 02.11.23 " />
+
+    <TextView
+        android:id="@+id/endTestDateTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/textPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/startTestDateTv"
+        app:layout_constraintTop_toTopOf="@+id/startTestDateTv"
+        tools:text="Конец: 02.11.22 12:01" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupNotFinished"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="groupEndDate,groupValidation" />
+
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="
+        indicatorIssuesResolvedPercent,
+        tv1indicatorIssuesResolvedPercent,
+        tv2indicatorIssuesResolvedPercent,
+        indicatorPointTestIsSolvedPercentTv,
+        tv1IndicatorPointtestIsSolvedPercentTv,
+        tv2IndicatorPointtestIsSolvedPercentTv,
+        indicatorPointWithTest,
+        tv1IndicatorPointWithTest,
+        tv2IndicatorPointWithTest" />
+
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupEndDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="endTestDateTv,separatorDate" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupValidation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="pointWithTestTv,testIsSolvedPercentTv,issuesResolvedPercent" />
+
+    <View
+        android:id="@+id/separatorDate"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_3"
+        android:layout_marginTop="@dimen/margin_4"
+        android:background="@drawable/separator_10"
+        app:layout_constraintBottom_toTopOf="@+id/pointWithTestTv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/endTestDateTv" />
+
+    <TextView
+        android:id="@+id/pointWithTestTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_8"
+        android:text="Получено 7 из 10 баллов"
+        android:textColor="?attr/textPrimary"
+        android:textSize="@dimen/text_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/nameTestTv"
+        app:layout_constraintTop_toBottomOf="@+id/separatorDate" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/indicatorPointWithTest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="4dp"
+        android:max="10"
+        android:progress="7"
+        app:indicatorColor="?attr/primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pointWithTestTv"
+        app:trackColor="@color/primary_tutor_40" />
+
+    <TextView
+        android:id="@+id/tv1IndicatorPointWithTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/textPrimary"
+        app:layout_constraintStart_toStartOf="@+id/indicatorPointWithTest"
+        app:layout_constraintTop_toBottomOf="@+id/indicatorPointWithTest" />
+
+    <TextView
+        android:id="@+id/tv2IndicatorPointWithTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/textPrimary"
+        app:layout_constraintEnd_toEndOf="@+id/indicatorPointWithTest"
+        app:layout_constraintTop_toBottomOf="@+id/indicatorPointWithTest" />
+
+    <TextView
+        android:id="@+id/testIsSolvedPercentTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16"
+        android:text="Решение теста: 30%"
+        android:textColor="?attr/textPrimary"
+        android:textSize="@dimen/text_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/nameTestTv"
+        app:layout_constraintTop_toBottomOf="@+id/indicatorPointWithTest" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/indicatorPointTestIsSolvedPercentTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="4dp"
+        android:max="100"
+        android:progress="30"
+        app:indicatorColor="?attr/primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/testIsSolvedPercentTv"
+        app:trackColor="@color/primary_tutor_40" />
+
+    <TextView
+        android:id="@+id/tv1IndicatorPointtestIsSolvedPercentTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/textPrimary"
+        app:layout_constraintStart_toStartOf="@+id/indicatorPointTestIsSolvedPercentTv"
+        app:layout_constraintTop_toBottomOf="@+id/indicatorPointTestIsSolvedPercentTv" />
+
+
+    <TextView
+        android:id="@+id/tv2IndicatorPointtestIsSolvedPercentTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/textPrimary"
+        app:layout_constraintEnd_toEndOf="@+id/indicatorPointTestIsSolvedPercentTv"
+        app:layout_constraintTop_toBottomOf="@+id/indicatorPointTestIsSolvedPercentTv" />
+
+    <TextView
+        android:id="@+id/issuesResolvedPercent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16"
+        android:text="Решение вопросов: 40%"
+        android:textColor="?attr/textPrimary"
+        android:textSize="@dimen/text_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/nameTestTv"
+        app:layout_constraintTop_toBottomOf="@+id/indicatorPointTestIsSolvedPercentTv" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/indicatorIssuesResolvedPercent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="4dp"
+        android:max="100"
+        android:progress="40"
+        app:indicatorColor="?attr/primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/issuesResolvedPercent"
+        app:trackColor="@color/primary_tutor_40" />
+
+    <TextView
+        android:id="@+id/tv1indicatorIssuesResolvedPercent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/textPrimary"
+        app:layout_constraintStart_toStartOf="@+id/indicatorIssuesResolvedPercent"
+        app:layout_constraintTop_toBottomOf="@+id/indicatorIssuesResolvedPercent" />
+
+    <TextView
+        android:id="@+id/tv2indicatorIssuesResolvedPercent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/textPrimary"
+        app:layout_constraintEnd_toEndOf="@+id/indicatorIssuesResolvedPercent"
+        app:layout_constraintTop_toBottomOf="@+id/indicatorIssuesResolvedPercent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

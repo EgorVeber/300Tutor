@@ -8,10 +8,10 @@ import org.threehundredtutor.base.BaseViewModel
 import org.threehundredtutor.common.extentions.SingleSharedFlow
 import org.threehundredtutor.common.extentions.launchJob
 import org.threehundredtutor.data.core.models.ErrorType
+import org.threehundredtutor.domain.SetAccountInfoUseCase
 import org.threehundredtutor.domain.authorization.LoginDateModel
 import org.threehundredtutor.domain.authorization.LoginModel
 import org.threehundredtutor.domain.authorization.LoginUseCase
-import org.threehundredtutor.domain.SetAccountInfoUseCase
 import javax.inject.Inject
 
 class AuthorizationViewModel @Inject constructor(
@@ -52,7 +52,7 @@ class AuthorizationViewModel @Inject constructor(
     private fun extractError(loginModel: LoginModel) {
         when (loginModel.errorType) {
             ErrorType.REGISTRATION_NOT_ENABLED,
-            ErrorType.ALREADY_AUTHENTICATED,
+            ErrorType.AlreadyAuthenticated,
             ErrorType.EMAIL_SHOULD_BE_SET,
             ErrorType.PHONE_NUMBER_SHOULD_BE_SET,
             ErrorType.USER_EMAIL_ALREADY_EXISTS,

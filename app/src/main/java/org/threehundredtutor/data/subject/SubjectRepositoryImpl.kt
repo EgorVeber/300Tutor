@@ -3,9 +3,9 @@ package org.threehundredtutor.data.subject
 import org.threehundredtutor.data.subject.mappers.toSearchTestModel
 import org.threehundredtutor.data.subject.mappers.toSubjectModel
 import org.threehundredtutor.data.subject.request.SearchTestsRequest
+import org.threehundredtutor.domain.subject.SubjectRepository
 import org.threehundredtutor.domain.subject.models.SearchTestModel
 import org.threehundredtutor.domain.subject.models.SubjectModel
-import org.threehundredtutor.domain.subject.SubjectRepository
 import javax.inject.Inject
 
 class SubjectRepositoryImpl @Inject constructor(

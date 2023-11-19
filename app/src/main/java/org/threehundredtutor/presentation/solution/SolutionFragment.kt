@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import org.threehundredtutor.R
 import org.threehundredtutor.base.BaseFragment
 import org.threehundredtutor.common.EMPTY_STRING
@@ -17,12 +18,15 @@ import org.threehundredtutor.databinding.SolutionFragmentBinding
 import org.threehundredtutor.di.solution.SolutionComponent
 import org.threehundredtutor.presentation.common.ActionDialogFragment
 import org.threehundredtutor.presentation.common.LoadingDialog
+import org.threehundredtutor.presentation.home.HomeFragment.Companion.SUBJECT_TEST_KEY
 import org.threehundredtutor.presentation.solution.adapter.SolutionManager
-import org.threehundredtutor.presentation.subject.SubjectFragment.Companion.SUBJECT_TEST_KEY
+import org.threehundredtutor.presentation.solution_history.SolutionHistoryFragment.Companion.SOLUTION_TEST_KEY
 
 class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
 
     private lateinit var binding: SolutionFragmentBinding
+
+    override val bottomMenuVisible: Boolean = false
 
     private val solutionComponent by lazy {
         SolutionComponent.createSolutionComponent()
@@ -83,7 +87,17 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
         super.onInitView()
         binding.recyclerSolution.adapter = delegateAdapter
         val subjectTestId = arguments?.getString(SUBJECT_TEST_KEY) ?: EMPTY_STRING
-        viewModel.onViewInitiated(subjectTestId)
+        val solutionTestId = arguments?.getString(SOLUTION_TEST_KEY) ?: EMPTY_STRING
+
+        if (subjectTestId.isNotEmpty()) {
+            viewModel.onViewInitiated(subjectTestId, true)
+        } else {
+            viewModel.onViewInitiated(solutionTestId, false)
+        }
+
+        binding.accountToolBar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     override fun onObserveData() {

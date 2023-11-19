@@ -13,7 +13,7 @@ class SolutionRemoteDataSource @Inject constructor(
 ) {
     private val service = { serviceGeneratorProvider.getService(SolutionService::class) }
 
-    suspend fun getSolution(solutionId: String) = service().getSolution(solutionId)
+    suspend fun getSolution(solutionId: String): TestSolutionQueryResponse = service().getSolution(solutionId)
     suspend fun startByTestId(testId: String): TestSolutionQueryResponse? = service().startByTestId(
         StartTestParams(true, null, testId)
     ).testSolutionQueryResponse

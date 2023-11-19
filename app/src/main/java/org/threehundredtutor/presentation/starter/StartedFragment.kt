@@ -7,12 +7,15 @@ import org.threehundredtutor.R
 import org.threehundredtutor.base.BaseFragment
 import org.threehundredtutor.common.extentions.navigate
 import org.threehundredtutor.common.extentions.observeFlow
+import org.threehundredtutor.common.viewcopmponents.applyWindowColor
+import org.threehundredtutor.common.viewcopmponents.dropWindowColor
 import org.threehundredtutor.databinding.StartedFragmentBinding
 import org.threehundredtutor.di.starter.StartedComponent
 
 class StartedFragment : BaseFragment(R.layout.started_fragment) {
 
     private lateinit var binding: StartedFragmentBinding
+    override val bottomMenuVisible = false
 
     private val startedComponent by lazy {
         StartedComponent.createStartedComponent()
@@ -24,17 +27,32 @@ class StartedFragment : BaseFragment(R.layout.started_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = StartedFragmentBinding.bind(view)
+        applyWindowColor(R.attr.defaultBlack)
         super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onObserveData() {
         viewModel.getUiEventStateFlow().observeFlow(this) { state ->
             when (state) {
-                StarterViewModel.UiEvent.NavigateAuthorizationScreen -> navigate(R.id.action_startedFragment_to_authorizationFragment)
-                StarterViewModel.UiEvent.NavigateHomeScreen -> navigate(R.id.action_startedFragment_to_homeFragment)
-                StarterViewModel.UiEvent.NavigateRegistrationScreen -> navigate(R.id.action_startedFragment_to_registrationFragment)
+                StarterViewModel.UiEvent.NavigateAuthorizationScreen -> {
+                    navigate(R.id.action_startedFragment_to_authorizationFragment)
+                }
+
+                StarterViewModel.UiEvent.NavigateHomeScreen -> {
+                    navigate(R.id.action_startedFragment_to_homeFragment)
+                }
+
+                StarterViewModel.UiEvent.NavigateRegistrationScreen -> {
+                    navigate(R.id.action_startedFragment_to_registrationFragment)
+                }
+
                 StarterViewModel.UiEvent.Empty -> {}
             }
         }
+    }
+
+    override fun onDestroyView() {
+        dropWindowColor()
+        super.onDestroyView()
     }
 }

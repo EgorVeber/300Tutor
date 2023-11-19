@@ -8,8 +8,8 @@ import org.threehundredtutor.data.authorization.AuthorizationRepositoryImpl
 import org.threehundredtutor.data.starter.StarterRepositoryImpl
 import org.threehundredtutor.di.ScreenScope
 import org.threehundredtutor.di.ViewModelInjectMapKey
-import org.threehundredtutor.domain.starter.StarterRepository
 import org.threehundredtutor.domain.authorization.AuthorizationRepository
+import org.threehundredtutor.domain.starter.StarterRepository
 import org.threehundredtutor.presentation.starter.StarterViewModel
 
 @Module
