@@ -33,7 +33,7 @@
         android:layout_gravity="center"
         android:layout_marginStart="@dimen/margin_8"
         android:layout_marginEnd="@dimen/margin_8"
-        android:text="@string/logout"
         android:textColor="?attr/textPrimary"
-        android:textSize="@dimen/text_20" />
+        android:textSize="@dimen/text_20"
+        android:text="Математика ЕГЭ"/>
 </androidx.appcompat.widget.LinearLayoutCompat>

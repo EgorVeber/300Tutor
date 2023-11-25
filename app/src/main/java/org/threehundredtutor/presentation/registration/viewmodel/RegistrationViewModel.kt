@@ -7,11 +7,11 @@ import kotlinx.coroutines.flow.SharedFlow
 import org.threehundredtutor.base.BaseViewModel
 import org.threehundredtutor.common.extentions.SingleSharedFlow
 import org.threehundredtutor.common.extentions.launchJob
+import org.threehundredtutor.domain.SetAccountInfoUseCase
 import org.threehundredtutor.domain.registration.models.RegistrationAccountAndSignInModel
 import org.threehundredtutor.domain.registration.models.RegistrationStudentAndSignInModel
 import org.threehundredtutor.domain.registration.usecases.RegistrationAccountUseCase
 import org.threehundredtutor.domain.registration.usecases.RegistrationStudentUseCase
-import org.threehundredtutor.domain.SetAccountInfoUseCase
 import javax.inject.Inject
 
 class RegistrationViewModel @Inject constructor(

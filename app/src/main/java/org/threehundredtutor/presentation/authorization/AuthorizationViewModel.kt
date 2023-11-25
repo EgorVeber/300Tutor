@@ -8,10 +8,10 @@ import org.threehundredtutor.base.BaseViewModel
 import org.threehundredtutor.common.extentions.SingleSharedFlow
 import org.threehundredtutor.common.extentions.launchJob
 import org.threehundredtutor.data.core.models.ErrorType
+import org.threehundredtutor.domain.SetAccountInfoUseCase
 import org.threehundredtutor.domain.authorization.LoginDateModel
 import org.threehundredtutor.domain.authorization.LoginModel
 import org.threehundredtutor.domain.authorization.LoginUseCase
-import org.threehundredtutor.domain.SetAccountInfoUseCase
 import javax.inject.Inject
 
 class AuthorizationViewModel @Inject constructor(

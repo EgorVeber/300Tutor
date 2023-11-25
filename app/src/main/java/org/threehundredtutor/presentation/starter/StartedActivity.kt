@@ -36,8 +36,8 @@ class StartedActivity : AppCompatActivity(), BottomNavigationVisibility {
                     navController.navigate(R.id.homeFragment)
                 }
 
-                R.id.testSolutionFragment -> {
-                    // TODO TutorAndroid-42 Добавить фрагмент решения тестов
+                R.id.solutionHistoryFragment -> {
+                    navController.navigate(R.id.solutionHistoryFragment)
                 }
 
                 R.id.accountFragment -> {

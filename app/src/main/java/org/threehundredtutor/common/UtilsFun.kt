@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.threehundredtutor.core.TutorApp
+import kotlin.math.roundToInt
 
 
 fun getAppContext(): Context = TutorApp.tutorAppInstance.applicationContext
@@ -95,6 +96,8 @@ fun String.getUrlYoutube(): Pair<Uri, Uri> =
 fun String.videoId() =
     this.substringAfterLast('=')
 
+fun String.addPercent() = "$this%"
+
 //TODO разбить все екстеншн по папачкам красиво
 
 fun View.hideKeyboard(): Boolean = try {
@@ -104,4 +107,9 @@ fun View.hideKeyboard(): Boolean = try {
     )
 } catch (ignored: RuntimeException) {
     false
+}
+
+fun Int.percentOf(value: Int): Int {
+    return if (this == 0 || value == 0) 0
+    else ((value.toDouble() / this) * 100).roundToInt()
 }

@@ -7,7 +7,7 @@
         android:title="@string/main_menu_home_title"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/testSolutionFragment"
+        android:id="@+id/solutionHistoryFragment"
         android:icon="@drawable/ic_quality_education"
         android:title="@string/main_menu_test_solution_title"
         app:showAsAction="ifRoom" />

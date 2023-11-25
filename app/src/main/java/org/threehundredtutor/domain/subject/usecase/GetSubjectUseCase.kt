@@ -1,7 +1,7 @@
 package org.threehundredtutor.domain.subject.usecase
 
-import org.threehundredtutor.domain.subject.models.SubjectModel
 import org.threehundredtutor.domain.subject.SubjectRepository
+import org.threehundredtutor.domain.subject.models.SubjectModel
 import javax.inject.Inject
 
 class GetSubjectUseCase @Inject constructor(

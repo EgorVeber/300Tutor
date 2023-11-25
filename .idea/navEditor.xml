@@ -81,6 +81,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_homeFragment_to_solutionHistoryFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_subjectFragment_to_solutionFragment">
                               <value>
                                 <LayoutPositions />
@@ -164,13 +169,34 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-348" />
-                            <option name="y" value="-272" />
+                            <option name="x" value="-339" />
+                            <option name="y" value="-266" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
                             <entry key="action_solutionFragment_to_photoDetailsFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="solutionHistoryFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-261" />
+                            <option name="y" value="-705" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_solutionHistoryFragment_to_homeFragment">
                               <value>
                                 <LayoutPositions />
                               </value>

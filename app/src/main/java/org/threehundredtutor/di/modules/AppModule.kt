@@ -5,7 +5,6 @@ import dagger.Module
 import org.threehundredtutor.common.utils.ResourceProvider
 import org.threehundredtutor.common.utils.ResourceProviderImpl
 import org.threehundredtutor.data.AccountManagerRepositoryImpl
-import org.threehundredtutor.di.ScreenScope
 import org.threehundredtutor.domain.AccountManagerRepository
 import javax.inject.Singleton
 

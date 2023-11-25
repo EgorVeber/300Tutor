@@ -34,4 +34,12 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowFullscreen">false</item>
     </style>
+
+    <style name="Widget.ChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipStrokeWidth">@dimen/size_1</item>
+        <item name="chipStrokeColor">?attr/secondary40</item>
+        <item name="android:textColor">@color/chip_text_color</item>
+        <item name="chipBackgroundColor">@color/chip_background_color</item>
+    </style>
+
 </resources>

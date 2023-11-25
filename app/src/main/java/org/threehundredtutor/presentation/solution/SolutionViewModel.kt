@@ -55,13 +55,20 @@ class SolutionViewModel @Inject constructor(
 
     private var questionMap: MutableMap<String, List<String>> = mutableMapOf()
 
-    fun onViewInitiated(subjectTestId: String) {
+    fun onViewInitiated(subjectTestId: String, isSubject: Boolean) {
         if (currentSubjectTestId == subjectTestId) return
         viewModelScope.launchJob(tryBlock = {
             loadingState.update { true }
-            // getSolutionUseCase.invoke(CURRENT_SOLUTяION_ID) // TODO TutorAndroid-38
+            //TODO TutorAndroid-38
             currentSubjectTestId = subjectTestId
-            val testSolutionModel = startTestUseCase.invoke(currentSubjectTestId)
+
+            val testSolutionModel = if (isSubject) {
+                startTestUseCase.invoke(currentSubjectTestId)
+            } else {
+                getSolutionUseCase.invoke(subjectTestId)
+            }
+
+
 
             currentSolutionId = testSolutionModel.solutionId
             testInfoState.update { testSolutionModel }
