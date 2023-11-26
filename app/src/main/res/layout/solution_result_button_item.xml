@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/contentBackground"
+    android:orientation="vertical"
     android:paddingHorizontal="@dimen/solution_item_space_horizontal">
 
     <com.google.android.material.button.MaterialButton
@@ -23,4 +24,15 @@
         app:iconSize="@dimen/size_24"
         tools:icon="@drawable/ic_allmost_answer"
         tools:text="@string/allmost_the_right_answer" />
-</FrameLayout>
+
+    <TextView
+        android:id="@+id/pointQuestionTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/margin_8"
+        android:text="@string/points_question"
+        android:textSize="@dimen/text_18"
+        android:visibility="gone"
+        tools:visibility="visible" />
+</LinearLayout>

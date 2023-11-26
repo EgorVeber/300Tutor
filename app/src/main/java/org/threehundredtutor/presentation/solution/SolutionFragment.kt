@@ -4,22 +4,26 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import org.threehundredtutor.R
 import org.threehundredtutor.base.BaseFragment
 import org.threehundredtutor.common.EMPTY_STRING
-import org.threehundredtutor.common.PHOTO_DETAILED_KEY
 import org.threehundredtutor.common.extentions.navigate
 import org.threehundredtutor.common.extentions.observeFlow
 import org.threehundredtutor.common.extentions.showMessage
+import org.threehundredtutor.common.extentions.showSnackbar
 import org.threehundredtutor.common.getUrlYoutube
+import org.threehundredtutor.common.utils.BundleString
 import org.threehundredtutor.databinding.SolutionFragmentBinding
 import org.threehundredtutor.di.solution.SolutionComponent
+import org.threehundredtutor.presentation.PhotoDetailsFragment.Companion.PHOTO_DETAILED_KEY
 import org.threehundredtutor.presentation.common.ActionDialogFragment
 import org.threehundredtutor.presentation.common.LoadingDialog
 import org.threehundredtutor.presentation.home.HomeFragment.Companion.SUBJECT_TEST_KEY
 import org.threehundredtutor.presentation.solution.adapter.SolutionManager
+import org.threehundredtutor.presentation.solution.ui_models.ResultTestUiModel
 import org.threehundredtutor.presentation.solution_history.SolutionHistoryFragment.Companion.SOLUTION_TEST_KEY
 
 class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
@@ -27,6 +31,8 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
     private lateinit var binding: SolutionFragmentBinding
 
     override val bottomMenuVisible: Boolean = false
+
+    override var customHandlerBackStack: Boolean = true
 
     private val solutionComponent by lazy {
         SolutionComponent.createSolutionComponent()
@@ -83,21 +89,21 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onInitView() {
-        super.onInitView()
+    override fun onBackPressed() {
+        viewModel.onBackClicked(binding.errorImageView.isVisible)
+    }
+
+    private val subjectId by BundleString(SUBJECT_TEST_KEY, EMPTY_STRING)
+
+    private val solutionId by BundleString(SOLUTION_TEST_KEY, EMPTY_STRING)
+
+    override fun onInitView(savedInstanceState: Bundle?) {
+        super.onInitView(savedInstanceState)
         binding.recyclerSolution.adapter = delegateAdapter
-        val subjectTestId = arguments?.getString(SUBJECT_TEST_KEY) ?: EMPTY_STRING
-        val solutionTestId = arguments?.getString(SOLUTION_TEST_KEY) ?: EMPTY_STRING
+        binding.accountToolBar.setNavigationOnClickListener { onBackPressed() }
+        binding.finishButton.setOnClickListener { viewModel.onFinishTestClicked() }
 
-        if (subjectTestId.isNotEmpty()) {
-            viewModel.onViewInitiated(subjectTestId, true)
-        } else {
-            viewModel.onViewInitiated(solutionTestId, false)
-        }
-
-        binding.accountToolBar.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        }
+        viewModel.onViewInitiated(subjectId, solutionId)
     }
 
     override fun onObserveData() {
@@ -116,15 +122,69 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
             showLoadingDialog(loading)
         }
 
+        viewModel.getFinishButtonState().observeFlow(this) { isVisible ->
+            binding.finishButton.isVisible = isVisible
+        }
+
         viewModel.getUiEventStateFlow().observeFlow(this) { state ->
             when (state) {
                 is SolutionViewModel.UiEvent.ShowMessage -> showMessage(state.message)
                 is SolutionViewModel.UiEvent.OpenYoutube -> showActionDialogOpenYoutube(state.link)
                 is SolutionViewModel.UiEvent.NavigatePhotoDetailed -> navigatePhotoDetailed(state.imageId)
+                is SolutionViewModel.UiEvent.ShowSnack -> showSnackbar(title = state.message)
                 is SolutionViewModel.UiEvent.ScrollToQuestion -> {}
-                is SolutionViewModel.UiEvent.ShowSnack -> {}
                 SolutionViewModel.UiEvent.ErrorSolution -> {}
+                SolutionViewModel.UiEvent.ShowFinishDialog -> {
+                    ActionDialogFragment.showDialog(
+                        fragmentManager = childFragmentManager,
+                        title = getString(R.string.finish_test_dialog),
+                        message = getString(R.string.finish_test_message),
+                        positiveText = getString(R.string.finish),
+                        neutralText = getString(R.string.come_back_later),
+                        onPositiveClick = {
+                            viewModel.onFinishTestClicked()
+                        },
+                        onNeutralClick = {
+                            findNavController().popBackStack()
+                        }
+                    )
+                }
+
+                SolutionViewModel.UiEvent.NavigateBack -> findNavController().popBackStack()
             }
+        }
+        viewModel.getResultTestStateStateFlow().observeFlow(this) { testResult ->
+            testResult?.let { bindTestResultUi(testResult) }
+        }
+
+        viewModel.getErrorStateFlow().observeFlow(this) { showError ->
+            binding.errorImageView.isVisible = showError
+            binding.rootContent.isVisible = !showError
+        }
+    }
+
+    private fun bindTestResultUi(testResult: ResultTestUiModel) {
+        binding.finishButton.isVisible = false
+        binding.testResultContainer.isVisible = true
+
+        binding.resultTestPoint.text = getString(
+            R.string.received_points_out_of_result,
+            testResult.answerPointsAll,
+            testResult.questionTotalPointsAll
+        )
+
+        binding.resultTestRightQuestion.text = getString(
+            R.string.you_answered_out_of_questions_correctly,
+            testResult.questionRight,
+            testResult.questionCount
+        )
+
+        if (testResult.questionCountNeedCheck.isNotEmpty()) {
+            binding.resultTestNeedToCheck.isVisible = true
+            binding.resultTestNeedToCheck.text = getString(
+                R.string.result_test_need_to_check_questions,
+                testResult.questionCountNeedCheck,
+            )
         }
     }
 

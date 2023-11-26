@@ -91,7 +91,7 @@ class SolutionHistoryFragment : BaseFragment(R.layout.fragment_solution_history)
         })
     }
 
-    override fun onInitView() {
+    override fun onInitView(savedInstanceState: Bundle?) {
         binding.recyclerSolutionHistory.adapter = delegateAdapter
         binding.completedSolution.setOnClickListener {
             viewModel.onCompletedChipClicked()
@@ -103,6 +103,12 @@ class SolutionHistoryFragment : BaseFragment(R.layout.fragment_solution_history)
             viewModel.onNotCompletedChipClicked()
         }
         binding.swipeRefreshLayout.setOnRefreshListener { viewModel.onRefresh() }
+    }
+
+    override fun onDestroyView() {
+        //  TODO потом обдумать поведение.
+        LoadingDialog.close(requireActivity().supportFragmentManager)
+        super.onDestroyView()
     }
 
     companion object {

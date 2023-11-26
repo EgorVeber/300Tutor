@@ -1,11 +1,16 @@
 package org.threehundredtutor.data.solution
 
+import org.threehundredtutor.common.EMPTY_STRING
 import org.threehundredtutor.data.core.ServiceGeneratorProvider
 import org.threehundredtutor.data.solution.models.BaseApiResponse
-import org.threehundredtutor.data.solution.models.StartTestParams
+import org.threehundredtutor.data.solution.models.QuestionAnswerWithResultBaseApiResponse
+import org.threehundredtutor.data.solution.models.QuestionAnswersWithResultBaseApiResponse
 import org.threehundredtutor.data.solution.models.TestSolutionQueryResponse
+import org.threehundredtutor.data.solution.models.finish_test.FinishSolutionRequest
+import org.threehundredtutor.data.solution.models.points.SolutionPointsResponse
 import org.threehundredtutor.data.solution.models.request.CheckAnswerRequest
 import org.threehundredtutor.data.solution.models.request.SaveQuestionPointsValidationRequest
+import org.threehundredtutor.data.solution.models.start_test.StartTestRequest
 import javax.inject.Inject
 
 class SolutionRemoteDataSource @Inject constructor(
@@ -13,16 +18,29 @@ class SolutionRemoteDataSource @Inject constructor(
 ) {
     private val service = { serviceGeneratorProvider.getService(SolutionService::class) }
 
-    suspend fun getSolution(solutionId: String): TestSolutionQueryResponse = service().getSolution(solutionId)
-    suspend fun startByTestId(testId: String): TestSolutionQueryResponse? = service().startByTestId(
-        StartTestParams(true, null, testId)
-    ).testSolutionQueryResponse
+    suspend fun getSolution(solutionId: String): TestSolutionQueryResponse =
+        service().getSolution(solutionId)
 
-    suspend fun checkAnswer(checkAnswerRequest: CheckAnswerRequest) =
+    suspend fun startByTestId(testId: String): TestSolutionQueryResponse? =
+        service().startByTestId(
+            StartTestRequest(
+                canCheckSingleQuestion = true,
+                studentGroupId = null, // Без нулл не работает
+                testId = testId
+            )
+        ).testSolutionQueryResponse
+
+    suspend fun checkAnswer(checkAnswerRequest: CheckAnswerRequest): QuestionAnswerWithResultBaseApiResponse =
         service().checkAnswer(checkAnswerRequest)
+
+    suspend fun finish(finishSolutionRequest: FinishSolutionRequest): QuestionAnswersWithResultBaseApiResponse =
+        service().finish(finishSolutionRequest)
 
     suspend fun resultQuestionsValidationSave(
         saveQuestionPointsValidationRequest: SaveQuestionPointsValidationRequest
     ): BaseApiResponse =
         service().resultQuestionsValidationSave(saveQuestionPointsValidationRequest)
+
+    suspend fun getResultPoints(solutionId: String): SolutionPointsResponse =
+        service().getResultPoints(solutionId)
 }

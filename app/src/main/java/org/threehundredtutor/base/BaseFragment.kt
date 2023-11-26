@@ -35,7 +35,7 @@ abstract class BaseFragment(@LayoutRes layoutResourceId: Int) : Fragment(layoutR
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        onInitView()
+        onInitView(savedInstanceState)
         onObserveData()
         onObserveError()
         if (customHandlerBackStackWithDelay) {
@@ -54,7 +54,7 @@ abstract class BaseFragment(@LayoutRes layoutResourceId: Int) : Fragment(layoutR
         super.onStart()
     }
 
-    protected open fun onInitView() {}
+    protected open fun onInitView(savedInstanceState: Bundle?) {}
 
     protected open fun onObserveData() {}
     protected open fun onObserveError() {

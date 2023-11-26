@@ -84,8 +84,18 @@
     <string name="all">Все</string>
     <string name="go">Перейти</string>
     <string name="received_points_out_of">Получено %1$s баллов из %2$s.</string>
+    <string name="received_points_out_of_result">Вы получили %1$s баллов из %2$s.</string>
+    <string name="you_answered_out_of_questions_correctly">Вы правильно ответили на %1$s из %2$s вопросов.</string>
     <string name="test_solved">Тест решён на %1$s.</string>
     <string name="of_issues_resolved">Решено %1$s вопросов</string>
     <string name="start_date">Дата начала: %1$s</string>
     <string name="end_date">Дата завершения: %1$s</string>
+    <string name="finish_test">Завершить тест</string>
+    <string name="points_question">Баллы: %1$s из %2$s.</string>
+    <string name="finish">Завершить</string>
+    <string name="finish_test_dialog">Завершение теста</string>
+    <string name="finish_test_message">Если завершите тест не сможете вернуться к решению</string>
+    <string name="come_back_later">Вернуться позже</string>
+    <string name="your_not_answer">[Вы не указали ответ]</string>
+    <string name="result_test_need_to_check_questions">Не проверен %1$s вопрос. Его необходимо проверить самому или с помощью куратора.</string>
 </resources>

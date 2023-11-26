@@ -8,7 +8,6 @@ import org.threehundredtutor.R
 import org.threehundredtutor.base.BaseFragment
 import org.threehundredtutor.base.BaseViewModel
 import org.threehundredtutor.common.EMPTY_STRING
-import org.threehundredtutor.common.PHOTO_DETAILED_KEY
 import org.threehundredtutor.common.loadServerOriginal
 import org.threehundredtutor.common.viewcopmponents.applyWindowColor
 import org.threehundredtutor.common.viewcopmponents.dropWindowColor
@@ -26,7 +25,7 @@ class PhotoDetailsFragment : BaseFragment(R.layout.fragment_photo_details) {
         applyWindowColor(R.attr.defaultBlack)
     }
 
-    override fun onInitView() {
+    override fun onInitView(savedInstanceState: Bundle?) {
         val imageId = arguments?.getString(PHOTO_DETAILED_KEY) ?: EMPTY_STRING
 
         if (imageId.isNotEmpty()) binding.photoView.loadServerOriginal(imageId)
@@ -40,5 +39,9 @@ class PhotoDetailsFragment : BaseFragment(R.layout.fragment_photo_details) {
     override fun onDestroy() {
         super.onDestroy()
         dropWindowColor()
+    }
+
+    companion object {
+        const val PHOTO_DETAILED_KEY = "PHOTO_DETAILED_KEY"
     }
 }

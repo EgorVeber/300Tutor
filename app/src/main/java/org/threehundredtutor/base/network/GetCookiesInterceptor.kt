@@ -1,8 +1,10 @@
 package org.threehundredtutor.base.network
+
 import okhttp3.Interceptor
 import okhttp3.Response
-import org.threehundredtutor.common.HEADER_SET_COOKIE
 import org.threehundredtutor.common.utils.AccountManager
+
+const val HEADER_SET_COOKIE = "Set-Cookie"
 
 class GetCookiesInterceptor(private val accountManager: AccountManager) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {

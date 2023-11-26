@@ -55,7 +55,6 @@ class StarterViewModel @Inject constructor(
     fun getUiEventStateFlow() = uiEventState.asStateFlow()
     fun onCreateActivity(): Int = getThemePrefsUseCase()
 
-
     sealed interface UiEvent {
         object NavigateRegistrationScreen : UiEvent
         object NavigateAuthorizationScreen : UiEvent

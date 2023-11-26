@@ -41,7 +41,7 @@ class HomeFragment : BaseFragment(R.layout.subject_fragment) {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onInitView() {
+    override fun onInitView(savedInstanceState: Bundle?) {
         binding.subjectRecycler.adapter = delegateAdapter
     }
 
