@@ -19,11 +19,7 @@ import coil.transform.RoundedCornersTransformation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import org.threehundredtutor.core.TutorApp
 import kotlin.math.roundToInt
-
-
-fun getAppContext(): Context = TutorApp.tutorAppInstance.applicationContext
 
 fun Boolean?.orFalse() = this ?: false
 
@@ -32,7 +28,6 @@ fun Int?.orDefaultNotValidValue() = this ?: DEFAULT_NOT_VALID_VALUE_INT
 // TODO привести к нормальному виду
 const val staticDomain = "https://mini-apps.crocosoft.ru/FileCopies/Images/Medium/"
 const val static = "https://mini-apps.crocosoft.ru/FileCopies/Images/Original/"
-
 
 // TODO привести к нормальному виду
 fun ImageView.loadServer(id: String) {

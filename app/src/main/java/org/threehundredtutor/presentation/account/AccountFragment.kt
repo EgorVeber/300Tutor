@@ -39,8 +39,7 @@ class AccountFragment : BaseFragment(R.layout.account_fragment) {
         navigate(R.id.action_accountFragment_to_homeFragment)
     }
 
-    override fun onInitView() {
-        super.onInitView()
+    override fun onInitView(savedInstanceState: Bundle?) {
         with(binding) {
             logout.setOnClickListener { showLogoutDialog() }
             telegramBotContainer.setOnClickListener { viewModel.onTelegramClicked() }

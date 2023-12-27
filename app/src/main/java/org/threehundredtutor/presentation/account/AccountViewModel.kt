@@ -46,11 +46,11 @@ class AccountViewModel @Inject constructor(
         })
     }
 
-    override fun handleError(throwable: Throwable) {
+    override fun handleError(throwable: Throwable, errorAction: (() -> Unit)?) {
         if (throwable is UnknownServerException) {
             accountErrorState.update { true }
         }
-        super.handleError(throwable)
+        super.handleError(throwable, errorAction)
     }
 
     fun onLogoutClick() {

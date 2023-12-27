@@ -8,6 +8,6 @@ class QuestionAnswerWithResultBaseApiResponse(
     val isSucceeded: Boolean?,
     @SerializedName("message")
     val message: String?,
-    @SerializedName("responseObject")// TODO обсудить с менеджером
+    @SerializedName("responseObject")
     val answerResponse: AnswerResponse?
 )

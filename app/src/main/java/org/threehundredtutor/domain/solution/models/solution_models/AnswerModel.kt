@@ -10,7 +10,7 @@ data class AnswerModel(
     val questionVersionId: String,
     val answerValidationResultType: AnswerValidationResultType
 ) {
-    fun isHaveAnswer() = this != EMPTY && this.answerOrAnswers.isNotEmpty() && this.isChecked
+    fun isHaveAnswer() = this != EMPTY && this.isChecked
 
     companion object {
 

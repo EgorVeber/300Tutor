@@ -1,6 +1,6 @@
 package org.threehundredtutor.domain.solution.models
 
-import TestSolutionModel
+import org.threehundredtutor.domain.solution.models.test_model.TestSolutionModel
 
 data class TestSolutionGeneralModel(
     val solutionId: String,

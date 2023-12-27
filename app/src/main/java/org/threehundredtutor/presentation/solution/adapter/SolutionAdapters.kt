@@ -119,7 +119,11 @@ object SolutionAdapters {
             { layoutInflater, root ->
                 SolutionResultButtonItemBinding.inflate(layoutInflater, root, false)
             }) {
-            bind { binding.answerResultButton.bindResultType(item.answerValidationResultType) }
+            bind {
+                binding.pointQuestionTv.text = item.pointString
+                binding.pointQuestionTv.isVisible = item.pointString.isNotEmpty()
+                binding.answerResultButton.bindResultType(item.answerValidationResultType)
+            }
         }
 
     /** Адаптеры для постоения интерфейса вопроса с типом SelectRightAnswerOrAnswers.*/
@@ -141,6 +145,7 @@ object SolutionAdapters {
             }
             bind { payloadList ->
                 if (payloadList.isEmpty()) {
+                    // TODO попытаться опимизировать есть полдлаги После добавления теста. TutorAndroid-31
                     binding.checkbox.text = item.answer
                     binding.checkbox.isChecked = item.checked
                     binding.checkbox.isEnabled = item.enabled
@@ -164,7 +169,11 @@ object SolutionAdapters {
             { layoutInflater, root ->
                 SolutionCheckButtonItemBinding.inflate(layoutInflater, root, false)
             }) {
-            binding.checkButton.setOnClickListener { selectRightAnswerCheckButtonClickListener.invoke(item.questionId) }
+            binding.checkButton.setOnClickListener {
+                selectRightAnswerCheckButtonClickListener.invoke(
+                    item.questionId
+                )
+            }
         }
 
     /** Адаптеры для постоения интерфейса вопроса с типом RightAnswer.*/
@@ -195,6 +204,8 @@ object SolutionAdapters {
                 SolutionRightAnswerResultItemBinding.inflate(layoutInflater, root, false)
             }) {
             bind {
+                binding.pointQuestionTv.text = item.pointsString
+                binding.pointQuestionTv.isVisible = item.pointsString.isNotEmpty()
                 binding.correctAnswerValue.text = item.rightAnswer
                 binding.yourAnswerValue.text = item.answer
                 binding.answerResultButton.bindResultType(item.answerValidationResultType)
@@ -222,6 +233,8 @@ object SolutionAdapters {
                 SolutionAnswerWithErrorsResultItemBinding.inflate(layoutInflater, root, false)
             }) {
             bind {
+                binding.pointQuestionTv.text = item.pointString
+                binding.pointQuestionTv.isVisible = item.pointString.isNotEmpty()
                 binding.correctAnswerValue.text = item.rightAnswer
                 binding.yourAnswerValue.text = item.answer
                 binding.answerResultButton.bindResultType(item.answerValidationResultType)
@@ -268,12 +281,15 @@ object SolutionAdapters {
                 }
             }
             bind {
+                binding.pointQuestionTv.text = item.pointsString
+                binding.pointQuestionTv.isVisible = item.pointsString.isNotEmpty()
                 binding.totalPointEditText.setText(item.pointTotal)
                 binding.estimateResultButton.bindResultType(item.type)
                 binding.estimateResultButton.isClickable = !item.isValidated
                 if (item.inputPoint.isNotEmpty()) {
                     binding.inputPointEditText.setText(item.inputPoint)
-                    binding.inputPointEditText.isEnabled = false
+                    binding.inputPointEditText.isEnabled =
+                        false // TODO возможно не нада блочить после установки оценки TutorAndroid-47
                 } else {
                     binding.inputPointEditText.text = null
                     binding.inputPointEditText.isEnabled = true

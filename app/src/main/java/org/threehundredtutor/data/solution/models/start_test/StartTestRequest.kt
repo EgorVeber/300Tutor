@@ -1,10 +1,10 @@
-package org.threehundredtutor.data.solution.models
+package org.threehundredtutor.data.solution.models.start_test
 
 import com.google.gson.annotations.SerializedName
 
-data class StartTestParams(
+class StartTestRequest(
     @SerializedName("canCheckSingleQuestion")
-    val canCheckSingleQuestion: Boolean,
+    val canCheckSingleQuestion: Boolean, // Не понятно на что влияет
     @SerializedName("studentGroupId")
     val studentGroupId: String?,
     @SerializedName("testId")

@@ -20,14 +20,16 @@ open class BaseViewModel : ViewModel() {
 
     fun getErrorState(): SharedFlow<ErrorState> = errorState.asSharedFlow()
 
-    open fun handleError(throwable: Throwable) {
+    open fun handleError(throwable: Throwable, errorAction: (() -> Unit)? = null) {
         when (throwable) {
             is BadRequestException, is ForbiddenServerException, is NotFoundServerException -> {
                 errorState.tryEmit(ErrorState.WrongData)
             }
+
             is UnauthorizedUserException -> {
                 errorState.tryEmit(ErrorState.UserUnathorized)
             }
+
             is InternalServerException,
             is BadGatewayException,
             is ServiceUnavailableException,
@@ -35,10 +37,12 @@ open class BaseViewModel : ViewModel() {
             is UnknownServerException -> {
                 errorState.tryEmit(ErrorState.ServerError)
             }
+
             else -> {
                 errorState.tryEmit(ErrorState.SomethingWrongError)
             }
         }
+        errorAction?.invoke()
     }
 
     sealed interface ErrorState {

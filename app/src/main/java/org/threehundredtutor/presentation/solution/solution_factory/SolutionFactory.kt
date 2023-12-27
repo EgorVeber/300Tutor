@@ -2,10 +2,13 @@ package org.threehundredtutor.presentation.solution.solution_factory
 
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
+import org.threehundredtutor.R
 import org.threehundredtutor.common.EMPTY_STRING
+import org.threehundredtutor.common.utils.ResourceProvider
 import org.threehundredtutor.domain.solution.models.TestSolutionGeneralModel
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerModel
-import org.threehundredtutor.domain.solution.models.solution_models.AnswerValidationResultType
+import org.threehundredtutor.domain.solution.models.solution_models.AnswerValidationResultType.NEED_TO_CHECK_BY_YOUR_SELF
+import org.threehundredtutor.domain.solution.models.solution_models.AnswerValidationResultType.UNKNOWN
 import org.threehundredtutor.domain.solution.models.test_model.QuestionModel
 import org.threehundredtutor.domain.solution.models.test_model.TestQuestionType
 import org.threehundredtutor.presentation.solution.mapper.toAnswerSelectRightUiModel
@@ -29,14 +32,16 @@ import org.threehundredtutor.presentation.solution.ui_models.select_right_answer
 import org.threehundredtutor.presentation.solution.ui_models.select_right_answer.SelectRightAnswerTitleUiItem
 import javax.inject.Inject
 
-class SolutionFactory @Inject constructor() {
+class SolutionFactory @Inject constructor(
+    private val resourceProvider: ResourceProvider
+) {
     private var solutionUiItems: MutableList<SolutionUiItem> = mutableListOf()
 
     fun createSolution(testSolutionGeneralModel: TestSolutionGeneralModel): List<SolutionUiItem> =
         testSolutionGeneralModel.testSolutionModel.flatMap { testSolutionUnionModel ->
             createSolutionItems(
                 questionModel = testSolutionUnionModel.questionModel,
-                answerModel = testSolutionUnionModel.answerModel
+                answerModel = testSolutionUnionModel.answerModel,
             )
         }
 
@@ -50,7 +55,10 @@ class SolutionFactory @Inject constructor() {
         solutionUiItems += createQuestionWithHtml(htmlString = questionModel.titleBodyMarkUp)
 
         if (answerModel.isHaveAnswer()) {
-            createResultAnswerWithType(questionModel = questionModel, answerModel = answerModel)
+            createResultAnswerWithType(
+                questionModel = questionModel,
+                answerModel = answerModel,
+            )
         } else {
             createSolutionForAnswerWithType(questionModel)
         }
@@ -93,29 +101,35 @@ class SolutionFactory @Inject constructor() {
 
     private fun createResultAnswerWithType(
         questionModel: QuestionModel,
-        answerModel: AnswerModel
+        answerModel: AnswerModel,
     ) {
         when (questionModel.testQuestionType) {
             TestQuestionType.SELECT_RIGHT_ANSWER_OR_ANSWERS -> {
-                createSelectAnswersResult(questionModel = questionModel, answerModel = answerModel)
+                createSelectAnswersResult(
+                    questionModel = questionModel,
+                    answerModel = answerModel,
+                )
             }
 
             TestQuestionType.TYPE_ANSWER_WITH_ERRORS -> {
                 createResultAnswerWithErrors(
                     rightAnswer = questionModel.typeAnswerWithErrorsModel.rightAnswer,
-                    answerModel = answerModel
+                    answerModel = answerModel,
                 )
             }
 
             TestQuestionType.TYPE_RIGHT_ANSWER -> {
                 createResultRightAnswer(
                     rightAnswers = questionModel.typeRightAnswerQuestionModel.rightAnswers,
-                    answerModel = answerModel
+                    answerModel = answerModel,
                 )
             }
 
             TestQuestionType.DETAILED_ANSWER -> {
-                createDetailedResultAnswer(questionModel = questionModel, answerModel = answerModel)
+                createDetailedResultAnswer(
+                    questionModel = questionModel,
+                    answerModel = answerModel,
+                )
             }
 
             TestQuestionType.UNKNOWN -> {}
@@ -124,7 +138,7 @@ class SolutionFactory @Inject constructor() {
 
     private fun createSelectAnswersResult(
         questionModel: QuestionModel,
-        answerModel: AnswerModel
+        answerModel: AnswerModel,
     ) {
         solutionUiItems.add(SelectRightAnswerTitleUiItem(questionModel.selectRightAnswerOrAnswersModel.selectRightAnswerTitle))
 
@@ -134,6 +148,7 @@ class SolutionFactory @Inject constructor() {
             }
 
         val rightAnswersList = questionModel.selectRightAnswerOrAnswersModel.answersList
+
 
         rightAnswersList.forEach { answerSelectRightModel ->
             solutionUiItems.add(
@@ -145,55 +160,104 @@ class SolutionFactory @Inject constructor() {
             )
         }
 
-        solutionUiItems.add(ResultButtonUiItem(answerModel.answerValidationResultType))
+        solutionUiItems.add(
+            ResultButtonUiItem(
+                questionId = questionModel.questionId,
+                answerValidationResultType = answerModel.answerValidationResultType,
+                pointString = getPointString(answerModel)
+            )
+        )
     }
 
     private fun createResultAnswerWithErrors(
         rightAnswer: String,
         answerModel: AnswerModel,
     ) {
+        val answer =
+            answerModel.answerOrAnswers.ifEmpty { resourceProvider.string(R.string.your_not_answer) }
+
         solutionUiItems.add(
             AnswerWithErrorsResultUiItem(
-                answer = answerModel.answerOrAnswers,
+                questionId = answerModel.questionId,
+                answer = answer,
                 rightAnswer = rightAnswer,
-                answerValidationResultType = answerModel.answerValidationResultType
+                answerValidationResultType = answerModel.answerValidationResultType,
+                pointString = getPointString(answerModel)
             )
         )
     }
 
     private fun createResultRightAnswer(
         rightAnswers: List<String>,
-        answerModel: AnswerModel
+        answerModel: AnswerModel,
     ) {
+        val answer =
+            answerModel.answerOrAnswers.ifEmpty { resourceProvider.string(R.string.your_not_answer) }
+
+        val pointsString = with(answerModel) {
+            if (pointsValidationModel.isValidated) {
+                resourceProvider.string(
+                    R.string.points_question,
+                    answerModel.pointsValidationModel.answerPoints,
+                    answerModel.pointsValidationModel.questionTotalPoints
+                )
+            } else EMPTY_STRING
+        }
+
         solutionUiItems.add(
             RightAnswerResultUiItem(
-                answer = answerModel.answerOrAnswers,
+                questionId = answerModel.questionId,
+                answer = answer,
                 rightAnswer = rightAnswers.joinToString(separator = "\n"),
-                answerValidationResultType = answerModel.answerValidationResultType
+                answerValidationResultType = answerModel.answerValidationResultType,
+                pointsString = pointsString
             )
         )
     }
 
-    private fun createDetailedResultAnswer(questionModel: QuestionModel, answerModel: AnswerModel) {
-        val answerOrAnswers = answerModel.answerOrAnswers
+    private fun createDetailedResultAnswer(
+        questionModel: QuestionModel,
+        answerModel: AnswerModel,
+    ) {
+        val answer =
+            answerModel.answerOrAnswers.ifEmpty { resourceProvider.string(R.string.your_not_answer) }
         val explanationList = createQuestionWithHtml(questionModel.answerExplanationMarkUp)
         val pointsValidationModel = answerModel.pointsValidationModel
         val isValidated = pointsValidationModel.isValidated
 
-        solutionUiItems.add(DetailedAnswerResultUiItem(answerOrAnswers))
+        solutionUiItems.add(DetailedAnswerResultUiItem(answer))
         solutionUiItems.addAll(explanationList)
 
-        if (!isValidated) solutionUiItems.add(ResultButtonUiItem(AnswerValidationResultType.NEED_TO_CHECK_BY_YOUR_SELF))
+        if (!isValidated) solutionUiItems.add(
+            ResultButtonUiItem(
+                questionId = questionModel.questionId,
+                answerValidationResultType = NEED_TO_CHECK_BY_YOUR_SELF,
+                pointString = getPointString(answerModel)
+            )
+        )
 
         solutionUiItems.add(
             DetailedAnswerValidationUiItem(
                 inputPoint = if (isValidated) pointsValidationModel.answerPoints.toString() else EMPTY_STRING,
                 pointTotal = pointsValidationModel.questionTotalPoints.toString(),
                 questionId = questionModel.questionId,
-                type = if (isValidated) answerModel.answerValidationResultType else AnswerValidationResultType.UNKNOWN,
-                isValidated = isValidated
+                type = if (isValidated) answerModel.answerValidationResultType else UNKNOWN,
+                isValidated = isValidated,
+                pointsString = getPointString(answerModel)
             )
         )
+    }
+
+    private fun getPointString(answerModel: AnswerModel): String {
+        val pointsString =
+            if (answerModel.pointsValidationModel.isValidated) {
+                resourceProvider.string(
+                    R.string.points_question,
+                    answerModel.pointsValidationModel.answerPoints,
+                    answerModel.pointsValidationModel.questionTotalPoints
+                )
+            } else EMPTY_STRING
+        return pointsString
     }
 
 

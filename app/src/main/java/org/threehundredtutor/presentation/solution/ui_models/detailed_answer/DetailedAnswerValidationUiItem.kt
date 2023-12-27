@@ -9,5 +9,6 @@ data class DetailedAnswerValidationUiItem(
     val questionId: String,
     val type: AnswerValidationResultType,
     val isValidated: Boolean,
+    val pointsString: String,
 ) : SolutionUiItem
 
