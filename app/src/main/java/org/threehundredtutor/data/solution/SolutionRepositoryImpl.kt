@@ -3,7 +3,6 @@ package org.threehundredtutor.data.solution
 import org.threehundredtutor.base.network.ServerException
 import org.threehundredtutor.data.solution.mappers.points.toSolutionPointsModel
 import org.threehundredtutor.data.solution.mappers.request.toSaveQuestionPointsValidationRequest
-import org.threehundredtutor.data.solution.mappers.toBaseApiModel
 import org.threehundredtutor.data.solution.mappers.toQuestionAnswerWithResultBaseApiModel
 import org.threehundredtutor.data.solution.mappers.toQuestionAnswersWithResultBaseApiModel
 import org.threehundredtutor.data.solution.mappers.toTestSolutionGeneralModel
@@ -11,8 +10,8 @@ import org.threehundredtutor.data.solution.models.finish_test.AnswerItemRequest
 import org.threehundredtutor.data.solution.models.finish_test.FinishSolutionRequest
 import org.threehundredtutor.data.solution.models.request.AnswerRequest
 import org.threehundredtutor.data.solution.models.request.CheckAnswerRequest
+import org.threehundredtutor.data.solution.models.request.QuestionSolutionIdRequest
 import org.threehundredtutor.domain.solution.SolutionRepository
-import org.threehundredtutor.domain.solution.models.BaseApiModel
 import org.threehundredtutor.domain.solution.models.QuestionAnswerWithResultBaseApiModel
 import org.threehundredtutor.domain.solution.models.QuestionAnswersWithResultBaseApiModel
 import org.threehundredtutor.domain.solution.models.TestSolutionGeneralModel
@@ -68,7 +67,8 @@ class SolutionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun startByTestId(testId: String): TestSolutionGeneralModel {
-        val testSolutionGeneralModel = solutionRemoteDataSource.startByTestId(testId)?.toTestSolutionGeneralModel()
+        val testSolutionGeneralModel =
+            solutionRemoteDataSource.startByTestId(testId)?.toTestSolutionGeneralModel()
                 ?: throw ServerException()
         solutionLocalDataSource.saveAnswers(testSolutionGeneralModel.testSolutionModel)
         return testSolutionGeneralModel
@@ -76,10 +76,21 @@ class SolutionRepositoryImpl @Inject constructor(
 
     override suspend fun resultQuestionsValidationSave(
         saveQuestionPointsValidationParamsModel: SaveQuestionPointsValidationParamsModel
-    ): BaseApiModel =
+    ): QuestionAnswerWithResultBaseApiModel =
         solutionRemoteDataSource.resultQuestionsValidationSave(
             saveQuestionPointsValidationParamsModel.toSaveQuestionPointsValidationRequest()
-        ).toBaseApiModel()
+        ).toQuestionAnswerWithResultBaseApiModel()
+
+    override suspend fun resultQuestionsValidationRemove(
+        solutionId: String,
+        questionId: String
+    ): QuestionAnswerWithResultBaseApiModel =
+        solutionRemoteDataSource.resultQuestionsValidationRemove(
+            QuestionSolutionIdRequest(
+                solutionId = solutionId,
+                questionId = questionId
+            )
+        ).toQuestionAnswerWithResultBaseApiModel()
 
     override fun isAllQuestionsHaveAnswers() = solutionLocalDataSource.isAllQuestionsHaveAnswers()
 

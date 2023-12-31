@@ -31,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/margin_8"
+        android:textColor="?attr/defaultBlack"
         android:text="@string/points_question"
         android:textSize="@dimen/text_18"
         android:visibility="gone"

@@ -67,6 +67,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/margin_8"
         android:text="@string/points_question"
+        android:textColor="?attr/defaultBlack"
         android:textSize="@dimen/text_18"
         android:visibility="gone" />
 </LinearLayout>
