@@ -36,11 +36,16 @@ class TutorSnackbar(
                 "No suitable parent found from the given view. Please provide a valid view."
             )
 
-            val customView = LayoutInflater.from(view.context).inflate(
+            val customView = (LayoutInflater.from(view.context).inflate(
                 R.layout.layout_snackbar_tutor,
                 parent,
                 false
-            ) as SnackbarView
+            ) as SnackbarView)
+
+            backgroundColor?.let {
+                customView.rootView.backgroundTintList =
+                    ColorStateList.valueOf(view.getColorAttr(backgroundColor, false))
+            }
 
             val tutorSnackbar = TutorSnackbar(parent, customView)
 
@@ -54,9 +59,6 @@ class TutorSnackbar(
 
             message?.let { customView.setMessage(it) }
 
-            backgroundColor?.let {
-                customView.rootView.backgroundTintList = ColorStateList.valueOf(it)
-            }
 
             val button = customView.findViewById<MaterialButton>(R.id.snackbarButton)
             buttonClick?.let {

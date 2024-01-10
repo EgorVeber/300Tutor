@@ -7,7 +7,6 @@ import org.threehundredtutor.common.EMPTY_STRING
 import org.threehundredtutor.common.utils.ResourceProvider
 import org.threehundredtutor.domain.solution.models.TestSolutionGeneralModel
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerModel
-import org.threehundredtutor.domain.solution.models.solution_models.AnswerValidationResultType.NEED_TO_CHECK_BY_YOUR_SELF
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerValidationResultType.UNKNOWN
 import org.threehundredtutor.domain.solution.models.test_model.QuestionModel
 import org.threehundredtutor.domain.solution.models.test_model.TestQuestionType
@@ -55,10 +54,7 @@ class SolutionFactory @Inject constructor(
         solutionUiItems += createQuestionWithHtml(htmlString = questionModel.titleBodyMarkUp)
 
         if (answerModel.isHaveAnswer()) {
-            createResultAnswerWithType(
-                questionModel = questionModel,
-                answerModel = answerModel,
-            )
+            createResultAnswerWithType(questionModel = questionModel, answerModel = answerModel)
         } else {
             createSolutionForAnswerWithType(questionModel)
         }
@@ -228,14 +224,6 @@ class SolutionFactory @Inject constructor(
         solutionUiItems.add(DetailedAnswerResultUiItem(answer))
         solutionUiItems.addAll(explanationList)
 
-        if (!isValidated) solutionUiItems.add(
-            ResultButtonUiItem(
-                questionId = questionModel.questionId,
-                answerValidationResultType = NEED_TO_CHECK_BY_YOUR_SELF,
-                pointString = getPointString(answerModel)
-            )
-        )
-
         solutionUiItems.add(
             DetailedAnswerValidationUiItem(
                 inputPoint = if (isValidated) pointsValidationModel.answerPoints.toString() else EMPTY_STRING,
@@ -243,7 +231,7 @@ class SolutionFactory @Inject constructor(
                 questionId = questionModel.questionId,
                 type = if (isValidated) answerModel.answerValidationResultType else UNKNOWN,
                 isValidated = isValidated,
-                pointsString = getPointString(answerModel)
+                pointsString = getPointString(answerModel),
             )
         )
     }
@@ -259,7 +247,6 @@ class SolutionFactory @Inject constructor(
             } else EMPTY_STRING
         return pointsString
     }
-
 
     private fun createSolutionForAnswerWithType(
         questionModel: QuestionModel,
@@ -301,9 +288,14 @@ class SolutionFactory @Inject constructor(
 
     private fun createDetailedAnswer(questionModel: QuestionModel) {
         val explanationList = createQuestionWithHtml(questionModel.answerExplanationMarkUp)
-        solutionUiItems.add(DetailedAnswerUiItem(questionModel.questionId, explanationList))
+        solutionUiItems.add(
+            DetailedAnswerUiItem(
+                questionId = questionModel.questionId,
+                inputAnswer = EMPTY_STRING,
+                explanationList = explanationList,
+            )
+        )
     }
-
 
     private fun createBottomItems(countDividerBottomQuestion: Int) {
         solutionUiItems.add(FooterUiItem())

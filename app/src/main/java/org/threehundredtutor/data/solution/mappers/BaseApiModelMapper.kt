@@ -6,5 +6,5 @@ import org.threehundredtutor.domain.solution.models.BaseApiModel
 
 fun BaseApiResponse.toBaseApiModel(): BaseApiModel = BaseApiModel(
     isSucceeded = isSucceeded.orFalse(),
-    message = message.orEmpty()
+    message = message.orEmpty(),
 )

@@ -1,14 +1,13 @@
 package org.threehundredtutor.data.solution
 
-import org.threehundredtutor.common.EMPTY_STRING
 import org.threehundredtutor.data.core.ServiceGeneratorProvider
-import org.threehundredtutor.data.solution.models.BaseApiResponse
 import org.threehundredtutor.data.solution.models.QuestionAnswerWithResultBaseApiResponse
 import org.threehundredtutor.data.solution.models.QuestionAnswersWithResultBaseApiResponse
 import org.threehundredtutor.data.solution.models.TestSolutionQueryResponse
 import org.threehundredtutor.data.solution.models.finish_test.FinishSolutionRequest
 import org.threehundredtutor.data.solution.models.points.SolutionPointsResponse
 import org.threehundredtutor.data.solution.models.request.CheckAnswerRequest
+import org.threehundredtutor.data.solution.models.request.QuestionSolutionIdRequest
 import org.threehundredtutor.data.solution.models.request.SaveQuestionPointsValidationRequest
 import org.threehundredtutor.data.solution.models.start_test.StartTestRequest
 import javax.inject.Inject
@@ -38,8 +37,13 @@ class SolutionRemoteDataSource @Inject constructor(
 
     suspend fun resultQuestionsValidationSave(
         saveQuestionPointsValidationRequest: SaveQuestionPointsValidationRequest
-    ): BaseApiResponse =
+    ): QuestionAnswerWithResultBaseApiResponse =
         service().resultQuestionsValidationSave(saveQuestionPointsValidationRequest)
+
+    suspend fun resultQuestionsValidationRemove(
+        questionSolutionIdRequest: QuestionSolutionIdRequest
+    ): QuestionAnswerWithResultBaseApiResponse =
+        service().resultQuestionsValidationRemove(questionSolutionIdRequest)
 
     suspend fun getResultPoints(solutionId: String): SolutionPointsResponse =
         service().getResultPoints(solutionId)

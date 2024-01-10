@@ -1,6 +1,5 @@
 package org.threehundredtutor.domain.solution
 
-import org.threehundredtutor.domain.solution.models.BaseApiModel
 import org.threehundredtutor.domain.solution.models.QuestionAnswerWithResultBaseApiModel
 import org.threehundredtutor.domain.solution.models.QuestionAnswersWithResultBaseApiModel
 import org.threehundredtutor.domain.solution.models.TestSolutionGeneralModel
@@ -18,9 +17,13 @@ interface SolutionRepository {
 
     suspend fun resultQuestionsValidationSave(
         saveQuestionPointsValidationParamsModel: SaveQuestionPointsValidationParamsModel
-    ): BaseApiModel
+    ): QuestionAnswerWithResultBaseApiModel
 
     suspend fun finishTest(solutionId: String): QuestionAnswersWithResultBaseApiModel
     suspend fun getResultPoints(solutionId: String): SolutionPointsModel
     fun isAllQuestionsHaveAnswers(): Boolean
+    suspend fun resultQuestionsValidationRemove(
+        solutionId: String,
+        questionId: String
+    ): QuestionAnswerWithResultBaseApiModel
 }

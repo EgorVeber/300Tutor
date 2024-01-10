@@ -10,5 +10,6 @@ data class SolutionPointsModel(
     val solutionId: String,
     val studentTotalPoints: Int,
     val validatedQuestionsCount: Int,
-    val inProccessQuestionsCount: Int
+    val inProccessQuestionsCount: Int,
+    val questionCountNeedCheck: Int
 )

@@ -46,9 +46,7 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
         imageClickListener = { imageId ->
             viewModel.onImageClicked(imageId)
         },
-
         youtubeClickListener = { link -> viewModel.onYoutubeClicked(link) },
-
         selectRightAnswerClickListener = { questionId, answer, checked ->
             viewModel.onCheckedChangeSelectRightAnswer(
                 questionId = questionId,
@@ -56,31 +54,32 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
                 checked = checked
             )
         },
-
         selectRightAnswerCheckButtonClickListener = { questionId ->
             viewModel.onSelectRightAnswerCheckButtonClicked(questionId)
         },
-
         rightAnswerClickListener = { rightAnswerUiModel, answer ->
             viewModel.onRightAnswerClicked(rightAnswerUiModel = rightAnswerUiModel, answer = answer)
         },
-
         answerWithErrorsClickListener = { questionAnswerWithErrorsUiModel, answer ->
             viewModel.onAnswerWithErrorClicked(
                 answerWithErrorsUiModel = questionAnswerWithErrorsUiModel, answer = answer
             )
         },
-
         detailedAnswerClickListener = { questionDetailedAnswerUiModel, answer ->
             viewModel.onDetailedAnswerClicked(
                 detailedAnswerUiItem = questionDetailedAnswerUiModel, answer = answer
             )
         },
-
         detailedAnswerValidationClickListener = { answerValidationItemUiModel, inputPoint ->
-            viewModel.onDetailedAnswerValidationClicked(
+            viewModel.onDetailedAnswerValidationSaveClicked(
                 answerValidationItemUiModel = answerValidationItemUiModel, inputPoint = inputPoint
             )
+        },
+        deleteValidationClickListener = { answerValidationItemUiModel ->
+            viewModel.onDeleteValidationClicked(answerValidationItemUiModel)
+        },
+        detailedAnswerTextChangedListener = { item, text ->
+            viewModel.onDetailedAnswerTextChanged(item, text)
         }
     )
 
@@ -107,7 +106,6 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
     }
 
     override fun onObserveData() {
-
         viewModel.getTestInfoStateFlow().observeFlow(this) { testSolutionGeneralModel ->
             testSolutionGeneralModel?.let {
                 binding.testTitle.text = it.nameTest
@@ -131,7 +129,11 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
                 is SolutionViewModel.UiEvent.ShowMessage -> showMessage(state.message)
                 is SolutionViewModel.UiEvent.OpenYoutube -> showActionDialogOpenYoutube(state.link)
                 is SolutionViewModel.UiEvent.NavigatePhotoDetailed -> navigatePhotoDetailed(state.imageId)
-                is SolutionViewModel.UiEvent.ShowSnack -> showSnackbar(title = state.message)
+                is SolutionViewModel.UiEvent.ShowSnack -> showSnackbar(
+                    title = state.message,
+                    backgroundColor = state.snackBarType.colorRes
+                )
+
                 is SolutionViewModel.UiEvent.ScrollToQuestion -> {}
                 SolutionViewModel.UiEvent.ErrorSolution -> {}
                 SolutionViewModel.UiEvent.ShowFinishDialog -> {
@@ -185,6 +187,8 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
                 R.string.result_test_need_to_check_questions,
                 testResult.questionCountNeedCheck,
             )
+        } else {
+            binding.resultTestNeedToCheck.isVisible = false
         }
     }
 
@@ -196,6 +200,7 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
             onPositiveClick = { openYoutubeLink(link) },
         )
     }
+
 
     private fun showLoadingDialog(loading: Boolean) {
         if (loading) {

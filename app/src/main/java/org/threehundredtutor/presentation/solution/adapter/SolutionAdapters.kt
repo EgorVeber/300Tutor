@@ -2,6 +2,7 @@ package org.threehundredtutor.presentation.solution.adapter
 
 import android.text.InputFilter
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import org.threehundredtutor.R
 import org.threehundredtutor.common.applyBackground
@@ -242,18 +243,30 @@ object SolutionAdapters {
         }
 
     /** Адаптер для постоения интерфейса вопроса с типом Detailed.*/
-    fun getDetailedAnswerUiItemAdapter(detailedAnswerClickListener: (DetailedAnswerUiItem, String) -> Unit) =
+    fun getDetailedAnswerUiItemAdapter(
+        detailedAnswerClickListener: (DetailedAnswerUiItem, String) -> Unit,
+        detailedAnswerTextChangedListener: (DetailedAnswerUiItem, String) -> Unit
+    ) =
         adapterDelegateViewBinding<DetailedAnswerUiItem, SolutionUiItem, SolutionDetailedAnswerItemBinding>(
             { layoutInflater, root ->
                 SolutionDetailedAnswerItemBinding.inflate(
                     layoutInflater, root, false
                 )
-            }) {
+            })
+        {
             binding.checkButton.setOnClickListener { view ->
                 val answer = binding.answerEditText.trimText()
                 if (answer.isNotEmpty()) {
                     detailedAnswerClickListener.invoke(item, answer)
                     view.hideKeyboard()
+                }
+            }
+            binding.answerEditText.addTextChangedListener {
+                detailedAnswerTextChangedListener.invoke(item, it.toString())
+            }
+            bind { payloadList ->
+                if (payloadList.isEmpty()) {
+                    binding.answerEditText.setText(item.inputAnswer)
                 }
             }
         }
@@ -266,12 +279,15 @@ object SolutionAdapters {
             bind { binding.yourAnswerValue.text = item.answer }
         }
 
-    fun getDetailedAnswerValidationUiItemAdapted(detailedAnswerValidationClickListener: (DetailedAnswerValidationUiItem, String) -> Unit) =
+    fun getDetailedAnswerValidationUiItemAdapted(
+        detailedAnswerValidationClickListener: (DetailedAnswerValidationUiItem, String) -> Unit,
+        deleteValidationClickListener: (DetailedAnswerValidationUiItem) -> Unit
+    ) =
         adapterDelegateViewBinding<DetailedAnswerValidationUiItem, SolutionUiItem, SolutionDetailedAnswerValidationItemBinding>(
             { layoutInflater, root ->
                 SolutionDetailedAnswerValidationItemBinding.inflate(layoutInflater, root, false)
             }) {
-            binding.estimateResultButton.setOnClickListener { view ->
+            binding.estimateButton.setOnClickListener { view ->
                 if (!item.isValidated) {
                     val inputPoint = binding.inputPointEditText.text.toString().trim()
                     if (inputPoint.isNotEmpty()) {
@@ -280,19 +296,22 @@ object SolutionAdapters {
                     }
                 }
             }
+            binding.iconDelete.setOnClickListener { deleteValidationClickListener.invoke(item) }
             bind {
-                binding.pointQuestionTv.text = item.pointsString
-                binding.pointQuestionTv.isVisible = item.pointsString.isNotEmpty()
+                // binding.pointQuestionTv.text = item.pointsString
+                // binding.pointQuestionTv.isVisible = item.pointsString.isNotEmpty()
                 binding.totalPointEditText.setText(item.pointTotal)
-                binding.estimateResultButton.bindResultType(item.type)
-                binding.estimateResultButton.isClickable = !item.isValidated
+                binding.iconDelete.isVisible = item.isValidated
+                binding.resultButton.bindResultType(item.type) // можно кастыль пока сервак неправильно присылает
+                binding.resultButton.isVisible = item.isValidated
+                binding.estimateButton.isClickable = !item.isValidated
+                binding.estimateButton.isVisible = !item.isValidated
+                binding.needToCheckButton.isVisible = !item.isValidated
+                binding.inputPointEditText.isEnabled = !item.isValidated
                 if (item.inputPoint.isNotEmpty()) {
                     binding.inputPointEditText.setText(item.inputPoint)
-                    binding.inputPointEditText.isEnabled =
-                        false // TODO возможно не нада блочить после установки оценки TutorAndroid-47
                 } else {
                     binding.inputPointEditText.text = null
-                    binding.inputPointEditText.isEnabled = true
                 }
             }
         }

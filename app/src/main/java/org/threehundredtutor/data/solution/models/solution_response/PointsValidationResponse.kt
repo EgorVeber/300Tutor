@@ -10,5 +10,15 @@ class PointsValidationResponse(
     @SerializedName("isValidated")
     val isValidated: Boolean?,
     @SerializedName("questionTotalPoints")
-    val questionTotalPoints: Int?
+    val questionTotalPoints: Int?,
+    @SerializedName("errorOccured")
+    val errorOccured: Boolean?,
+    @SerializedName("inProccess")
+    val inProccess: Boolean?,
+    @SerializedName("sourceType")
+    val sourceType: String?, //System, Student, Curator ENUM
+    @SerializedName("gptSystemType")
+    val gptSystemType: String?, // Default, Gpt, GigaChat ENUM
+    @SerializedName("validatorId")
+    val validatorId: String?,
 )

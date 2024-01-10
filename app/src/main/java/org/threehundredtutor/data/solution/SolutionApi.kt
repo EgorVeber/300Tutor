@@ -8,7 +8,8 @@ object SolutionApi {
     const val TUTOR_TEST_SOLUTION_RESULT_POINTS = "tutor/test-solution-result/points/{solutionId}"
     const val TUTOR_TEST_SOLUTION_RESULT_QUESTIONS_VALIDATION_SAVE =
         "tutor/test-solution-result/question/validation/save"
-
+    const val TUTOR_TEST_SOLUTION_RESULT_QUESTIONS_VALIDATION_REMOVE =
+        "tutor/test-solution-result/question/validation/remove"
     const val ID = "id"
     const val SOLUTION_ID = "solutionId"
 }

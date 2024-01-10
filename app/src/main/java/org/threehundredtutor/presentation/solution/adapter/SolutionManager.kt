@@ -36,7 +36,9 @@ class SolutionManager(
     rightAnswerClickListener: (RightAnswerUiModel, String) -> Unit,
     answerWithErrorsClickListener: (AnswerWithErrorsUiModel, String) -> Unit,
     detailedAnswerClickListener: (DetailedAnswerUiItem, String) -> Unit,
+    detailedAnswerTextChangedListener: (DetailedAnswerUiItem, String) -> Unit,
     detailedAnswerValidationClickListener: (DetailedAnswerValidationUiItem, String) -> Unit,
+    deleteValidationClickListener: (DetailedAnswerValidationUiItem) -> Unit,
 ) : AsyncListDifferDelegationAdapter<SolutionUiItem>(DIFF_CALLBACK) {
 
     init {
@@ -61,10 +63,18 @@ class SolutionManager(
             .addDelegate(getRightAnswerResultUiItemAdapter())
             .addDelegate(getAnswerWithErrorsUiModelAdapter(answerWithErrorsClickListener))
             .addDelegate(getAnswerWithErrorsResultUiItemAdapter())
-            .addDelegate(getDetailedAnswerUiItemAdapter(detailedAnswerClickListener))
+            .addDelegate(
+                getDetailedAnswerUiItemAdapter(
+                    detailedAnswerClickListener,
+                    detailedAnswerTextChangedListener
+                )
+            )
             .addDelegate(getDetailedAnswerResultUiItemAdapter())
             .addDelegate(
-                getDetailedAnswerValidationUiItemAdapted(detailedAnswerValidationClickListener)
+                getDetailedAnswerValidationUiItemAdapted(
+                    detailedAnswerValidationClickListener,
+                    deleteValidationClickListener
+                )
             )
     }
 
@@ -87,6 +97,8 @@ class SolutionManager(
 
             override fun getChangePayload(oldItem: SolutionUiItem, newItem: SolutionUiItem): Any? {
                 return if (oldItem is AnswerSelectRightUiModel && newItem is AnswerSelectRightUiModel && oldItem.checked != newItem.checked) {
+                    true
+                } else if (oldItem is DetailedAnswerUiItem && newItem is DetailedAnswerUiItem) {
                     true
                 } else null
             }
