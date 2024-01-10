@@ -1,4 +1,4 @@
-package org.threehundredtutor.domain.account
+package org.threehundredtutor.domain.account.models
 
 data class LogoutModel(
     val isSucceeded: Boolean,

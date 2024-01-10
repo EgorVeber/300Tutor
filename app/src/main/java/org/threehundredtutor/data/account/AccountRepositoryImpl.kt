@@ -1,9 +1,12 @@
 package org.threehundredtutor.data.account
 
 import org.threehundredtutor.common.utils.AccountManager
-import org.threehundredtutor.domain.account.AccountModel
+import org.threehundredtutor.data.account.mappers.toAccountModel
+import org.threehundredtutor.data.account.mappers.toCreateLoginLinkResultModel
+import org.threehundredtutor.data.account.mappers.toLogoutModel
 import org.threehundredtutor.domain.account.AccountRepository
-import org.threehundredtutor.domain.account.LogoutModel
+import org.threehundredtutor.domain.account.models.AccountModel
+import org.threehundredtutor.domain.account.models.LogoutModel
 import javax.inject.Inject
 
 class AccountRepositoryImpl @Inject constructor(
@@ -19,4 +22,7 @@ class AccountRepositoryImpl @Inject constructor(
             accountManager.clearCookie()
         }
     }
+
+    override suspend fun createAuthentication() =
+        accountRemoteDataSource.createAuthentication().toCreateLoginLinkResultModel()
 }
