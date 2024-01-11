@@ -25,46 +25,6 @@
             app:titleTextAppearance="@style/TitleToolbarTextAppearance"
             app:titleTextColor="?attr/secondary" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/telegramBotContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_8"
-            android:background="?attr/contentBackground"
-            android:orientation="horizontal"
-            android:paddingVertical="@dimen/margin_8"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/accountInfoContainer">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="@dimen/size_36"
-                android:layout_height="@dimen/size_36"
-                android:layout_marginStart="@dimen/margin_12"
-                android:backgroundTint="?attr/background"
-                app:cardCornerRadius="@dimen/radius_full"
-                app:cardElevation="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_open_telegram"
-                    app:tint="?attr/primary" />
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/margin_8"
-                android:text="@string/open_telegram_title"
-                android:textColor="@color/default_black"
-                android:textSize="@dimen/text_16" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/accountInfoContainer"
@@ -177,6 +137,88 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/telegramBotContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_12"
+            android:background="?attr/contentBackground"
+            android:orientation="horizontal"
+            android:paddingVertical="@dimen/margin_8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/accountInfoContainer">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="@dimen/size_36"
+                android:layout_height="@dimen/size_36"
+                android:layout_marginStart="@dimen/margin_12"
+                android:backgroundTint="?attr/background"
+                app:cardCornerRadius="@dimen/radius_full"
+                app:cardElevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_open_telegram"
+                    app:tint="?attr/primary" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/margin_8"
+                android:text="@string/open_telegram_title"
+                android:textColor="@color/default_black"
+                android:textSize="@dimen/text_16" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/siteContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_12"
+            android:background="?attr/contentBackground"
+            android:orientation="horizontal"
+            android:paddingVertical="@dimen/margin_8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/telegramBotContainer">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="@dimen/size_36"
+                android:layout_height="@dimen/size_36"
+                android:layout_marginStart="@dimen/margin_12"
+                android:backgroundTint="?attr/background"
+                app:cardCornerRadius="@dimen/radius_full"
+                app:cardElevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_site"
+                    app:tint="?attr/primary" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/margin_8"
+                android:text="@string/site"
+                android:textColor="?attr/defaultBlack"
+                android:textSize="@dimen/text_16" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -222,8 +264,8 @@
 
     <ProgressBar
         android:id="@+id/progress"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:visibility="gone" />
 </FrameLayout>

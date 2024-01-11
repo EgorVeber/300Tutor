@@ -9,48 +9,46 @@ import org.threehundredtutor.base.BaseViewModel
 import org.threehundredtutor.base.network.UnknownServerException
 import org.threehundredtutor.common.extentions.SingleSharedFlow
 import org.threehundredtutor.common.extentions.launchJob
-import org.threehundredtutor.domain.account.AccountModel
-import org.threehundredtutor.domain.account.GetAccountUseCase
-import org.threehundredtutor.domain.account.LogoutUseCase
+import org.threehundredtutor.domain.account.models.AccountModel
+import org.threehundredtutor.domain.account.usecase.CreateLoginLinkResultUseCase
+import org.threehundredtutor.domain.account.usecase.GetAccountUseCase
+import org.threehundredtutor.domain.account.usecase.LogoutUseCase
 import javax.inject.Inject
 
 class AccountViewModel @Inject constructor(
     private val getAccountUseCase: GetAccountUseCase,
     private val logoutUseCase: LogoutUseCase,
+    private val createLoginLinkResultUseCase: CreateLoginLinkResultUseCase,
 ) : BaseViewModel() {
 
-    private val accountState = MutableStateFlow(AccountModel.EMPTY)
     private val loadingState = MutableStateFlow(false)
+    private val accountUiEventState = SingleSharedFlow<AccountUiEvent>()
+
+    private val accountInfoState = MutableStateFlow(AccountModel.EMPTY)
     private val accountErrorState = MutableStateFlow(false)
-    private val actionAccountState = SingleSharedFlow<UiActionAccount>()
 
     init {
         getAccountInfo()
     }
 
-    fun getAccountStateFlow() = accountState.asStateFlow()
+    fun getAccountInfoStateFlow() = accountInfoState.asStateFlow()
     fun getLoadingStateStateFlow() = loadingState.asStateFlow()
-    fun getActionAccountSharedFlow() = actionAccountState.asSharedFlow()
+    fun getaccountUiEventState() = accountUiEventState.asSharedFlow()
     fun getAccountErrorStateFlow() = accountErrorState.asSharedFlow()
 
     private fun getAccountInfo() {
-        loadingState.update { true }
         viewModelScope.launchJob(tryBlock = {
+            loadingState.update { true }
             val accountInfo = getAccountUseCase()
             if (accountInfo.isEmpty()) throw UnknownServerException()
-            accountState.update { accountInfo }
+            accountInfoState.update { accountInfo }
         }, catchBlock = { throwable ->
-            handleError(throwable)
+            handleError(throwable) {
+                accountErrorState.update { true }
+            }
         }, finallyBlock = {
             loadingState.update { false }
         })
-    }
-
-    override fun handleError(throwable: Throwable, errorAction: (() -> Unit)?) {
-        if (throwable is UnknownServerException) {
-            accountErrorState.update { true }
-        }
-        super.handleError(throwable, errorAction)
     }
 
     fun onLogoutClick() {
@@ -60,16 +58,36 @@ class AccountViewModel @Inject constructor(
         }, catchBlock = { throwable ->
             handleError(throwable)
         }, finallyBlock = {
-            actionAccountState.tryEmit(UiActionAccount.Logout)
+            accountUiEventState.tryEmit(AccountUiEvent.Logout)
         })
     }
 
     fun onTelegramClicked() {
-        actionAccountState.tryEmit(UiActionAccount.OpenTelegram)
+        accountUiEventState.tryEmit(AccountUiEvent.OpenTelegram)
     }
 
-    sealed class UiActionAccount {
-        object OpenTelegram : UiActionAccount()
-        object Logout : UiActionAccount()
+    fun onSiteClicked() {
+        viewModelScope.launchJob(tryBlock = {
+            loadingState.update { true }
+            val result = createLoginLinkResultUseCase.invoke()
+            if (result.isSucceeded) {
+                accountUiEventState.emit(
+                    AccountUiEvent.OpenSite(urlAuthentication = result.urlAuthentication)
+                )
+            } else {
+                accountUiEventState.emit(AccountUiEvent.ShowMessage(result.errorMessage))
+            }
+        }, catchBlock = { throwable ->
+            handleError(throwable)
+        }, finallyBlock = {
+            loadingState.update { false }
+        })
+    }
+
+    sealed class AccountUiEvent {
+        data class OpenSite(val urlAuthentication: String) : AccountUiEvent()
+        data class ShowMessage(val message: String) : AccountUiEvent()
+        object OpenTelegram : AccountUiEvent()
+        object Logout : AccountUiEvent()
     }
 }

@@ -71,6 +71,7 @@
     <string name="accepted">Понятно</string>
     <string name="cancel">Отмена</string>
     <string name="open_youtube_message">Открыть youtube для просмотра видео?</string>
+    <string name="open_telegram">Открыть Telegram?</string>
     <string name="go_to_test_solution">Перейти к решению теста</string>
     <string name="start_solution_test">Начать решение теста </string>
     <string name="subject">Предметы</string>
@@ -98,4 +99,6 @@
     <string name="come_back_later">Вернуться позже</string>
     <string name="your_not_answer">[Вы не указали ответ]</string>
     <string name="result_test_need_to_check_questions">Не проверен %1$s вопрос. Его необходимо проверить самому или с помощью куратора.</string>
+    <string name="open_site">Перейти на сайт?</string>
+    <string name="site">Сайт</string>
 </resources>

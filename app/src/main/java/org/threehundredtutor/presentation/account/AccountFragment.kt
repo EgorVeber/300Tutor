@@ -8,12 +8,14 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import org.threehundredtutor.R
 import org.threehundredtutor.base.BaseFragment
-import org.threehundredtutor.common.TELEGRAM_KURSBIO_BOT_URL
+import org.threehundredtutor.common.SITE_URL
+import org.threehundredtutor.common.TELEGRAM_BOT_URL
 import org.threehundredtutor.common.extentions.navigate
 import org.threehundredtutor.common.extentions.observeFlow
+import org.threehundredtutor.common.extentions.showMessage
 import org.threehundredtutor.databinding.AccountFragmentBinding
 import org.threehundredtutor.di.account.AccountComponent
-import org.threehundredtutor.domain.account.AccountModel
+import org.threehundredtutor.domain.account.models.AccountModel
 import org.threehundredtutor.presentation.common.ActionDialogFragment
 
 class AccountFragment : BaseFragment(R.layout.account_fragment) {
@@ -40,14 +42,13 @@ class AccountFragment : BaseFragment(R.layout.account_fragment) {
     }
 
     override fun onInitView(savedInstanceState: Bundle?) {
-        with(binding) {
-            logout.setOnClickListener { showLogoutDialog() }
-            telegramBotContainer.setOnClickListener { viewModel.onTelegramClicked() }
-        }
+        binding.logout.setOnClickListener { showLogoutDialog() }
+        binding.telegramBotContainer.setOnClickListener { showTelegramDialog() }
+        binding.siteContainer.setOnClickListener { showSiteDialog() }
     }
 
     override fun onObserveData() {
-        viewModel.getAccountStateFlow().observeFlow(this) { account ->
+        viewModel.getAccountInfoStateFlow().observeFlow(this) { account ->
             updateAccountInfo(account)
         }
 
@@ -55,15 +56,28 @@ class AccountFragment : BaseFragment(R.layout.account_fragment) {
             loading(loading)
         }
 
-        viewModel.getActionAccountSharedFlow().observeFlow(this) { state ->
+        viewModel.getaccountUiEventState().observeFlow(this) { state ->
             when (state) {
-                AccountViewModel.UiActionAccount.Logout -> logout()
-                AccountViewModel.UiActionAccount.OpenTelegram -> openTelegram()
+                is AccountViewModel.AccountUiEvent.OpenSite -> openSite(
+                    state.urlAuthentication,
+                )
+
+                is AccountViewModel.AccountUiEvent.ShowMessage -> showMessage(state.message)
+                AccountViewModel.AccountUiEvent.Logout -> logout()
+                AccountViewModel.AccountUiEvent.OpenTelegram -> openTelegram()
             }
         }
 
         viewModel.getAccountErrorStateFlow().observeFlow(this) { errorAccount ->
             if (errorAccount) updateAccountError()
+        }
+    }
+
+    private fun openSite(urlAuthentication: String) {
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(urlAuthentication)))
+        } catch (e: Exception) {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(SITE_URL)))
         }
     }
 
@@ -76,8 +90,24 @@ class AccountFragment : BaseFragment(R.layout.account_fragment) {
         )
     }
 
+    private fun showTelegramDialog() {
+        ActionDialogFragment.showDialog(
+            fragmentManager = childFragmentManager,
+            message = getString(R.string.open_telegram),
+            onPositiveClick = { viewModel.onTelegramClicked() }
+        )
+    }
+
+    private fun showSiteDialog() {
+        ActionDialogFragment.showDialog(
+            fragmentManager = childFragmentManager,
+            message = getString(R.string.open_site),
+            onPositiveClick = { viewModel.onSiteClicked() }
+        )
+    }
+
     private fun openTelegram() {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(TELEGRAM_KURSBIO_BOT_URL)))
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(TELEGRAM_BOT_URL)))
     }
 
     private fun logout() {

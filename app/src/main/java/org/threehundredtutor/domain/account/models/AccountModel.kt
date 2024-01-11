@@ -1,4 +1,4 @@
-package org.threehundredtutor.domain.account
+package org.threehundredtutor.domain.account.models
 
 import org.threehundredtutor.common.DEFAULT_NOT_VALID_VALUE_INT
 import org.threehundredtutor.common.EMPTY_STRING
