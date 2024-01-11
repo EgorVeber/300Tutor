@@ -3,6 +3,7 @@ package org.threehundredtutor.data.solution
 import org.threehundredtutor.data.core.ServiceGeneratorProvider
 import org.threehundredtutor.data.solution.models.QuestionAnswerWithResultBaseApiResponse
 import org.threehundredtutor.data.solution.models.QuestionAnswersWithResultBaseApiResponse
+import org.threehundredtutor.data.solution.models.TestSolutionQueryDetailedResponse
 import org.threehundredtutor.data.solution.models.TestSolutionQueryResponse
 import org.threehundredtutor.data.solution.models.finish_test.FinishSolutionRequest
 import org.threehundredtutor.data.solution.models.points.SolutionPointsResponse
@@ -19,6 +20,9 @@ class SolutionRemoteDataSource @Inject constructor(
 
     suspend fun getSolution(solutionId: String): TestSolutionQueryResponse =
         service().getSolution(solutionId)
+
+    suspend fun getSolutionDetailed(solutionId: String): TestSolutionQueryDetailedResponse =
+        service().getSolutionDetailed(solutionId)
 
     suspend fun startByTestId(testId: String): TestSolutionQueryResponse? =
         service().startByTestId(

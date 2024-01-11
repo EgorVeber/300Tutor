@@ -30,6 +30,13 @@ class SolutionRepositoryImpl @Inject constructor(
         return testSolutionGeneralModel
     }
 
+    override suspend fun getSolutionDetailed(solutionId: String): TestSolutionGeneralModel {
+        val testSolutionGeneralModel =
+            solutionRemoteDataSource.getSolutionDetailed(solutionId).toTestSolutionGeneralModel()
+        solutionLocalDataSource.saveAnswers(testSolutionGeneralModel.testSolutionModel)
+        return testSolutionGeneralModel
+    }
+
     override suspend fun checkAnswer(
         solutionId: String,
         questionId: String,
