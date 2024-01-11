@@ -2,6 +2,7 @@ package org.threehundredtutor.data.solution
 
 import org.threehundredtutor.data.solution.SolutionApi.ID
 import org.threehundredtutor.data.solution.SolutionApi.SOLUTION_ID
+import org.threehundredtutor.data.solution.SolutionApi.TUTOR_QUESTION_LIKES_CHANGE
 import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_CHECK_ANSWER
 import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_FINISH
 import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_QUERY_BY_ID
@@ -10,8 +11,10 @@ import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_RESUL
 import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_RESULT_QUESTIONS_VALIDATION_REMOVE
 import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_RESULT_QUESTIONS_VALIDATION_SAVE
 import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_START_BY_TEST_ID
+import org.threehundredtutor.data.solution.models.BaseApiResponse
 import org.threehundredtutor.data.solution.models.QuestionAnswerWithResultBaseApiResponse
 import org.threehundredtutor.data.solution.models.QuestionAnswersWithResultBaseApiResponse
+import org.threehundredtutor.data.solution.models.request.ChangeLikeQuestionRequest
 import org.threehundredtutor.data.solution.models.TestSolutionQueryDetailedResponse
 import org.threehundredtutor.data.solution.models.TestSolutionQueryResponse
 import org.threehundredtutor.data.solution.models.finish_test.FinishSolutionRequest
@@ -50,4 +53,7 @@ interface SolutionService {
 
     @GET(TUTOR_TEST_SOLUTION_RESULT_POINTS)
     suspend fun getResultPoints(@Path(SOLUTION_ID) solutionId: String): SolutionPointsResponse
+
+    @POST(TUTOR_QUESTION_LIKES_CHANGE)
+    suspend fun changeLikeQuestion(@Body params: ChangeLikeQuestionRequest): BaseApiResponse
 }

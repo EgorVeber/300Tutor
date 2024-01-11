@@ -20,6 +20,7 @@ import org.threehundredtutor.domain.solution.models.params_model.SaveQuestionPoi
 import org.threehundredtutor.domain.solution.models.points.SolutionPointsModel
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerModel
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerValidationResultType
+import org.threehundredtutor.domain.solution.usecase.ChangeLikeQuestionUseCase
 import org.threehundredtutor.domain.solution.usecase.CheckAnswerUseCase
 import org.threehundredtutor.domain.solution.usecase.FinishSolutionUseCase
 import org.threehundredtutor.domain.solution.usecase.GetPointsUseCase
@@ -36,6 +37,7 @@ import org.threehundredtutor.presentation.solution.ui_models.answer_erros.Answer
 import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerResultUiItem
 import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerUiItem
 import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerValidationUiItem
+import org.threehundredtutor.presentation.solution.ui_models.item_common.HeaderUiItem
 import org.threehundredtutor.presentation.solution.ui_models.item_common.ResultButtonUiItem
 import org.threehundredtutor.presentation.solution.ui_models.right_answer.RightAnswerResultUiItem
 import org.threehundredtutor.presentation.solution.ui_models.right_answer.RightAnswerUiModel
@@ -55,6 +57,7 @@ class SolutionViewModel @Inject constructor(
     private val isAllQuestionHaveAnswerUseCase: IsAllQuestionHaveAnswerUseCase,
     private val getPointsUseCase: GetPointsUseCase,
     private val resourceProvider: ResourceProvider,
+    private val changeLikeQuestionUseCase: ChangeLikeQuestionUseCase,
 ) : BaseViewModel() {
 
     private var currentSolutionId: String = EMPTY_STRING
@@ -98,6 +101,15 @@ class SolutionViewModel @Inject constructor(
 
             val uiItemList = solutionFactory.createSolution(testSolutionModel)
             uiItemsState.update { uiItemList }
+
+            if (subjectId.isNotEmpty()) {
+                uiEventState.emit(
+                    UiEvent.ShowSnack(
+                        resourceProvider.string(R.string.start_test_message),
+                        SnackBarType.SUCCESS
+                    )
+                )
+            }
 
             if (!testSolutionModel.isFinished && isAllQuestionHaveAnswerUseCase()) {
                 finishButtonState.emit(true)
@@ -484,6 +496,35 @@ class SolutionViewModel @Inject constructor(
             )
         )
         uiItemsState.update { currentList }
+    }
+
+    fun onQuestionLikeClicked(headerUiItem: HeaderUiItem) {
+        viewModelScope.launchJob(tryBlock = {
+            loadingState.update { true }
+            val result = changeLikeQuestionUseCase.invoke(
+                questionId = headerUiItem.questionId,
+                hasLike = !headerUiItem.isQuestionLikedByStudent
+            )
+
+            if (result.isSucceeded) {
+                uiEventState.emit(UiEvent.ShowSnack(result.message, SnackBarType.SUCCESS))
+                val currentList = uiItemsState.value.toMutableList()
+                Collections.replaceAll(
+                    /* list = */ currentList,
+                    /* oldVal = */headerUiItem,
+                    /* newVal = */ headerUiItem.copy(
+                        isQuestionLikedByStudent = !headerUiItem.isQuestionLikedByStudent
+                    )
+                )
+                uiItemsState.update { currentList }
+            } else {
+                uiEventState.emit(UiEvent.ShowSnack(result.message, SnackBarType.ERROR))
+            }
+        }, catchBlock = { throwable ->
+            handleError(throwable)
+        }, finallyBlock = {
+            loadingState.update { false }
+        })
     }
 
     sealed interface UiEvent {

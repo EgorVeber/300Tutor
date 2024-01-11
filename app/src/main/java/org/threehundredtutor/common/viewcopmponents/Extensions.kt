@@ -52,7 +52,6 @@ fun Fragment.launchDelay(delay: Long, action: () -> Unit) {
     }
 }
 
-
 fun Fragment.dropWindowColor() {
     requireActivity().window.apply {
         statusBarColor = getColorAttr(R.attr.background, false)

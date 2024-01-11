@@ -25,6 +25,7 @@ import org.threehundredtutor.presentation.solution.ui_models.SolutionUiItem
 import org.threehundredtutor.presentation.solution.ui_models.answer_erros.AnswerWithErrorsUiModel
 import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerUiItem
 import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerValidationUiItem
+import org.threehundredtutor.presentation.solution.ui_models.item_common.HeaderUiItem
 import org.threehundredtutor.presentation.solution.ui_models.right_answer.RightAnswerUiModel
 import org.threehundredtutor.presentation.solution.ui_models.select_right_answer.AnswerSelectRightUiModel
 
@@ -39,11 +40,12 @@ class SolutionManager(
     detailedAnswerTextChangedListener: (DetailedAnswerUiItem, String) -> Unit,
     detailedAnswerValidationClickListener: (DetailedAnswerValidationUiItem, String) -> Unit,
     deleteValidationClickListener: (DetailedAnswerValidationUiItem) -> Unit,
+    questionLikeClickListener: (HeaderUiItem) -> Unit
 ) : AsyncListDifferDelegationAdapter<SolutionUiItem>(DIFF_CALLBACK) {
 
     init {
         delegatesManager
-            .addDelegate(getHeaderUiItemAdapter())
+            .addDelegate(getHeaderUiItemAdapter(questionLikeClickListener))
             .addDelegate(getFooterUiItemAdapter())
             .addDelegate(getTextUiItemAdapter())
             .addDelegate(getImageUiItemAdapter(imageClickListener))
