@@ -26,4 +26,6 @@ interface SolutionRepository {
         solutionId: String,
         questionId: String
     ): QuestionAnswerWithResultBaseApiModel
+
+    suspend fun getSolutionDetailed(solutionId: String): TestSolutionGeneralModel
 }

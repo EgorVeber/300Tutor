@@ -10,6 +10,7 @@ fun TestSolutionQueryResponse.toTestSolutionModel(): List<TestSolutionModel> =
             questionModel = questionModel,
             answerModel = solutionResponse?.toSolutionModel()?.answerModelList?.find { answerModel ->
                 questionModel.questionId == answerModel.questionId
-            } ?: AnswerModel.EMPTY
+            } ?: AnswerModel.EMPTY,
+            isQuestionLikedByStudent = false
         )
     } ?: emptyList()

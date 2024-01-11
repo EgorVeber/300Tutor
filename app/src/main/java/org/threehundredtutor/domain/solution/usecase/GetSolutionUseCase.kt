@@ -8,7 +8,7 @@ class GetSolutionUseCase @Inject constructor(
     private val solutionRepository: SolutionRepository
 ) {
     suspend operator fun invoke(solutionIdInt: String): TestSolutionGeneralModel {
-        val testSolutionGeneralModel = solutionRepository.getSolution(solutionIdInt)
+        val testSolutionGeneralModel = solutionRepository.getSolutionDetailed(solutionIdInt)
         return testSolutionGeneralModel.copy(
             testSolutionModel = testSolutionGeneralModel.testSolutionModel.sortedBy { it.questionModel.title }
         )
