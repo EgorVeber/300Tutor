@@ -41,16 +41,24 @@ class SolutionFactory @Inject constructor(
             createSolutionItems(
                 questionModel = testSolutionUnionModel.questionModel,
                 answerModel = testSolutionUnionModel.answerModel,
+                isQuestionLikedByStudent = testSolutionUnionModel.isQuestionLikedByStudent
             )
         }
 
     private fun createSolutionItems(
         questionModel: QuestionModel,
         answerModel: AnswerModel,
+        isQuestionLikedByStudent: Boolean,
         countDividerBottomQuestion: Int = COUNT_DIVIDER_BOTTOM_QUESTION,
     ): List<SolutionUiItem> {
         solutionUiItems.clear()
-        solutionUiItems.add(HeaderUiItem(questionName = questionModel.title))
+        solutionUiItems.add(
+            HeaderUiItem(
+                questionId = questionModel.questionId,
+                questionName = questionModel.title,
+                isQuestionLikedByStudent = isQuestionLikedByStudent
+            )
+        )
         solutionUiItems += createQuestionWithHtml(htmlString = questionModel.titleBodyMarkUp)
 
         if (answerModel.isHaveAnswer()) {

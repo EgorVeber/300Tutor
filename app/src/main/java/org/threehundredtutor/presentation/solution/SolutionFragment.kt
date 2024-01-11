@@ -7,6 +7,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import org.threehundredtutor.R
 import org.threehundredtutor.base.BaseFragment
 import org.threehundredtutor.common.EMPTY_STRING
@@ -16,6 +17,7 @@ import org.threehundredtutor.common.extentions.showMessage
 import org.threehundredtutor.common.extentions.showSnackbar
 import org.threehundredtutor.common.getUrlYoutube
 import org.threehundredtutor.common.utils.BundleString
+import org.threehundredtutor.common.utils.SnackBarType
 import org.threehundredtutor.databinding.SolutionFragmentBinding
 import org.threehundredtutor.di.solution.SolutionComponent
 import org.threehundredtutor.presentation.PhotoDetailsFragment.Companion.PHOTO_DETAILED_KEY
@@ -80,6 +82,9 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
         },
         detailedAnswerTextChangedListener = { item, text ->
             viewModel.onDetailedAnswerTextChanged(item, text)
+        },
+        questionLikeClickListener = { headerUiItem ->
+            viewModel.onQuestionLikeClicked(headerUiItem)
         }
     )
 
@@ -131,7 +136,8 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
                 is SolutionViewModel.UiEvent.NavigatePhotoDetailed -> navigatePhotoDetailed(state.imageId)
                 is SolutionViewModel.UiEvent.ShowSnack -> showSnackbar(
                     title = state.message,
-                    backgroundColor = state.snackBarType.colorRes
+                    backgroundColor = state.snackBarType.colorRes,
+                    length = Snackbar.LENGTH_SHORT
                 )
 
                 is SolutionViewModel.UiEvent.ScrollToQuestion -> {}

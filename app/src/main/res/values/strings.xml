@@ -101,4 +101,5 @@
     <string name="result_test_need_to_check_questions">Не проверен %1$s вопрос. Его необходимо проверить самому или с помощью куратора.</string>
     <string name="open_site">Перейти на сайт?</string>
     <string name="site">Сайт</string>
+    <string name="start_test_message">Началось решение теста</string>
 </resources>

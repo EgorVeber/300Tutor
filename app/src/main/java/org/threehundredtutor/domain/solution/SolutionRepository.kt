@@ -1,5 +1,6 @@
 package org.threehundredtutor.domain.solution
 
+import org.threehundredtutor.domain.solution.models.BaseApiModel
 import org.threehundredtutor.domain.solution.models.QuestionAnswerWithResultBaseApiModel
 import org.threehundredtutor.domain.solution.models.QuestionAnswersWithResultBaseApiModel
 import org.threehundredtutor.domain.solution.models.TestSolutionGeneralModel
@@ -28,4 +29,5 @@ interface SolutionRepository {
     ): QuestionAnswerWithResultBaseApiModel
 
     suspend fun getSolutionDetailed(solutionId: String): TestSolutionGeneralModel
+    suspend fun changeLikeQuestion(questionId: String, hasLike: Boolean): BaseApiModel
 }

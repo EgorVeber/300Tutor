@@ -1,5 +1,6 @@
 package org.threehundredtutor.presentation.solution.adapter
 
+import android.content.res.ColorStateList
 import android.text.InputFilter
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -7,6 +8,7 @@ import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import org.threehundredtutor.R
 import org.threehundredtutor.common.applyBackground
 import org.threehundredtutor.common.fromHtml
+import org.threehundredtutor.common.getColorAttr
 import org.threehundredtutor.common.hideKeyboard
 import org.threehundredtutor.common.loadServer
 import org.threehundredtutor.common.trimText
@@ -56,11 +58,23 @@ import org.threehundredtutor.presentation.solution.ui_models.select_right_answer
 object SolutionAdapters {
 
     /** Общие адаптеры для построения всех типом вопросов.*/
-    fun getHeaderUiItemAdapter() =
+    fun getHeaderUiItemAdapter(questionLikeClickListener: (HeaderUiItem) -> Unit) =
         adapterDelegateViewBinding<HeaderUiItem, SolutionUiItem, SolutionHeaderItemBinding>({ layoutInflater, root ->
             SolutionHeaderItemBinding.inflate(layoutInflater, root, false)
         }) {
-            bind { binding.solutionTitle.text = item.questionName }
+            binding.favoriteImage.setOnClickListener {
+                questionLikeClickListener.invoke(item)
+            }
+            bind {
+                binding.solutionTitle.text = item.questionName
+                binding.favoriteImage.imageTintList =
+                    ColorStateList.valueOf(
+                        itemView.getColorAttr(
+                            if (item.isQuestionLikedByStudent) R.attr.defaultRed else R.attr.defaultBlack40,
+                            false
+                        )
+                    )
+            }
         }
 
     fun getFooterUiItemAdapter() =
