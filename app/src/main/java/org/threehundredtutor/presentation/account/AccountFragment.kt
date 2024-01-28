@@ -8,13 +8,15 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import org.threehundredtutor.R
 import org.threehundredtutor.base.BaseFragment
-import org.threehundredtutor.common.TELEGRAM_KURSBIO_BOT_URL
+import org.threehundredtutor.common.SITE_URL
+import org.threehundredtutor.common.TELEGRAM_BOT_URL
 import org.threehundredtutor.common.extentions.navigate
 import org.threehundredtutor.common.extentions.observeFlow
-import org.threehundredtutor.common.utils.PrefsSettings
+import org.threehundredtutor.common.extentions.showMessage
 import org.threehundredtutor.databinding.AccountFragmentBinding
 import org.threehundredtutor.di.account.AccountComponent
-import org.threehundredtutor.domain.account.AccountModel
+import org.threehundredtutor.domain.account.models.AccountModel
+import org.threehundredtutor.presentation.common.ActionDialogFragment
 
 class AccountFragment : BaseFragment(R.layout.account_fragment) {
 
@@ -28,21 +30,25 @@ class AccountFragment : BaseFragment(R.layout.account_fragment) {
 
     private lateinit var binding: AccountFragmentBinding
 
+    override var customHandlerBackStack = true
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = AccountFragmentBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onInitView() {
-        super.onInitView()
-        with(binding) {
-            logout.setOnClickListener { viewModel.onLogoutClick() }
-            telegramBotContainer.setOnClickListener { viewModel.onTelegramClicked() }
-        }
+    override fun onBackPressed() {
+        navigate(R.id.action_accountFragment_to_homeFragment)
+    }
+
+    override fun onInitView(savedInstanceState: Bundle?) {
+        binding.logout.setOnClickListener { showLogoutDialog() }
+        binding.telegramBotContainer.setOnClickListener { showTelegramDialog() }
+        binding.siteContainer.setOnClickListener { showSiteDialog() }
     }
 
     override fun onObserveData() {
-        viewModel.getAccountStateFlow().observeFlow(this) { account ->
+        viewModel.getAccountInfoStateFlow().observeFlow(this) { account ->
             updateAccountInfo(account)
         }
 
@@ -50,10 +56,15 @@ class AccountFragment : BaseFragment(R.layout.account_fragment) {
             loading(loading)
         }
 
-        viewModel.getActionAccountSharedFlow().observeFlow(this) { state ->
+        viewModel.getaccountUiEventState().observeFlow(this) { state ->
             when (state) {
-                AccountViewModel.UiActionAccount.Logout -> logout()
-                AccountViewModel.UiActionAccount.OpenTelegram -> openTelegram()
+                is AccountViewModel.AccountUiEvent.OpenSite -> openSite(
+                    state.urlAuthentication,
+                )
+
+                is AccountViewModel.AccountUiEvent.ShowMessage -> showMessage(state.message)
+                AccountViewModel.AccountUiEvent.Logout -> logout()
+                AccountViewModel.AccountUiEvent.OpenTelegram -> openTelegram()
             }
         }
 
@@ -62,12 +73,44 @@ class AccountFragment : BaseFragment(R.layout.account_fragment) {
         }
     }
 
+    private fun openSite(urlAuthentication: String) {
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(urlAuthentication)))
+        } catch (e: Exception) {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(SITE_URL)))
+        }
+    }
+
+    private fun showLogoutDialog() {
+        ActionDialogFragment.showDialog(
+            title = getString(R.string.confirm_logout),
+            fragmentManager = childFragmentManager,
+            message = getString(R.string.warning_logout),
+            onPositiveClick = { viewModel.onLogoutClick() }
+        )
+    }
+
+    private fun showTelegramDialog() {
+        ActionDialogFragment.showDialog(
+            fragmentManager = childFragmentManager,
+            message = getString(R.string.open_telegram),
+            onPositiveClick = { viewModel.onTelegramClicked() }
+        )
+    }
+
+    private fun showSiteDialog() {
+        ActionDialogFragment.showDialog(
+            fragmentManager = childFragmentManager,
+            message = getString(R.string.open_site),
+            onPositiveClick = { viewModel.onSiteClicked() }
+        )
+    }
+
     private fun openTelegram() {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(TELEGRAM_KURSBIO_BOT_URL)))
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(TELEGRAM_BOT_URL)))
     }
 
     private fun logout() {
-        PrefsSettings.setAccountLogin("")
         navigate(R.id.action_accountFragment_to_authorizationFragment)
     }
 

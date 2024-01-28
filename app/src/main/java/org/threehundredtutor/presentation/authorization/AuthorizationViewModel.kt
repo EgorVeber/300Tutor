@@ -8,6 +8,7 @@ import org.threehundredtutor.base.BaseViewModel
 import org.threehundredtutor.common.extentions.SingleSharedFlow
 import org.threehundredtutor.common.extentions.launchJob
 import org.threehundredtutor.data.core.models.ErrorType
+import org.threehundredtutor.domain.SetAccountInfoUseCase
 import org.threehundredtutor.domain.authorization.LoginDateModel
 import org.threehundredtutor.domain.authorization.LoginModel
 import org.threehundredtutor.domain.authorization.LoginUseCase
@@ -15,6 +16,7 @@ import javax.inject.Inject
 
 class AuthorizationViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
+    private val setAccountInfoUseCase: SetAccountInfoUseCase,
 ) : BaseViewModel() {
 
     private val openScreenEventState = SingleSharedFlow<NavigateScreenState>()
@@ -32,8 +34,10 @@ class AuthorizationViewModel @Inject constructor(
             loadingState.update { true }
             val emailOrPhone = if (inputTypeState.value is InputTypeState.Phone) phone else email
             val loginModel = loginUseCase(LoginDateModel(password, false, emailOrPhone))
-            if (loginModel.succeeded) openScreenEventState.emit(NavigateScreenState.NavigateHomeScreen("asdasdasdas"))
-            else extractError(loginModel)
+            if (loginModel.succeeded) {
+                setAccountInfoUseCase.invoke(login = emailOrPhone, password = password)
+                openScreenEventState.emit(NavigateScreenState.NavigateHomeScreen)
+            } else extractError(loginModel)
         }, catchBlock = { throwable ->
             handleError(throwable)
         }, finallyBlock = {
@@ -48,7 +52,7 @@ class AuthorizationViewModel @Inject constructor(
     private fun extractError(loginModel: LoginModel) {
         when (loginModel.errorType) {
             ErrorType.REGISTRATION_NOT_ENABLED,
-            ErrorType.ALREADY_AUTHENTICATED,
+            ErrorType.AlreadyAuthenticated,
             ErrorType.EMAIL_SHOULD_BE_SET,
             ErrorType.PHONE_NUMBER_SHOULD_BE_SET,
             ErrorType.USER_EMAIL_ALREADY_EXISTS,
@@ -67,8 +71,7 @@ class AuthorizationViewModel @Inject constructor(
     }
 
     sealed class NavigateScreenState {
-        data class NavigateHomeScreen(val loginName: String) : NavigateScreenState()
-
+        object NavigateHomeScreen : NavigateScreenState()
         object NavigateRegistrationScreen : NavigateScreenState()
     }
 

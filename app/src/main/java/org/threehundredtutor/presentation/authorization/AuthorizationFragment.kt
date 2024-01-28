@@ -12,16 +12,18 @@ import org.threehundredtutor.base.BaseFragment
 import org.threehundredtutor.common.extentions.navigate
 import org.threehundredtutor.common.extentions.observeFlow
 import org.threehundredtutor.common.extentions.showMessage
-import org.threehundredtutor.common.utils.PrefsSettings
 import org.threehundredtutor.databinding.AuthorizationFragmentBinding
 import org.threehundredtutor.di.components.AuthorizationComponent
-import org.threehundredtutor.presentation.LoadingDialog
+import org.threehundredtutor.presentation.common.LoadingDialog
 
 class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment) {
 
     private val authorizationComponent by lazy {
         AuthorizationComponent.createAuthorizationComponent()
     }
+
+    override val bottomMenuVisible: Boolean = false
+    override var customHandlerBackStackWithDelay: Boolean = true
 
     override val viewModel by viewModels<AuthorizationViewModel> {
         authorizationComponent.viewModelMapFactory()
@@ -34,7 +36,7 @@ class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment) {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onInitView() = with(binding) {
+    override fun onInitView(savedInstanceState: Bundle?) = with(binding) {
         emailTextInput.requestFocus()
 
         signInButton.setOnClickListener {
@@ -60,9 +62,9 @@ class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment) {
         tutorImage.setOnClickListener {
             // passwordEditText.setText("VbAn@9873")
             //  emailEditText.setText("newjamesohara@gmail.com")
-            passwordEditText.setText("Qwert1234Y")
+            passwordEditText.setText("1234@Abc")
             emailEditText.setText("James@e-mail.ru")
-            phoneInputEt.setText("9208309193")
+            phoneInputEt.setText("9208309193") // если 9208309193 и авторизоваться через телефон то не студент, можно будет так проверять функционал если с 89208309193 то таже учетка что и почта  James@e-mail.ru
         }
         tutorImage.setOnLongClickListener {
             passwordEditText.setText("")
@@ -77,8 +79,7 @@ class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment) {
         viewModel.getOpenScreenEventStateFlow().observeFlow(this) { screen ->
             when (screen) {
                 is AuthorizationViewModel.NavigateScreenState.NavigateHomeScreen -> {
-                    PrefsSettings.setAccountLogin(screen.loginName)
-                    navigate(R.id.action_authorizationFragment_to_solutionFragment)
+                    navigate(R.id.action_authorizationFragment_to_homeFragment)
                 }
 
                 AuthorizationViewModel.NavigateScreenState.NavigateRegistrationScreen ->
@@ -116,6 +117,7 @@ class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment) {
         binding.phoneInputEt.isVisible = !visible
         binding.phoneOneEt.isVisible = !visible
         binding.imagePhone.isVisible = !visible
+
         if (visible) {
             binding.imagePhoneOrEmail.setImageResource(R.drawable.ic_phone)
             binding.emailEditText.requestFocus()

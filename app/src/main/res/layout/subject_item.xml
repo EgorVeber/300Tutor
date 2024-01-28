@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/subjectLlContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/margin_4"
+    android:layout_marginVertical="@dimen/margin_8"
+    android:background="@drawable/rectangle_16_content_background"
+    android:orientation="horizontal"
+    android:paddingVertical="@dimen/margin_8">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/size_36"
+        android:layout_height="@dimen/size_36"
+        android:layout_marginStart="@dimen/margin_12"
+        android:backgroundTint="?attr/background"
+        app:cardCornerRadius="@dimen/radius_full"
+        app:cardElevation="0dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_teacher"
+            app:tint="?attr/primary" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/subjectNameTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/margin_8"
+        android:layout_marginEnd="@dimen/margin_8"
+        android:textColor="?attr/textPrimary"
+        android:textSize="@dimen/text_20"
+        android:text="Математика ЕГЭ"/>
+</androidx.appcompat.widget.LinearLayoutCompat>

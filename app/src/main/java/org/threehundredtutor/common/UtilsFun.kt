@@ -1,6 +1,7 @@
 package org.threehundredtutor.common
 
 import android.content.Context
+import android.net.Uri
 import android.text.Editable
 import android.text.Spanned
 import android.text.TextWatcher
@@ -12,15 +13,13 @@ import android.widget.ImageView
 import androidx.annotation.AttrRes
 import androidx.cardview.widget.CardView
 import androidx.core.text.HtmlCompat
+import androidx.fragment.app.Fragment
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import org.threehundredtutor.core.TutorApp
-
-
-fun getAppContext(): Context = TutorApp.tutorAppInstance.applicationContext
+import kotlin.math.roundToInt
 
 fun Boolean?.orFalse() = this ?: false
 
@@ -29,7 +28,6 @@ fun Int?.orDefaultNotValidValue() = this ?: DEFAULT_NOT_VALID_VALUE_INT
 // TODO привести к нормальному виду
 const val staticDomain = "https://mini-apps.crocosoft.ru/FileCopies/Images/Medium/"
 const val static = "https://mini-apps.crocosoft.ru/FileCopies/Images/Original/"
-
 
 // TODO привести к нормальному виду
 fun ImageView.loadServer(id: String) {
@@ -68,17 +66,32 @@ fun CardView.applyBackground(colorId: Int) {
     setCardBackgroundColor(getColorAttr(colorId, false))
 }
 
+fun EditText.trimText(): String = text.toString().trim()
+
 fun View.getColorAttr(@AttrRes attrRes: Int, needResId: Boolean = true): Int {
     val typedValue = TypedValue()
     context.theme.resolveAttribute(attrRes, typedValue, true)
     return if (needResId) typedValue.resourceId else typedValue.data
 }
 
+fun Fragment.getColorAttr(@AttrRes attrRes: Int, needResId: Boolean = true): Int {
+    val typedValue = TypedValue()
+    context?.theme?.resolveAttribute(attrRes, typedValue, true)
+    return if (needResId) typedValue.resourceId else typedValue.data
+}
 
 fun String.fromHtml(): Spanned = HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_COMPACT)
 
+private const val VND_YOUTUBE_APP = "vnd.youtube:"
+private const val VND_YOUTUBE_BROWSER = "http://www.youtube.com/watch?v="
+
+fun String.getUrlYoutube(): Pair<Uri, Uri> =
+    Uri.parse(VND_YOUTUBE_APP + this.videoId()) to Uri.parse(VND_YOUTUBE_BROWSER + this.videoId())
+
 fun String.videoId() =
     this.substringAfterLast('=')
+
+fun String.addPercent() = "$this%"
 
 //TODO разбить все екстеншн по папачкам красиво
 
@@ -90,3 +103,10 @@ fun View.hideKeyboard(): Boolean = try {
 } catch (ignored: RuntimeException) {
     false
 }
+
+fun Int.percentOf(value: Int): Int {
+    return if (this == 0 || value == 0) 0
+    else ((value.toDouble() / this) * 100).roundToInt()
+}
+
+fun Int.fractionOf(value: Int): Float = (this.percentOf(value) / 100.0).toFloat()

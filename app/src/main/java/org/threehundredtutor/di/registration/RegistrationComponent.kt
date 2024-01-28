@@ -5,6 +5,7 @@ import dagger.Component
 import org.threehundredtutor.core.DiSetHelper
 import org.threehundredtutor.data.core.ServiceGeneratorProvider
 import org.threehundredtutor.di.ViewModelMapFactory
+import org.threehundredtutor.domain.AccountManagerRepository
 
 @Component(modules = [RegistrationInternalModule::class])
 interface RegistrationComponent {
@@ -17,6 +18,9 @@ interface RegistrationComponent {
         @BindsInstance
         fun getServiceGeneratorProvider(serviceGeneratorProvider: ServiceGeneratorProvider): Builder
 
+        @BindsInstance
+        fun getAccountManagerRepository(accountManagerRepository: AccountManagerRepository): Builder
+
         fun getRegistrationComponentBuilder(): RegistrationComponent
     }
 
@@ -25,6 +29,7 @@ interface RegistrationComponent {
             DaggerRegistrationComponent
                 .builder()
                 .getServiceGeneratorProvider(DiSetHelper.appComponent.getServiceGeneratorProvider())
+                .getAccountManagerRepository(DiSetHelper.appComponent.getAccountManagerRepository())
                 .getRegistrationComponentBuilder()
     }
 }

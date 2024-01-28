@@ -7,7 +7,7 @@ class AnswerResponse(
     val answerOrAnswers: String?,
     @SerializedName("isChecked")
     val isChecked: Boolean?,
-    @SerializedName("pointsValidationModel")
+    @SerializedName("pointsValidation")
     val pointsValidationResponse: PointsValidationResponse?,
     @SerializedName("questionId")
     val questionId: String?,

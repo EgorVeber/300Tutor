@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="?attr/contentBackground"
     android:orientation="horizontal"
-    android:paddingHorizontal="@dimen/space_4">
+    android:paddingHorizontal="@dimen/solution_item_space_horizontal">
 
     <TextView
         android:id="@+id/answerEditText"

@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import org.threehundredtutor.base.BaseViewModel
 import org.threehundredtutor.common.extentions.SingleSharedFlow
 import org.threehundredtutor.common.extentions.launchJob
+import org.threehundredtutor.domain.SetAccountInfoUseCase
 import org.threehundredtutor.domain.registration.models.RegistrationAccountAndSignInModel
 import org.threehundredtutor.domain.registration.models.RegistrationStudentAndSignInModel
 import org.threehundredtutor.domain.registration.usecases.RegistrationAccountUseCase
@@ -16,6 +17,7 @@ import javax.inject.Inject
 class RegistrationViewModel @Inject constructor(
     private val registrationAccountUseCase: RegistrationAccountUseCase,
     private val registrationStudentUseCase: RegistrationStudentUseCase,
+    private val setAccountInfoUseCase: SetAccountInfoUseCase,
 ) : BaseViewModel() {
 
     private val registrationAccountState =
@@ -42,29 +44,29 @@ class RegistrationViewModel @Inject constructor(
         phoneNumber: String,
         password: String
     ) {
-        viewModelScope.launchJob(
-            tryBlock = {
-                val result = registrationAccountUseCase.invoke(
-                    email = email,
-                    name = name,
-                    surname = surname,
-                    patronymic = patronymic,
-                    phoneNumber = phoneNumber,
-                    password = password
-                )
-                if (result.registrationModel.succeded && result.loginModel.succeeded) {
-                    registrationAccountState.emit(result)
+        viewModelScope.launchJob(tryBlock = {
+            val result = registrationAccountUseCase.invoke(
+                email = email,
+                name = name,
+                surname = surname,
+                patronymic = patronymic,
+                phoneNumber = phoneNumber,
+                password = password
+            )
+            if (result.registrationModel.succeded && result.loginModel.succeeded) {
+                setAccountInfoUseCase(email, password)
+                registrationAccountState.emit(result)
+            } else {
+                if (result.registrationModel.errorMessage.isNotEmpty()) {
+                    resultNotSuccededFlow.tryEmit(result.registrationModel.errorMessage)
                 } else {
-                    if (result.registrationModel.errorMessage.isNotEmpty()) {
-                        resultNotSuccededFlow.tryEmit(result.registrationModel.errorMessage)
-                    } else {
-                        resultNotSuccededFlow.tryEmit(result.loginModel.errorMessage)
-                    }
+                    setAccountInfoUseCase(email, password)
+                    resultNotSuccededFlow.tryEmit(result.loginModel.errorMessage)
                 }
-            }, catchBlock = { error ->
-                handleError(error)
             }
-        )
+        }, catchBlock = { error ->
+            handleError(error)
+        })
     }
 
     fun registerStudent(
@@ -75,24 +77,22 @@ class RegistrationViewModel @Inject constructor(
         phoneNumber: String,
         password: String
     ) {
-        viewModelScope.launchJob(
-            tryBlock = {
-                val result = registrationStudentUseCase.invoke(
-                    email = email,
-                    name = name,
-                    surname = surname,
-                    patronymic = patronymic,
-                    phoneNumber = phoneNumber,
-                    password = password
-                )
-                if (result.succeded) {
-                    registrationStudentState.emit(result)
-                } else {
-                    resultNotSuccededFlow.tryEmit(result.message)
-                }
-            }, catchBlock = { error ->
-                handleError(error)
+        viewModelScope.launchJob(tryBlock = {
+            val result = registrationStudentUseCase.invoke(
+                email = email,
+                name = name,
+                surname = surname,
+                patronymic = patronymic,
+                phoneNumber = phoneNumber,
+                password = password
+            )
+            if (result.succeded) {
+                registrationStudentState.emit(result)
+            } else {
+                resultNotSuccededFlow.tryEmit(result.message)
             }
-        )
+        }, catchBlock = { error ->
+            handleError(error)
+        })
     }
 }

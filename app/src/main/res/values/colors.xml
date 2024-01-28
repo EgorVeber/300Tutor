@@ -39,6 +39,7 @@
 
     //Theme
     <color name="primary_tutor">#E7B12C</color>
+    <color name="primary_tutor_40">#66E7B12C</color>
     <color name="secondary_tutor">#79939D</color>
     <color name="secondary_40_tutor">#6679939D</color>
     <color name="secondary_60_tutor">#9979939D</color>
