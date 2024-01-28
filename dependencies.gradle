@@ -19,4 +19,9 @@ ext.versions = [
         adapterdelegates   : '4.3.2',
         photoView          : '2.3.0',
         swiperefreshlayout : '1.1.0',
+        piechart           : '0.7.0',
+        kaspresso          : '1.5.2',
+        orchestrator       : '1.4.2',
+        hamcrest           : '2.2',
+        junitktx           : '1.1.5',
 ]

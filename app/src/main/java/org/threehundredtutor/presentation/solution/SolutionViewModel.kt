@@ -17,7 +17,6 @@ import org.threehundredtutor.common.utils.SnackBarType
 import org.threehundredtutor.domain.solution.models.TestSolutionGeneralModel
 import org.threehundredtutor.domain.solution.models.params_model.QuestionSolutionIdParamsModel
 import org.threehundredtutor.domain.solution.models.params_model.SaveQuestionPointsValidationParamsModel
-import org.threehundredtutor.domain.solution.models.points.SolutionPointsModel
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerModel
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerValidationResultType
 import org.threehundredtutor.domain.solution.usecase.ChangeLikeQuestionUseCase
@@ -29,6 +28,7 @@ import org.threehundredtutor.domain.solution.usecase.IsAllQuestionHaveAnswerUseC
 import org.threehundredtutor.domain.solution.usecase.ResultQuestionsValidationRemoveUseCase
 import org.threehundredtutor.domain.solution.usecase.ResultQuestionsValidationSaveUseCase
 import org.threehundredtutor.domain.solution.usecase.StartTestUseCase
+import org.threehundredtutor.presentation.solution.mapper.toResultTestUiModel
 import org.threehundredtutor.presentation.solution.solution_factory.SolutionFactory
 import org.threehundredtutor.presentation.solution.ui_models.ResultTestUiModel
 import org.threehundredtutor.presentation.solution.ui_models.SolutionUiItem
@@ -61,6 +61,7 @@ class SolutionViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private var currentSolutionId: String = EMPTY_STRING
+    private var resultTestUiModelCache: ResultTestUiModel? = null
 
     private var questionMap: MutableMap<String, List<String>> = mutableMapOf()
     private var isFinished: Boolean = false
@@ -69,15 +70,17 @@ class SolutionViewModel @Inject constructor(
     private val uiItemsState = MutableStateFlow<List<SolutionUiItem>>(listOf())
     private val uiEventState = SingleSharedFlow<UiEvent>()
     private val finishButtonState = MutableStateFlow(false)
-    private val testInfoState = MutableStateFlow<TestSolutionGeneralModel?>(null)
-    private val resultTestState = MutableStateFlow<ResultTestUiModel?>(null)
+    private val resultButtonState = MutableStateFlow(false)
+    private val testInfoState = MutableStateFlow(EMPTY_STRING)
+    private val resultTestState = SingleSharedFlow<ResultTestUiModel>()
     private val errorState = MutableStateFlow(false)
 
     private var firstViewAttach = true
 
     fun getUiItemStateFlow() = uiItemsState.asStateFlow()
-    fun getResultTestStateStateFlow() = resultTestState.asStateFlow()
+    fun getResultTestStateFlow() = resultTestState.asSharedFlow()
     fun getFinishButtonState() = finishButtonState.asStateFlow()
+    fun getResultButtonState() = resultButtonState.asStateFlow()
     fun getLoadingStateFlow() = loadingState.asStateFlow()
     fun getUiEventStateFlow() = uiEventState.asSharedFlow()
     fun getTestInfoStateFlow() = testInfoState.asSharedFlow()
@@ -97,7 +100,7 @@ class SolutionViewModel @Inject constructor(
             currentSolutionId = testSolutionModel.solutionId
 
             isFinished = testSolutionModel.isFinished
-            testInfoState.update { testSolutionModel }
+            testInfoState.update { testSolutionModel.nameTest }
 
             val uiItemList = solutionFactory.createSolution(testSolutionModel)
             uiItemsState.update { uiItemList }
@@ -115,7 +118,13 @@ class SolutionViewModel @Inject constructor(
                 finishButtonState.emit(true)
             }
 
-            if (needUpdateResultTest) if (isFinished) updateResultTest(getPointsUseCase(solutionId = currentSolutionId))
+            if (testSolutionModel.isFinished) {
+                resultButtonState.emit(true)
+                if (needUpdateResultTest) {
+                    resultTestUiModelCache =
+                        getPointsUseCase(solutionId).toResultTestUiModel(resourceProvider)
+                }
+            }
         }, catchBlock = { throwable ->
             handleError(throwable) {
                 errorState.update { true }
@@ -351,14 +360,12 @@ class SolutionViewModel @Inject constructor(
                     )
                 )
                 uiItemsState.update { currentList }
+                if (isFinished) {
+                    resultTestUiModelCache =
+                        getPointsUseCase(currentSolutionId).toResultTestUiModel(resourceProvider)
+                }
             } else {
                 uiEventState.emit(UiEvent.ShowSnack(result.message, SnackBarType.ERROR))
-            }
-
-            if (isFinished) {
-                // МОжно дописать костыль чтоб испезала фраза о необходимой проверки вопросаю
-                // delay(DELAY_POINT_RESULT)
-                updateResultTest(getPointsUseCase(currentSolutionId))
             }
         }, catchBlock = { throwable ->
             handleError(throwable)
@@ -389,9 +396,10 @@ class SolutionViewModel @Inject constructor(
                 uiItemsState.update { currentList }
 
                 if (isFinished) {
-                    // МОжно дописать костыль чтоб испезала фраза о необходимой проверки вопросаю
-                    updateResultTest(getPointsUseCase(currentSolutionId))
+                    resultTestUiModelCache =
+                        getPointsUseCase(currentSolutionId).toResultTestUiModel(resourceProvider)
                 }
+
             } else {
                 uiEventState.emit(UiEvent.ShowSnack(result.message, SnackBarType.ERROR))
             }
@@ -414,11 +422,9 @@ class SolutionViewModel @Inject constructor(
         viewModelScope.launchJob(tryBlock = {
             loadingState.update { true }
             val result = finishSolutionUseCase.invoke(currentSolutionId)
-            uiEventState.emit(UiEvent.ShowSnack(result.message, SnackBarType.INFO))
             isFinished = result.isSucceeded
-            finishButtonState.emit(false)
-
             if (result.isSucceeded) {
+                uiEventState.emit(UiEvent.ShowSnack(result.message, SnackBarType.INFO))
                 var points = getPointsUseCase(solutionId = currentSolutionId)
                 while (!points.hasPointsResult) {
                     delay(DELAY_POINT_RESULT)
@@ -430,7 +436,9 @@ class SolutionViewModel @Inject constructor(
                     needUpdateResultTest = false
                 )
 
-                updateResultTest(points)
+                finishButtonState.emit(false)
+                resultButtonState.emit(true)
+                updateResultTest(points.toResultTestUiModel(resourceProvider))
             } else {
                 uiEventState.emit(UiEvent.ShowMessage(result.message))
             }
@@ -449,42 +457,6 @@ class SolutionViewModel @Inject constructor(
         }
     }
 
-    private fun getPointString(answerModel: AnswerModel): String =
-        if (answerModel.pointsValidationModel.isValidated) {
-            resourceProvider.string(
-                R.string.points_question,
-                answerModel.pointsValidationModel.answerPoints,
-                answerModel.pointsValidationModel.questionTotalPoints
-            )
-        } else EMPTY_STRING
-
-    private suspend fun isAllQuestionHaveAnswer() {
-        if (isAllQuestionHaveAnswerUseCase()) finishButtonState.emit(true)
-    }
-
-    private fun updateResultTest(pointInfo: SolutionPointsModel) {
-        resultTestState.tryEmit(
-            ResultTestUiModel(
-                questionRight = pointInfo.hasRightAnswerQuestionsCount.toString(),
-                questionCount = pointInfo.questionsCount.toString(),
-                answerPointsAll = pointInfo.studentTotalPoints.toString(),
-                questionTotalPointsAll = pointInfo.maxTotalPoints.toString(),
-                questionCountNeedCheck = if (pointInfo.questionCountNeedCheck > 0) pointInfo.questionCountNeedCheck.toString() else EMPTY_STRING
-            )
-        )
-    }
-
-    private suspend fun getSolution(
-        subjectId: String,
-        solutionId: String
-    ): TestSolutionGeneralModel {
-        val testSolutionModel = if (subjectId.isNotEmpty()) {
-            startTestUseCase.invoke(subjectId)
-        } else {
-            getSolutionUseCase.invoke(solutionId)
-        }
-        return testSolutionModel
-    }
 
     fun onDetailedAnswerTextChanged(item: DetailedAnswerUiItem, text: String) {
         val currentList = uiItemsState.value.toMutableList()
@@ -526,6 +498,47 @@ class SolutionViewModel @Inject constructor(
             loadingState.update { false }
         })
     }
+
+    fun onResultTestClicked() {
+        if (isFinished) {
+            runCatching {
+                updateResultTest(resultTestUiModelCache ?: throw IllegalArgumentException())
+            }.onFailure { throwable ->
+                handleError(throwable)
+            }
+        }
+    }
+
+    private fun getPointString(answerModel: AnswerModel): String =
+        if (answerModel.pointsValidationModel.isValidated) {
+            resourceProvider.string(
+                R.string.points_question,
+                answerModel.pointsValidationModel.answerPoints,
+                answerModel.pointsValidationModel.questionTotalPoints
+            )
+        } else EMPTY_STRING
+
+    private suspend fun isAllQuestionHaveAnswer() {
+        if (isAllQuestionHaveAnswerUseCase()) finishButtonState.emit(true)
+    }
+
+    private fun updateResultTest(resultTestUiModel: ResultTestUiModel) {
+        resultTestUiModelCache = resultTestUiModel
+        resultTestState.tryEmit(resultTestUiModel)
+    }
+
+    private suspend fun getSolution(
+        subjectId: String,
+        solutionId: String
+    ): TestSolutionGeneralModel {
+        val testSolutionModel = if (subjectId.isNotEmpty()) {
+            startTestUseCase.invoke(subjectId)
+        } else {
+            getSolutionUseCase.invoke(solutionId)
+        }
+        return testSolutionModel
+    }
+
 
     sealed interface UiEvent {
         data class ShowMessage(val message: String) : UiEvent

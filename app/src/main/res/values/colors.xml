@@ -39,6 +39,7 @@
 
     //Theme
     <color name="primary_tutor">#E7B12C</color>
+    <color name="primary_tutor_40">#66E7B12C</color>
     <color name="secondary_tutor">#79939D</color>
     <color name="secondary_40_tutor">#6679939D</color>
     <color name="secondary_60_tutor">#9979939D</color>
@@ -51,7 +52,4 @@
     <color name="warning_background_tutor">#FCE8E8</color>
     <color name="ripple_tutor">#10896610</color>
     <color name="ripple_15_tutor">#26896610</color>
-    // Удалить
-    <color name="primary_tutor_60">#99E7B12C</color>
-    <color name="primary_tutor_40">#66E7B12C</color>
 </resources>

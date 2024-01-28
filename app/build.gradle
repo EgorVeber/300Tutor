@@ -92,9 +92,11 @@ dependencies {
     //Swiperefreshlayout
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$versions.swiperefreshlayout"
 
-    androidTestImplementation("com.kaspersky.android-components:kaspresso:1.5.2")
-    androidTestUtil("androidx.test:orchestrator:1.4.2")
+    androidTestImplementation("com.kaspersky.android-components:kaspresso:$versions.kaspresso")
+    androidTestUtil("androidx.test:orchestrator:$versions.orchestrator")
 
-    androidTestImplementation "org.hamcrest:hamcrest:2.2"
-    implementation "androidx.test.ext:junit-ktx:1.1.5"
+    androidTestImplementation "org.hamcrest:hamcrest:$versions.hamcrest"
+    implementation "androidx.test.ext:junit-ktx:$versions.junitktx"
+
+    implementation "ir.mahozad.android:pie-chart:$versions.piechart"
 }

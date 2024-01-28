@@ -108,3 +108,5 @@ fun Int.percentOf(value: Int): Int {
     return if (this == 0 || value == 0) 0
     else ((value.toDouble() / this) * 100).roundToInt()
 }
+
+fun Int.fractionOf(value: Int): Float = (this.percentOf(value) / 100.0).toFloat()
