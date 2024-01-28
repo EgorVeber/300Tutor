@@ -87,12 +87,14 @@
     <string name="received_points_out_of">Получено %1$s баллов из %2$s.</string>
     <string name="received_points_out_of_result">Вы получили %1$s баллов из %2$s.</string>
     <string name="you_answered_out_of_questions_correctly">Вы правильно ответили на %1$s из %2$s вопросов.</string>
+    <string name="pie_chat_title_point">%1$s из %2$s</string>
     <string name="test_solved">Тест решён на %1$s.</string>
     <string name="of_issues_resolved">Решено %1$s вопросов</string>
     <string name="start_date">Дата начала: %1$s</string>
     <string name="end_date">Дата завершения: %1$s</string>
     <string name="finish_test">Завершить тест</string>
     <string name="points_question">Баллы: %1$s из %2$s.</string>
+    <string name="points">Баллы</string>
     <string name="finish">Завершить</string>
     <string name="finish_test_dialog">Завершение теста</string>
     <string name="finish_test_message">Если завершите тест не сможете вернуться к решению</string>
@@ -102,4 +104,5 @@
     <string name="open_site">Перейти на сайт?</string>
     <string name="site">Сайт</string>
     <string name="start_test_message">Началось решение теста</string>
+    <string name="result">Результат решения</string>
 </resources>

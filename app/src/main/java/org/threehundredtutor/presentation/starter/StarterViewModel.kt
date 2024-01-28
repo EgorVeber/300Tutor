@@ -48,7 +48,9 @@ class StarterViewModel @Inject constructor(
                 }
             }
         }, catchBlock = { throwable ->
-            handleError(throwable)
+            handleError(throwable){
+                uiEventState.tryEmit(UiEvent.NavigateAuthorizationScreen)
+            }
         })
     }
 

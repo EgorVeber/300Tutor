@@ -26,19 +26,19 @@ class LoadingDialog : DialogFragment() {
     }
 
     companion object {
-        val TAG = LoadingDialog::class.java.simpleName
+        private val loadingDialogTag = LoadingDialog::class.java.simpleName
 
         fun show(fragmentManager: FragmentManager?) {
             if (fragmentManager == null) return
-            (fragmentManager.findFragmentByTag(TAG) as? LoadingDialog)?.dismissAllowingStateLoss()
+            (fragmentManager.findFragmentByTag(loadingDialogTag) as? LoadingDialog)?.dismissAllowingStateLoss()
             LoadingDialog().apply {
                 retainInstance = true
-            }.show(fragmentManager, TAG)
+            }.show(fragmentManager, loadingDialogTag)
         }
 
         fun close(fragmentManager: FragmentManager?) {
             fragmentManager?.fragments?.filter { dialog ->
-                dialog.tag == TAG
+                dialog.tag == loadingDialogTag
             }?.forEach { dialogFramgent ->
                 (dialogFramgent as? LoadingDialog)?.dismissAllowingStateLoss()
             }

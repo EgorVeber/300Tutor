@@ -65,6 +65,7 @@
 
     <style name="Theme.300Tutor" parent="Base.Theme">
         <item name="primary">@color/primary_tutor</item>
+        <item name="primary40">@color/primary_tutor_40</item>
         <item name="secondary">@color/secondary_tutor</item>
         <item name="secondary40">@color/secondary_40_tutor</item>
         <item name="secondary60">@color/secondary_60_tutor</item>
@@ -81,5 +82,9 @@
 
     <style name="AlertDialogStyle" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
+    </style>
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>
 </resources>

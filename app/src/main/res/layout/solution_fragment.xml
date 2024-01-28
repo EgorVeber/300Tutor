@@ -29,33 +29,10 @@
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/ic_back"
             app:navigationIconTint="?attr/secondary"
-            app:title="@string/solution"
             app:titleCentered="true"
             app:titleTextAppearance="@style/TitleToolbarTextAppearance"
-            app:titleTextColor="?attr/secondary" />
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/testTitleComtainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_8"
-            android:background="?attr/contentBackground"
-            android:orientation="horizontal"
-            android:paddingVertical="@dimen/margin_8"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/accountToolBar">
-
-            <TextView
-                android:id="@+id/testTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/margin_8"
-                android:textColor="?attr/textPrimary"
-                android:textSize="@dimen/text_20"
-                tools:text="Глобальный тест по предмету ОБЖ ЕГЭ" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
+            app:titleTextColor="?attr/secondary"
+            tools:title="Математика ЕГЭ" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerSolution"
@@ -67,7 +44,7 @@
             app:layout_constraintBottom_toTopOf="@+id/finishContainer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/testTitleComtainer"
+            app:layout_constraintTop_toBottomOf="@+id/accountToolBar"
             tools:listitem="@layout/solution_answer_select_right_item" />
 
         <FrameLayout
@@ -98,61 +75,22 @@
                 app:cornerRadius="@dimen/radius_8"
                 app:iconGravity="textStart" />
 
-            <LinearLayout
-                android:id="@+id/testResultContainer"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/showResultButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:background="?attr/contentBackground"
-                android:elevation="@dimen/elevation_8"
-                android:orientation="vertical"
-                android:padding="@dimen/space_10"
+                android:layout_margin="@dimen/margin_10"
+                android:alpha="0.9"
+                android:clickable="false"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/result"
+                android:textAllCaps="true"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:visibility="visible">
-
-                <TextView
-                    android:id="@+id/resultTestPoint"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/margin_4"
-                    android:textColor="?attr/textPrimary"
-                    android:textSize="@dimen/text_18"
-                    app:layout_constraintStart_toStartOf="@+id/nameTestTv"
-                    app:layout_constraintTop_toBottomOf="@+id/separatorDate"
-                    tools:text="Вы получили 7 баллов из 10." />
-
-                <TextView
-                    android:id="@+id/resultTestRightQuestion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/margin_2"
-                    android:textColor="?attr/textPrimary"
-                    android:textSize="@dimen/text_18"
-                    app:layout_constraintStart_toStartOf="@+id/nameTestTv"
-                    app:layout_constraintTop_toBottomOf="@+id/pointWithTestTv"
-                    tools:text="Вы правильно ответили на 3 из 5 вопросов." />
-
-                <TextView
-                    android:id="@+id/resultTestNeedToCheck"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_2"
-                    android:gravity="center"
-                    android:text="@string/logout"
-                    android:textColor="?attr/textPrimary"
-                    android:textSize="@dimen/text_18"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/nameTestTv"
-                    app:layout_constraintTop_toBottomOf="@+id/testIsSolvedPercentTv"
-                    tools:text="Не проверен 1 вопрос. Его необходимо проверить самому или с помощью куратора."
-                    tools:visibility="visible" />
-            </LinearLayout>
+                app:cornerRadius="@dimen/radius_8"
+                app:iconGravity="textStart" />
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

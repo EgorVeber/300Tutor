@@ -40,6 +40,6 @@
         android:indeterminate="true"
         app:indicatorColor="?attr/primary"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:trackColor="@color/primary_tutor_40"
+        app:trackColor="?attr/primary40"
         tools:layout_editor_absoluteX="20dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

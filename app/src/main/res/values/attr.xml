@@ -37,6 +37,7 @@
     <attr name="defaultTransparent" format="reference" />
 
     <attr name="primary" format="reference" />
+    <attr name="primary40" format="reference" />
     <attr name="secondary" format="reference" />
     <attr name="secondary40" format="reference" />
     <attr name="secondary60" format="reference" />

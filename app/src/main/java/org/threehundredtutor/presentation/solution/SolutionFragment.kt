@@ -17,7 +17,6 @@ import org.threehundredtutor.common.extentions.showMessage
 import org.threehundredtutor.common.extentions.showSnackbar
 import org.threehundredtutor.common.getUrlYoutube
 import org.threehundredtutor.common.utils.BundleString
-import org.threehundredtutor.common.utils.SnackBarType
 import org.threehundredtutor.databinding.SolutionFragmentBinding
 import org.threehundredtutor.di.solution.SolutionComponent
 import org.threehundredtutor.presentation.PhotoDetailsFragment.Companion.PHOTO_DETAILED_KEY
@@ -25,7 +24,6 @@ import org.threehundredtutor.presentation.common.ActionDialogFragment
 import org.threehundredtutor.presentation.common.LoadingDialog
 import org.threehundredtutor.presentation.home.HomeFragment.Companion.SUBJECT_TEST_KEY
 import org.threehundredtutor.presentation.solution.adapter.SolutionManager
-import org.threehundredtutor.presentation.solution.ui_models.ResultTestUiModel
 import org.threehundredtutor.presentation.solution_history.SolutionHistoryFragment.Companion.SOLUTION_TEST_KEY
 
 class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
@@ -106,15 +104,16 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
         binding.recyclerSolution.adapter = delegateAdapter
         binding.accountToolBar.setNavigationOnClickListener { onBackPressed() }
         binding.finishButton.setOnClickListener { viewModel.onFinishTestClicked() }
-
+        binding.showResultButton.setOnClickListener { viewModel.onResultTestClicked() }
+        binding.accountToolBar.setOnClickListener {
+            showMessage(binding.accountToolBar.title.toString())
+        }
         viewModel.onViewInitiated(subjectId, solutionId)
     }
 
     override fun onObserveData() {
-        viewModel.getTestInfoStateFlow().observeFlow(this) { testSolutionGeneralModel ->
-            testSolutionGeneralModel?.let {
-                binding.testTitle.text = it.nameTest
-            }
+        viewModel.getTestInfoStateFlow().observeFlow(this) { nameTest ->
+            binding.accountToolBar.title = nameTest
         }
 
         viewModel.getUiItemStateFlow().observeFlow(this) { items ->
@@ -127,6 +126,10 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
 
         viewModel.getFinishButtonState().observeFlow(this) { isVisible ->
             binding.finishButton.isVisible = isVisible
+        }
+
+        viewModel.getResultButtonState().observeFlow(this) { isVisible ->
+            binding.showResultButton.isVisible = isVisible
         }
 
         viewModel.getUiEventStateFlow().observeFlow(this) { state ->
@@ -161,40 +164,13 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
                 SolutionViewModel.UiEvent.NavigateBack -> findNavController().popBackStack()
             }
         }
-        viewModel.getResultTestStateStateFlow().observeFlow(this) { testResult ->
-            testResult?.let { bindTestResultUi(testResult) }
+        viewModel.getResultTestStateFlow().observeFlow(this) { testResult ->
+            SolutionResultDialogFragment.showDialog(testResult, childFragmentManager)
         }
 
         viewModel.getErrorStateFlow().observeFlow(this) { showError ->
             binding.errorImageView.isVisible = showError
             binding.rootContent.isVisible = !showError
-        }
-    }
-
-    private fun bindTestResultUi(testResult: ResultTestUiModel) {
-        binding.finishButton.isVisible = false
-        binding.testResultContainer.isVisible = true
-
-        binding.resultTestPoint.text = getString(
-            R.string.received_points_out_of_result,
-            testResult.answerPointsAll,
-            testResult.questionTotalPointsAll
-        )
-
-        binding.resultTestRightQuestion.text = getString(
-            R.string.you_answered_out_of_questions_correctly,
-            testResult.questionRight,
-            testResult.questionCount
-        )
-
-        if (testResult.questionCountNeedCheck.isNotEmpty()) {
-            binding.resultTestNeedToCheck.isVisible = true
-            binding.resultTestNeedToCheck.text = getString(
-                R.string.result_test_need_to_check_questions,
-                testResult.questionCountNeedCheck,
-            )
-        } else {
-            binding.resultTestNeedToCheck.isVisible = false
         }
     }
 
