@@ -24,7 +24,7 @@ interface AuthorizationComponent {
     @Component.Builder
     interface Builder {
         @BindsInstance
-        fun getBuilder(resourceProvider: ResourceProvider): Builder
+        fun getResourceProvider(resourceProvider: ResourceProvider): Builder
 
         @BindsInstance
         fun getServiceGeneratorProvider(serviceGeneratorProvider: ServiceGeneratorProvider): Builder
@@ -42,7 +42,7 @@ interface AuthorizationComponent {
         fun createAuthorizationComponent(): AuthorizationComponent =
             DaggerAuthorizationComponent
                 .builder()
-                .getBuilder(DiSetHelper.appComponent.getResourceProvider())
+                .getResourceProvider(DiSetHelper.appComponent.getResourceProvider())
                 .getServiceGeneratorProvider(DiSetHelper.appComponent.getServiceGeneratorProvider())
                 .getAccountManager(DiSetHelper.appComponent.getAccountManager())
                 .getAccountManagerRepository(DiSetHelper.appComponent.getAccountManagerRepository())

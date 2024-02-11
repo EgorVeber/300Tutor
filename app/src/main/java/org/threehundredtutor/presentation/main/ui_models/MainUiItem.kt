@@ -1,0 +1,3 @@
+package org.threehundredtutor.presentation.main.ui_models
+
+interface MainUiItem

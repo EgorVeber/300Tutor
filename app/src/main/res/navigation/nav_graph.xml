@@ -96,7 +96,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="org.threehundredtutor.presentation.home.HomeFragment"
+        android:name="org.threehundredtutor.presentation.main.MainFragment"
         android:label="HomeFragment">
         <action
             android:id="@+id/action_subjectFragment_to_solutionFragment"

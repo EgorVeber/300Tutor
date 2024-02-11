@@ -79,6 +79,7 @@
     <string name="start">Начать</string>
     <string name="press_again">Нажмите ещё раз для выхода</string>
     <string name="confirm_logout">Подтвердите выход</string>
+    <string name="confirm_action">Подтвердите действие</string>
     <string name="warning_logout">Вы действительно хотите выйти?</string>
     <string name="complited_solution">Завершенные</string>
     <string name="not_complited_solution">Не завершенные</string>
@@ -102,7 +103,14 @@
     <string name="your_not_answer">[Вы не указали ответ]</string>
     <string name="result_test_need_to_check_questions">Не проверен %1$s вопрос. Его необходимо проверить самому или с помощью куратора.</string>
     <string name="open_site">Перейти на сайт?</string>
+    <string name="open_link">Перейти по ссылке?\n "%1$s"</string>
     <string name="site">Сайт</string>
     <string name="start_test_message">Началось решение теста</string>
     <string name="result">Результат решения</string>
+    <string name="course_access_key">Ключ доступа к курсу</string>
+    <string name="my_course">Мои курсы</string>
+    <string name="choose_course">Подобрать курс</string>
+    <string name="oops">Упс...</string>
+    <string name="dont_havecourses">У вас сейчас нет курсов. Давайте подберём подходящий</string>
+    <string name="activate_key_message">Вы добавлены в группу "%1$s"</string>
 </resources>

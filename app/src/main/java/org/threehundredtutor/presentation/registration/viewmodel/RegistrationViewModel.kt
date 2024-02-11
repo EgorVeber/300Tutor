@@ -53,14 +53,15 @@ class RegistrationViewModel @Inject constructor(
                 phoneNumber = phoneNumber,
                 password = password
             )
+            val userId = result.registrationModel.registeredUser.id
             if (result.registrationModel.succeded && result.loginModel.succeeded) {
-                setAccountInfoUseCase(email, password)
+                setAccountInfoUseCase(email, password, userId)
                 registrationAccountState.emit(result)
             } else {
                 if (result.registrationModel.errorMessage.isNotEmpty()) {
                     resultNotSuccededFlow.tryEmit(result.registrationModel.errorMessage)
                 } else {
-                    setAccountInfoUseCase(email, password)
+                    setAccountInfoUseCase(email, password, userId)
                     resultNotSuccededFlow.tryEmit(result.loginModel.errorMessage)
                 }
             }
@@ -86,7 +87,8 @@ class RegistrationViewModel @Inject constructor(
                 phoneNumber = phoneNumber,
                 password = password
             )
-            if (result.succeded) {
+            if (result.succeeded) {
+                setAccountInfoUseCase(email, password, result.studentId)
                 registrationStudentState.emit(result)
             } else {
                 resultNotSuccededFlow.tryEmit(result.message)

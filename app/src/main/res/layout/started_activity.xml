@@ -13,6 +13,7 @@
         app:itemActiveIndicatorStyle="@null"
         app:itemHorizontalTranslationEnabled="true"
         app:itemIconSize="@dimen/size_28"
+
         android:visibility="gone"
         app:itemIconTint="@color/bnv_tab_item_selector"
         app:itemRippleColor="@color/default_white"

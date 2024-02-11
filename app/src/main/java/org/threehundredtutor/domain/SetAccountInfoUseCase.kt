@@ -5,7 +5,7 @@ import javax.inject.Inject
 class SetAccountInfoUseCase @Inject constructor(
     private val accountManagerRepository: AccountManagerRepository
 ) {
-    operator fun invoke(login: String, password: String) {
-        accountManagerRepository.setAccountInfo(login, password)
+    operator fun invoke(login: String, password: String, userId: String) {
+        accountManagerRepository.setAccountInfo(login = login, password = password, userId = userId)
     }
 }

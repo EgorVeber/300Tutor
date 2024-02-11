@@ -8,8 +8,8 @@ import org.threehundredtutor.data.solution.models.TestSolutionQueryDetailedRespo
 import org.threehundredtutor.data.solution.models.TestSolutionQueryResponse
 import org.threehundredtutor.data.solution.models.finish_test.FinishSolutionRequest
 import org.threehundredtutor.data.solution.models.points.SolutionPointsResponse
-import org.threehundredtutor.data.solution.models.request.CheckAnswerRequest
 import org.threehundredtutor.data.solution.models.request.ChangeLikeQuestionRequest
+import org.threehundredtutor.data.solution.models.request.CheckAnswerRequest
 import org.threehundredtutor.data.solution.models.request.QuestionSolutionIdRequest
 import org.threehundredtutor.data.solution.models.request.SaveQuestionPointsValidationRequest
 import org.threehundredtutor.data.solution.models.start_test.StartTestRequest

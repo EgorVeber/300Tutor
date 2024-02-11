@@ -3,6 +3,7 @@
     <attr name="defaultWhite" format="reference" />
     <attr name="defaultWhite80" format="reference" />
     <attr name="defaultWhite60" format="reference" />
+    <attr name="defaultWhite50" format="reference" />
     <attr name="defaultWhite40" format="reference" />
     <attr name="defaultWhite20" format="reference" />
     <attr name="defaultWhite10" format="reference" />
@@ -50,4 +51,6 @@
     <attr name="warningBackground" format="reference" />
     <attr name="ripple" format="reference" />
     <attr name="ripple15" format="reference" />
+    <attr name="custom_activate" format="reference" />
+    <attr name="custom_text" format="reference" />
 </resources>
