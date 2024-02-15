@@ -2,6 +2,8 @@ package org.threehundredtutor.common.extentions
 
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.CompoundButton
 import android.widget.FrameLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
@@ -48,4 +50,36 @@ fun Fragment.showSnackbar(
         length = length,
         buttonClick = buttonClick
     ).show()
+}
+
+fun View.setDebouncedClickListener(
+    debounceIntervalMs: Int = 700,
+    listener: (view: View?) -> Unit
+) {
+    var lastTapTimestamp: Long = 0
+    val customListener = View.OnClickListener {
+        val currentTime = System.currentTimeMillis()
+        if (currentTime - lastTapTimestamp > debounceIntervalMs) {
+            lastTapTimestamp = currentTime
+            listener(it)
+        }
+    }
+    this.setOnClickListener(customListener)
+}
+
+fun CheckBox.setDebouncedCheckedChangeListener(
+    listener: (isChecked: Boolean) -> Unit
+) {
+    var lastChangeTimestamp: Long = 0
+    val debounceIntervalMs: Int = 700
+
+    val customListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
+        val currentTime = System.currentTimeMillis()
+        if (currentTime - lastChangeTimestamp > debounceIntervalMs) {
+            lastChangeTimestamp = currentTime
+            listener(isChecked)
+        }
+    }
+
+    this.setOnCheckedChangeListener(customListener)
 }
