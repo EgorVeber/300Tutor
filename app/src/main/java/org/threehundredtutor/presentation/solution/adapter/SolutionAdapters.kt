@@ -7,6 +7,8 @@ import androidx.core.widget.addTextChangedListener
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import org.threehundredtutor.R
 import org.threehundredtutor.common.applyBackground
+import org.threehundredtutor.common.extentions.setDebouncedCheckedChangeListener
+import org.threehundredtutor.common.extentions.setDebouncedClickListener
 import org.threehundredtutor.common.fromHtml
 import org.threehundredtutor.common.getColorAttr
 import org.threehundredtutor.common.hideKeyboard
@@ -155,7 +157,7 @@ object SolutionAdapters {
             { layoutInflater, root ->
                 SolutionAnswerSelectRightItemBinding.inflate(layoutInflater, root, false)
             }) {
-            binding.checkbox.setOnCheckedChangeListener { _, checked ->
+            binding.checkbox.setDebouncedCheckedChangeListener { checked ->
                 selectRightAnswerClickListener.invoke(item.questionId, item.answer, checked)
             }
             bind { payloadList ->
@@ -184,7 +186,7 @@ object SolutionAdapters {
             { layoutInflater, root ->
                 SolutionCheckButtonItemBinding.inflate(layoutInflater, root, false)
             }) {
-            binding.checkButton.setOnClickListener {
+            binding.checkButton.setDebouncedClickListener {
                 selectRightAnswerCheckButtonClickListener.invoke(
                     item.questionId
                 )
@@ -197,7 +199,7 @@ object SolutionAdapters {
             { layoutInflater, root ->
                 SolutionRightAnswerItemBinding.inflate(layoutInflater, root, false)
             }) {
-            binding.checkButton.setOnClickListener { view ->
+            binding.checkButton.setDebouncedClickListener { view ->
                 val answer = binding.answerEditText.text.toString().trim()
                 if (answer.isNotEmpty()) {
                     rightAnswerClickListener.invoke(item, answer)
@@ -233,7 +235,7 @@ object SolutionAdapters {
             { layoutInflater, root ->
                 SolutionAnswerWithErrorsItemBinding.inflate(layoutInflater, root, false)
             }) {
-            binding.checkButton.setOnClickListener { view ->
+            binding.checkButton.setDebouncedClickListener { view ->
                 val answer = binding.answerEditText.trimText()
                 if (answer.isNotEmpty()) {
                     answerWithErrorsClickListener.invoke(item, answer)
@@ -268,7 +270,7 @@ object SolutionAdapters {
                 )
             })
         {
-            binding.checkButton.setOnClickListener { view ->
+            binding.checkButton.setDebouncedClickListener { view ->
                 val answer = binding.answerEditText.trimText()
                 if (answer.isNotEmpty()) {
                     detailedAnswerClickListener.invoke(item, answer)
