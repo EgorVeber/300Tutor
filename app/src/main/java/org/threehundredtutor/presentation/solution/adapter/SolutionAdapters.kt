@@ -203,7 +203,7 @@ object SolutionAdapters {
                 val answer = binding.answerEditText.text.toString().trim()
                 if (answer.isNotEmpty()) {
                     rightAnswerClickListener.invoke(item, answer)
-                    view?.hideKeyboard()
+                    view.hideKeyboard()
                 }
             }
             bind {
@@ -239,7 +239,7 @@ object SolutionAdapters {
                 val answer = binding.answerEditText.trimText()
                 if (answer.isNotEmpty()) {
                     answerWithErrorsClickListener.invoke(item, answer)
-                    view?.hideKeyboard()
+                    view.hideKeyboard()
                 }
             }
         }
@@ -274,7 +274,7 @@ object SolutionAdapters {
                 val answer = binding.answerEditText.trimText()
                 if (answer.isNotEmpty()) {
                     detailedAnswerClickListener.invoke(item, answer)
-                    view?.hideKeyboard()
+                    view.hideKeyboard()
                 }
             }
             binding.answerEditText.addTextChangedListener {

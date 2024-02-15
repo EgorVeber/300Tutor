@@ -53,8 +53,8 @@ fun Fragment.showSnackbar(
 }
 
 fun View.setDebouncedClickListener(
-    debounceIntervalMs: Int = 700,
-    listener: (view: View?) -> Unit
+    debounceIntervalMs: Long = 200,
+    listener: (view: View) -> Unit
 ) {
     var lastTapTimestamp: Long = 0
     val customListener = View.OnClickListener {
@@ -71,7 +71,7 @@ fun CheckBox.setDebouncedCheckedChangeListener(
     listener: (isChecked: Boolean) -> Unit
 ) {
     var lastChangeTimestamp: Long = 0
-    val debounceIntervalMs: Int = 700
+    val debounceIntervalMs: Long = 200
 
     val customListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
         val currentTime = System.currentTimeMillis()
