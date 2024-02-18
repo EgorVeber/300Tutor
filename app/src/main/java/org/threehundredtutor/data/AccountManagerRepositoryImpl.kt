@@ -7,9 +7,9 @@ import javax.inject.Inject
 class AccountManagerRepositoryImpl @Inject constructor(
     private val accountManager: AccountManager
 ) : AccountManagerRepository {
-    override fun setAccountInfo(login: String, password: String) {
-        accountManager.setAccountInfo(login, password)
+    override fun setAccountInfo(login: String, password: String, userId: String) {
+        accountManager.setAccountInfo(login, password, userId)
     }
 
-    override fun getAccountInfo(): Pair<String, String> = accountManager.getAccountInfo()
+    override fun getAccountInfo(): Triple<String, String, String> = accountManager.getAccountInfo()
 }

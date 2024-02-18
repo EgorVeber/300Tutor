@@ -22,7 +22,7 @@ import org.threehundredtutor.di.solution.SolutionComponent
 import org.threehundredtutor.presentation.PhotoDetailsFragment.Companion.PHOTO_DETAILED_KEY
 import org.threehundredtutor.presentation.common.ActionDialogFragment
 import org.threehundredtutor.presentation.common.LoadingDialog
-import org.threehundredtutor.presentation.home.HomeFragment.Companion.SUBJECT_TEST_KEY
+import org.threehundredtutor.presentation.main.MainFragment.Companion.SUBJECT_TEST_KEY
 import org.threehundredtutor.presentation.solution.adapter.SolutionManager
 import org.threehundredtutor.presentation.solution_history.SolutionHistoryFragment.Companion.SOLUTION_TEST_KEY
 
@@ -96,7 +96,6 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
     }
 
     private val subjectId by BundleString(SUBJECT_TEST_KEY, EMPTY_STRING)
-
     private val solutionId by BundleString(SOLUTION_TEST_KEY, EMPTY_STRING)
 
     override fun onInitView(savedInstanceState: Bundle?) {

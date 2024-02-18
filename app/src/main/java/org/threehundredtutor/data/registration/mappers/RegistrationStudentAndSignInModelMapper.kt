@@ -5,7 +5,7 @@ import org.threehundredtutor.domain.registration.models.RegistrationStudentAndSi
 
 fun StudentRegisterAndSignInResponse.toRegistrationStudentAndSignInModel(): RegistrationStudentAndSignInModel =
     RegistrationStudentAndSignInModel(
-        succeded = succeded ?: false,
+        succeeded = succeded ?: false,
         message = message.orEmpty(),
         studentId = studentId.orEmpty(),
     )

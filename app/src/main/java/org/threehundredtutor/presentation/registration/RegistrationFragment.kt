@@ -82,7 +82,7 @@ class RegistrationFragment : BaseFragment(R.layout.registration_fragment) {
             }
         }
         viewModel.getRegistrationStudentState().observeFlow(this) { registeredStudent ->
-            if (registeredStudent.succeded) {
+            if (registeredStudent.succeeded) {
                 showMessage(getString(R.string.register_success_message))
                 findNavController().navigate(R.id.action_registrationFragment_to_homeFragment)
             }

@@ -9,13 +9,16 @@ import javax.inject.Inject
 class AccountManager @Inject constructor(
     private val context: Context
 ) {
-    fun setAccountInfo(login: String, password: String) {
+
+    fun setAccountInfo(login: String, password: String, userId: String) {
         context.getSharedPreferences(PREFS_SETTINGS_FILE, Context.MODE_PRIVATE).edit()
             .putString(PREFS_ACCOUNT_LOGIN_KEY, login)
-            .putString(PREFS_ACCOUNT_PASSWORD_KEY, password).apply()
+            .putString(PREFS_ACCOUNT_PASSWORD_KEY, password)
+            .putString(PREFS_ACCOUNT_USER_ID_KEY, userId).apply()
     }
 
-    fun getAccountInfo(): Pair<String, String> {
+    // TODO TutorAndroid-57
+    fun getAccountInfo(): Triple<String, String, String> {
         return with(
             context.getSharedPreferences(
                 PREFS_SETTINGS_FILE,
@@ -25,8 +28,8 @@ class AccountManager @Inject constructor(
         {
             val login = getString(PREFS_ACCOUNT_LOGIN_KEY, EMPTY_STRING) ?: EMPTY_STRING
             val password = getString(PREFS_ACCOUNT_PASSWORD_KEY, EMPTY_STRING) ?: EMPTY_STRING
-
-            login to password
+            val userId = getString(PREFS_ACCOUNT_USER_ID_KEY, EMPTY_STRING) ?: EMPTY_STRING
+            Triple(login, password, userId)
         }
     }
 
@@ -61,6 +64,7 @@ class AccountManager @Inject constructor(
         private const val PREFS_SETTINGS_FILE = "PREFS_SETTINGS_FILE"
         private const val PREFS_ACCOUNT_LOGIN_KEY = "PREFS_ACCOUNT_LOGIN_KEY"
         private const val PREFS_ACCOUNT_PASSWORD_KEY = "PREFS_ACCOUNT_PASSWORD_KEY"
+        private const val PREFS_ACCOUNT_USER_ID_KEY = "PREFS_ACCOUNT_USER_ID_KEY"
         private const val COOKIE_ANALYTICS_TAG = "CookieAnalytics"
         private const val PREFS_COOKIE_FILE = "PREFS_COOKIE_FILE"
         private const val PREFS_COOKIE_KEY = "PREFS_COOKIE_KEY"

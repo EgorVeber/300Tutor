@@ -1,7 +1,12 @@
 package org.threehundredtutor.di
 
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.AbstractSavedStateViewModelFactory
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.savedstate.SavedStateRegistryOwner
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -21,4 +26,21 @@ class ViewModelMapFactory @Inject constructor(
             ?: throw IllegalArgumentException("Нету провайдера, фактори для вью модели такова класса $modelClass")
         return viewModelProvider.get() as T
     }
+}
+
+class Factory<T: ViewModel>(
+    savedStateRegistryOwner: SavedStateRegistryOwner,
+    private val create: (stateHandle: SavedStateHandle) -> T
+) : AbstractSavedStateViewModelFactory(savedStateRegistryOwner, null) {
+    override fun <T : ViewModel> create(key: String, modelClass: Class<T>,
+        handle: SavedStateHandle
+    ): T {
+        return create.invoke(handle) as T
+    }
+}
+
+inline fun <reified T : ViewModel> Fragment.lazyViewModel(
+    noinline create: (stateHandle: SavedStateHandle) -> T
+) = viewModels<T> {
+    Factory(this, create)
 }

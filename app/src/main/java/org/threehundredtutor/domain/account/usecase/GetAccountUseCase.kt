@@ -5,7 +5,7 @@ import org.threehundredtutor.domain.account.models.AccountModel
 import javax.inject.Inject
 
 class GetAccountUseCase @Inject constructor(
-    private val repository: AccountRepository
+    private val accountRepository: AccountRepository
 ) {
-    suspend operator fun invoke(): AccountModel = repository.getAccount()
+    suspend operator fun invoke(): AccountModel = accountRepository.getAccount()
 }

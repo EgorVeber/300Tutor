@@ -33,8 +33,13 @@ class SolutionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getSolutionDetailed(solutionId: String): TestSolutionGeneralModel {
-        val testSolutionGeneralModel =
-            solutionRemoteDataSource.getSolutionDetailed(solutionId).toTestSolutionGeneralModel()
+        val testSolutionGeneralModel = solutionRemoteDataSource.getSolutionDetailed(solutionId).toTestSolutionGeneralModel()
+        solutionLocalDataSource.saveAnswers(testSolutionGeneralModel.testSolutionModel)
+        return testSolutionGeneralModel
+    }
+
+    override suspend fun startByTestId(testId: String): TestSolutionGeneralModel {
+        val testSolutionGeneralModel = solutionRemoteDataSource.startByTestId(testId)?.toTestSolutionGeneralModel() ?: throw ServerException()
         solutionLocalDataSource.saveAnswers(testSolutionGeneralModel.testSolutionModel)
         return testSolutionGeneralModel
     }
@@ -73,14 +78,6 @@ class SolutionRepositoryImpl @Inject constructor(
                 },
             )
         ).toQuestionAnswersWithResultBaseApiModel()
-    }
-
-    override suspend fun startByTestId(testId: String): TestSolutionGeneralModel {
-        val testSolutionGeneralModel =
-            solutionRemoteDataSource.startByTestId(testId)?.toTestSolutionGeneralModel()
-                ?: throw ServerException()
-        solutionLocalDataSource.saveAnswers(testSolutionGeneralModel.testSolutionModel)
-        return testSolutionGeneralModel
     }
 
     override suspend fun resultQuestionsValidationSave(

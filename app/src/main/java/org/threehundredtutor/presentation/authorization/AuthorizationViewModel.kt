@@ -9,6 +9,7 @@ import org.threehundredtutor.common.extentions.SingleSharedFlow
 import org.threehundredtutor.common.extentions.launchJob
 import org.threehundredtutor.data.core.models.ErrorType
 import org.threehundredtutor.domain.SetAccountInfoUseCase
+import org.threehundredtutor.domain.account.usecase.GetAccountUseCase
 import org.threehundredtutor.domain.authorization.LoginDateModel
 import org.threehundredtutor.domain.authorization.LoginModel
 import org.threehundredtutor.domain.authorization.LoginUseCase
@@ -17,6 +18,7 @@ import javax.inject.Inject
 class AuthorizationViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val setAccountInfoUseCase: SetAccountInfoUseCase,
+    private val getAccountUseCase: GetAccountUseCase,
 ) : BaseViewModel() {
 
     private val openScreenEventState = SingleSharedFlow<NavigateScreenState>()
@@ -35,7 +37,12 @@ class AuthorizationViewModel @Inject constructor(
             val emailOrPhone = if (inputTypeState.value is InputTypeState.Phone) phone else email
             val loginModel = loginUseCase(LoginDateModel(password, false, emailOrPhone))
             if (loginModel.succeeded) {
-                setAccountInfoUseCase.invoke(login = emailOrPhone, password = password)
+                val accountInfo = getAccountUseCase()
+                setAccountInfoUseCase.invoke(
+                    login = emailOrPhone,
+                    password = password,
+                    userId = accountInfo.userId
+                )
                 openScreenEventState.emit(NavigateScreenState.NavigateHomeScreen)
             } else extractError(loginModel)
         }, catchBlock = { throwable ->

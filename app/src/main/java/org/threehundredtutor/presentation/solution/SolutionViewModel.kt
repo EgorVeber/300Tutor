@@ -11,7 +11,6 @@ import org.threehundredtutor.base.BaseViewModel
 import org.threehundredtutor.common.EMPTY_STRING
 import org.threehundredtutor.common.extentions.SingleSharedFlow
 import org.threehundredtutor.common.extentions.launchJob
-import org.threehundredtutor.common.orDefaultNotValidValue
 import org.threehundredtutor.common.utils.ResourceProvider
 import org.threehundredtutor.common.utils.SnackBarType
 import org.threehundredtutor.domain.solution.models.TestSolutionGeneralModel
@@ -333,7 +332,7 @@ class SolutionViewModel @Inject constructor(
             loadingState.update { true }
             val result = validationSaveUseCase(
                 SaveQuestionPointsValidationParamsModel(
-                    answerPoints = inputPoint.toIntOrNull().orDefaultNotValidValue(),
+                    answerPoints = inputPoint.toIntOrNull() ?: throw IllegalArgumentException(),
                     description = EMPTY_STRING,
                     questionSolutionIdParamsModel = QuestionSolutionIdParamsModel(
                         questionId = answerValidationItemUiModel.questionId,
@@ -473,6 +472,8 @@ class SolutionViewModel @Inject constructor(
     fun onQuestionLikeClicked(headerUiItem: HeaderUiItem) {
         viewModelScope.launchJob(tryBlock = {
             loadingState.update { true }
+
+            //  TODO Придумать че делать № LikeNotValidation
             val result = changeLikeQuestionUseCase.invoke(
                 questionId = headerUiItem.questionId,
                 hasLike = !headerUiItem.isQuestionLikedByStudent
@@ -538,7 +539,6 @@ class SolutionViewModel @Inject constructor(
         }
         return testSolutionModel
     }
-
 
     sealed interface UiEvent {
         data class ShowMessage(val message: String) : UiEvent
