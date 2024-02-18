@@ -13,23 +13,22 @@
             android:id="@+id/action_startedFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
         <action
-            app:launchSingleTop="true"
-            app:popUpTo="@+id/main_nav_graph"
-            app:popUpToInclusive="true"
             android:id="@+id/action_startedFragment_to_authorizationFragment"
             app:destination="@id/authorizationFragment"
-            />
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/main_nav_graph"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_startedFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/authorizationFragment"
+        android:name="org.threehundredtutor.presentation.authorization.AuthorizationFragment"
+        android:label="AuthorizationFragment"
         app:launchSingleTop="true"
         app:popUpTo="@+id/main_nav_graph"
-        app:popUpToInclusive="true"
-        android:name="org.threehundredtutor.presentation.authorization.AuthorizationFragment"
-        android:label="AuthorizationFragment">
+        app:popUpToInclusive="true">
         <action
             android:id="@+id/action_authorizationFragment_to_registration"
             app:destination="@id/registrationFragment" />
@@ -38,7 +37,7 @@
             app:destination="@id/restorPasswordFragment" />
         <action
             android:id="@+id/action_authorizationFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
@@ -51,7 +50,7 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_registrationFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/restorPasswordFragment"
@@ -70,7 +69,7 @@
             app:destination="@id/authorizationFragment" />
         <action
             android:id="@+id/action_accountFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/solutionFragment"
@@ -95,28 +94,52 @@
             app:destination="@id/solutionFragment" />
     </fragment>
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="org.threehundredtutor.presentation.home.HomeFragment"
-        android:label="HomeFragment">
+        android:id="@+id/mainFragment"
+        android:name="org.threehundredtutor.presentation.main.MainFragment"
+        android:label="MainFragment">
         <action
-            android:id="@+id/action_subjectFragment_to_solutionFragment"
-            app:destination="@id/solutionFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_accountFragment"
+            android:id="@+id/action_maineFragment_to_accountFragment"
             app:destination="@id/accountFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_solutionHistoryFragment"
-            app:destination="@id/solutionHistoryFragment" />
+            android:id="@+id/action_mainFragment_to_subjectDetailedFragment"
+            app:destination="@id/subjectDetailedFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/solutionHistoryFragment"
         android:name="org.threehundredtutor.presentation.solution_history.SolutionHistoryFragment"
-        android:label="SolutionHistoryFragment" >
+        android:label="SolutionHistoryFragment">
         <action
             android:id="@+id/action_solutionHistoryFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/mainFragment" />
         <action
             android:id="@+id/action_solutionHistoryFragment_to_solutionFragment"
             app:destination="@id/solutionFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/subjectDetailedFragment"
+        android:name="org.threehundredtutor.presentation.subject_detailed.SubjectDetailedFragment"
+        android:label="SubjectDetailedFragment">
+        <action
+            android:id="@+id/action_subjectDetailedFragment_to_subjectTestsFragment"
+            app:destination="@id/subjectTestsFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <action
+        android:id="@+id/action_subjectDetailedFragment_to_subjectDetailedFragment"
+        app:destination="@id/subjectDetailedFragment"
+        app:enterAnim="@android:anim/fade_in"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+    <fragment
+        android:id="@+id/subjectTestsFragment"
+        android:name="org.threehundredtutor.presentation.subject_tests.SubjectTestsFragment"
+        android:label="SubjectTestsFragment" />
 </navigation>

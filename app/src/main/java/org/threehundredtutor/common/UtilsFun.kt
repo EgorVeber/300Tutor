@@ -92,7 +92,7 @@ fun String.videoId() =
     this.substringAfterLast('=')
 
 fun String.addPercent() = "$this%"
-
+fun String.addQuotes() = "'$this'"
 //TODO разбить все екстеншн по папачкам красиво
 
 fun View.hideKeyboard(): Boolean = try {

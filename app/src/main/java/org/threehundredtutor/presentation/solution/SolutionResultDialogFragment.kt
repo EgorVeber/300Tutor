@@ -13,6 +13,8 @@ import org.threehundredtutor.common.getColorAttr
 import org.threehundredtutor.common.utils.BundleParcelable
 import org.threehundredtutor.databinding.SolutionResultDialogBinding
 import org.threehundredtutor.presentation.solution.ui_models.ResultTestUiModel
+import kotlin.math.abs
+
 
 class SolutionResultDialogFragment : BottomSheetDialogFragment() {
     lateinit var binding: SolutionResultDialogBinding
@@ -33,7 +35,6 @@ class SolutionResultDialogFragment : BottomSheetDialogFragment() {
         onInitView()
     }
 
-
     private fun onInitView() {
         with(binding) {
             pieChart.slices = getSlices()
@@ -51,7 +52,7 @@ class SolutionResultDialogFragment : BottomSheetDialogFragment() {
             color = getColorAttr(R.attr.primary, needResId = false)
         ),
         Slice(
-            fraction = 1 - resultTest.fractionAnswer,
+            fraction = abs(1 - resultTest.fractionAnswer),
             color = getColorAttr(R.attr.primary40, needResId = false)
         )
     )

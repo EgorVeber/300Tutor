@@ -14,11 +14,11 @@ import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_START
 import org.threehundredtutor.data.solution.models.BaseApiResponse
 import org.threehundredtutor.data.solution.models.QuestionAnswerWithResultBaseApiResponse
 import org.threehundredtutor.data.solution.models.QuestionAnswersWithResultBaseApiResponse
-import org.threehundredtutor.data.solution.models.request.ChangeLikeQuestionRequest
 import org.threehundredtutor.data.solution.models.TestSolutionQueryDetailedResponse
 import org.threehundredtutor.data.solution.models.TestSolutionQueryResponse
 import org.threehundredtutor.data.solution.models.finish_test.FinishSolutionRequest
 import org.threehundredtutor.data.solution.models.points.SolutionPointsResponse
+import org.threehundredtutor.data.solution.models.request.ChangeLikeQuestionRequest
 import org.threehundredtutor.data.solution.models.request.CheckAnswerRequest
 import org.threehundredtutor.data.solution.models.request.QuestionSolutionIdRequest
 import org.threehundredtutor.data.solution.models.request.SaveQuestionPointsValidationRequest

@@ -1,0 +1,3 @@
+package org.threehundredtutor.presentation.subject_tests.ui_models
+
+interface SubjectTestsUiItem

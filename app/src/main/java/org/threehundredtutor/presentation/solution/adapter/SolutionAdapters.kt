@@ -318,7 +318,7 @@ object SolutionAdapters {
                 // binding.pointQuestionTv.isVisible = item.pointsString.isNotEmpty()
                 binding.totalPointEditText.setText(item.pointTotal)
                 binding.iconDelete.isVisible = item.isValidated
-                binding.resultButton.bindResultType(item.type) // можно кастыль пока сервак неправильно присылает
+                binding.resultButton.bindResultType(item.type)
                 binding.resultButton.isVisible = item.isValidated
                 binding.estimateButton.isClickable = !item.isValidated
                 binding.estimateButton.isVisible = !item.isValidated

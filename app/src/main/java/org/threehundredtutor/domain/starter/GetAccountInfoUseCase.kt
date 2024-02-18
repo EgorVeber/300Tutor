@@ -6,5 +6,6 @@ import javax.inject.Inject
 class GetAccountInfoUseCase @Inject constructor(
     private val accountManagerRepository: AccountManagerRepository
 ) {
-     operator fun invoke(): Pair<String, String> = accountManagerRepository.getAccountInfo()
+    operator fun invoke(): Triple<String, String, String> =
+        accountManagerRepository.getAccountInfo()
 }

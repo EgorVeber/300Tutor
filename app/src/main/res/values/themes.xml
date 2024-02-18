@@ -29,6 +29,7 @@
         <item name="defaultWhite">@color/default_white</item>
         <item name="defaultWhite80">@color/default_white_80</item>
         <item name="defaultWhite60">@color/default_white_60</item>
+        <item name="defaultWhite50">@color/default_white_50</item>
         <item name="defaultWhite40">@color/default_white_40</item>
         <item name="defaultWhite20">@color/default_white_20</item>
         <item name="defaultWhite10">@color/default_white_10</item>
@@ -78,6 +79,8 @@
         <item name="warningBackground">@color/warning_background_tutor</item>
         <item name="ripple">@color/ripple_tutor</item>
         <item name="ripple15">@color/ripple_15_tutor</item>
+        <item name="custom_activate">@color/custom_activate_tutor</item>
+        <item name="custom_text">@color/custom_activate_tutor</item>
     </style>
 
     <style name="AlertDialogStyle" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">

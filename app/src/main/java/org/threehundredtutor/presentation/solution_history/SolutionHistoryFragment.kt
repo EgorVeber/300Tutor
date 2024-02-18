@@ -8,6 +8,7 @@ import org.threehundredtutor.R
 import org.threehundredtutor.base.BaseFragment
 import org.threehundredtutor.common.extentions.navigate
 import org.threehundredtutor.common.extentions.observeFlow
+import org.threehundredtutor.common.extentions.setDebouncedClickListener
 import org.threehundredtutor.databinding.FragmentSolutionHistoryBinding
 import org.threehundredtutor.di.solution_history.SolutionHistoryComponent
 import org.threehundredtutor.presentation.common.ActionDialogFragment
@@ -93,13 +94,13 @@ class SolutionHistoryFragment : BaseFragment(R.layout.fragment_solution_history)
 
     override fun onInitView(savedInstanceState: Bundle?) {
         binding.recyclerSolutionHistory.adapter = delegateAdapter
-        binding.completedSolution.setOnClickListener {
+        binding.completedSolution.setDebouncedClickListener {
             viewModel.onCompletedChipClicked()
         }
-        binding.allSolution.setOnClickListener {
+        binding.allSolution.setDebouncedClickListener {
             viewModel.onAllChipClicked()
         }
-        binding.notCompletedSolution.setOnClickListener {
+        binding.notCompletedSolution.setDebouncedClickListener {
             viewModel.onNotCompletedChipClicked()
         }
         binding.swipeRefreshLayout.setOnRefreshListener { viewModel.onRefresh() }

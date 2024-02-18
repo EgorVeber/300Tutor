@@ -10,16 +10,12 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "org.threehundredtutor"
         minSdk 21
         targetSdk 33
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        //buildConfigField "String", "BASE_URL", "\"https://api.kursbio.ru/api/\""
-        buildConfigField "String", "BASE_URL", "\"https://mini-apps.crocosoft.ru/api/\""
     }
 
     buildTypes {
@@ -38,6 +34,21 @@ android {
     buildFeatures {
         buildConfig = true
         viewBinding true
+    }
+    flavorDimensions "org.threehundredtutor"
+    productFlavors {
+        threehundredtutor {
+            applicationId "org.threehundredtutor.demo"
+            dimension "org.threehundredtutor"
+            buildConfigField "String", "BASE_URL", "\"https://mini-apps.crocosoft.ru/api/\""
+            buildConfigField "String", "REF_ID", "\"1\""
+        }
+        kursbio {
+            applicationId "org.threehundredtutor.kursbio"
+            dimension "org.threehundredtutor"
+            buildConfigField "String", "BASE_URL", "\"https://api.kursbio.ru/api/\""
+            buildConfigField "String", "REF_ID", "\"2\""
+        }
     }
 }
 apply from: "../dependencies.gradle"

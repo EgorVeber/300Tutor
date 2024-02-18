@@ -51,6 +51,7 @@ class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment) {
         }
 
         imageContainer.setOnClickListener {
+            passwordEditText.setText("1234@Abc")
             viewModel.onImageClicked(emailTextInput.isVisible)
         }
 
@@ -60,11 +61,9 @@ class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment) {
 
         //TODO Test--Удалить
         tutorImage.setOnClickListener {
-            // passwordEditText.setText("VbAn@9873")
-            //  emailEditText.setText("newjamesohara@gmail.com")
-            passwordEditText.setText("1234@Abc")
+            passwordEditText.setText("Qwe123qwe")
             emailEditText.setText("James@e-mail.ru")
-            phoneInputEt.setText("9208309193") // если 9208309193 и авторизоваться через телефон то не студент, можно будет так проверять функционал если с 89208309193 то таже учетка что и почта  James@e-mail.ru
+            phoneInputEt.setText("9208309193")
         }
         tutorImage.setOnLongClickListener {
             passwordEditText.setText("")
