@@ -3,6 +3,7 @@ package org.threehundredtutor.presentation.main
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -14,6 +15,8 @@ import org.threehundredtutor.common.extentions.observeFlow
 import org.threehundredtutor.common.extentions.showSnackbar
 import org.threehundredtutor.databinding.MainFragmentBinding
 import org.threehundredtutor.di.subject.HomeComponent
+import org.threehundredtutor.junit.mockk_date.GetAllCountriesUseCase
+import org.threehundredtutor.junit.mockk_date.GetAllowedCountriesUseCase
 import org.threehundredtutor.presentation.common.ActionDialogFragment
 import org.threehundredtutor.presentation.main.adapter.MainManager
 import org.threehundredtutor.presentation.main.ui_models.SubjectTestUiModel
@@ -59,10 +62,33 @@ class MainFragment : BaseFragment(R.layout.main_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = MainFragmentBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
+
     }
 
     override fun onInitView(savedInstanceState: Bundle?) {
         binding.subjectRecycler.adapter = delegateAdapter
+
+
+        val getAllowedCountriesUseCase = GetAllowedCountriesUseCase().invoke()
+        val getAllCountryUseCase = GetAllCountriesUseCase().invoke()
+
+        val allCountryName = getAllCountryUseCase.map { it.name }
+        val allowedCountryName = getAllowedCountriesUseCase.map { it.name }
+        val resultContains = allCountryName - allowedCountryName.toSet()
+
+        Log.d(
+            "JunitScenario",
+            "getAllowedCountriesUseCase Size - ${getAllowedCountriesUseCase.size}"
+        )
+        Log.d(
+            "JunitScenario",
+            "getAllCountryUseCase Size - ${getAllCountryUseCase.size}"
+        )
+        Log.d(
+            "JunitScenario", "getAllowedCountriesUseCase - $getAllowedCountriesUseCase"
+        )
+        Log.d("JunitScenario", "getAllCountryUseCase - $getAllCountryUseCase")
+        Log.d("JunitScenario", "Contains - $resultContains")
     }
 
     override fun onObserveData() {

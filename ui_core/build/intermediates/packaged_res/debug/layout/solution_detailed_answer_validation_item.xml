@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/contentBackground"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/solution_item_space_horizontal">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/needToCheckButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_8"
+        android:alpha="0.9"
+        android:clickable="false"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/answer_needs_to_be_checked"
+        app:cornerRadius="@dimen/radius_8"
+        app:icon="@drawable/ic_hand"
+        app:iconGravity="textStart"
+        app:iconSize="@dimen/size_24" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_8">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/points_answer"
+            android:textColor="?attr/defaultBlack"
+            android:textSize="@dimen/text_18" />
+
+        <ImageView
+            android:id="@+id/iconDelete"
+            android:layout_width="@dimen/size_32"
+            android:layout_height="@dimen/size_32"
+            android:layout_gravity="right"
+            android:src="@drawable/ic_delete"
+            android:visibility="gone"
+            app:tint="?attr/defaultRed"
+            tools:visibility="visible" />
+    </FrameLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputPointTextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:errorIconDrawable="@null"
+        app:hintTextColor="?attr/defaultBlack">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputPointEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_4"
+            android:fontFamily="@font/roboto"
+            android:hint="@string/detailed_answer_received"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:textAlignment="viewStart"
+            android:textColor="?attr/textPrimary"
+            android:textColorHint="?attr/textPrimary"
+            android:theme="@style/EditTextCursorColor" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/totalPointTextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:errorIconDrawable="@null"
+        app:hintTextColor="?attr/defaultBlack">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/totalPointEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_4"
+            android:enabled="false"
+            android:fontFamily="@font/roboto"
+            android:hint="@string/detailed_answer_total"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:textAlignment="viewStart"
+            android:textColor="?attr/textPrimary"
+            android:textColorHint="?attr/textPrimary"
+            android:theme="@style/EditTextCursorColor" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/estimateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_8"
+        android:alpha="0.9"
+        android:clickable="false"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/estimate_text"
+        android:textSize="@dimen/text_16"
+        app:cornerRadius="@dimen/radius_8"
+        app:iconGravity="textStart"
+        app:iconSize="@dimen/size_24" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/resultButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_8"
+        android:alpha="0.9"
+        android:clickable="false"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:textSize="@dimen/text_16"
+        app:cornerRadius="@dimen/radius_8"
+        app:iconGravity="textStart"
+        app:iconSize="@dimen/size_24"
+        tools:icon="@drawable/ic_allmost_answer"
+        tools:text="@string/allmost_the_right_answer" />
+
+    <TextView
+        android:id="@+id/pointQuestionTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/margin_8"
+        android:text="@string/points_question"
+        android:textSize="@dimen/text_18"
+        android:visibility="gone"
+        tools:visibility="visible" />
+</LinearLayout>

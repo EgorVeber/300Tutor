@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/mainFragment"
+        android:icon="@drawable/ic_home"
+        android:title="@string/main_menu_home_title"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/solutionHistoryFragment"
+        android:icon="@drawable/ic_quality_education"
+        android:title="@string/main_menu_test_solution_title"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/accountFragment"
+        android:icon="@drawable/ic_persone"
+        android:title="@string/main_menu_profile_title"
+        app:showAsAction="ifRoom" />
+</menu>

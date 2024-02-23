@@ -20,6 +20,11 @@ import org.threehundredtutor.domain.main.usecase.GetCoursesUseCase
 import org.threehundredtutor.domain.main.usecase.GetExtraButtonsUseCase
 import org.threehundredtutor.domain.main.usecase.GetSubjectUseCase
 import org.threehundredtutor.domain.main.usecase.SearchTestUseCase
+import org.threehundredtutor.junit.GetRegistrationChoiceItemsByTypeScenario
+import org.threehundredtutor.junit.mockk_date.RegistrationChoiceType
+import org.threehundredtutor.junit.mockk_date.getAllBlackList
+import org.threehundredtutor.junit.mockk_date.getMockWhiteList
+import org.threehundredtutor.junit.mockk_date.getMockkBlackList
 import org.threehundredtutor.presentation.main.mapper.toCourseProgressUiModel
 import org.threehundredtutor.presentation.main.mapper.toCourseUiModel
 import org.threehundredtutor.presentation.main.mapper.toSubjectTestUiModel
@@ -44,6 +49,7 @@ class MainViewModel @Inject constructor(
     private val resourceProvider: ResourceProvider,
     private val enterGroupUseCase: EnterGroupUseCase,
     private val getExtraButtonsUseCase: GetExtraButtonsUseCase,
+    private val getRegistrationChoiceItemsByTypeScenario: GetRegistrationChoiceItemsByTypeScenario,
 ) : BaseViewModel() {
 
     private val uiItemsState = MutableStateFlow<List<MainUiItem>>(listOf())
@@ -56,6 +62,12 @@ class MainViewModel @Inject constructor(
 
     init {
         loadListData()
+        getRegistrationChoiceItemsByTypeScenario.invoke(
+            selectedCountryId = "1",
+            type = RegistrationChoiceType.PHONE,
+            whiteList = listOf(),
+            blackList = getMockkBlackList()
+        )
     }
 
     private fun loadListData() {

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/defaultWhite"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/dialogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_16"
+        android:gravity="center"
+        android:textColor="?attr/primary"
+        android:textSize="@dimen/text_20"
+        tools:text="AAAAAAAAAAAAAAAAAAAAAAAAA" />
+
+    <TextView
+        android:id="@+id/dialogDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_8"
+        android:layout_marginBottom="@dimen/margin_20"
+        android:autoLink="web"
+        android:gravity="center"
+        android:textColor="?attr/textPrimary"
+        android:textColorHighlight="?attr/contentBackground"
+        android:textSize="@dimen/text_16"
+        tools:text="MessageMessageMessageMessageMessageMessageMessageMessageMessageMessageMessageMessageMessageMessage" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/separator" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/positiveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="?attr/defaultWhite"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:textColor="?attr/primary"
+            android:textSize="@dimen/text_16"
+            app:cornerRadius="0dp"
+            app:rippleColor="?attr/background"
+            tools:text="Ok" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="?attr/separator" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/negativeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="?attr/defaultWhite"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:textColor="?attr/primary"
+            android:textSize="@dimen/text_16"
+            app:cornerRadius="0dp"
+            app:rippleColor="?attr/background"
+            tools:text="Cancel" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/neutralView"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/separator" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/neutralButton"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:backgroundTint="?attr/defaultWhite"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:textColor="?attr/primary"
+        android:textSize="@dimen/text_16"
+        app:cornerRadius="0dp"
+        app:rippleColor="?attr/background"
+        tools:text="Понятно" />
+</LinearLayout>

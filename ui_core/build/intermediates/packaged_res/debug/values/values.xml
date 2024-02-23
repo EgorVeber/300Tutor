@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="http://schemas.android.com/tools">
+    <array name="com_google_android_gms_fonts_certs">
+        <item>@array/com_google_android_gms_fonts_certs_dev</item>
+        <item>@array/com_google_android_gms_fonts_certs_prod</item>
+    </array>
+    <string-array name="com_google_android_gms_fonts_certs_dev">
+        <item>
+            MIIEqDCCA5CgAwIBAgIJANWFuGx90071MA0GCSqGSIb3DQEBBAUAMIGUMQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEQMA4GA1UEChMHQW5kcm9pZDEQMA4GA1UECxMHQW5kcm9pZDEQMA4GA1UEAxMHQW5kcm9pZDEiMCAGCSqGSIb3DQEJARYTYW5kcm9pZEBhbmRyb2lkLmNvbTAeFw0wODA0MTUyMzM2NTZaFw0zNTA5MDEyMzM2NTZaMIGUMQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEQMA4GA1UEChMHQW5kcm9pZDEQMA4GA1UECxMHQW5kcm9pZDEQMA4GA1UEAxMHQW5kcm9pZDEiMCAGCSqGSIb3DQEJARYTYW5kcm9pZEBhbmRyb2lkLmNvbTCCASAwDQYJKoZIhvcNAQEBBQADggENADCCAQgCggEBANbOLggKv+IxTdGNs8/TGFy0PTP6DHThvbbR24kT9ixcOd9W+EaBPWW+wPPKQmsHxajtWjmQwWfna8mZuSeJS48LIgAZlKkpFeVyxW0qMBujb8X8ETrWy550NaFtI6t9+u7hZeTfHwqNvacKhp1RbE6dBRGWynwMVX8XW8N1+UjFaq6GCJukT4qmpN2afb8sCjUigq0GuMwYXrFVee74bQgLHWGJwPmvmLHC69EH6kWr22ijx4OKXlSIx2xT1AsSHee70w5iDBiK4aph27yH3TxkXy9V89TDdexAcKk/cVHYNnDBapcavl7y0RiQ4biu8ymM8Ga/nmzhRKya6G0cGw8CAQOjgfwwgfkwHQYDVR0OBBYEFI0cxb6VTEM8YYY6FbBMvAPyT+CyMIHJBgNVHSMEgcEwgb6AFI0cxb6VTEM8YYY6FbBMvAPyT+CyoYGapIGXMIGUMQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEQMA4GA1UEChMHQW5kcm9pZDEQMA4GA1UECxMHQW5kcm9pZDEQMA4GA1UEAxMHQW5kcm9pZDEiMCAGCSqGSIb3DQEJARYTYW5kcm9pZEBhbmRyb2lkLmNvbYIJANWFuGx90071MAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQEEBQADggEBABnTDPEF+3iSP0wNfdIjIz1AlnrPzgAIHVvXxunW7SBrDhEglQZBbKJEk5kT0mtKoOD1JMrSu1xuTKEBahWRbqHsXclaXjoBADb0kkjVEJu/Lh5hgYZnOjvlba8Ld7HCKePCVePoTJBdI4fvugnL8TsgK05aIskyY0hKI9L8KfqfGTl1lzOv2KoWD0KWwtAWPoGChZxmQ+nBli+gwYMzM1vAkP+aayLe0a1EQimlOalO762r0GXO0ks+UeXde2Z4e+8S/pf7pITEI/tP+MxJTALw9QUWEv9lKTk+jkbqxbsh8nfBUapfKqYn0eidpwq2AzVp3juYl7//fKnaPhJD9gs=
+        </item>
+    </string-array>
+    <string-array name="com_google_android_gms_fonts_certs_prod">
+        <item>
+            MIIEQzCCAyugAwIBAgIJAMLgh0ZkSjCNMA0GCSqGSIb3DQEBBAUAMHQxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtHb29nbGUgSW5jLjEQMA4GA1UECxMHQW5kcm9pZDEQMA4GA1UEAxMHQW5kcm9pZDAeFw0wODA4MjEyMzEzMzRaFw0zNjAxMDcyMzEzMzRaMHQxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtHb29nbGUgSW5jLjEQMA4GA1UECxMHQW5kcm9pZDEQMA4GA1UEAxMHQW5kcm9pZDCCASAwDQYJKoZIhvcNAQEBBQADggENADCCAQgCggEBAKtWLgDYO6IIrgqWbxJOKdoR8qtW0I9Y4sypEwPpt1TTcvZApxsdyxMJZ2JORland2qSGT2y5b+3JKkedxiLDmpHpDsz2WCbdxgxRczfey5YZnTJ4VZbH0xqWVW/8lGmPav5xVwnIiJS6HXk+BVKZF+JcWjAsb/GEuq/eFdpuzSqeYTcfi6idkyugwfYwXFU1+5fZKUaRKYCwkkFQVfcAs1fXA5V+++FGfvjJ/CxURaSxaBvGdGDhfXE28LWuT9ozCl5xw4Yq5OGazvV24mZVSoOO0yZ31j7kYvtwYK6NeADwbSxDdJEqO4k//0zOHKrUiGYXtqw/A0LFFtqoZKFjnkCAQOjgdkwgdYwHQYDVR0OBBYEFMd9jMIhF1Ylmn/Tgt9r45jk14alMIGmBgNVHSMEgZ4wgZuAFMd9jMIhF1Ylmn/Tgt9r45jk14aloXikdjB0MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLR29vZ2xlIEluYy4xEDAOBgNVBAsTB0FuZHJvaWQxEDAOBgNVBAMTB0FuZHJvaWSCCQDC4IdGZEowjTAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBAUAA4IBAQBt0lLO74UwLDYKqs6Tm8/yzKkEu116FmH4rkaymUIE0P9KaMftGlMexFlaYjzmB2OxZyl6euNXEsQH8gjwyxCUKRJNexBiGcCEyj6z+a1fuHHvkiaai+KL8W1EyNmgjmyy8AW7P+LLlkR+ho5zEHatRbM/YAnqGcFh5iZBqpknHf1SKMXFh4dd239FJ1jWYfbMDMy3NS5CTMQ2XFI1MvcyUTdZPErjQfTbQe3aDQsQcafEQPD+nqActifKZ0Np0IS9L9kR/wbNvyz6ENwPiTrjV2KRkEjH78ZMcUQXg0L3BYHJ3lc69Vs5Ddf9uUGGMYldX3WfMBEmh/9iFBDAaTCK
+        </item>
+    </string-array>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/roboto</item>
+        <item>@font/roboto_bold</item>
+        <item>@font/roboto_medium</item>
+    </array>
+    <attr format="reference" name="background"/>
+    <attr format="reference" name="contentBackground"/>
+    <attr format="reference" name="custom_activate"/>
+    <attr format="reference" name="custom_text"/>
+    <attr format="reference" name="defaultBackground"/>
+    <attr format="reference" name="defaultBlack"/>
+    <attr format="reference" name="defaultBlack10"/>
+    <attr format="reference" name="defaultBlack20"/>
+    <attr format="reference" name="defaultBlack40"/>
+    <attr format="reference" name="defaultBlack60"/>
+    <attr format="reference" name="defaultBlue"/>
+    <attr format="reference" name="defaultBrown"/>
+    <attr format="reference" name="defaultDarkOrange"/>
+    <attr format="reference" name="defaultDarkOrange10"/>
+    <attr format="reference" name="defaultDarkOrange20"/>
+    <attr format="reference" name="defaultDarkPink"/>
+    <attr format="reference" name="defaultGray"/>
+    <attr format="reference" name="defaultGreen"/>
+    <attr format="reference" name="defaultGreen10"/>
+    <attr format="reference" name="defaultGreen20"/>
+    <attr format="reference" name="defaultLightGreen"/>
+    <attr format="reference" name="defaultLightYellow"/>
+    <attr format="reference" name="defaultOrange"/>
+    <attr format="reference" name="defaultPink"/>
+    <attr format="reference" name="defaultPurple"/>
+    <attr format="reference" name="defaultRed"/>
+    <attr format="reference" name="defaultRed10"/>
+    <attr format="reference" name="defaultRed20"/>
+    <attr format="reference" name="defaultTeal"/>
+    <attr format="reference" name="defaultTransparent"/>
+    <attr format="reference" name="defaultViolet"/>
+    <attr format="reference" name="defaultWhite"/>
+    <attr format="reference" name="defaultWhite10"/>
+    <attr format="reference" name="defaultWhite20"/>
+    <attr format="reference" name="defaultWhite40"/>
+    <attr format="reference" name="defaultWhite50"/>
+    <attr format="reference" name="defaultWhite60"/>
+    <attr format="reference" name="defaultWhite80"/>
+    <attr format="reference" name="defaultYellow"/>
+    <attr format="reference" name="defaultYellow20"/>
+    <attr format="reference" name="primary"/>
+    <attr format="reference" name="primary40"/>
+    <attr format="reference" name="ripple"/>
+    <attr format="reference" name="ripple15"/>
+    <attr format="reference" name="secondary"/>
+    <attr format="reference" name="secondary40"/>
+    <attr format="reference" name="secondary60"/>
+    <attr format="reference" name="separator"/>
+    <attr format="reference" name="separator60"/>
+    <attr format="reference" name="textPrimary"/>
+    <attr format="reference" name="warning"/>
+    <attr format="reference" name="warningBackground"/>
+    <color name="background_tutor">#ECEFF3</color>
+    <color name="content_background_tutor">#FFFFFF</color>
+    <color name="custom_activate_tutor">#ED5181</color>
+    <color name="custom_text_tutor">#FFA19B</color>
+    <color name="default_background">#66000000</color>
+    <color name="default_black">#000000</color>
+    <color name="default_black_10">#1A000000</color>
+    <color name="default_black_20">#33000000</color>
+    <color name="default_black_40">#66000000</color>
+    <color name="default_black_60">#99000000</color>
+    <color name="default_blue">#36AFE7</color>
+    <color name="default_brown">#A1887F</color>
+    <color name="default_dark_orange">#F57C00</color>
+    <color name="default_dark_orange_10">#1AF57C00</color>
+    <color name="default_dark_orange_20">#33F57C00</color>
+    <color name="default_dark_pink">#C2185C</color>
+    <color name="default_gray">#ADB6BC</color>
+    <color name="default_green">#4AB868</color>
+    <color name="default_green_10">#1A4AB868</color>
+    <color name="default_green_20">#334AB868</color>
+    <color name="default_light_green">#ABFF69</color>
+    <color name="default_light_yellow">#FFE600</color>
+    <color name="default_orange">#FF8965</color>
+    <color name="default_pink">#F06291</color>
+    <color name="default_purple">#5C80FF</color>
+    <color name="default_red">#FF3D33</color>
+    <color name="default_red_10">#1AFF3D33</color>
+    <color name="default_red_20">#33FF3D33</color>
+    <color name="default_teal">#2AACBE</color>
+    <color name="default_transparent">#00000000</color>
+    <color name="default_violet">#7A7CC2</color>
+    <color name="default_white">#FFFFFF</color>
+    <color name="default_white_10">#1AFFFFFF</color>
+    <color name="default_white_20">#33FFFFFF</color>
+    <color name="default_white_40">#66FFFFFF</color>
+    <color name="default_white_50">#80FFFFFF</color>
+    <color name="default_white_60">#99FFFFFF</color>
+    <color name="default_white_80">#CCFFFFFF</color>
+    <color name="default_yellow">#FFB21A</color>
+    <color name="default_yellow_20">#33FFB21A</color>
+    <color name="primary_tutor">#E7B12C</color>
+    <color name="primary_tutor_40">#66E7B12C</color>
+    <color name="ripple_15_tutor">#26896610</color>
+    <color name="ripple_tutor">#10896610</color>
+    <color name="secondary_40_tutor">#6679939D</color>
+    <color name="secondary_60_tutor">#9979939D</color>
+    <color name="secondary_tutor">#79939D</color>
+    <color name="separator_60_tutor">#99D7DBE4</color>
+    <color name="separator_tutor">#D7DBE4</color>
+    <color name="text_primary_tutor">#1E2329</color>
+    <color name="warning_background_tutor">#FCE8E8</color>
+    <color name="warning_tutor">#E84444</color>
+    <dimen name="elevation_8">8dp</dimen>
+    <dimen name="extra_margin_dynamic">16dp</dimen>
+    <dimen name="large_margin_dynamic">12dp</dimen>
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_12">12dp</dimen>
+    <dimen name="margin_144">144dp</dimen>
+    <dimen name="margin_16">16dp</dimen>
+    <dimen name="margin_192">192dp</dimen>
+    <dimen name="margin_2">2dp</dimen>
+    <dimen name="margin_20">20dp</dimen>
+    <dimen name="margin_24">24dp</dimen>
+    <dimen name="margin_256">256dp</dimen>
+    <dimen name="margin_32">32dp</dimen>
+    <dimen name="margin_36">36dp</dimen>
+    <dimen name="margin_4">4dp</dimen>
+    <dimen name="margin_40">40dp</dimen>
+    <dimen name="margin_44">44dp</dimen>
+    <dimen name="margin_48">48dp</dimen>
+    <dimen name="margin_56">56dp</dimen>
+    <dimen name="margin_58">58dp</dimen>
+    <dimen name="margin_6">6dp</dimen>
+    <dimen name="margin_64">64dp</dimen>
+    <dimen name="margin_72">72dp</dimen>
+    <dimen name="margin_8">8dp</dimen>
+    <dimen name="margin_80">80dp</dimen>
+    <dimen name="margin_96">96dp</dimen>
+    <dimen name="medium_margin_dynamic">8dp</dimen>
+    <dimen name="pie_chart_size">180dp</dimen>
+    <dimen name="radius_10">10dp</dimen>
+    <dimen name="radius_12">12dp</dimen>
+    <dimen name="radius_16">16dp</dimen>
+    <dimen name="radius_2">2dp</dimen>
+    <dimen name="radius_20">20dp</dimen>
+    <dimen name="radius_24">24dp</dimen>
+    <dimen name="radius_4">4dp</dimen>
+    <dimen name="radius_6">6dp</dimen>
+    <dimen name="radius_8">8dp</dimen>
+    <dimen name="radius_full">360dp</dimen>
+    <dimen name="size_1">1dp</dimen>
+    <dimen name="size_10">10dp</dimen>
+    <dimen name="size_12">12dp</dimen>
+    <dimen name="size_128">128dp</dimen>
+    <dimen name="size_144">144dp</dimen>
+    <dimen name="size_16">16dp</dimen>
+    <dimen name="size_18">18dp</dimen>
+    <dimen name="size_192">192dp</dimen>
+    <dimen name="size_2">2dp</dimen>
+    <dimen name="size_20">20dp</dimen>
+    <dimen name="size_24">24dp</dimen>
+    <dimen name="size_256">256dp</dimen>
+    <dimen name="size_28">28dp</dimen>
+    <dimen name="size_3">2dp</dimen>
+    <dimen name="size_30">30dp</dimen>
+    <dimen name="size_32">32dp</dimen>
+    <dimen name="size_36">36dp</dimen>
+    <dimen name="size_4">4dp</dimen>
+    <dimen name="size_40">40dp</dimen>
+    <dimen name="size_44">44dp</dimen>
+    <dimen name="size_48">48dp</dimen>
+    <dimen name="size_56">56dp</dimen>
+    <dimen name="size_64">64dp</dimen>
+    <dimen name="size_72">72dp</dimen>
+    <dimen name="size_8">8dp</dimen>
+    <dimen name="size_80">80dp</dimen>
+    <dimen name="size_96">96dp</dimen>
+    <dimen name="small_margin_dynamic">4dp</dimen>
+    <dimen name="solution_item_space_horizontal">6dp</dimen>
+    <dimen name="space_10">10dp</dimen>
+    <dimen name="space_12">12dp</dimen>
+    <dimen name="space_144">144dp</dimen>
+    <dimen name="space_16">16dp</dimen>
+    <dimen name="space_192">192dp</dimen>
+    <dimen name="space_2">2dp</dimen>
+    <dimen name="space_24">24dp</dimen>
+    <dimen name="space_256">256dp</dimen>
+    <dimen name="space_32">32dp</dimen>
+    <dimen name="space_4">4dp</dimen>
+    <dimen name="space_40">40dp</dimen>
+    <dimen name="space_48">48dp</dimen>
+    <dimen name="space_56">56dp</dimen>
+    <dimen name="space_6">6dp</dimen>
+    <dimen name="space_64">64dp</dimen>
+    <dimen name="space_72">72dp</dimen>
+    <dimen name="space_8">8dp</dimen>
+    <dimen name="space_80">80dp</dimen>
+    <dimen name="space_96">96dp</dimen>
+    <dimen name="text_10">10sp</dimen>
+    <dimen name="text_12">12sp</dimen>
+    <dimen name="text_14">14sp</dimen>
+    <dimen name="text_16">16sp</dimen>
+    <dimen name="text_18">18sp</dimen>
+    <dimen name="text_20">20sp</dimen>
+    <dimen name="text_22">22sp</dimen>
+    <dimen name="text_24">24sp</dimen>
+    <dimen name="text_28">28sp</dimen>
+    <dimen name="text_32">32sp</dimen>
+    <dimen name="text_40">40sp</dimen>
+    <dimen name="text_8">8sp</dimen>
+    <string name="accepted">Понятно</string>
+    <string name="activate_key_message">Вы добавлены в группу "%1$s"</string>
+    <string name="all">Все</string>
+    <string name="allmost_the_right_answer">Почти правильный ответ</string>
+    <string name="answer_needs_to_be_checked">Ответ необходимо оценить</string>
+    <string name="answer_send_text">Отправить</string>
+    <string name="answer_verify_text">Проверить</string>
+    <string name="answer_with_errors_helper_text">Введите правильный ответ</string>
+    <string name="app_name">300Tutor</string>
+    <string name="attention">Внимание</string>
+    <string name="authorization_text">Авторизация</string>
+    <string name="cancel">Отмена</string>
+    <string name="checkbox_student_title">Зарегистрироваться как студент</string>
+    <string name="choose_course">Подобрать курс</string>
+    <string name="code">Код</string>
+    <string name="code_plus_7">+7</string>
+    <string name="come_back_later">Вернуться позже</string>
+    <string name="complited_solution">Завершенные</string>
+    <string name="confirm_action">Подтвердите действие</string>
+    <string name="confirm_logout">Подтвердите выход</string>
+    <string name="continue_action">Продолжить</string>
+    <string name="continue_to_test_solution">Продолжить решение теста</string>
+    <string name="correct_answer">Правильный ответ</string>
+    <string name="correct_answer_without_errors">Правильный ответ (без ошибок):</string>
+    <string name="correct_answers">Правильные ответы:</string>
+    <string name="course_access_key">Ключ доступа к курсу</string>
+    <string name="detailed_answer_received">Получено:</string>
+    <string name="detailed_answer_total">Всего:</string>
+    <string name="dont_havecourses">У вас сейчас нет курсов. Давайте подберём подходящий</string>
+    <string name="email_required_text">E-mail*</string>
+    <string name="email_text">E-mail</string>
+    <string name="email_wrong">Используйте корректный адрес электронной почты</string>
+    <string name="end_date">Дата завершения: %1$s</string>
+    <string name="estimate_text">Оценить</string>
+    <string name="explanation_answer">Пояснения к ответу на вопрос</string>
+    <string name="finish">Завершить</string>
+    <string name="finish_test">Завершить тест</string>
+    <string name="finish_test_dialog">Завершение теста</string>
+    <string name="finish_test_message">Если завершите тест не сможете вернуться к решению</string>
+    <string name="forgot_your_password">Забыли пароль?</string>
+    <string name="go">Перейти</string>
+    <string name="go_to_test_solution">Перейти к решению теста</string>
+    <string name="incorrect_answer">Неправильный ответ</string>
+    <string name="logout">Выйти</string>
+    <string name="main_menu_home_title">Главная</string>
+    <string name="main_menu_profile_title">Аккаунт</string>
+    <string name="main_menu_test_solution_title">Решения тестов</string>
+    <string name="my_course">Мои курсы</string>
+    <string name="name_text">Name</string>
+    <string name="name_text_ru">Имя</string>
+    <string name="not_complited_solution">Не завершенные</string>
+    <string name="of_issues_resolved">Решено %1$s вопросов</string>
+    <string name="ok">ОК</string>
+    <string name="oops">Упс...</string>
+    <string name="open_link">Перейти по ссылке?\n "%1$s"</string>
+    <string name="open_site">Перейти на сайт?</string>
+    <string name="open_telegram">Открыть Telegram?</string>
+    <string name="open_telegram_title">Телеграм бот</string>
+    <string name="open_youtube_message">Открыть youtube для просмотра видео?</string>
+    <string name="password_required_text">Password*</string>
+    <string name="password_required_text_ru">Пароль*</string>
+    <string name="password_text">Password</string>
+    <string name="password_text_ru">Пароль</string>
+    <string name="password_wrong">Пароль должен содержать не менее 6 символов, включая минимум 1 цифру</string>
+    <string name="patronymic_text">Patronymic</string>
+    <string name="patronymic_text_ru">Отчество</string>
+    <string name="phone_example">9123456789</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="phone_required_text_ru">Телефон*</string>
+    <string name="phone_text">Phone</string>
+    <string name="phone_text_ru">Телефон</string>
+    <string name="phone_wrong">Введите номер телефона</string>
+    <string name="pie_chat_title_point">%1$s из %2$s</string>
+    <string name="points">Баллы</string>
+    <string name="points_answer">Баллы за ответ:</string>
+    <string name="points_question">Баллы: %1$s из %2$s.</string>
+    <string name="press_again">Нажмите ещё раз для выхода</string>
+    <string name="profile_error_account">Ошибка загрузки данных</string>
+    <string name="profile_person_info">Информация</string>
+    <string name="question_count">Количество вопросов: "%1$s"</string>
+    <string name="question_has_been_rated">Установлена оценка для вопроса</string>
+    <string name="received_points_out_of">Получено %1$s баллов из %2$s.</string>
+    <string name="received_points_out_of_result">Вы получили %1$s баллов из %2$s.</string>
+    <string name="register_button">Register</string>
+    <string name="register_button_ru">Регистрация</string>
+    <string name="register_success_message">Регистрация прошла успешно</string>
+    <string name="register_text">Регистрация</string>
+    <string name="result">Результат решения</string>
+    <string name="result_test_need_to_check_questions">Не проверен %1$s вопрос. Его необходимо проверить самому или с помощью куратора.</string>
+    <string name="server_error_message">Неизвестная ошибка на сервере. Повторите попытку позже</string>
+    <string name="sign_in">Войти</string>
+    <string name="site">Сайт</string>
+    <string name="solution">Решение</string>
+    <string name="solution_image">solutionImage</string>
+    <string name="start">Начать</string>
+    <string name="start_date">Дата начала: %1$s</string>
+    <string name="start_solution_test">Начать решение теста </string>
+    <string name="start_test_message">Началось решение теста</string>
+    <string name="subject">Предметы</string>
+    <string name="surname_text">Surname</string>
+    <string name="surname_text_ru">Фамилия</string>
+    <string name="test_solutions">Решения теста</string>
+    <string name="test_solved">Тест решён на %1$s.</string>
+    <string name="unathorized_error_message">Произошла ошибка авторизации</string>
+    <string name="unknown_error_message">Произошла неизвестная ошибка. Повторите попытку позже</string>
+    <string name="video_action">Открыть</string>
+    <string name="video_title">К вопросу прикреплено видео.</string>
+    <string name="warning_logout">Вы действительно хотите выйти?</string>
+    <string name="wrong_data_error_message">Ошибка! Проверьте введеные данные</string>
+    <string name="you_answered_out_of_questions_correctly">Вы правильно ответили на %1$s из %2$s вопросов.</string>
+    <string name="your_answer">Ваш ответ:</string>
+    <string name="your_detailed_answer">Ваш развернутый ответ</string>
+    <string name="your_not_answer">[Вы не указали ответ]</string>
+    <style name="AlertDialogStyle" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
+    </style>
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet_background</item>
+    </style>
+    <style name="Base.Theme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:forceDarkAllowed" ns1:targetApi="Q">false</item>
+        <item name="android:statusBarColor">?attr/background</item>
+        <item name="android:navigationBarColor">?attr/contentBackground</item>
+        <item name="android:colorBackground">?attr/background</item>
+        <item name="android:textColorPrimary">?attr/primary</item>
+        <item name="android:textColorPrimaryDisableOnly">?attr/textPrimary</item>
+        <item name="android:textColorPrimaryInverseDisableOnly">?attr/defaultWhite</item>
+        <item name="android:textColorSecondary">?attr/secondary</item>
+        <item name="colorPrimary">?attr/primary</item>
+        <item name="colorOnPrimary">?attr/contentBackground</item>
+        <item name="colorSecondary">?attr/secondary</item>
+        <item name="colorOnSecondary">?attr/defaultWhite</item>
+        <item name="colorPrimaryContainer">?attr/contentBackground</item>
+        <item name="colorOnPrimaryContainer">?attr/textPrimary</item>
+        <item name="colorError">?attr/warning</item>
+        <item name="colorOnError">?attr/warningBackground</item>
+        <item name="colorOnBackground">?attr/textPrimary</item>
+        <item name="colorSurface">?attr/background</item>
+        <item name="colorOnSurface">?attr/secondary</item>
+        <item name="colorSurfaceVariant">?attr/defaultTransparent</item>
+        <item name="colorOnSurfaceVariant">?attr/textPrimary</item>
+        <item name="colorOutline">?attr/separator60</item>
+        <item name="colorOutlineVariant">?attr/secondary40</item>
+
+
+        <item name="defaultWhite">@color/default_white</item>
+        <item name="defaultWhite80">@color/default_white_80</item>
+        <item name="defaultWhite60">@color/default_white_60</item>
+        <item name="defaultWhite50">@color/default_white_50</item>
+        <item name="defaultWhite40">@color/default_white_40</item>
+        <item name="defaultWhite20">@color/default_white_20</item>
+        <item name="defaultWhite10">@color/default_white_10</item>
+        <item name="defaultBlack">@color/default_black</item>
+        <item name="defaultBlack60">@color/default_black_60</item>
+        <item name="defaultBlack40">@color/default_black_40</item>
+        <item name="defaultBlack20">@color/default_black_20</item>
+        <item name="defaultBlack10">@color/default_black_10</item>
+        <item name="defaultGray">@color/default_gray</item>
+        <item name="defaultRed">@color/default_red</item>
+        <item name="defaultRed20">@color/default_red_20</item>
+        <item name="defaultRed10">@color/default_red_10</item>
+        <item name="defaultGreen">@color/default_green</item>
+        <item name="defaultGreen20">@color/default_green_20</item>
+        <item name="defaultGreen10">@color/default_green_10</item>
+        <item name="defaultLightGreen">@color/default_light_green</item>
+        <item name="defaultViolet">@color/default_violet</item>
+        <item name="defaultPurple">@color/default_purple</item>
+        <item name="defaultBlue">@color/default_blue</item>
+        <item name="defaultTeal">@color/default_teal</item>
+        <item name="defaultYellow">@color/default_yellow</item>
+        <item name="defaultYellow20">@color/default_yellow_20</item>
+        <item name="defaultLightYellow">@color/default_light_yellow</item>
+        <item name="defaultOrange">@color/default_orange</item>
+        <item name="defaultDarkOrange">@color/default_dark_orange</item>
+        <item name="defaultDarkOrange20">@color/default_dark_orange_20</item>
+        <item name="defaultDarkOrange10">@color/default_dark_orange_10</item>
+        <item name="defaultBrown">@color/default_brown</item>
+        <item name="defaultPink">@color/default_pink</item>
+        <item name="defaultDarkPink">@color/default_dark_pink</item>
+        <item name="defaultBackground">@color/default_background</item>
+        <item name="defaultTransparent">@color/default_transparent</item>
+    </style>
+    <style name="EditTextCursorColor" parent="Theme.MaterialComponents">
+        <item name="colorControlActivated">?attr/primary</item>
+        <item name="colorControlNormal">?attr/secondary</item>
+    </style>
+    <style name="EditTextHintTextAppearance" parent="">
+        <item name="android:textColor">?attr/secondary</item>
+        <item name="android:textSize">@dimen/text_12</item>
+        <item name="fontFamily">@font/roboto</item>
+    </style>
+    <style name="LoadingDialogStyle" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:background">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowFullscreen">false</item>
+    </style>
+    <style name="MaterialAlertDialog.App" parent="MaterialAlertDialog.MaterialComponents">
+        <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
+    </style>
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_8</item>
+    </style>
+    <style name="SubtitleToolbarTextAppearance" parent="@style/Base.TextAppearance.AppCompat.Title">
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="Theme.300Tutor" parent="Base.Theme">
+        <item name="primary">@color/primary_tutor</item>
+        <item name="primary40">@color/primary_tutor_40</item>
+        <item name="secondary">@color/secondary_tutor</item>
+        <item name="secondary40">@color/secondary_40_tutor</item>
+        <item name="secondary60">@color/secondary_60_tutor</item>
+        <item name="separator">@color/separator_tutor</item>
+        <item name="separator60">@color/separator_60_tutor</item>
+        <item name="textPrimary">@color/text_primary_tutor</item>
+        <item name="background">@color/background_tutor</item>
+        <item name="contentBackground">@color/content_background_tutor</item>
+        <item name="warning">@color/warning_tutor</item>
+        <item name="warningBackground">@color/warning_background_tutor</item>
+        <item name="ripple">@color/ripple_tutor</item>
+        <item name="ripple15">@color/ripple_15_tutor</item>
+        <item name="custom_activate">@color/custom_activate_tutor</item>
+        <item name="custom_text">@color/custom_activate_tutor</item>
+    </style>
+    <style name="TitleToolbarTextAppearance" parent="@style/Base.TextAppearance.AppCompat.Title">
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="Widget.ChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipStrokeWidth">@dimen/size_1</item>
+        <item name="chipStrokeColor">?attr/secondary40</item>
+        <item name="android:textColor">@color/chip_text_color</item>
+        <item name="chipBackgroundColor">@color/chip_background_color</item>
+    </style>
+</resources>
