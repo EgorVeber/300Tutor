@@ -15,6 +15,7 @@ import org.threehundredtutor.databinding.SolutionResultDialogBinding
 import org.threehundredtutor.presentation.solution.ui_models.ResultTestUiModel
 import kotlin.math.abs
 
+
 class SolutionResultDialogFragment : BottomSheetDialogFragment() {
     lateinit var binding: SolutionResultDialogBinding
     private var resultTest by BundleParcelable<ResultTestUiModel>(BUNDLE_ARGUMENT_KEY)
@@ -33,7 +34,6 @@ class SolutionResultDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         onInitView()
     }
-
 
     private fun onInitView() {
         with(binding) {

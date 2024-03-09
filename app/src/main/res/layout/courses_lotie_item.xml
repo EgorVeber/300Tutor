@@ -23,7 +23,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
+        <View
+            android:layout_width="@dimen/size_56"
+            android:layout_height="@dimen/size_56"
+            android:layout_marginTop="@dimen/margin_20"
+            android:background="?attr/background"
+            android:rotation="220"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout"
+            app:layout_constraintTop_toTopOf="@+id/linearLayout" />
+
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_6"

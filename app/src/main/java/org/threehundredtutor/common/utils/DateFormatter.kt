@@ -14,6 +14,16 @@ object DateFormatter {
     private const val FORMAT_DATE_DEFAULT_YYYY_MM_DD_HH_MM_NEW = "HH:mm dd-MM-yy"
     private const val DEFAULT_ADD_HOUR = 3 //Будет работать только с GMT+3
 
+    private val FORMAT_SIMPLE_YYYY_MM_DD_HH_MM_NEW =
+        SimpleDateFormat(FORMAT_DATE_DEFAULT_YYYY_MM_DD_HH_MM_NEW, Locale.getDefault()).apply {
+            timeZone = TimeZone.getTimeZone(TIME_ZONE)
+        }
+
+    private val FORMAT_SIMPLE_DATE_SERVER_RESPONSE =
+        SimpleDateFormat(FORMAT_DATE_SERVER_RESPONSE, Locale.getDefault()).apply {
+            timeZone = TimeZone.getTimeZone(TIME_ZONE)
+        }
+
     fun String.toFormatDateDefault(needAddHours: Boolean = true): String =
         try {
             toDateFormatDateServerResponse().run {
@@ -26,19 +36,14 @@ object DateFormatter {
 
     private fun String.toDateFormatDateServerResponse(): Date {
         return try {
-            getSimpleDateFormat(FORMAT_DATE_SERVER_RESPONSE).parse(this) ?: Date()
+            FORMAT_SIMPLE_DATE_SERVER_RESPONSE.parse(this) ?: Date()
         } catch (exception: Exception) {
             Date()
         }
     }
 
     private fun Date.toStringFormatDateDefault(): String =
-        getSimpleDateFormat(FORMAT_DATE_DEFAULT_YYYY_MM_DD_HH_MM_NEW).format(this)
-
-    private fun getSimpleDateFormat(format: String) =
-        SimpleDateFormat(format, Locale.getDefault()).apply {
-            timeZone = TimeZone.getTimeZone(TIME_ZONE)
-        }
+        FORMAT_SIMPLE_YYYY_MM_DD_HH_MM_NEW.format(this)
 
     private fun Date.addHours(hour: Int): Date =
         Calendar.getInstance().also {
@@ -48,4 +53,3 @@ object DateFormatter {
             this.time
         }
 }
-

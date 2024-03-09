@@ -46,10 +46,10 @@
         android:id="@+id/pieChart"
         android:layout_width="@dimen/pie_chart_size"
         android:layout_height="@dimen/pie_chart_size"
-        app:labelType="none"
         android:layout_marginStart="@dimen/margin_12"
-        app:holeRatio="0.85"
         android:layout_marginTop="@dimen/margin_12"
+        app:holeRatio="0.85"
+        app:labelType="none"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameTestTv" />
 
@@ -113,7 +113,6 @@
         android:textColor="?attr/textPrimary"
         android:textSize="@dimen/text_18"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pieChart"

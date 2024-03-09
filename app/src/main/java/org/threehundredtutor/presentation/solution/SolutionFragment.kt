@@ -86,6 +86,9 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
         }
     )
 
+    private val subjectId by BundleString(SUBJECT_TEST_KEY, EMPTY_STRING)
+    private val solutionId by BundleString(SOLUTION_TEST_KEY, EMPTY_STRING)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = SolutionFragmentBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
@@ -95,24 +98,21 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
         viewModel.onBackClicked(binding.errorImageView.isVisible)
     }
 
-    private val subjectId by BundleString(SUBJECT_TEST_KEY, EMPTY_STRING)
-    private val solutionId by BundleString(SOLUTION_TEST_KEY, EMPTY_STRING)
-
     override fun onInitView(savedInstanceState: Bundle?) {
         super.onInitView(savedInstanceState)
         binding.recyclerSolution.adapter = delegateAdapter
-        binding.accountToolBar.setNavigationOnClickListener { onBackPressed() }
+        binding.solutionToolBar.setNavigationOnClickListener { onBackPressed() }
         binding.finishButton.setOnClickListener { viewModel.onFinishTestClicked() }
         binding.showResultButton.setOnClickListener { viewModel.onResultTestClicked() }
-        binding.accountToolBar.setOnClickListener {
-            showMessage(binding.accountToolBar.title.toString())
+        binding.solutionToolBar.setOnClickListener {
+            showMessage(binding.solutionToolBar.title.toString())
         }
         viewModel.onViewInitiated(subjectId, solutionId)
     }
 
     override fun onObserveData() {
         viewModel.getTestInfoStateFlow().observeFlow(this) { nameTest ->
-            binding.accountToolBar.title = nameTest
+            binding.solutionToolBar.title = nameTest
         }
 
         viewModel.getUiItemStateFlow().observeFlow(this) { items ->

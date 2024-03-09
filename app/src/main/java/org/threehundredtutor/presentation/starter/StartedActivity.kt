@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.transition.Fade
+import androidx.transition.TransitionManager.beginDelayedTransition
+import androidx.transition.TransitionSet
 import org.threehundredtutor.R
 import org.threehundredtutor.databinding.StartedActivityBinding
 import org.threehundredtutor.di.starter.StartedComponent
@@ -32,8 +35,8 @@ class StartedActivity : AppCompatActivity(), BottomNavigationVisibility {
 
         binding.mainBottomNavigation.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.homeFragment -> {
-                    navController.navigate(R.id.homeFragment)
+                R.id.mainFragment -> {
+                    navController.navigate(R.id.mainFragment)
                 }
 
                 R.id.solutionHistoryFragment -> {
@@ -51,6 +54,11 @@ class StartedActivity : AppCompatActivity(), BottomNavigationVisibility {
     }
 
     override fun visibility(show: Boolean) {
+        TransitionSet().also { transition ->
+            transition.addTransition(Fade(Fade.IN))
+            transition.addTransition(Fade(Fade.OUT))
+            beginDelayedTransition(binding.mainBottomNavigation, transition)
+        }
         binding.mainBottomNavigation.isVisible = show
     }
 }

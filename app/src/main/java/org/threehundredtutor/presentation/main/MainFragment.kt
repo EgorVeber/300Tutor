@@ -13,29 +13,25 @@ import org.threehundredtutor.common.extentions.navigate
 import org.threehundredtutor.common.extentions.observeFlow
 import org.threehundredtutor.common.extentions.showSnackbar
 import org.threehundredtutor.databinding.MainFragmentBinding
-import org.threehundredtutor.di.subject.HomeComponent
+import org.threehundredtutor.di.main.MainComponent
 import org.threehundredtutor.presentation.common.ActionDialogFragment
 import org.threehundredtutor.presentation.main.adapter.MainManager
-import org.threehundredtutor.presentation.main.ui_models.SubjectTestUiModel
 
 class MainFragment : BaseFragment(R.layout.main_fragment) {
 
-    private val homeComponent by lazy {
-        HomeComponent.createHomeComponent()
+    private val mainComponent by lazy {
+        MainComponent.createHomeComponent()
     }
 
     override var customHandlerBackStackWithDelay = true
 
     override val viewModel: MainViewModel by viewModels {
-        homeComponent.viewModelMapFactory()
+        mainComponent.viewModelMapFactory()
     }
 
     private val delegateAdapter: MainManager = MainManager(
         subjectClickListener = { subjectUiModel ->
             viewModel.onSubjectClicked(subjectUiModel)
-        },
-        subjectTestClickListener = { subjectTestUiModel ->
-            viewModel.onSubjectTestClicked(subjectTestUiModel)
         },
         activateKeyClickListener = { key ->
             viewModel.onActivateKeyClicked(key)
@@ -50,7 +46,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment) {
             viewModel.onExtraButtonClicked(link)
         },
         courseLottieUiItemClickListener = {
-            viewModel.onCourseLottieCliked()
+            viewModel.onCourseLottieClicked()
         }
     )
 
@@ -62,7 +58,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment) {
     }
 
     override fun onInitView(savedInstanceState: Bundle?) {
-        binding.subjectRecycler.adapter = delegateAdapter
+        binding.mainRecycler.adapter = delegateAdapter
     }
 
     override fun onObserveData() {
@@ -72,14 +68,13 @@ class MainFragment : BaseFragment(R.layout.main_fragment) {
 
         viewModel.getUiEventStateFlow().observeFlow(this) { state ->
             when (state) {
-                is MainViewModel.UiEvent.NavigateSolution -> {
-                    navigate(R.id.action_subjectFragment_to_solutionFragment, Bundle().apply {
-                        putString(SUBJECT_TEST_KEY, state.subjectTestId)
-                    })
-                }
 
-                is MainViewModel.UiEvent.ShowDialogStartTest -> {
-                    showActionDialogStartTest(state.subjectTestUiModel)
+                is MainViewModel.UiEvent.NavigateToDetailedSubject -> {
+                    navigate(R.id.action_mainFragment_to_subjectDetailedFragment,
+                        Bundle().apply {
+                            putString(SUBJECT_DETAILED_KEY_ID, state.subjectInfo.first)
+                            putString(SUBJECT_DETAILED_KEY_NAME, state.subjectInfo.second)
+                        })
                 }
 
                 is MainViewModel.UiEvent.ShowSnack -> {
@@ -104,18 +99,6 @@ class MainFragment : BaseFragment(R.layout.main_fragment) {
         }
     }
 
-    private fun showActionDialogStartTest(subjectTestUiModel: SubjectTestUiModel) {
-        ActionDialogFragment.showDialog(
-            fragmentManager = childFragmentManager,
-            positiveText = getString(R.string.start),
-            title = getString(R.string.start_solution_test),
-            message = subjectTestUiModel.subjectTestName,
-            onPositiveClick = {
-                viewModel.onDialogStartTestPositiveClicked(subjectTestUiModel.subjectTestId)
-            },
-        )
-    }
-
     private fun showActionDialogOpenLink(link: String) {
         ActionDialogFragment.showDialog(
             fragmentManager = childFragmentManager,
@@ -137,6 +120,8 @@ class MainFragment : BaseFragment(R.layout.main_fragment) {
     }
 
     companion object {
-        const val SUBJECT_TEST_KEY = "SUBJECT_TEST_KEY"
+        const val SUBJECT_TEST_KEY = "SUBJECT_TEST_KEY" //TODO TutorAndroid-61
+        const val SUBJECT_DETAILED_KEY_ID = "SUBJECT_DETAILED_KEY_ID"
+        const val SUBJECT_DETAILED_KEY_NAME = "SUBJECT_DETAILED_KEY_NAME"
     }
 }

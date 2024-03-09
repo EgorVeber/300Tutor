@@ -4,16 +4,13 @@ import org.threehundredtutor.common.utils.AccountManager
 import org.threehundredtutor.data.main.mappers.toEnterGroupModel
 import org.threehundredtutor.data.main.mappers.toExtraButtonInfoModel
 import org.threehundredtutor.data.main.mappers.toGroupWithCourseModel
-import org.threehundredtutor.data.main.mappers.toSearchTestModel
 import org.threehundredtutor.data.main.mappers.toSubjectModel
 import org.threehundredtutor.data.main.request.GroupWithCourseRequest
-import org.threehundredtutor.data.main.request.SearchTestsRequest
 import org.threehundredtutor.domain.main.EnterGroupModel
 import org.threehundredtutor.domain.main.MainRepository
 import org.threehundredtutor.domain.main.models.ExtraButtonInfoModel
 import org.threehundredtutor.domain.main.models.GroupWithCourseModel
-import org.threehundredtutor.domain.main.models.SearchTestModel
-import org.threehundredtutor.domain.main.models.SubjectModel
+import org.threehundredtutor.domain.subject_tests.models.SubjectModel
 import javax.inject.Inject
 
 class MainRepositoryImpl @Inject constructor(
@@ -24,18 +21,6 @@ class MainRepositoryImpl @Inject constructor(
         mainRemoteDataSource.getSubjects().map { subjectResponse ->
             subjectResponse.toSubjectModel()
         }
-
-    override suspend fun searchTests(subjectId: String): SearchTestModel =
-        mainRemoteDataSource.searchTests(
-            SearchTestsRequest(
-                count = null,
-                isActive = true,
-                isGlobal = true,
-                offSet = 0,
-                q = null,
-                subjectIds = listOf(subjectId)
-            )
-        ).toSearchTestModel()
 
     override suspend fun getCourses(): GroupWithCourseModel =
         mainRemoteDataSource.getCourses(

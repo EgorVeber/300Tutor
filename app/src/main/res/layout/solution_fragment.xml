@@ -20,7 +20,7 @@
         android:orientation="vertical">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/accountToolBar"
+            android:id="@+id/solutionToolBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/contentBackground"
@@ -44,7 +44,7 @@
             app:layout_constraintBottom_toTopOf="@+id/finishContainer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/accountToolBar"
+            app:layout_constraintTop_toBottomOf="@+id/solutionToolBar"
             tools:listitem="@layout/solution_answer_select_right_item" />
 
         <FrameLayout

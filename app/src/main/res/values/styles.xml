@@ -27,6 +27,12 @@
 
     <style name="TitleToolbarTextAppearance" parent="@style/Base.TextAppearance.AppCompat.Title">
         <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="SubtitleToolbarTextAppearance" parent="@style/Base.TextAppearance.AppCompat.Title">
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="LoadingDialogStyle" parent="ThemeOverlay.Material3.MaterialAlertDialog">

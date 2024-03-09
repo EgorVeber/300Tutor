@@ -19,17 +19,15 @@ import org.threehundredtutor.databinding.MainExtraButtonItemBinding
 import org.threehundredtutor.databinding.SubjectFooterItemBinding
 import org.threehundredtutor.databinding.SubjectHeaderItemBinding
 import org.threehundredtutor.databinding.SubjectItemBinding
-import org.threehundredtutor.databinding.SubjectTestItemBinding
 import org.threehundredtutor.domain.main.models.ExtraButtonInfoModel
 import org.threehundredtutor.presentation.main.ui_models.ActivateKeyUiItem
 import org.threehundredtutor.presentation.main.ui_models.CourseLottieUiItem
 import org.threehundredtutor.presentation.main.ui_models.CourseProgressUiModel
 import org.threehundredtutor.presentation.main.ui_models.CourseUiModel
 import org.threehundredtutor.presentation.main.ui_models.FooterContentUiItem
+import org.threehundredtutor.presentation.main.ui_models.FooterUiItem
 import org.threehundredtutor.presentation.main.ui_models.HeaderContentUiItem
 import org.threehundredtutor.presentation.main.ui_models.HeaderUiItem
-import org.threehundredtutor.presentation.main.ui_models.FooterUiItem
-import org.threehundredtutor.presentation.main.ui_models.SubjectTestUiModel
 import org.threehundredtutor.presentation.main.ui_models.MainUiItem
 import org.threehundredtutor.presentation.main.ui_models.SubjectUiModel
 import kotlin.math.abs
@@ -126,6 +124,7 @@ object MainAdapters {
             binding.courseLlContainer.setOnClickListener {
                 courseProgressUiModelClickListener.invoke(item)
             }
+            // TODO TutorAndroid-60
             bind {
                 binding.courseNameTv.text = item.groupName
                 binding.coursePoints.text = item.progressPercents.toString().addPercent()
@@ -150,16 +149,6 @@ object MainAdapters {
                 courseUiModelClickListener.invoke(item)
             }
             bind { binding.courseNameTv.text = item.groupName }
-        }
-
-    fun getSubjectTestUiModelAdapted(subjectTestUiModelClickListener: (SubjectTestUiModel) -> Unit) =
-        adapterDelegateViewBinding<SubjectTestUiModel, MainUiItem, SubjectTestItemBinding>({ layoutInflater, root ->
-            SubjectTestItemBinding.inflate(layoutInflater, root, false)
-        }) {
-            binding.subjectTestLlContainer.setOnClickListener {
-                subjectTestUiModelClickListener.invoke(item)
-            }
-            bind { binding.subjectTestNameTv.text = item.subjectTestName }
         }
 
     fun getCourseLottieUiItemAdapter(courseLottieUiItemClickListener: () -> Unit) =

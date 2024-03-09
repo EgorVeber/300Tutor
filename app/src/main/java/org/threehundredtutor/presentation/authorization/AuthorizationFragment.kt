@@ -2,7 +2,6 @@ package org.threehundredtutor.presentation.authorization
 
 import android.os.Bundle
 import android.view.View
-import android.widget.CompoundButton
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.transition.Fade
@@ -52,6 +51,7 @@ class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment) {
         }
 
         imageContainer.setOnClickListener {
+            passwordEditText.setText("1234@Abc")
             viewModel.onImageClicked(emailTextInput.isVisible)
         }
 

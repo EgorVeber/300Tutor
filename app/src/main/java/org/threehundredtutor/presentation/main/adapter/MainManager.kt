@@ -11,17 +11,14 @@ import org.threehundredtutor.presentation.main.adapter.MainAdapters.getFooterCon
 import org.threehundredtutor.presentation.main.adapter.MainAdapters.getFooterUiItemAdapter
 import org.threehundredtutor.presentation.main.adapter.MainAdapters.getMainHeaderContentUiItemAdapter
 import org.threehundredtutor.presentation.main.adapter.MainAdapters.getSubjectHeaderUiItemAdapter
-import org.threehundredtutor.presentation.main.adapter.MainAdapters.getSubjectTestUiModelAdapted
 import org.threehundredtutor.presentation.main.adapter.MainAdapters.getSubjectUiModelAdapted
 import org.threehundredtutor.presentation.main.ui_models.CourseProgressUiModel
 import org.threehundredtutor.presentation.main.ui_models.CourseUiModel
-import org.threehundredtutor.presentation.main.ui_models.SubjectTestUiModel
 import org.threehundredtutor.presentation.main.ui_models.MainUiItem
 import org.threehundredtutor.presentation.main.ui_models.SubjectUiModel
 
 class MainManager(
     subjectClickListener: (SubjectUiModel) -> Unit,
-    subjectTestClickListener: (SubjectTestUiModel) -> Unit,
     activateKeyClickListener: (String) -> Unit,
     courseProgressUiModelClickListener: (CourseProgressUiModel) -> Unit,
     courseUiModelClickListener: (CourseUiModel) -> Unit,
@@ -35,7 +32,6 @@ class MainManager(
             .addDelegate(getFooterUiItemAdapter())
             .addDelegate(getActivateKeyUiItemAdapter(activateKeyClickListener))
             .addDelegate(getSubjectUiModelAdapted(subjectClickListener))
-            .addDelegate(getSubjectTestUiModelAdapted(subjectTestClickListener))
             .addDelegate(getCourseProgressUiModelAdapter(courseProgressUiModelClickListener))
             .addDelegate(getCourseUiModelAdapter(courseUiModelClickListener))
             .addDelegate(getFooterContentUiItemAdapter())

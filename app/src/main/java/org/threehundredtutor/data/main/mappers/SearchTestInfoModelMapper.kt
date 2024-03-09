@@ -4,8 +4,8 @@ import org.threehundredtutor.base.network.ServerException
 import org.threehundredtutor.common.DEFAULT_NOT_VALID_VALUE_INT
 import org.threehundredtutor.common.EMPTY_STRING
 import org.threehundredtutor.common.orFalse
-import org.threehundredtutor.data.main.response.SearchTestInfoResponse
-import org.threehundredtutor.domain.main.models.SearchTestInfoModel
+import org.threehundredtutor.data.subject_tests.models.SearchTestInfoResponse
+import org.threehundredtutor.domain.subject_tests.models.SearchTestInfoModel
 
 fun SearchTestInfoResponse.toSearchTestInfoModel(): SearchTestInfoModel =
     SearchTestInfoModel(
