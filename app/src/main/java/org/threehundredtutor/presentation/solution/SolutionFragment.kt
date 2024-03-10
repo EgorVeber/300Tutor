@@ -22,9 +22,7 @@ import org.threehundredtutor.di.solution.SolutionComponent
 import org.threehundredtutor.presentation.PhotoDetailsFragment.Companion.PHOTO_DETAILED_KEY
 import org.threehundredtutor.presentation.common.ActionDialogFragment
 import org.threehundredtutor.presentation.common.LoadingDialog
-import org.threehundredtutor.presentation.main.MainFragment.Companion.SUBJECT_TEST_KEY
 import org.threehundredtutor.presentation.solution.adapter.SolutionManager
-import org.threehundredtutor.presentation.solution_history.SolutionHistoryFragment.Companion.SOLUTION_TEST_KEY
 
 class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
 
@@ -86,8 +84,8 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
         }
     )
 
-    private val subjectId by BundleString(SUBJECT_TEST_KEY, EMPTY_STRING)
-    private val solutionId by BundleString(SOLUTION_TEST_KEY, EMPTY_STRING)
+    private val solutionId by BundleString(SOLUTION_SOLUTION_ID_KEY, EMPTY_STRING)
+    private val testId by BundleString(SOLUTION_TEST_ID_KEY, EMPTY_STRING)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = SolutionFragmentBinding.bind(view)
@@ -107,7 +105,7 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
         binding.solutionToolBar.setOnClickListener {
             showMessage(binding.solutionToolBar.title.toString())
         }
-        viewModel.onViewInitiated(subjectId, solutionId)
+        viewModel.onViewInitiated(testId, solutionId)
     }
 
     override fun onObserveData() {
@@ -204,6 +202,11 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
         navigate(R.id.action_solutionFragment_to_photoDetailsFragment, Bundle().apply {
             putString(PHOTO_DETAILED_KEY, imageId)
         })
+    }
+
+    companion object {
+        const val SOLUTION_SOLUTION_ID_KEY = "SOLUTION_SOLUTION_ID_KEY"
+        const val SOLUTION_TEST_ID_KEY = "SOLUTION_TEST_ID_KEY"
     }
 }
 

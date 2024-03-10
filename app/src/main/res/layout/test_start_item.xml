@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/subjectLlContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/margin_2"
+    android:layout_marginTop="@dimen/margin_4"
+    android:layout_marginBottom="@dimen/margin_8"
+    android:background="@drawable/rectangle_8_content_background"
+    android:elevation="@dimen/elevation_8"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/space_8"
+    android:paddingTop="@dimen/space_6"
+    android:paddingBottom="@dimen/space_8">
+
+    <TextView
+        android:id="@+id/nameTestTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/textPrimary"
+        android:textSize="@dimen/text_18"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Глобальный тест ывфвфывфыфывпо предмету ОБЖ ЕГЭ" />
+
+    <TextView
+        android:id="@+id/questionCountTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_4"
+        android:fontFamily="@font/roboto"
+        android:text="@string/question_count"
+        android:textColor="?attr/textPrimary"
+        app:layout_constraintStart_toStartOf="@+id/nameTestTv"
+        app:layout_constraintTop_toBottomOf="@+id/nameTestTv" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/startButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/primary"
+        android:text="@string/start"
+        android:textSize="@dimen/text_16"
+        app:cornerRadius="@dimen/radius_16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/questionCountTv" />
+</androidx.constraintlayout.widget.ConstraintLayout>

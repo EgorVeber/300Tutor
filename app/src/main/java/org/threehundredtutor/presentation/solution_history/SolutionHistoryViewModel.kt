@@ -6,21 +6,24 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.threehundredtutor.base.BaseViewModel
+import org.threehundredtutor.common.DEFAULT_NOT_VALID_VALUE_INT
 import org.threehundredtutor.common.extentions.SingleSharedFlow
 import org.threehundredtutor.common.extentions.launchJob
 import org.threehundredtutor.common.utils.ResourceProvider
-import org.threehundredtutor.domain.solution_history.SearchSolutionUseCase
+import org.threehundredtutor.domain.solution_history.SearchSolutionFilteredUseCase
 import org.threehundredtutor.domain.solution_history.SolutionHistoryFilter
+import org.threehundredtutor.presentation.solution_history.mapper.toSolutionHistoryUiModel
+import org.threehundredtutor.presentation.solution_history.models.SolutionHistoryUiItem
 import javax.inject.Inject
 
 class SolutionHistoryViewModel @Inject constructor(
-    private val searchSolutionUseCase: SearchSolutionUseCase,
+    private val searchSolutionFilteredUseCase: SearchSolutionFilteredUseCase,
     private val resourceProvider: ResourceProvider,
 ) : BaseViewModel() {
 
     private var currentFilter = SolutionHistoryFilter.ALL
 
-    private val uiItemsState = MutableStateFlow<List<SolutionHistoryUiModel>>(listOf())
+    private val uiItemsState = MutableStateFlow<List<SolutionHistoryUiItem>>(listOf())
     private val uiEventState = SingleSharedFlow<UiEvent>()
     private val loadingState = MutableStateFlow(false)
 
@@ -35,12 +38,20 @@ class SolutionHistoryViewModel @Inject constructor(
     private fun searchSolution(force: Boolean, filter: SolutionHistoryFilter) {
         viewModelScope.launchJob(tryBlock = {
             if (force) loadingState.update { true }
-            val items =
-                searchSolutionUseCase.invoke(force = force, solutionHistoryFilter = filter)
-                    .map { solutionHistoryItemModel ->
-                        solutionHistoryItemModel.toSolutionHistoryUiModel(resourceProvider)
-                    }
-            uiItemsState.update { items }
+            val solutionHistoryItems =
+                searchSolutionFilteredUseCase.invoke(
+                    force = force,
+                    solutionHistoryFilter = filter,
+                )
+
+            val uiItems = solutionHistoryItems.map { solutionHistoryItemModel ->
+                solutionHistoryItemModel.toSolutionHistoryUiModel(
+                    resourceProvider = resourceProvider,
+                    questionsCount = DEFAULT_NOT_VALID_VALUE_INT
+                )
+            }
+
+            uiItemsState.update { uiItems }
         }, catchBlock = { throwable ->
             //TODO TutorAndroid-44
             handleError(throwable)
@@ -69,8 +80,12 @@ class SolutionHistoryViewModel @Inject constructor(
         searchSolution(force = true, filter = currentFilter)
     }
 
-    fun onGoSolutionClickListener(solutionId: String) {
-        uiEventState.tryEmit(UiEvent.ShowDialogSolution(solutionId))
+    fun onSolutionHistoryClicked(solutionId: String, isFinished: Boolean) {
+        if (isFinished) {
+            uiEventState.tryEmit(UiEvent.ShowDialogGoSolution(solutionId))
+        } else {
+            uiEventState.tryEmit(UiEvent.ShowDialogContinueSolution(solutionId))
+        }
     }
 
     fun onDialogOkClicked(solutionId: String) {
@@ -78,7 +93,8 @@ class SolutionHistoryViewModel @Inject constructor(
     }
 
     sealed interface UiEvent {
-        data class ShowDialogSolution(val solutionId: String) : UiEvent
+        data class ShowDialogGoSolution(val solutionId: String) : UiEvent
+        data class ShowDialogContinueSolution(val solutionId: String) : UiEvent
         data class NavigateToSolution(val solutionId: String) : UiEvent
     }
 }

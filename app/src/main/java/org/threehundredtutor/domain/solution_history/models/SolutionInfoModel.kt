@@ -1,8 +1,8 @@
 package org.threehundredtutor.domain.solution_history.models
 
 data class SolutionInfoModel(
-    val finishedOnUtc: String,
     val id: String,
+    val finishedOnUtc: String,
     val isFinished: Boolean,
     val startedOnUtc: String,
     val testId: String,

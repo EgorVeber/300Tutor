@@ -3,7 +3,6 @@ package org.threehundredtutor.presentation.solution_history
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import org.threehundredtutor.R
 import org.threehundredtutor.base.BaseFragment
 import org.threehundredtutor.common.extentions.navigate
@@ -13,8 +12,8 @@ import org.threehundredtutor.databinding.FragmentSolutionHistoryBinding
 import org.threehundredtutor.di.solution_history.SolutionHistoryComponent
 import org.threehundredtutor.presentation.common.ActionDialogFragment
 import org.threehundredtutor.presentation.common.LoadingDialog
-import org.threehundredtutor.presentation.solution_history.adapter.SolutionHistoryAdapters.DIFF_CALLBACK
-import org.threehundredtutor.presentation.solution_history.adapter.SolutionHistoryAdapters.getSolutionHistoryUiItemAdapter
+import org.threehundredtutor.presentation.solution.SolutionFragment.Companion.SOLUTION_SOLUTION_ID_KEY
+import org.threehundredtutor.presentation.solution_history.adapter.SolutionHistoryManager
 
 class SolutionHistoryFragment : BaseFragment(R.layout.fragment_solution_history) {
     private lateinit var binding: FragmentSolutionHistoryBinding
@@ -29,13 +28,11 @@ class SolutionHistoryFragment : BaseFragment(R.layout.fragment_solution_history)
         solutionHistoryComponent.viewModelMapFactory()
     }
 
-    private val delegateAdapter =
-        AsyncListDifferDelegationAdapter(
-            DIFF_CALLBACK,
-            getSolutionHistoryUiItemAdapter { id ->
-                viewModel.onGoSolutionClickListener(id)
-            }
-        )
+    private val delegateAdapter = SolutionHistoryManager(
+        solutionHistoryClickListener = { solutionId, isFinished ->
+            viewModel.onSolutionHistoryClicked(solutionId, isFinished)
+        },
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentSolutionHistoryBinding.bind(view)
@@ -48,13 +45,15 @@ class SolutionHistoryFragment : BaseFragment(R.layout.fragment_solution_history)
         }
         viewModel.getUiEventStateFlow().observeFlow(this) { state ->
             when (state) {
-                is SolutionHistoryViewModel.UiEvent.NavigateToSolution -> navigateSolutionDetailedScreen(
-                    state.solutionId
-                )
+                is SolutionHistoryViewModel.UiEvent.NavigateToSolution ->
+                    navigateToSolutionFragment(state.solutionId)
 
-                is SolutionHistoryViewModel.UiEvent.ShowDialogSolution -> showActionDialogOpenSolution(
-                    state.solutionId
-                )
+                is SolutionHistoryViewModel.UiEvent.ShowDialogGoSolution ->
+                    showActionDialogGoSolution(state.solutionId)
+
+                is SolutionHistoryViewModel.UiEvent.ShowDialogContinueSolution -> {
+                    showActionDialogContinueSolution(state.solutionId)
+                }
             }
         }
 
@@ -76,8 +75,9 @@ class SolutionHistoryFragment : BaseFragment(R.layout.fragment_solution_history)
         navigate(R.id.action_solutionHistoryFragment_to_homeFragment)
     }
 
-    private fun showActionDialogOpenSolution(solutionId: String) {
+    private fun showActionDialogGoSolution(solutionId: String) {
         ActionDialogFragment.showDialog(
+            title = getString(R.string.confirm_action),
             fragmentManager = childFragmentManager,
             positiveText = getString(R.string.go),
             message = getString(R.string.go_to_test_solution),
@@ -85,10 +85,20 @@ class SolutionHistoryFragment : BaseFragment(R.layout.fragment_solution_history)
         )
     }
 
-    private fun navigateSolutionDetailedScreen(solutionId: String) {
+    private fun showActionDialogContinueSolution(solutionId: String) {
+        ActionDialogFragment.showDialog(
+            title = getString(R.string.confirm_action),
+            fragmentManager = childFragmentManager,
+            positiveText = getString(R.string.continue_action),
+            message = getString(R.string.continue_to_test_solution),
+            onPositiveClick = { viewModel.onDialogOkClicked(solutionId) },
+        )
+    }
+
+    private fun navigateToSolutionFragment(solutionId: String) {
         navigate(R.id.action_solutionHistoryFragment_to_solutionFragment, Bundle().apply
         {
-            putString(SOLUTION_TEST_KEY, solutionId)
+            putString(SOLUTION_SOLUTION_ID_KEY, solutionId)
         })
     }
 
@@ -110,9 +120,5 @@ class SolutionHistoryFragment : BaseFragment(R.layout.fragment_solution_history)
         //  TODO потом обдумать поведение.
         LoadingDialog.close(requireActivity().supportFragmentManager)
         super.onDestroyView()
-    }
-
-    companion object {
-        const val SOLUTION_TEST_KEY = "SOLUTION_TEST_KEY"
     }
 }

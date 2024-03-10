@@ -8,15 +8,16 @@ import androidx.navigation.fragment.findNavController
 import org.threehundredtutor.R
 import org.threehundredtutor.base.BaseFragment
 import org.threehundredtutor.common.EMPTY_STRING
+import org.threehundredtutor.common.extentions.navigate
 import org.threehundredtutor.common.extentions.observeFlow
 import org.threehundredtutor.common.utils.BundleString
 import org.threehundredtutor.databinding.SubjectTestsFragmentBinding
 import org.threehundredtutor.di.subject_tests.SubjectTestsComponent
-import org.threehundredtutor.presentation.subject_tests.ui_models.SubjectTestUiModel
 import org.threehundredtutor.presentation.subject_detailed.SubjectDetailedFragment.Companion.SUBJECT_TESTS_MENU_ITEM_NAME
 import org.threehundredtutor.presentation.subject_detailed.SubjectDetailedFragment.Companion.SUBJECT_TESTS_SUBJECT_ID
 import org.threehundredtutor.presentation.subject_detailed.SubjectDetailedFragment.Companion.SUBJECT_TESTS_SUBJECT_NAME
 import org.threehundredtutor.presentation.subject_tests.adapter.SubjectTestsManager
+import org.threehundredtutor.presentation.subject_tests.ui_models.SubjectTestUiModel
 import org.threehundredtutor.presentation.subject_tests.ui_models.SubjectTestsUiItem
 
 class SubjectTestsFragment : BaseFragment(R.layout.subject_tests_fragment) {
@@ -67,5 +68,27 @@ class SubjectTestsFragment : BaseFragment(R.layout.subject_tests_fragment) {
             .observeFlow(this) { subjectTestsItems: List<SubjectTestsUiItem> ->
                 delegateAdapter.items = subjectTestsItems
             }
+
+        viewModel.getUiEventStateFlow().observeFlow(this) { state ->
+            when (state) {
+                is SubjectTestsViewModel.UiEvent.NavigateToTest -> {
+                    navigate(R.id.action_subjectTestsFragment_to_testFragment,
+                        Bundle().apply {
+                            putString(SUBJECT_TESTS_TEST_ID_KEY, state.subjectTestId)
+                            putString(SUBJECT_TESTS_SUBJECT_NAME_KEY, subjectName)
+                            putString(SUBJECT_TESTS_TEST_NAME_KEY, state.subjectTestName)
+                            putInt(SUBJECT_TESTS_TEST_QUESTION_COUNT_KEY, state.questionsCount)
+                        }
+                    )
+                }
+            }
+        }
+    }
+
+    companion object {
+        const val SUBJECT_TESTS_TEST_ID_KEY = "SUBJECT_TESTS_TEST_ID_KEY"
+        const val SUBJECT_TESTS_TEST_NAME_KEY = "SUBJECT_TESTS_TEST_NAME_KEY"
+        const val SUBJECT_TESTS_SUBJECT_NAME_KEY = "SUBJECT_TESTS_SUBJECT_NAME_KEY"
+        const val SUBJECT_TESTS_TEST_QUESTION_COUNT_KEY = "SUBJECT_TESTS_TEST_QUESTION_COUNT_KEY"
     }
 }

@@ -27,14 +27,27 @@
         tools:text="Глобальный тест по предмеasdasdasdasdasту ОБЖ ЕГЭ" />
 
     <TextView
+        android:id="@+id/questionCountTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_4"
+        android:visibility="gone"
+        android:fontFamily="@font/roboto"
+        android:text="@string/question_count"
+        android:textColor="?attr/textPrimary"
+        app:layout_constraintStart_toStartOf="@+id/nameTestTv"
+        app:layout_constraintTop_toBottomOf="@+id/nameTestTv"
+        />
+
+    <TextView
         android:id="@+id/startTestDateTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_4"
+        app:layout_constraintTop_toBottomOf="@+id/questionCountTv"
+        app:layout_constraintStart_toStartOf="@+id/questionCountTv"
         android:fontFamily="@font/roboto"
         android:textColor="?attr/textPrimary"
-        app:layout_constraintStart_toStartOf="@+id/nameTestTv"
-        app:layout_constraintTop_toBottomOf="@+id/nameTestTv"
         tools:text="Дата начала: 17:58, 02.11.23 " />
 
     <TextView
