@@ -2,8 +2,8 @@ package org.threehundredtutor.presentation.subject_tests.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
-import org.threehundredtutor.presentation.subject_tests.ui_models.SubjectTestUiModel
 import org.threehundredtutor.presentation.subject_tests.adapter.SubjectTestsAdapter.getSubjectTestUiModelAdapted
+import org.threehundredtutor.presentation.subject_tests.ui_models.SubjectTestUiModel
 import org.threehundredtutor.presentation.subject_tests.ui_models.SubjectTestsUiItem
 
 class SubjectTestsManager(

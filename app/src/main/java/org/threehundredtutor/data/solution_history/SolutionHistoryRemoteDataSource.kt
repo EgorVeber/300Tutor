@@ -10,12 +10,6 @@ class SolutionHistoryRemoteDataSource @Inject constructor(
 ) {
     private val service = { serviceGeneratorProvider.getService(SolutionHistoryService::class) }
 
-    suspend fun searchSolution(): SearchSolutionGeneralResponse = service().searchSolution(
-        SearchSolutionHistoryRequest(
-            count = null,
-            isFinished = null,
-            offSet = 0,
-            testId = null
-        )
-    )
+    suspend fun searchSolution(searchSolutionHistoryRequest: SearchSolutionHistoryRequest): SearchSolutionGeneralResponse =
+        service().searchSolution(searchSolutionHistoryRequest)
 }

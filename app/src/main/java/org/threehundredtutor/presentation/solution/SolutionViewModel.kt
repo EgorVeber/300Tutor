@@ -85,16 +85,16 @@ class SolutionViewModel @Inject constructor(
     fun getTestInfoStateFlow() = testInfoState.asSharedFlow()
     fun getErrorStateFlow() = errorState.asStateFlow()
 
-    fun onViewInitiated(subjectId: String, solutionId: String) {
+    fun onViewInitiated(testId: String, solutionId: String) {
         if (!firstViewAttach) return
-        loadTest(subjectId = subjectId, solutionId = solutionId, needUpdateResultTest = true)
+        loadTest(testId = testId, solutionId = solutionId, needUpdateResultTest = true)
     }
 
-    private fun loadTest(subjectId: String, solutionId: String, needUpdateResultTest: Boolean) {
+    private fun loadTest(testId: String, solutionId: String, needUpdateResultTest: Boolean) {
         viewModelScope.launchJob(tryBlock = {
             loadingState.update { true }
             firstViewAttach = false
-            val testSolutionModel = getSolution(subjectId, solutionId)
+            val testSolutionModel = getSolution(testId, solutionId)
 
             currentSolutionId = testSolutionModel.solutionId
 
@@ -104,7 +104,7 @@ class SolutionViewModel @Inject constructor(
             val uiItemList = solutionFactory.createSolution(testSolutionModel)
             uiItemsState.update { uiItemList }
 
-            if (subjectId.isNotEmpty()) {
+            if (testId.isNotEmpty()) {
                 uiEventState.emit(
                     UiEvent.ShowSnack(
                         resourceProvider.string(R.string.start_test_message),
@@ -430,7 +430,7 @@ class SolutionViewModel @Inject constructor(
                     points = getPointsUseCase(solutionId = currentSolutionId)
                 }
                 loadTest(
-                    subjectId = EMPTY_STRING,
+                    testId = EMPTY_STRING,
                     solutionId = currentSolutionId,
                     needUpdateResultTest = false
                 )
@@ -529,11 +529,11 @@ class SolutionViewModel @Inject constructor(
     }
 
     private suspend fun getSolution(
-        subjectId: String,
+        testId: String,
         solutionId: String
     ): TestSolutionGeneralModel {
-        val testSolutionModel = if (subjectId.isNotEmpty()) {
-            startTestUseCase.invoke(subjectId)
+        val testSolutionModel = if (testId.isNotEmpty()) {
+            startTestUseCase.invoke(testId)
         } else {
             getSolutionUseCase.invoke(solutionId)
         }

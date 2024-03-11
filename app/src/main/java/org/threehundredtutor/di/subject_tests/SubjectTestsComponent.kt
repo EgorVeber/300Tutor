@@ -2,7 +2,6 @@ package org.threehundredtutor.di.subject_tests
 
 import dagger.BindsInstance
 import dagger.Component
-import org.threehundredtutor.common.utils.AccountManager
 import org.threehundredtutor.core.DiSetHelper
 import org.threehundredtutor.data.core.ServiceGeneratorProvider
 import org.threehundredtutor.di.ViewModelMapFactory

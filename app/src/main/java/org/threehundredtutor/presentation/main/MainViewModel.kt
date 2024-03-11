@@ -32,7 +32,6 @@ import org.threehundredtutor.presentation.main.ui_models.HeaderContentUiItem
 import org.threehundredtutor.presentation.main.ui_models.HeaderUiItem
 import org.threehundredtutor.presentation.main.ui_models.MainUiItem
 import org.threehundredtutor.presentation.main.ui_models.SubjectUiModel
-import org.threehundredtutor.presentation.subject_tests.ui_models.SubjectTestUiModel
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(

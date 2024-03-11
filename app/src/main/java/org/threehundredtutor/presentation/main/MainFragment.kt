@@ -120,7 +120,6 @@ class MainFragment : BaseFragment(R.layout.main_fragment) {
     }
 
     companion object {
-        const val SUBJECT_TEST_KEY = "SUBJECT_TEST_KEY" //TODO TutorAndroid-61
         const val SUBJECT_DETAILED_KEY_ID = "SUBJECT_DETAILED_KEY_ID"
         const val SUBJECT_DETAILED_KEY_NAME = "SUBJECT_DETAILED_KEY_NAME"
     }

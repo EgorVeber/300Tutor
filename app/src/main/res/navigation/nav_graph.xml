@@ -141,5 +141,26 @@
     <fragment
         android:id="@+id/subjectTestsFragment"
         android:name="org.threehundredtutor.presentation.subject_tests.SubjectTestsFragment"
-        android:label="SubjectTestsFragment" />
+        android:label="SubjectTestsFragment">
+        <action
+            android:id="@+id/action_subjectTestsFragment_to_testFragment"
+            app:destination="@id/testFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/testFragment"
+        android:name="org.threehundredtutor.presentation.test.TestFragment"
+        android:label="TestFragment" >
+        <action
+            android:id="@+id/action_testFragment_to_solutionFragment"
+            app:destination="@id/solutionFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            />
+    </fragment>
 </navigation>

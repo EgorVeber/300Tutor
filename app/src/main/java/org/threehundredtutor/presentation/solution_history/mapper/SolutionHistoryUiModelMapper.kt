@@ -1,13 +1,17 @@
-package org.threehundredtutor.presentation.solution_history
+package org.threehundredtutor.presentation.solution_history.mapper
 
 import org.threehundredtutor.R
 import org.threehundredtutor.common.addPercent
 import org.threehundredtutor.common.utils.ResourceProvider
 import org.threehundredtutor.domain.solution_history.models.SolutionHistoryItemModel
+import org.threehundredtutor.presentation.solution_history.models.SolutionHistoryUiModel
 
-fun SolutionHistoryItemModel.toSolutionHistoryUiModel(resourceProvider: ResourceProvider): SolutionHistoryUiModel =
+fun SolutionHistoryItemModel.toSolutionHistoryUiModel(
+    resourceProvider: ResourceProvider,
+    questionsCount: Int,
+): SolutionHistoryUiModel =
     SolutionHistoryUiModel(
-        id = solutionInfoModel.id,
+        solutionId = solutionInfoModel.id,
         testId = solutionInfoModel.testId,
         nameTest = solutionInfoModel.testName,
         isFinished = solutionInfoModel.isFinished,
@@ -35,5 +39,6 @@ fun SolutionHistoryItemModel.toSolutionHistoryUiModel(resourceProvider: Resource
         studentTotalPointsString = solutionValidationModel.studentTotalPointsString,
         validatedQuestionsCount = solutionValidationModel.validatedQuestionsCount.toString(),
         hasRightAnswerQuestionsCount = solutionValidationModel.hasRightAnswerQuestionsCount.toString(),
-        questionsCount = solutionValidationModel.questionsCount
+        questionsCount = questionsCount
+        //solutionValidationModel.questionsCount //Возможно другой запрос надо для не завершенных тестов questionsCount -1, поэтому берем c предыдущего фрагмента
     )

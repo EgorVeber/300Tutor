@@ -7,5 +7,6 @@ fun SearchTestInfoModel.toSubjectTestUiModel(subjectId: String): SubjectTestUiMo
     SubjectTestUiModel(
         subjectTestId = id,
         subjectTestName = name,
-        subjectId = subjectId
+        subjectId = subjectId,
+        questionsCount = questionsCount
     )

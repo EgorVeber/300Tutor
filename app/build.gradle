@@ -37,7 +37,7 @@ android {
     }
     flavorDimensions "org.threehundredtutor"
     productFlavors {
-        threehundredtutor {
+        demo {
             applicationId "org.threehundredtutor.demo"
             dimension "org.threehundredtutor"
             buildConfigField "String", "BASE_URL", "\"https://mini-apps.crocosoft.ru/api/\""
