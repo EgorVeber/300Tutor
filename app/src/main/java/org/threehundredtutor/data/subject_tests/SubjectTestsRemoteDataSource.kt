@@ -1,6 +1,6 @@
 package org.threehundredtutor.data.subject_tests
 
-import org.threehundredtutor.data.core.ServiceGeneratorProvider
+import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
 import org.threehundredtutor.data.subject_tests.models.SearchTestResponse
 import org.threehundredtutor.data.subject_tests.models.SearchTestsRequest
 import javax.inject.Inject

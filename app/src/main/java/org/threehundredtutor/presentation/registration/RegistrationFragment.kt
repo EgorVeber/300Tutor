@@ -5,14 +5,16 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import org.threehundredtutor.R
-import org.threehundredtutor.base.BaseFragment
-import org.threehundredtutor.common.extentions.observeFlow
-import org.threehundredtutor.common.extentions.showMessage
-import org.threehundredtutor.databinding.RegistrationFragmentBinding
+import org.threehundredtutor.core.UiCoreLayout
+import org.threehundredtutor.core.UiCoreStrings
 import org.threehundredtutor.di.registration.RegistrationComponent
 import org.threehundredtutor.presentation.registration.viewmodel.RegistrationViewModel
+import org.threehundredtutor.ui_common.flow.observeFlow
+import org.threehundredtutor.ui_common.fragment.base.BaseFragment
+import org.threehundredtutor.ui_common.fragment.showMessage
+import org.threehundredtutor.ui_core.databinding.RegistrationFragmentBinding
 
-class RegistrationFragment : BaseFragment(R.layout.registration_fragment) {
+class RegistrationFragment : BaseFragment(UiCoreLayout.registration_fragment) {
 
     lateinit var binding: RegistrationFragmentBinding
 
@@ -36,15 +38,15 @@ class RegistrationFragment : BaseFragment(R.layout.registration_fragment) {
         binding.buttonRegister.setOnClickListener {
             val passwordText = binding.etPassword.text.toString()
             if (passwordText.length < 6 || passwordText.contains("[0-9]".toRegex()).not()) {
-                showMessage(getString(R.string.password_wrong))
+                showMessage(getString(UiCoreStrings.password_wrong))
                 return@setOnClickListener
             }
             if (binding.etEmail.text.toString().contains("@").not()) {
-                showMessage(getString(R.string.email_wrong))
+                showMessage(getString(UiCoreStrings.email_wrong))
                 return@setOnClickListener
             }
             if (binding.etPhohe.text.toString().isEmpty()) {
-                showMessage(getString(R.string.phone_wrong))
+                showMessage(getString(UiCoreStrings.phone_wrong))
                 return@setOnClickListener
             }
             if (binding.checkbox.isEnabled) {
@@ -77,17 +79,17 @@ class RegistrationFragment : BaseFragment(R.layout.registration_fragment) {
             if (registeredUser.registrationModel.succeded
                 && registeredUser.loginModel.succeeded
             ) {
-                showMessage(getString(R.string.register_success_message))
+                showMessage(getString(UiCoreStrings.register_success_message))
                 findNavController().navigate(R.id.action_registrationFragment_to_homeFragment)
             }
         }
         viewModel.getRegistrationStudentState().observeFlow(this) { registeredStudent ->
             if (registeredStudent.succeeded) {
-                showMessage(getString(R.string.register_success_message))
+                showMessage(getString(UiCoreStrings.register_success_message))
                 findNavController().navigate(R.id.action_registrationFragment_to_homeFragment)
             }
         }
-        viewModel.getResultNotSuccededFlow().observeFlow(this) { errorText ->
+        viewModel.getResultNotSuccessFlow().observeFlow(this) { errorText ->
             showMessage(errorText)
         }
     }

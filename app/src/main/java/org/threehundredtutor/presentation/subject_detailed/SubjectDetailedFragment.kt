@@ -6,19 +6,20 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import org.threehundredtutor.R
-import org.threehundredtutor.base.BaseFragment
-import org.threehundredtutor.common.EMPTY_STRING
-import org.threehundredtutor.common.extentions.navigate
-import org.threehundredtutor.common.extentions.observeFlow
-import org.threehundredtutor.common.utils.BundleParcelable
-import org.threehundredtutor.common.utils.BundleString
-import org.threehundredtutor.databinding.SubjectDetailedFragmentBinding
+import org.threehundredtutor.core.UiCoreLayout
+import org.threehundredtutor.core.navigate
 import org.threehundredtutor.di.subject_detailed.SubjectDetailedComponent
 import org.threehundredtutor.presentation.main.MainFragment
 import org.threehundredtutor.presentation.subject_detailed.adapter.SubjectDetailedManager
 import org.threehundredtutor.presentation.subject_detailed.ui_models.SubjectMenuItemUiModel
+import org.threehundredtutor.ui_common.EMPTY_STRING
+import org.threehundredtutor.ui_common.flow.observeFlow
+import org.threehundredtutor.ui_common.fragment.base.BaseFragment
+import org.threehundredtutor.ui_common.util_class.BundleParcelable
+import org.threehundredtutor.ui_common.util_class.BundleString
+import org.threehundredtutor.ui_core.databinding.SubjectDetailedFragmentBinding
 
-class SubjectDetailedFragment : BaseFragment(R.layout.subject_detailed_fragment) {
+class SubjectDetailedFragment : BaseFragment(UiCoreLayout.subject_detailed_fragment) {
 
     override val bottomMenuVisible: Boolean = false
 

@@ -4,18 +4,20 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import org.threehundredtutor.R
-import org.threehundredtutor.base.BaseFragment
-import org.threehundredtutor.common.extentions.navigate
-import org.threehundredtutor.common.extentions.observeFlow
-import org.threehundredtutor.common.extentions.setDebouncedClickListener
-import org.threehundredtutor.databinding.FragmentSolutionHistoryBinding
+import org.threehundredtutor.core.UiCoreLayout
+import org.threehundredtutor.core.UiCoreStrings
+import org.threehundredtutor.core.navigate
 import org.threehundredtutor.di.solution_history.SolutionHistoryComponent
-import org.threehundredtutor.presentation.common.ActionDialogFragment
-import org.threehundredtutor.presentation.common.LoadingDialog
 import org.threehundredtutor.presentation.solution.SolutionFragment.Companion.SOLUTION_SOLUTION_ID_KEY
 import org.threehundredtutor.presentation.solution_history.adapter.SolutionHistoryManager
+import org.threehundredtutor.ui_common.flow.observeFlow
+import org.threehundredtutor.ui_common.fragment.ActionDialogFragment
+import org.threehundredtutor.ui_common.fragment.LoadingDialog
+import org.threehundredtutor.ui_common.fragment.base.BaseFragment
+import org.threehundredtutor.ui_common.view_components.setDebouncedClickListener
+import org.threehundredtutor.ui_core.databinding.FragmentSolutionHistoryBinding
 
-class SolutionHistoryFragment : BaseFragment(R.layout.fragment_solution_history) {
+class SolutionHistoryFragment : BaseFragment(UiCoreLayout.fragment_solution_history) {
     private lateinit var binding: FragmentSolutionHistoryBinding
 
     override var customHandlerBackStack = true
@@ -77,20 +79,20 @@ class SolutionHistoryFragment : BaseFragment(R.layout.fragment_solution_history)
 
     private fun showActionDialogGoSolution(solutionId: String) {
         ActionDialogFragment.showDialog(
-            title = getString(R.string.confirm_action),
+            title = getString(UiCoreStrings.confirm_action),
             fragmentManager = childFragmentManager,
-            positiveText = getString(R.string.go),
-            message = getString(R.string.go_to_test_solution),
+            positiveText = getString(UiCoreStrings.go),
+            message = getString(UiCoreStrings.go_to_test_solution),
             onPositiveClick = { viewModel.onDialogOkClicked(solutionId) },
         )
     }
 
     private fun showActionDialogContinueSolution(solutionId: String) {
         ActionDialogFragment.showDialog(
-            title = getString(R.string.confirm_action),
+            title = getString(UiCoreStrings.confirm_action),
             fragmentManager = childFragmentManager,
-            positiveText = getString(R.string.continue_action),
-            message = getString(R.string.continue_to_test_solution),
+            positiveText = getString(UiCoreStrings.continue_action),
+            message = getString(UiCoreStrings.continue_to_test_solution),
             onPositiveClick = { viewModel.onDialogOkClicked(solutionId) },
         )
     }

@@ -3,15 +3,15 @@ package org.threehundredtutor.presentation.starter
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import org.threehundredtutor.base.BaseViewModel
-import org.threehundredtutor.common.extentions.launchJob
-import org.threehundredtutor.data.core.models.ErrorType
+import org.threehundredtutor.data.common.network.ErrorType
 import org.threehundredtutor.domain.authorization.LoginDateModel
 import org.threehundredtutor.domain.authorization.LoginUseCase
 import org.threehundredtutor.domain.starter.GetAccountInfoUseCase
 import org.threehundredtutor.domain.starter.GetFirstStartAppUseCase
 import org.threehundredtutor.domain.starter.GetThemePrefsUseCase
 import org.threehundredtutor.domain.starter.SetFirstStartAppUseCase
+import org.threehundredtutor.ui_common.coroutines.launchJob
+import org.threehundredtutor.ui_common.fragment.base.BaseViewModel
 import javax.inject.Inject
 
 // TODO сохздаеться 2 вьемодели подумать.

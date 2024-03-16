@@ -1,11 +1,11 @@
 package org.threehundredtutor.data.main.mappers
 
-import org.threehundredtutor.base.network.ServerException
-import org.threehundredtutor.common.DEFAULT_NOT_VALID_VALUE_INT
-import org.threehundredtutor.common.EMPTY_STRING
-import org.threehundredtutor.common.orFalse
 import org.threehundredtutor.data.subject_tests.models.SearchTestInfoResponse
 import org.threehundredtutor.domain.subject_tests.models.SearchTestInfoModel
+import org.threehundredtutor.ui_common.DEFAULT_NOT_VALID_VALUE_INT
+import org.threehundredtutor.ui_common.EMPTY_STRING
+import org.threehundredtutor.ui_common.util.ServerException
+import org.threehundredtutor.ui_common.util.orFalse
 
 fun SearchTestInfoResponse.toSearchTestInfoModel(): SearchTestInfoModel =
     SearchTestInfoModel(

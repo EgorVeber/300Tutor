@@ -6,13 +6,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import org.threehundredtutor.R
-import org.threehundredtutor.base.BaseViewModel
-import org.threehundredtutor.common.EMPTY_STRING
-import org.threehundredtutor.common.extentions.SingleSharedFlow
-import org.threehundredtutor.common.extentions.launchJob
-import org.threehundredtutor.common.utils.ResourceProvider
-import org.threehundredtutor.common.utils.SnackBarType
+import org.threehundredtutor.common.ResourceProvider
+import org.threehundredtutor.core.UiCoreStrings
+import org.threehundredtutor.domain.common.GetConfigUseCase
 import org.threehundredtutor.domain.solution.models.TestSolutionGeneralModel
 import org.threehundredtutor.domain.solution.models.params_model.QuestionSolutionIdParamsModel
 import org.threehundredtutor.domain.solution.models.params_model.SaveQuestionPointsValidationParamsModel
@@ -42,6 +38,11 @@ import org.threehundredtutor.presentation.solution.ui_models.right_answer.RightA
 import org.threehundredtutor.presentation.solution.ui_models.right_answer.RightAnswerUiModel
 import org.threehundredtutor.presentation.solution.ui_models.select_right_answer.AnswerSelectRightUiModel
 import org.threehundredtutor.presentation.solution.ui_models.select_right_answer.SelectRightAnswerCheckButtonUiItem
+import org.threehundredtutor.ui_common.EMPTY_STRING
+import org.threehundredtutor.ui_common.coroutines.launchJob
+import org.threehundredtutor.ui_common.flow.SingleSharedFlow
+import org.threehundredtutor.ui_common.fragment.base.BaseViewModel
+import org.threehundredtutor.ui_core.SnackBarType
 import java.util.Collections
 import javax.inject.Inject
 
@@ -57,6 +58,7 @@ class SolutionViewModel @Inject constructor(
     private val getPointsUseCase: GetPointsUseCase,
     private val resourceProvider: ResourceProvider,
     private val changeLikeQuestionUseCase: ChangeLikeQuestionUseCase,
+    private val getConfigUseCase: GetConfigUseCase,
 ) : BaseViewModel() {
 
     private var currentSolutionId: String = EMPTY_STRING
@@ -101,13 +103,16 @@ class SolutionViewModel @Inject constructor(
             isFinished = testSolutionModel.isFinished
             testInfoState.update { testSolutionModel.nameTest }
 
-            val uiItemList = solutionFactory.createSolution(testSolutionModel)
+            val uiItemList = solutionFactory.createSolution(
+                testSolutionGeneralModel = testSolutionModel,
+                staticUrl = getConfigUseCase().staticMediumUrl
+            )
             uiItemsState.update { uiItemList }
 
             if (testId.isNotEmpty()) {
                 uiEventState.emit(
                     UiEvent.ShowSnack(
-                        resourceProvider.string(R.string.start_test_message),
+                        resourceProvider.string(UiCoreStrings.start_test_message),
                         SnackBarType.SUCCESS
                     )
                 )
@@ -414,7 +419,12 @@ class SolutionViewModel @Inject constructor(
     }
 
     fun onImageClicked(imageId: String) {
-        if (imageId.isNotEmpty()) uiEventState.tryEmit(UiEvent.NavigatePhotoDetailed(imageId))
+        if (imageId.isNotEmpty()) uiEventState.tryEmit(
+            UiEvent.NavigatePhotoDetailed(
+                imageId = imageId,
+                staticOriginalUrl = getConfigUseCase().staticOriginalUrl
+            )
+        )
     }
 
     fun onFinishTestClicked() {
@@ -513,7 +523,7 @@ class SolutionViewModel @Inject constructor(
     private fun getPointString(answerModel: AnswerModel): String =
         if (answerModel.pointsValidationModel.isValidated) {
             resourceProvider.string(
-                R.string.points_question,
+                UiCoreStrings.points_question,
                 answerModel.pointsValidationModel.answerPoints,
                 answerModel.pointsValidationModel.questionTotalPoints
             )
@@ -543,7 +553,7 @@ class SolutionViewModel @Inject constructor(
     sealed interface UiEvent {
         data class ShowMessage(val message: String) : UiEvent
         data class OpenYoutube(val link: String) : UiEvent
-        data class NavigatePhotoDetailed(val imageId: String) : UiEvent
+        data class NavigatePhotoDetailed(val imageId: String, val staticOriginalUrl: String) : UiEvent
         data class ShowSnack(val message: String, val snackBarType: SnackBarType) : UiEvent
         object ShowFinishDialog : UiEvent
         object NavigateBack : UiEvent

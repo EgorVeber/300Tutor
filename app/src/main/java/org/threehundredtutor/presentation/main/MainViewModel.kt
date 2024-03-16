@@ -6,13 +6,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import org.threehundredtutor.R
-import org.threehundredtutor.base.BaseViewModel
-import org.threehundredtutor.common.addQuotes
-import org.threehundredtutor.common.extentions.SingleSharedFlow
-import org.threehundredtutor.common.extentions.launchJob
-import org.threehundredtutor.common.utils.ResourceProvider
-import org.threehundredtutor.common.utils.SnackBarType
+import org.threehundredtutor.common.ResourceProvider
+import org.threehundredtutor.core.UiCoreStrings
+import org.threehundredtutor.domain.common.GetConfigUseCase
 import org.threehundredtutor.domain.main.models.ExtraButtonInfoModel
 import org.threehundredtutor.domain.main.models.GroupWithCourseProgressModel
 import org.threehundredtutor.domain.main.usecase.EnterGroupUseCase
@@ -32,11 +28,17 @@ import org.threehundredtutor.presentation.main.ui_models.HeaderContentUiItem
 import org.threehundredtutor.presentation.main.ui_models.HeaderUiItem
 import org.threehundredtutor.presentation.main.ui_models.MainUiItem
 import org.threehundredtutor.presentation.main.ui_models.SubjectUiModel
+import org.threehundredtutor.ui_common.coroutines.launchJob
+import org.threehundredtutor.ui_common.flow.SingleSharedFlow
+import org.threehundredtutor.ui_common.fragment.base.BaseViewModel
+import org.threehundredtutor.ui_common.util.addQuotes
+import org.threehundredtutor.ui_core.SnackBarType
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
     private val getSubjectUseCase: GetSubjectUseCase,
     private val getCoursesUseCase: GetCoursesUseCase,
+    private val getConfigUseCase: GetConfigUseCase,
     private val resourceProvider: ResourceProvider,
     private val enterGroupUseCase: EnterGroupUseCase,
     private val getExtraButtonsUseCase: GetExtraButtonsUseCase,
@@ -99,13 +101,13 @@ class MainViewModel @Inject constructor(
     ): List<MainUiItem> = buildList {
         add(ActivateKeyUiItem)
 
-        add(HeaderUiItem(resourceProvider.string(R.string.my_course)))
+        add(HeaderUiItem(resourceProvider.string(UiCoreStrings.my_course)))
         if (courses.isNotEmpty()) addAll(courses)
         else add(CourseLottieUiItem)
         add(FooterUiItem)
 
         if (subjects.isNotEmpty()) {
-            add(HeaderUiItem(resourceProvider.string(R.string.subject)))
+            add(HeaderUiItem(resourceProvider.string(UiCoreStrings.subject)))
             addAll(subjects)
             add(FooterUiItem)
         }
@@ -140,7 +142,7 @@ class MainViewModel @Inject constructor(
                 uiEventState.tryEmit(
                     UiEvent.ShowSnack(
                         resourceProvider.string(
-                            R.string.activate_key_message,
+                            UiCoreStrings.activate_key_message,
                             result.groupName.addQuotes()
                         )
                     )
@@ -154,19 +156,18 @@ class MainViewModel @Inject constructor(
         })
     }
 
-
     fun onExtraButtonClicked(link: String) {
         uiEventState.tryEmit(UiEvent.ShowDialogOpenLink(link))
     }
 
     fun onDialogOpenLinkPositiveClicked(link: String) {
-        uiEventState.tryEmit(UiEvent.OpenLink(link))
+        uiEventState.tryEmit(UiEvent.OpenLink(link = link, siteUrl = getConfigUseCase().siteUrl))
     }
 
     sealed interface UiEvent {
         data class ShowDialogOpenLink(val link: String) : UiEvent
         data class NavigateToDetailedSubject(val subjectInfo: Pair<String, String>) : UiEvent
-        data class OpenLink(val link: String) : UiEvent
+        data class OpenLink(val link: String, val siteUrl: String) : UiEvent
         data class ShowSnack(
             val message: String,
             val snackBarType: SnackBarType = SnackBarType.SUCCESS

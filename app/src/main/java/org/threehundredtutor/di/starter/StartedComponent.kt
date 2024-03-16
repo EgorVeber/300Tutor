@@ -2,12 +2,12 @@ package org.threehundredtutor.di.starter
 
 import dagger.BindsInstance
 import dagger.Component
-import org.threehundredtutor.common.utils.PublicDataSource
 import org.threehundredtutor.core.DiSetHelper
-import org.threehundredtutor.data.core.ServiceGeneratorProvider
+import org.threehundredtutor.data.common.data_source.PublicDataSource
+import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
 import org.threehundredtutor.di.ScreenScope
 import org.threehundredtutor.di.ViewModelMapFactory
-import org.threehundredtutor.domain.AccountManagerRepository
+import org.threehundredtutor.domain.common.AccountManagerRepository
 
 /**
  * Отдельная компонента, не SubComponent, свой модуль и со своей scope*

@@ -2,10 +2,11 @@ package org.threehundredtutor.di.main
 
 import dagger.BindsInstance
 import dagger.Component
-import org.threehundredtutor.common.utils.AccountManager
-import org.threehundredtutor.common.utils.ResourceProvider
+import org.threehundredtutor.common.ResourceProvider
 import org.threehundredtutor.core.DiSetHelper
-import org.threehundredtutor.data.core.ServiceGeneratorProvider
+import org.threehundredtutor.data.common.ConfigRepository
+import org.threehundredtutor.data.common.data_source.AccountLocalDataSource
+import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
 import org.threehundredtutor.di.ScreenScope
 import org.threehundredtutor.di.ViewModelMapFactory
 
@@ -23,7 +24,10 @@ interface MainComponent {
         fun getResourceProvider(resourceProvider: ResourceProvider): Builder
 
         @BindsInstance
-        fun getAccountManager(accountManager: AccountManager): Builder
+        fun getAccountManager(accountLocalDataSource: AccountLocalDataSource): Builder
+
+        @BindsInstance
+        fun getConfigRepository(configRepository: ConfigRepository): Builder
 
         fun getMainComponentBuilder(): MainComponent
     }
@@ -34,7 +38,8 @@ interface MainComponent {
                 .builder()
                 .getServiceGeneratorProvider(DiSetHelper.appComponent.getServiceGeneratorProvider())
                 .getResourceProvider(DiSetHelper.appComponent.getResourceProvider())
-                .getAccountManager(DiSetHelper.appComponent.getAccountManager())
+                .getAccountManager(DiSetHelper.appComponent.getAccountLocalDataSource())
+                .getConfigRepository(DiSetHelper.appComponent.getConfigRepository())
                 .getMainComponentBuilder()
     }
 }

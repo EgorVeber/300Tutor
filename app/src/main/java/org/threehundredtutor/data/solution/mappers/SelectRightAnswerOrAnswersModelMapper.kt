@@ -1,8 +1,8 @@
 package org.threehundredtutor.data.solution.mappers
 
-import org.threehundredtutor.common.orDefaultNotValidValue
 import org.threehundredtutor.data.solution.models.test_response.SelectRightAnswerOrAnswersDataResponse
 import org.threehundredtutor.domain.solution.models.test_model.SelectRightAnswerOrAnswersModel
+import org.threehundredtutor.ui_common.util.orDefaultNotValidValue
 
 fun SelectRightAnswerOrAnswersDataResponse.toSelectRightAnswerOrAnswersModel(): SelectRightAnswerOrAnswersModel =
     SelectRightAnswerOrAnswersModel(

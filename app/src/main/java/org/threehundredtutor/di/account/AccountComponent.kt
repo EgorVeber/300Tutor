@@ -2,10 +2,12 @@ package org.threehundredtutor.di.account
 
 import dagger.BindsInstance
 import dagger.Component
-import org.threehundredtutor.common.utils.AccountManager
-import org.threehundredtutor.common.utils.ResourceProvider
+import org.threehundredtutor.common.ResourceProvider
 import org.threehundredtutor.core.DiSetHelper
-import org.threehundredtutor.data.core.ServiceGeneratorProvider
+import org.threehundredtutor.data.common.ConfigRepository
+import org.threehundredtutor.data.common.data_source.AccountLocalDataSource
+import org.threehundredtutor.data.common.data_source.ConfigLocalDataSource
+import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
 import org.threehundredtutor.di.ScreenScope
 import org.threehundredtutor.di.ViewModelMapFactory
 
@@ -23,7 +25,13 @@ interface AccountComponent {
         fun getServiceGeneratorProvider(serviceGeneratorProvider: ServiceGeneratorProvider): Builder
 
         @BindsInstance
-        fun getAccountManager(accountManager: AccountManager): Builder
+        fun getAccountLocalDataSource(accountLocalDataSource: AccountLocalDataSource): Builder
+
+        @BindsInstance
+        fun getConfigRepository(configRepository: ConfigRepository): Builder
+
+        @BindsInstance
+        fun getConfigLocalDataSource(configLocalDataSource: ConfigLocalDataSource): Builder
 
         fun getAccountComponentBuilder(): AccountComponent
     }
@@ -34,7 +42,9 @@ interface AccountComponent {
                 .builder()
                 .getBuilder(DiSetHelper.appComponent.getResourceProvider())
                 .getServiceGeneratorProvider(DiSetHelper.appComponent.getServiceGeneratorProvider())
-                .getAccountManager(DiSetHelper.appComponent.getAccountManager())
+                .getAccountLocalDataSource(DiSetHelper.appComponent.getAccountLocalDataSource())
+                .getConfigRepository(DiSetHelper.appComponent.getConfigRepository())
+                .getConfigLocalDataSource(DiSetHelper.appComponent.getConfigLocalDataSource())
                 .getAccountComponentBuilder()
     }
 }

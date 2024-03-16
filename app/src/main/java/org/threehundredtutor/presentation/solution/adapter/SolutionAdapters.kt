@@ -1,40 +1,11 @@
 package org.threehundredtutor.presentation.solution.adapter
 
-import android.content.res.ColorStateList
 import android.text.InputFilter
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
-import org.threehundredtutor.R
-import org.threehundredtutor.common.applyBackground
-import org.threehundredtutor.common.extentions.setDebouncedCheckedChangeListener
-import org.threehundredtutor.common.extentions.setDebouncedClickListener
-import org.threehundredtutor.common.fromHtml
-import org.threehundredtutor.common.getColorAttr
-import org.threehundredtutor.common.hideKeyboard
-import org.threehundredtutor.common.loadServer
-import org.threehundredtutor.common.trimText
-import org.threehundredtutor.common.viewcopmponents.bindDividerType
-import org.threehundredtutor.common.viewcopmponents.bindResultType
-import org.threehundredtutor.databinding.SolutionAnswerSelectRightItemBinding
-import org.threehundredtutor.databinding.SolutionAnswerWithErrorsItemBinding
-import org.threehundredtutor.databinding.SolutionAnswerWithErrorsResultItemBinding
-import org.threehundredtutor.databinding.SolutionCheckButtonItemBinding
-import org.threehundredtutor.databinding.SolutionDetailedAnswerItemBinding
-import org.threehundredtutor.databinding.SolutionDetailedAnswerResultItemBinding
-import org.threehundredtutor.databinding.SolutionDetailedAnswerValidationItemBinding
-import org.threehundredtutor.databinding.SolutionDividerItemBinding
-import org.threehundredtutor.databinding.SolutionFooterItemBinding
-import org.threehundredtutor.databinding.SolutionHeaderItemBinding
-import org.threehundredtutor.databinding.SolutionImageItemBinding
-import org.threehundredtutor.databinding.SolutionResultButtonItemBinding
-import org.threehundredtutor.databinding.SolutionRightAnswerItemBinding
-import org.threehundredtutor.databinding.SolutionRightAnswerResultItemBinding
-import org.threehundredtutor.databinding.SolutionSelectRightAnswerTitleItemBinding
-import org.threehundredtutor.databinding.SolutionSeparatorItemBinding
-import org.threehundredtutor.databinding.SolutionSupSubItemBinding
-import org.threehundredtutor.databinding.SolutionTextItemBinding
-import org.threehundredtutor.databinding.SolutionYoutubeItemBinding
+import org.threehundredtutor.core.UiCoreAttr
+import org.threehundredtutor.core.UiCoreDrawable
 import org.threehundredtutor.presentation.solution.solution_factory.GravityAlign.Companion.getGravity
 import org.threehundredtutor.presentation.solution.ui_models.SolutionUiItem
 import org.threehundredtutor.presentation.solution.ui_models.answer_erros.AnswerWithErrorsResultUiItem
@@ -56,6 +27,33 @@ import org.threehundredtutor.presentation.solution.ui_models.right_answer.RightA
 import org.threehundredtutor.presentation.solution.ui_models.select_right_answer.AnswerSelectRightUiModel
 import org.threehundredtutor.presentation.solution.ui_models.select_right_answer.SelectRightAnswerCheckButtonUiItem
 import org.threehundredtutor.presentation.solution.ui_models.select_right_answer.SelectRightAnswerTitleUiItem
+import org.threehundredtutor.ui_common.util.fromHtml
+import org.threehundredtutor.ui_common.view_components.applyBackground
+import org.threehundredtutor.ui_common.view_components.hideKeyboard
+import org.threehundredtutor.ui_common.view_components.loadImageMedium
+import org.threehundredtutor.ui_common.view_components.setDebouncedCheckedChangeListener
+import org.threehundredtutor.ui_common.view_components.setDebouncedClickListener
+import org.threehundredtutor.ui_common.view_components.setTint
+import org.threehundredtutor.ui_common.view_components.trimText
+import org.threehundredtutor.ui_core.databinding.SolutionAnswerSelectRightItemBinding
+import org.threehundredtutor.ui_core.databinding.SolutionAnswerWithErrorsItemBinding
+import org.threehundredtutor.ui_core.databinding.SolutionAnswerWithErrorsResultItemBinding
+import org.threehundredtutor.ui_core.databinding.SolutionCheckButtonItemBinding
+import org.threehundredtutor.ui_core.databinding.SolutionDetailedAnswerItemBinding
+import org.threehundredtutor.ui_core.databinding.SolutionDetailedAnswerResultItemBinding
+import org.threehundredtutor.ui_core.databinding.SolutionDetailedAnswerValidationItemBinding
+import org.threehundredtutor.ui_core.databinding.SolutionDividerItemBinding
+import org.threehundredtutor.ui_core.databinding.SolutionFooterItemBinding
+import org.threehundredtutor.ui_core.databinding.SolutionHeaderItemBinding
+import org.threehundredtutor.ui_core.databinding.SolutionImageItemBinding
+import org.threehundredtutor.ui_core.databinding.SolutionResultButtonItemBinding
+import org.threehundredtutor.ui_core.databinding.SolutionRightAnswerItemBinding
+import org.threehundredtutor.ui_core.databinding.SolutionRightAnswerResultItemBinding
+import org.threehundredtutor.ui_core.databinding.SolutionSelectRightAnswerTitleItemBinding
+import org.threehundredtutor.ui_core.databinding.SolutionSeparatorItemBinding
+import org.threehundredtutor.ui_core.databinding.SolutionSupSubItemBinding
+import org.threehundredtutor.ui_core.databinding.SolutionTextItemBinding
+import org.threehundredtutor.ui_core.databinding.SolutionYoutubeItemBinding
 
 object SolutionAdapters {
 
@@ -69,13 +67,11 @@ object SolutionAdapters {
             }
             bind {
                 binding.solutionTitle.text = item.questionName
-                binding.favoriteImage.imageTintList =
-                    ColorStateList.valueOf(
-                        itemView.getColorAttr(
-                            if (item.isQuestionLikedByStudent) R.attr.defaultRed else R.attr.defaultBlack40,
-                            false
-                        )
-                    )
+                if (item.isQuestionLikedByStudent) {
+                    binding.favoriteImage.setTint(UiCoreAttr.defaultRed)
+                } else {
+                    binding.favoriteImage.setTint(UiCoreAttr.defaultBlack40)
+                }
             }
         }
 
@@ -99,7 +95,7 @@ object SolutionAdapters {
             SolutionImageItemBinding.inflate(layoutInflater, root, false)
         }) {
             binding.solutionImage.setOnClickListener { imageClickListener.invoke(item.idImage) }
-            bind { binding.solutionImage.loadServer(item.idImage) }
+            bind { binding.solutionImage.loadImageMedium(item.idImage, item.staticUrl) }
         }
 
     fun getYoutubeUiItemAdapter(youtubeClickListener: (String) -> Unit) =
@@ -169,11 +165,11 @@ object SolutionAdapters {
                     binding.iconContainer.isVisible = !item.enabled
                     if (item.enabled) return@bind
                     if (item.rightAnswer) {
-                        binding.icon.setImageResource(R.drawable.ic_check)
-                        binding.iconContainer.applyBackground(R.attr.defaultGreen)
+                        binding.icon.setImageResource(UiCoreDrawable.ic_check)
+                        binding.iconContainer.applyBackground(UiCoreAttr.defaultGreen)
                     } else {
-                        binding.icon.setImageResource(R.drawable.ic_incorrect_answer)
-                        binding.iconContainer.applyBackground(R.attr.warning)
+                        binding.icon.setImageResource(UiCoreDrawable.ic_incorrect_answer)
+                        binding.iconContainer.applyBackground(UiCoreAttr.warning)
                     }
                 } else {
                     binding.checkbox.text = item.answer

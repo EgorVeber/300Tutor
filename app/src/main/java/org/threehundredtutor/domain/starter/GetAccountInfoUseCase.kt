@@ -1,6 +1,6 @@
 package org.threehundredtutor.domain.starter
 
-import org.threehundredtutor.domain.AccountManagerRepository
+import org.threehundredtutor.domain.common.AccountManagerRepository
 import javax.inject.Inject
 
 class GetAccountInfoUseCase @Inject constructor(

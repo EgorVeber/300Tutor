@@ -6,12 +6,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import org.threehundredtutor.R
-import org.threehundredtutor.base.BaseFragment
-import org.threehundredtutor.common.EMPTY_STRING
-import org.threehundredtutor.common.extentions.navigate
-import org.threehundredtutor.common.extentions.observeFlow
-import org.threehundredtutor.common.utils.BundleString
-import org.threehundredtutor.databinding.SubjectTestsFragmentBinding
+import org.threehundredtutor.core.UiCoreLayout
+import org.threehundredtutor.core.navigate
 import org.threehundredtutor.di.subject_tests.SubjectTestsComponent
 import org.threehundredtutor.presentation.subject_detailed.SubjectDetailedFragment.Companion.SUBJECT_TESTS_MENU_ITEM_NAME
 import org.threehundredtutor.presentation.subject_detailed.SubjectDetailedFragment.Companion.SUBJECT_TESTS_SUBJECT_ID
@@ -19,8 +15,13 @@ import org.threehundredtutor.presentation.subject_detailed.SubjectDetailedFragme
 import org.threehundredtutor.presentation.subject_tests.adapter.SubjectTestsManager
 import org.threehundredtutor.presentation.subject_tests.ui_models.SubjectTestUiModel
 import org.threehundredtutor.presentation.subject_tests.ui_models.SubjectTestsUiItem
+import org.threehundredtutor.ui_common.EMPTY_STRING
+import org.threehundredtutor.ui_common.flow.observeFlow
+import org.threehundredtutor.ui_common.fragment.base.BaseFragment
+import org.threehundredtutor.ui_common.util_class.BundleString
+import org.threehundredtutor.ui_core.databinding.SubjectTestsFragmentBinding
 
-class SubjectTestsFragment : BaseFragment(R.layout.subject_tests_fragment) {
+class SubjectTestsFragment : BaseFragment(UiCoreLayout.subject_tests_fragment) {
 
     private lateinit var binding: SubjectTestsFragmentBinding
 

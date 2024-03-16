@@ -1,6 +1,5 @@
 package org.threehundredtutor.data.solution
 
-import org.threehundredtutor.base.network.ServerException
 import org.threehundredtutor.data.solution.mappers.points.toSolutionPointsModel
 import org.threehundredtutor.data.solution.mappers.request.toSaveQuestionPointsValidationRequest
 import org.threehundredtutor.data.solution.mappers.toBaseApiModel
@@ -19,6 +18,7 @@ import org.threehundredtutor.domain.solution.models.QuestionAnswersWithResultBas
 import org.threehundredtutor.domain.solution.models.TestSolutionGeneralModel
 import org.threehundredtutor.domain.solution.models.params_model.SaveQuestionPointsValidationParamsModel
 import org.threehundredtutor.domain.solution.models.points.SolutionPointsModel
+import org.threehundredtutor.ui_common.util.ServerException
 import javax.inject.Inject
 
 class SolutionRepositoryImpl @Inject constructor(
@@ -33,13 +33,16 @@ class SolutionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getSolutionDetailed(solutionId: String): TestSolutionGeneralModel {
-        val testSolutionGeneralModel = solutionRemoteDataSource.getSolutionDetailed(solutionId).toTestSolutionGeneralModel()
+        val testSolutionGeneralModel =
+            solutionRemoteDataSource.getSolutionDetailed(solutionId).toTestSolutionGeneralModel()
         solutionLocalDataSource.saveAnswers(testSolutionGeneralModel.testSolutionModel)
         return testSolutionGeneralModel
     }
 
     override suspend fun startByTestId(testId: String): TestSolutionGeneralModel {
-        val testSolutionGeneralModel = solutionRemoteDataSource.startByTestId(testId)?.toTestSolutionGeneralModel() ?: throw ServerException()
+        val testSolutionGeneralModel =
+            solutionRemoteDataSource.startByTestId(testId)?.toTestSolutionGeneralModel()
+                ?: throw ServerException()
         solutionLocalDataSource.saveAnswers(testSolutionGeneralModel.testSolutionModel)
         return testSolutionGeneralModel
     }

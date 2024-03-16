@@ -6,14 +6,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import org.threehundredtutor.R
-import org.threehundredtutor.base.BaseFragment
-import org.threehundredtutor.common.DEFAULT_NOT_VALID_VALUE_INT
-import org.threehundredtutor.common.EMPTY_STRING
-import org.threehundredtutor.common.extentions.navigate
-import org.threehundredtutor.common.extentions.observeFlow
-import org.threehundredtutor.common.utils.BundleInt
-import org.threehundredtutor.common.utils.BundleString
-import org.threehundredtutor.databinding.TestFragmentBinding
+import org.threehundredtutor.core.UiCoreLayout
+import org.threehundredtutor.core.navigate
 import org.threehundredtutor.di.test.TestComponent
 import org.threehundredtutor.presentation.solution.SolutionFragment.Companion.SOLUTION_SOLUTION_ID_KEY
 import org.threehundredtutor.presentation.solution.SolutionFragment.Companion.SOLUTION_TEST_ID_KEY
@@ -22,8 +16,15 @@ import org.threehundredtutor.presentation.subject_tests.SubjectTestsFragment.Com
 import org.threehundredtutor.presentation.subject_tests.SubjectTestsFragment.Companion.SUBJECT_TESTS_TEST_NAME_KEY
 import org.threehundredtutor.presentation.subject_tests.SubjectTestsFragment.Companion.SUBJECT_TESTS_TEST_QUESTION_COUNT_KEY
 import org.threehundredtutor.presentation.test.adapter.TestManager
+import org.threehundredtutor.ui_common.DEFAULT_NOT_VALID_VALUE_INT
+import org.threehundredtutor.ui_common.EMPTY_STRING
+import org.threehundredtutor.ui_common.flow.observeFlow
+import org.threehundredtutor.ui_common.fragment.base.BaseFragment
+import org.threehundredtutor.ui_common.util_class.BundleInt
+import org.threehundredtutor.ui_common.util_class.BundleString
+import org.threehundredtutor.ui_core.databinding.TestFragmentBinding
 
-class TestFragment : BaseFragment(R.layout.test_fragment) {
+class TestFragment : BaseFragment(UiCoreLayout.test_fragment) {
 
     private lateinit var binding: TestFragmentBinding
 

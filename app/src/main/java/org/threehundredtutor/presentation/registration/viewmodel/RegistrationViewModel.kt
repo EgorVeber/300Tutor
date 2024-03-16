@@ -4,14 +4,14 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import org.threehundredtutor.base.BaseViewModel
-import org.threehundredtutor.common.extentions.SingleSharedFlow
-import org.threehundredtutor.common.extentions.launchJob
-import org.threehundredtutor.domain.SetAccountInfoUseCase
+import org.threehundredtutor.domain.common.SetAccountInfoUseCase
 import org.threehundredtutor.domain.registration.models.RegistrationAccountAndSignInModel
 import org.threehundredtutor.domain.registration.models.RegistrationStudentAndSignInModel
 import org.threehundredtutor.domain.registration.usecases.RegistrationAccountUseCase
 import org.threehundredtutor.domain.registration.usecases.RegistrationStudentUseCase
+import org.threehundredtutor.ui_common.coroutines.launchJob
+import org.threehundredtutor.ui_common.flow.SingleSharedFlow
+import org.threehundredtutor.ui_common.fragment.base.BaseViewModel
 import javax.inject.Inject
 
 class RegistrationViewModel @Inject constructor(
@@ -26,7 +26,7 @@ class RegistrationViewModel @Inject constructor(
     private val registrationStudentState =
         MutableStateFlow(RegistrationStudentAndSignInModel.empty())
 
-    private val resultNotSuccededFlow = SingleSharedFlow<String>()
+    private val resultNotSuccessFlow = SingleSharedFlow<String>()
 
     fun getRegistrationAccountState(): Flow<RegistrationAccountAndSignInModel> =
         registrationAccountState
@@ -34,7 +34,7 @@ class RegistrationViewModel @Inject constructor(
     fun getRegistrationStudentState(): Flow<RegistrationStudentAndSignInModel> =
         registrationStudentState
 
-    fun getResultNotSuccededFlow(): SharedFlow<String> = resultNotSuccededFlow
+    fun getResultNotSuccessFlow(): SharedFlow<String> = resultNotSuccessFlow
 
     fun registerAccount(
         email: String,
@@ -59,10 +59,10 @@ class RegistrationViewModel @Inject constructor(
                 registrationAccountState.emit(result)
             } else {
                 if (result.registrationModel.errorMessage.isNotEmpty()) {
-                    resultNotSuccededFlow.tryEmit(result.registrationModel.errorMessage)
+                    resultNotSuccessFlow.tryEmit(result.registrationModel.errorMessage)
                 } else {
                     setAccountInfoUseCase(email, password, userId)
-                    resultNotSuccededFlow.tryEmit(result.loginModel.errorMessage)
+                    resultNotSuccessFlow.tryEmit(result.loginModel.errorMessage)
                 }
             }
         }, catchBlock = { error ->
@@ -91,7 +91,7 @@ class RegistrationViewModel @Inject constructor(
                 setAccountInfoUseCase(email, password, result.studentId)
                 registrationStudentState.emit(result)
             } else {
-                resultNotSuccededFlow.tryEmit(result.message)
+                resultNotSuccessFlow.tryEmit(result.message)
             }
         }, catchBlock = { error ->
             handleError(error)

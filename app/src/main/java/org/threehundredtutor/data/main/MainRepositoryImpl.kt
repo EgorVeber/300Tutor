@@ -1,6 +1,6 @@
 package org.threehundredtutor.data.main
 
-import org.threehundredtutor.common.utils.AccountManager
+import org.threehundredtutor.data.common.data_source.AccountLocalDataSource
 import org.threehundredtutor.data.main.mappers.toEnterGroupModel
 import org.threehundredtutor.data.main.mappers.toExtraButtonInfoModel
 import org.threehundredtutor.data.main.mappers.toGroupWithCourseModel
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 class MainRepositoryImpl @Inject constructor(
     private val mainRemoteDataSource: MainRemoteDataSource,
-    private val accountManager: AccountManager,
+    private val accountLocalDataSource: AccountLocalDataSource,
 ) : MainRepository {
     override suspend fun getSubjects(): List<SubjectModel> =
         mainRemoteDataSource.getSubjects().map { subjectResponse ->
@@ -28,7 +28,7 @@ class MainRepositoryImpl @Inject constructor(
                 count = null,
                 offSet = 0,
                 q = null,
-                studentId = accountManager.getAccountInfo().third
+                studentId = accountLocalDataSource.getAccountInfo().third
             )
         ).toGroupWithCourseModel()
 

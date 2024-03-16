@@ -1,13 +1,13 @@
 package org.threehundredtutor.data.solution.mappers
 
-import org.threehundredtutor.common.EMPTY_STRING
-import org.threehundredtutor.common.orFalse
 import org.threehundredtutor.data.solution.models.TestSolutionQueryDetailedResponse
 import org.threehundredtutor.data.solution.models.TestSolutionQueryResponse
 import org.threehundredtutor.domain.solution.models.TestSolutionGeneralModel
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerModel
 import org.threehundredtutor.domain.solution.models.test_model.QuestionModel
 import org.threehundredtutor.domain.solution.models.test_model.TestSolutionModel
+import org.threehundredtutor.ui_common.EMPTY_STRING
+import org.threehundredtutor.ui_common.util.orFalse
 
 fun TestSolutionQueryResponse.toTestSolutionGeneralModel(): TestSolutionGeneralModel =
     TestSolutionGeneralModel(

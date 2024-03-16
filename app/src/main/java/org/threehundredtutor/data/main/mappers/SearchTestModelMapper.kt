@@ -1,8 +1,8 @@
 package org.threehundredtutor.data.main.mappers
 
-import org.threehundredtutor.common.DEFAULT_NOT_VALID_VALUE_INT
 import org.threehundredtutor.data.subject_tests.models.SearchTestResponse
 import org.threehundredtutor.domain.subject_tests.models.SearchTestModel
+import org.threehundredtutor.ui_common.DEFAULT_NOT_VALID_VALUE_INT
 
 fun SearchTestResponse.toSearchTestModel(): SearchTestModel =
     SearchTestModel(

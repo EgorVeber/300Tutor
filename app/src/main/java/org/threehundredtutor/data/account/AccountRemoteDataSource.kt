@@ -1,11 +1,11 @@
 package org.threehundredtutor.data.account
 
-import org.threehundredtutor.common.EMPTY_STRING
 import org.threehundredtutor.data.account.models.AccountResponse
 import org.threehundredtutor.data.account.models.AuthenticationRequest
 import org.threehundredtutor.data.account.models.CreateLoginLinkResultResponse
 import org.threehundredtutor.data.account.models.LogoutResponse
-import org.threehundredtutor.data.core.ServiceGeneratorProvider
+import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
+import org.threehundredtutor.ui_common.EMPTY_STRING
 import javax.inject.Inject
 
 class AccountRemoteDataSource @Inject constructor(

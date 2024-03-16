@@ -42,12 +42,20 @@ android {
             dimension "org.threehundredtutor"
             buildConfigField "String", "BASE_URL", "\"https://mini-apps.crocosoft.ru/api/\""
             buildConfigField "String", "REF_ID", "\"1\""
+            buildConfigField "String", "TELEGRAM_BOT_URL", "\"https://telegram.me\""
+            buildConfigField "String", "SITE_URL", "\"https://mini-apps.crocosoft.ru\""
+            buildConfigField "String", "STATIC_ORIGINAL_URL", "\"https://mini-apps.crocosoft.ru/FileCopies/Images/Original/\""
+            buildConfigField "String", "STATIC_MEDIUM_URL", "\"https://mini-apps.crocosoft.ru/FileCopies/Images/Medium/\""
         }
         kursbio {
             applicationId "org.threehundredtutor.kursbio"
             dimension "org.threehundredtutor"
             buildConfigField "String", "BASE_URL", "\"https://api.kursbio.ru/api/\""
             buildConfigField "String", "REF_ID", "\"2\""
+            buildConfigField "String", "TELEGRAM_BOT_URL", "\"https://telegram.me/kursbio_bot\""
+            buildConfigField "String", "SITE_URL", "\"https://kursbio.ru/\""
+            buildConfigField "String", "STATIC_ORIGINAL_URL", "\"https://kursbio.ru/FileCopies/Images/Original/\""
+            buildConfigField "String", "STATIC_MEDIUM_URL", "\"https://kursbio.ru/FileCopies/Images/Medium/\""
         }
     }
 }
@@ -59,8 +67,7 @@ dependencies {
     implementation "com.google.android.material:material:$versions.material"
     implementation "androidx.constraintlayout:constraintlayout:$versions.constraintlayout"
 
-    //Glide Coil PhotoView
-    implementation "com.github.bumptech.glide:glide:$versions.glide"
+    //Coil PhotoView
     implementation "io.coil-kt:coil:$versions.coil"
     implementation "com.github.chrisbanes:PhotoView:$versions.photoView"
 
@@ -100,9 +107,6 @@ dependencies {
     //Jsoup
     implementation "org.jsoup:jsoup:$versions.jsoup"
 
-    //Swiperefreshlayout
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$versions.swiperefreshlayout"
-
     androidTestImplementation("com.kaspersky.android-components:kaspresso:$versions.kaspresso")
     androidTestUtil("androidx.test:orchestrator:$versions.orchestrator")
 
@@ -110,4 +114,8 @@ dependencies {
     implementation "androidx.test.ext:junit-ktx:$versions.junitktx"
 
     implementation "ir.mahozad.android:pie-chart:$versions.piechart"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$versions.swiperefreshlayout"
+
+    implementation project(":ui_common")
+    implementation project(":ui_core")
 }

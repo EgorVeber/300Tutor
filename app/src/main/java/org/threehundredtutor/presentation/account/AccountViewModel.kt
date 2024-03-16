@@ -5,18 +5,20 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import org.threehundredtutor.base.BaseViewModel
-import org.threehundredtutor.base.network.UnknownServerException
-import org.threehundredtutor.common.extentions.SingleSharedFlow
-import org.threehundredtutor.common.extentions.launchJob
 import org.threehundredtutor.domain.account.models.AccountModel
 import org.threehundredtutor.domain.account.usecase.CreateLoginLinkResultUseCase
 import org.threehundredtutor.domain.account.usecase.GetAccountUseCase
 import org.threehundredtutor.domain.account.usecase.LogoutUseCase
+import org.threehundredtutor.domain.common.GetConfigUseCase
+import org.threehundredtutor.ui_common.coroutines.launchJob
+import org.threehundredtutor.ui_common.flow.SingleSharedFlow
+import org.threehundredtutor.ui_common.fragment.base.BaseViewModel
+import org.threehundredtutor.ui_common.util.UnknownServerException
 import javax.inject.Inject
 
 class AccountViewModel @Inject constructor(
     private val getAccountUseCase: GetAccountUseCase,
+    private val getConfigUseCase: GetConfigUseCase,
     private val logoutUseCase: LogoutUseCase,
     private val createLoginLinkResultUseCase: CreateLoginLinkResultUseCase,
 ) : BaseViewModel() {
@@ -63,7 +65,11 @@ class AccountViewModel @Inject constructor(
     }
 
     fun onTelegramClicked() {
-        accountUiEventState.tryEmit(AccountUiEvent.OpenTelegram)
+        accountUiEventState.tryEmit(
+            AccountUiEvent.OpenTelegram(
+                telegramBotUrl = getConfigUseCase().telegramBotUrl
+            )
+        )
     }
 
     fun onSiteClicked() {
@@ -72,7 +78,10 @@ class AccountViewModel @Inject constructor(
             val result = createLoginLinkResultUseCase.invoke()
             if (result.isSucceeded) {
                 accountUiEventState.emit(
-                    AccountUiEvent.OpenSite(urlAuthentication = result.urlAuthentication)
+                    AccountUiEvent.OpenSite(
+                        urlAuthentication = result.urlAuthentication,
+                        siteUrl = getConfigUseCase().siteUrl
+                    )
                 )
             } else {
                 accountUiEventState.emit(AccountUiEvent.ShowMessage(result.errorMessage))
@@ -84,10 +93,12 @@ class AccountViewModel @Inject constructor(
         })
     }
 
-    sealed class AccountUiEvent {
-        data class OpenSite(val urlAuthentication: String) : AccountUiEvent()
-        data class ShowMessage(val message: String) : AccountUiEvent()
-        object OpenTelegram : AccountUiEvent()
-        object Logout : AccountUiEvent()
+    sealed interface AccountUiEvent {
+        data class OpenSite(val urlAuthentication: String, val siteUrl: String) : AccountUiEvent
+        data class ShowMessage(val message: String) : AccountUiEvent
+
+        @JvmInline
+        value class OpenTelegram(val telegramBotUrl: String) : AccountUiEvent
+        object Logout : AccountUiEvent
     }
 }

@@ -5,14 +5,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import org.threehundredtutor.base.BaseViewModel
-import org.threehundredtutor.common.extentions.SingleSharedFlow
-import org.threehundredtutor.common.extentions.launchJob
-import org.threehundredtutor.common.utils.ResourceProvider
+import org.threehundredtutor.common.ResourceProvider
 import org.threehundredtutor.domain.test.SearchSolutionUseCase
 import org.threehundredtutor.presentation.solution_history.mapper.toSolutionHistoryUiModel
 import org.threehundredtutor.presentation.solution_history.models.SolutionHistoryUiItem
 import org.threehundredtutor.presentation.solution_history.models.StartTestUiModel
+import org.threehundredtutor.ui_common.coroutines.launchJob
+import org.threehundredtutor.ui_common.flow.SingleSharedFlow
+import org.threehundredtutor.ui_common.fragment.base.BaseViewModel
 import javax.inject.Inject
 
 class TestViewModel @Inject constructor(

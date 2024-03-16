@@ -1,6 +1,6 @@
 package org.threehundredtutor.domain.solution.models.solution_models
 
-import org.threehundredtutor.common.EMPTY_STRING
+import org.threehundredtutor.ui_common.EMPTY_STRING
 
 data class AnswerModel(
     val answerOrAnswers: String,

@@ -1,6 +1,6 @@
 package org.threehundredtutor.data.main
 
-import org.threehundredtutor.data.core.ServiceGeneratorProvider
+import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
 import org.threehundredtutor.data.main.request.EnterGroupRequest
 import org.threehundredtutor.data.main.request.GroupWithCourseRequest
 import org.threehundredtutor.data.main.response.EnterGroupResponse
