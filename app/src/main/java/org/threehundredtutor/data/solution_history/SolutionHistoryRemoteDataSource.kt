@@ -1,6 +1,6 @@
 package org.threehundredtutor.data.solution_history
 
-import org.threehundredtutor.data.core.ServiceGeneratorProvider
+import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
 import org.threehundredtutor.data.solution_history.models.request.SearchSolutionHistoryRequest
 import org.threehundredtutor.data.solution_history.models.response.SearchSolutionGeneralResponse
 import javax.inject.Inject

@@ -2,9 +2,10 @@ package org.threehundredtutor.di.solution
 
 import dagger.BindsInstance
 import dagger.Component
-import org.threehundredtutor.common.utils.ResourceProvider
+import org.threehundredtutor.common.ResourceProvider
 import org.threehundredtutor.core.DiSetHelper
-import org.threehundredtutor.data.core.ServiceGeneratorProvider
+import org.threehundredtutor.data.common.ConfigRepository
+import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
 import org.threehundredtutor.di.ScreenScope
 import org.threehundredtutor.di.ViewModelMapFactory
 import org.threehundredtutor.presentation.solution.solution_factory.SolutionFactory
@@ -25,6 +26,9 @@ interface SolutionComponent {
         @BindsInstance
         fun getResourceProvider(resourceProvider: ResourceProvider): Builder
 
+        @BindsInstance
+        fun getConfigRepository(configRepository: ConfigRepository): Builder
+
         fun getSolutionComponentBuilder(): SolutionComponent
     }
 
@@ -35,6 +39,7 @@ interface SolutionComponent {
                 .getServiceGeneratorProvider(DiSetHelper.appComponent.getServiceGeneratorProvider())
                 .getTestFactory(SolutionFactory(DiSetHelper.appComponent.getResourceProvider()))
                 .getResourceProvider(DiSetHelper.appComponent.getResourceProvider())
+                .getConfigRepository(DiSetHelper.appComponent.getConfigRepository())
                 .getSolutionComponentBuilder()
     }
 }

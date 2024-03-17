@@ -1,7 +1,7 @@
 package org.threehundredtutor.domain.account.models
 
-import org.threehundredtutor.common.DEFAULT_NOT_VALID_VALUE_INT
-import org.threehundredtutor.common.EMPTY_STRING
+import org.threehundredtutor.ui_common.DEFAULT_NOT_VALID_VALUE_INT
+import org.threehundredtutor.ui_common.EMPTY_STRING
 
 data class AccountModel(
     var isAuthenticated: Boolean,

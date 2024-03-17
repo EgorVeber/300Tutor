@@ -4,15 +4,15 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
-import org.threehundredtutor.base.BaseViewModel
-import org.threehundredtutor.common.extentions.SingleSharedFlow
-import org.threehundredtutor.common.extentions.launchJob
-import org.threehundredtutor.data.core.models.ErrorType
-import org.threehundredtutor.domain.SetAccountInfoUseCase
+import org.threehundredtutor.data.common.network.ErrorType
 import org.threehundredtutor.domain.account.usecase.GetAccountUseCase
 import org.threehundredtutor.domain.authorization.LoginDateModel
 import org.threehundredtutor.domain.authorization.LoginModel
 import org.threehundredtutor.domain.authorization.LoginUseCase
+import org.threehundredtutor.domain.common.SetAccountInfoUseCase
+import org.threehundredtutor.ui_common.coroutines.launchJob
+import org.threehundredtutor.ui_common.flow.SingleSharedFlow
+import org.threehundredtutor.ui_common.fragment.base.BaseViewModel
 import javax.inject.Inject
 
 class AuthorizationViewModel @Inject constructor(

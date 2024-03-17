@@ -1,0 +1,1 @@
+C:\Users\Kto\Documents\300Tutor\feature\solution\src\main\java\org\threehundredtutor\solution\PhotoDetailsFragment.kt

@@ -2,9 +2,9 @@ package org.threehundredtutor.di.solution_history
 
 import dagger.BindsInstance
 import dagger.Component
-import org.threehundredtutor.common.utils.ResourceProvider
+import org.threehundredtutor.common.ResourceProvider
 import org.threehundredtutor.core.DiSetHelper
-import org.threehundredtutor.data.core.ServiceGeneratorProvider
+import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
 import org.threehundredtutor.di.ScreenScope
 import org.threehundredtutor.di.ViewModelMapFactory
 

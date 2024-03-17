@@ -85,7 +85,7 @@
     </fragment>
     <fragment
         android:id="@+id/photoDetailsFragment"
-        android:name="org.threehundredtutor.presentation.PhotoDetailsFragment"
+        android:name="org.threehundredtutor.presentation.solution.PhotoDetailsFragment"
         android:label="fragment_photo_details"
         tools:layout="@layout/fragment_photo_details">
 

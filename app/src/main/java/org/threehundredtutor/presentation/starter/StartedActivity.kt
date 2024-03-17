@@ -12,6 +12,7 @@ import androidx.transition.TransitionSet
 import org.threehundredtutor.R
 import org.threehundredtutor.databinding.StartedActivityBinding
 import org.threehundredtutor.di.starter.StartedComponent
+import org.threehundredtutor.ui_common.fragment.BottomNavigationVisibility
 
 class StartedActivity : AppCompatActivity(), BottomNavigationVisibility {
 

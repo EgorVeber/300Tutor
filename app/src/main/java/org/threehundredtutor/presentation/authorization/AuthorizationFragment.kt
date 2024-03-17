@@ -8,15 +8,17 @@ import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import org.threehundredtutor.R
-import org.threehundredtutor.base.BaseFragment
-import org.threehundredtutor.common.extentions.navigate
-import org.threehundredtutor.common.extentions.observeFlow
-import org.threehundredtutor.common.extentions.showMessage
-import org.threehundredtutor.databinding.AuthorizationFragmentBinding
-import org.threehundredtutor.di.components.AuthorizationComponent
-import org.threehundredtutor.presentation.common.LoadingDialog
+import org.threehundredtutor.core.UiCoreDrawable
+import org.threehundredtutor.core.UiCoreLayout
+import org.threehundredtutor.core.navigate
+import org.threehundredtutor.di.authorization.AuthorizationComponent
+import org.threehundredtutor.ui_common.flow.observeFlow
+import org.threehundredtutor.ui_common.fragment.LoadingDialog
+import org.threehundredtutor.ui_common.fragment.base.BaseFragment
+import org.threehundredtutor.ui_common.fragment.showMessage
+import org.threehundredtutor.ui_core.databinding.AuthorizationFragmentBinding
 
-class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment) {
+class AuthorizationFragment : BaseFragment(UiCoreLayout.authorization_fragment) {
 
     private val authorizationComponent by lazy {
         AuthorizationComponent.createAuthorizationComponent()
@@ -118,11 +120,11 @@ class AuthorizationFragment : BaseFragment(R.layout.authorization_fragment) {
         binding.imagePhone.isVisible = !visible
 
         if (visible) {
-            binding.imagePhoneOrEmail.setImageResource(R.drawable.ic_phone)
+            binding.imagePhoneOrEmail.setImageResource(UiCoreDrawable.ic_phone)
             binding.emailEditText.requestFocus()
         } else {
             binding.phoneInputEt.requestFocus()
-            binding.imagePhoneOrEmail.setImageResource(R.drawable.ic_mail)
+            binding.imagePhoneOrEmail.setImageResource(UiCoreDrawable.ic_mail)
         }
     }
 }

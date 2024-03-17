@@ -1,9 +1,9 @@
 package org.threehundredtutor.data.main.mappers
 
-import org.threehundredtutor.common.orDefaultNotValidValue
 import org.threehundredtutor.data.main.response.GroupWithCourseProgressResponse
 import org.threehundredtutor.data.main.response.GroupWithCourseResponse
 import org.threehundredtutor.domain.main.models.GroupWithCourseModel
+import org.threehundredtutor.ui_common.util.orDefaultNotValidValue
 
 fun GroupWithCourseResponse.toGroupWithCourseModel(): GroupWithCourseModel =
     GroupWithCourseModel(

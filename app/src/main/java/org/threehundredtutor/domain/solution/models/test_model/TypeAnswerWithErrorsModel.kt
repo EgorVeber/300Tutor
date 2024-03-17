@@ -1,6 +1,6 @@
 package org.threehundredtutor.domain.solution.models.test_model
 
-import org.threehundredtutor.common.EMPTY_STRING
+import org.threehundredtutor.ui_common.EMPTY_STRING
 
 
 data class TypeAnswerWithErrorsModel(

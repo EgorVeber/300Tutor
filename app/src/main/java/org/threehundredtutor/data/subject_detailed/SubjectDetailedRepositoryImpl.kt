@@ -1,9 +1,9 @@
 package org.threehundredtutor.data.subject_detailed
 
-import org.threehundredtutor.base.network.BadRequestException
 import org.threehundredtutor.domain.subject_detailed.SubjectDetailedRepository
 import org.threehundredtutor.domain.subject_detailed.models.MenuSubjectConfigModel
 import org.threehundredtutor.domain.subject_detailed.models.SubjectMenuItemType
+import org.threehundredtutor.ui_common.util.BadRequestException
 import javax.inject.Inject
 
 class SubjectDetailedRepositoryImpl @Inject constructor(

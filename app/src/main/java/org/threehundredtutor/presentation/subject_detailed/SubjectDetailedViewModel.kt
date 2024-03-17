@@ -5,9 +5,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import org.threehundredtutor.base.BaseViewModel
-import org.threehundredtutor.common.extentions.SingleSharedFlow
-import org.threehundredtutor.common.extentions.launchJob
 import org.threehundredtutor.domain.subject_detailed.GetMenuSubjectConfigUseCase
 import org.threehundredtutor.domain.subject_detailed.models.SubjectMenuItemType.MENU_ITEM
 import org.threehundredtutor.domain.subject_detailed.models.SubjectMenuItemType.SUBJECT_TEST_LINK
@@ -16,6 +13,9 @@ import org.threehundredtutor.domain.subject_detailed.models.SubjectMenuItemType.
 import org.threehundredtutor.presentation.subject_detailed.mappers.toSubjectDetailedMenuItemUiModel
 import org.threehundredtutor.presentation.subject_detailed.ui_models.SubjectDetailedUiItem
 import org.threehundredtutor.presentation.subject_detailed.ui_models.SubjectMenuItemUiModel
+import org.threehundredtutor.ui_common.coroutines.launchJob
+import org.threehundredtutor.ui_common.flow.SingleSharedFlow
+import org.threehundredtutor.ui_common.fragment.base.BaseViewModel
 import javax.inject.Inject
 
 class SubjectDetailedViewModel @Inject constructor(

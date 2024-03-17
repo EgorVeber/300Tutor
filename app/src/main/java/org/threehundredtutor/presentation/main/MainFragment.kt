@@ -7,17 +7,18 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import org.threehundredtutor.R
-import org.threehundredtutor.base.BaseFragment
-import org.threehundredtutor.common.SITE_URL
-import org.threehundredtutor.common.extentions.navigate
-import org.threehundredtutor.common.extentions.observeFlow
-import org.threehundredtutor.common.extentions.showSnackbar
-import org.threehundredtutor.databinding.MainFragmentBinding
+import org.threehundredtutor.core.UiCoreLayout
+import org.threehundredtutor.core.UiCoreStrings
+import org.threehundredtutor.core.navigate
 import org.threehundredtutor.di.main.MainComponent
-import org.threehundredtutor.presentation.common.ActionDialogFragment
 import org.threehundredtutor.presentation.main.adapter.MainManager
+import org.threehundredtutor.ui_common.flow.observeFlow
+import org.threehundredtutor.ui_common.fragment.ActionDialogFragment
+import org.threehundredtutor.ui_common.fragment.base.BaseFragment
+import org.threehundredtutor.ui_common.fragment.showSnack
+import org.threehundredtutor.ui_core.databinding.MainFragmentBinding
 
-class MainFragment : BaseFragment(R.layout.main_fragment) {
+class MainFragment : BaseFragment(UiCoreLayout.main_fragment) {
 
     private val mainComponent by lazy {
         MainComponent.createHomeComponent()
@@ -78,7 +79,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment) {
                 }
 
                 is MainViewModel.UiEvent.ShowSnack -> {
-                    showSnackbar(
+                    showSnack(
                         title = state.message,
                         backgroundColor = state.snackBarType.colorRes,
                     )
@@ -89,7 +90,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment) {
                 }
 
                 is MainViewModel.UiEvent.OpenLink -> {
-                    openSite(state.link)
+                    openSite(link = state.link, siteUrl = state.siteUrl)
                 }
             }
         }
@@ -102,20 +103,20 @@ class MainFragment : BaseFragment(R.layout.main_fragment) {
     private fun showActionDialogOpenLink(link: String) {
         ActionDialogFragment.showDialog(
             fragmentManager = childFragmentManager,
-            positiveText = getString(R.string.ok),
-            title = getString(R.string.confirm_action),
-            message = getString(R.string.open_link, link),
+            positiveText = getString(UiCoreStrings.ok),
+            title = getString(UiCoreStrings.confirm_action),
+            message = getString(UiCoreStrings.open_link, link),
             onPositiveClick = {
                 viewModel.onDialogOpenLinkPositiveClicked(link)
             },
         )
     }
 
-    private fun openSite(link: String) {
+    private fun openSite(link: String, siteUrl: String) {
         try {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link)))
         } catch (e: Exception) {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(SITE_URL)))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(siteUrl)))
         }
     }
 

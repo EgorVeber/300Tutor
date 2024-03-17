@@ -1,9 +1,9 @@
 package org.threehundredtutor.data.solution.mappers
 
-import org.threehundredtutor.common.orDefaultNotValidValue
-import org.threehundredtutor.common.orFalse
 import org.threehundredtutor.data.solution.models.solution_response.PointsValidationResponse
 import org.threehundredtutor.domain.solution.models.solution_models.PointsValidationModel
+import org.threehundredtutor.ui_common.util.orDefaultNotValidValue
+import org.threehundredtutor.ui_common.util.orFalse
 
 fun PointsValidationResponse.toPointsValidationModel(): PointsValidationModel =
     PointsValidationModel(

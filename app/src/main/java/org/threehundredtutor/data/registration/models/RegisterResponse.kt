@@ -1,7 +1,7 @@
 package org.threehundredtutor.data.registration.models
 
 import com.google.gson.annotations.SerializedName
-import org.threehundredtutor.data.core.models.ErrorType
+import org.threehundredtutor.data.common.network.ErrorType
 
 class RegisterResponse(
     @SerializedName("succeeded")

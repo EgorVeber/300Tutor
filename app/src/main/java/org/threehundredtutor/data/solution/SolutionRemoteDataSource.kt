@@ -1,6 +1,6 @@
 package org.threehundredtutor.data.solution
 
-import org.threehundredtutor.data.core.ServiceGeneratorProvider
+import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
 import org.threehundredtutor.data.solution.models.BaseApiResponse
 import org.threehundredtutor.data.solution.models.QuestionAnswerWithResultBaseApiResponse
 import org.threehundredtutor.data.solution.models.QuestionAnswersWithResultBaseApiResponse

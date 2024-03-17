@@ -3,7 +3,7 @@ package org.threehundredtutor.di.subject_detailed
 import dagger.BindsInstance
 import dagger.Component
 import org.threehundredtutor.core.DiSetHelper
-import org.threehundredtutor.data.core.ServiceGeneratorProvider
+import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
 import org.threehundredtutor.di.ViewModelMapFactory
 import org.threehundredtutor.presentation.subject_detailed.SubjectDetailedBundleModel
 

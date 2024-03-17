@@ -3,9 +3,9 @@ package org.threehundredtutor.di.registration
 import dagger.BindsInstance
 import dagger.Component
 import org.threehundredtutor.core.DiSetHelper
-import org.threehundredtutor.data.core.ServiceGeneratorProvider
+import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
 import org.threehundredtutor.di.ViewModelMapFactory
-import org.threehundredtutor.domain.AccountManagerRepository
+import org.threehundredtutor.domain.common.AccountManagerRepository
 
 @Component(modules = [RegistrationInternalModule::class])
 interface RegistrationComponent {

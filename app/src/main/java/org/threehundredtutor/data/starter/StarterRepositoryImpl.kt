@@ -1,6 +1,6 @@
 package org.threehundredtutor.data.starter
 
-import org.threehundredtutor.common.utils.PublicDataSource
+import org.threehundredtutor.data.common.data_source.PublicDataSource
 import org.threehundredtutor.domain.starter.StarterRepository
 import javax.inject.Inject
 

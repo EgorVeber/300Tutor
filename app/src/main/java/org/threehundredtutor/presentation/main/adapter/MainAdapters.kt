@@ -5,20 +5,7 @@ import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import ir.mahozad.android.PieChart
-import org.threehundredtutor.R
-import org.threehundredtutor.common.addPercent
-import org.threehundredtutor.common.getColorAttr
-import org.threehundredtutor.common.hideKeyboard
-import org.threehundredtutor.databinding.CourseItemBinding
-import org.threehundredtutor.databinding.CourseProgressItemBinding
-import org.threehundredtutor.databinding.CoursesLotieItemBinding
-import org.threehundredtutor.databinding.FooterContentItemBinding
-import org.threehundredtutor.databinding.HeaderContentItemBinding
-import org.threehundredtutor.databinding.HomeActivateKeyItemBinding
-import org.threehundredtutor.databinding.MainExtraButtonItemBinding
-import org.threehundredtutor.databinding.SubjectFooterItemBinding
-import org.threehundredtutor.databinding.SubjectHeaderItemBinding
-import org.threehundredtutor.databinding.SubjectItemBinding
+import org.threehundredtutor.core.UiCoreAttr
 import org.threehundredtutor.domain.main.models.ExtraButtonInfoModel
 import org.threehundredtutor.presentation.main.ui_models.ActivateKeyUiItem
 import org.threehundredtutor.presentation.main.ui_models.CourseLottieUiItem
@@ -30,6 +17,19 @@ import org.threehundredtutor.presentation.main.ui_models.HeaderContentUiItem
 import org.threehundredtutor.presentation.main.ui_models.HeaderUiItem
 import org.threehundredtutor.presentation.main.ui_models.MainUiItem
 import org.threehundredtutor.presentation.main.ui_models.SubjectUiModel
+import org.threehundredtutor.ui_common.util.addPercent
+import org.threehundredtutor.ui_common.view_components.getColorAttr
+import org.threehundredtutor.ui_common.view_components.hideKeyboard
+import org.threehundredtutor.ui_core.databinding.CourseItemBinding
+import org.threehundredtutor.ui_core.databinding.CourseProgressItemBinding
+import org.threehundredtutor.ui_core.databinding.CoursesLotieItemBinding
+import org.threehundredtutor.ui_core.databinding.FooterContentItemBinding
+import org.threehundredtutor.ui_core.databinding.HeaderContentItemBinding
+import org.threehundredtutor.ui_core.databinding.HomeActivateKeyItemBinding
+import org.threehundredtutor.ui_core.databinding.MainExtraButtonItemBinding
+import org.threehundredtutor.ui_core.databinding.SubjectFooterItemBinding
+import org.threehundredtutor.ui_core.databinding.SubjectHeaderItemBinding
+import org.threehundredtutor.ui_core.databinding.SubjectItemBinding
 import kotlin.math.abs
 
 object MainAdapters {
@@ -131,11 +131,11 @@ object MainAdapters {
                 binding.courseProgress.slices = listOf(
                     PieChart.Slice(
                         fraction = (item.progressPercents / 100.0).toFloat(),
-                        color = itemView.getColorAttr(R.attr.primary, needResId = false)
+                        color = itemView.getColorAttr(UiCoreAttr.primary, needResId = false)
                     ),
                     PieChart.Slice(
                         fraction = abs(1 - (item.progressPercents / 100.0).toFloat()),
-                        color = itemView.getColorAttr(R.attr.primary40, needResId = false)
+                        color = itemView.getColorAttr(UiCoreAttr.primary40, needResId = false)
                     )
                 )
             }

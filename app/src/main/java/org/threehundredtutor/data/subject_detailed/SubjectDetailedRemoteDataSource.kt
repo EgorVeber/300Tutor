@@ -1,6 +1,6 @@
 package org.threehundredtutor.data.subject_detailed
 
-import org.threehundredtutor.data.core.ServiceGeneratorProvider
+import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
 import org.threehundredtutor.data.subject_detailed.models.ConfigurationMenuResponse
 import javax.inject.Inject
 

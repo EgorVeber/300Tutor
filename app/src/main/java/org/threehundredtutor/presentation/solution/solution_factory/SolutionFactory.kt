@@ -2,9 +2,8 @@ package org.threehundredtutor.presentation.solution.solution_factory
 
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
-import org.threehundredtutor.R
-import org.threehundredtutor.common.EMPTY_STRING
-import org.threehundredtutor.common.utils.ResourceProvider
+import org.threehundredtutor.common.ResourceProvider
+import org.threehundredtutor.core.UiCoreStrings
 import org.threehundredtutor.domain.solution.models.TestSolutionGeneralModel
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerModel
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerValidationResultType.UNKNOWN
@@ -29,6 +28,7 @@ import org.threehundredtutor.presentation.solution.ui_models.item_common.Youtube
 import org.threehundredtutor.presentation.solution.ui_models.right_answer.RightAnswerResultUiItem
 import org.threehundredtutor.presentation.solution.ui_models.select_right_answer.SelectRightAnswerCheckButtonUiItem
 import org.threehundredtutor.presentation.solution.ui_models.select_right_answer.SelectRightAnswerTitleUiItem
+import org.threehundredtutor.ui_common.EMPTY_STRING
 import javax.inject.Inject
 
 class SolutionFactory @Inject constructor(
@@ -36,12 +36,16 @@ class SolutionFactory @Inject constructor(
 ) {
     private var solutionUiItems: MutableList<SolutionUiItem> = mutableListOf()
 
-    fun createSolution(testSolutionGeneralModel: TestSolutionGeneralModel): List<SolutionUiItem> =
+    fun createSolution(
+        testSolutionGeneralModel: TestSolutionGeneralModel,
+        staticUrl: String
+    ): List<SolutionUiItem> =
         testSolutionGeneralModel.testSolutionModel.flatMap { testSolutionUnionModel ->
             createSolutionItems(
                 questionModel = testSolutionUnionModel.questionModel,
                 answerModel = testSolutionUnionModel.answerModel,
-                isQuestionLikedByStudent = testSolutionUnionModel.isQuestionLikedByStudent
+                isQuestionLikedByStudent = testSolutionUnionModel.isQuestionLikedByStudent,
+                staticUrl = staticUrl
             )
         }
 
@@ -50,6 +54,7 @@ class SolutionFactory @Inject constructor(
         answerModel: AnswerModel,
         isQuestionLikedByStudent: Boolean,
         countDividerBottomQuestion: Int = COUNT_DIVIDER_BOTTOM_QUESTION,
+        staticUrl: String
     ): List<SolutionUiItem> {
         solutionUiItems.clear()
         solutionUiItems.add(
@@ -59,19 +64,27 @@ class SolutionFactory @Inject constructor(
                 isQuestionLikedByStudent = isQuestionLikedByStudent
             )
         )
-        solutionUiItems += createQuestionWithHtml(htmlString = questionModel.titleBodyMarkUp)
+        solutionUiItems += createQuestionWithHtml(
+            htmlString = questionModel.titleBodyMarkUp,
+            staticUrl = staticUrl
+        )
 
         if (answerModel.isHaveAnswer()) {
-            createResultAnswerWithType(questionModel = questionModel, answerModel = answerModel)
+            createResultAnswerWithType(
+                questionModel = questionModel,
+                answerModel = answerModel,
+                staticUrl = staticUrl
+            )
         } else {
-            createSolutionForAnswerWithType(questionModel)
+            createSolutionForAnswerWithType(questionModel = questionModel, staticUrl = staticUrl)
         }
         createBottomItems(countDividerBottomQuestion)
         return solutionUiItems
     }
 
     private fun createQuestionWithHtml(
-        htmlString: String
+        htmlString: String,
+        staticUrl: String
     ): List<SolutionUiItem> {
         val solutionUiItems: MutableList<SolutionUiItem> = mutableListOf()
         val elements = Jsoup.parse(htmlString).body().children()
@@ -93,11 +106,30 @@ class SolutionFactory @Inject constructor(
             val isDividerItem = text.isEmpty()
 
             when {
-                isImageItem -> solutionUiItems.add(ImageUiItem(element.attr(FILE_ID_ATTR)))
-                isYoutubeItem -> solutionUiItems.add(YoutubeUiItem(element.attr(LINK)))
-                isTextItem -> solutionUiItems.add(TextUiItem(element.toString(), gravityAlign))
-                isSupSubItem -> solutionUiItems.add(SupSubUiItem(element.toString(), gravityAlign))
-                isDividerItem -> solutionUiItems.add(DividerUiItem(DividerType.CONTENT_BACKGROUND))
+                isImageItem -> {
+                    solutionUiItems.add(
+                        ImageUiItem(
+                            idImage = element.attr(FILE_ID_ATTR),
+                            staticUrl = staticUrl
+                        )
+                    )
+                }
+
+                isYoutubeItem -> {
+                    solutionUiItems.add(YoutubeUiItem(element.attr(LINK)))
+                }
+
+                isTextItem -> {
+                    solutionUiItems.add(TextUiItem(element.toString(), gravityAlign))
+                }
+
+                isSupSubItem -> {
+                    solutionUiItems.add(SupSubUiItem(element.toString(), gravityAlign))
+                }
+
+                isDividerItem -> {
+                    solutionUiItems.add(DividerUiItem(DividerType.CONTENT_BACKGROUND))
+                }
             }
         }
         return solutionUiItems
@@ -106,6 +138,7 @@ class SolutionFactory @Inject constructor(
     private fun createResultAnswerWithType(
         questionModel: QuestionModel,
         answerModel: AnswerModel,
+        staticUrl: String
     ) {
         when (questionModel.testQuestionType) {
             TestQuestionType.SELECT_RIGHT_ANSWER_OR_ANSWERS -> {
@@ -133,6 +166,7 @@ class SolutionFactory @Inject constructor(
                 createDetailedResultAnswer(
                     questionModel = questionModel,
                     answerModel = answerModel,
+                    staticUrl = staticUrl
                 )
             }
 
@@ -178,7 +212,7 @@ class SolutionFactory @Inject constructor(
         answerModel: AnswerModel,
     ) {
         val answer =
-            answerModel.answerOrAnswers.ifEmpty { resourceProvider.string(R.string.your_not_answer) }
+            answerModel.answerOrAnswers.ifEmpty { resourceProvider.string(UiCoreStrings.your_not_answer) }
 
         solutionUiItems.add(
             AnswerWithErrorsResultUiItem(
@@ -196,12 +230,12 @@ class SolutionFactory @Inject constructor(
         answerModel: AnswerModel,
     ) {
         val answer =
-            answerModel.answerOrAnswers.ifEmpty { resourceProvider.string(R.string.your_not_answer) }
+            answerModel.answerOrAnswers.ifEmpty { resourceProvider.string(UiCoreStrings.your_not_answer) }
 
         val pointsString = with(answerModel) {
             if (pointsValidationModel.isValidated) {
                 resourceProvider.string(
-                    R.string.points_question,
+                    UiCoreStrings.points_question,
                     answerModel.pointsValidationModel.answerPoints,
                     answerModel.pointsValidationModel.questionTotalPoints
                 )
@@ -222,10 +256,12 @@ class SolutionFactory @Inject constructor(
     private fun createDetailedResultAnswer(
         questionModel: QuestionModel,
         answerModel: AnswerModel,
+        staticUrl: String,
     ) {
         val answer =
-            answerModel.answerOrAnswers.ifEmpty { resourceProvider.string(R.string.your_not_answer) }
-        val explanationList = createQuestionWithHtml(questionModel.answerExplanationMarkUp)
+            answerModel.answerOrAnswers.ifEmpty { resourceProvider.string(UiCoreStrings.your_not_answer) }
+        val explanationList =
+            createQuestionWithHtml(questionModel.answerExplanationMarkUp, staticUrl)
         val pointsValidationModel = answerModel.pointsValidationModel
         val isValidated = pointsValidationModel.isValidated
 
@@ -248,7 +284,7 @@ class SolutionFactory @Inject constructor(
         val pointsString =
             if (answerModel.pointsValidationModel.isValidated) {
                 resourceProvider.string(
-                    R.string.points_question,
+                    UiCoreStrings.points_question,
                     answerModel.pointsValidationModel.answerPoints,
                     answerModel.pointsValidationModel.questionTotalPoints
                 )
@@ -258,12 +294,13 @@ class SolutionFactory @Inject constructor(
 
     private fun createSolutionForAnswerWithType(
         questionModel: QuestionModel,
+        staticUrl: String
     ) {
         when (questionModel.testQuestionType) {
             TestQuestionType.SELECT_RIGHT_ANSWER_OR_ANSWERS -> createSelectAnswers(questionModel)
             TestQuestionType.TYPE_ANSWER_WITH_ERRORS -> createTypeAnswerWithErrors(questionModel)
             TestQuestionType.TYPE_RIGHT_ANSWER -> createTypeRightAnswer(questionModel)
-            TestQuestionType.DETAILED_ANSWER -> createDetailedAnswer(questionModel)
+            TestQuestionType.DETAILED_ANSWER -> createDetailedAnswer(questionModel, staticUrl)
             TestQuestionType.UNKNOWN -> {}
         }
     }
@@ -294,8 +331,9 @@ class SolutionFactory @Inject constructor(
         )
     }
 
-    private fun createDetailedAnswer(questionModel: QuestionModel) {
-        val explanationList = createQuestionWithHtml(questionModel.answerExplanationMarkUp)
+    private fun createDetailedAnswer(questionModel: QuestionModel, staticUrl: String) {
+        val explanationList =
+            createQuestionWithHtml(questionModel.answerExplanationMarkUp, staticUrl)
         solutionUiItems.add(
             DetailedAnswerUiItem(
                 questionId = questionModel.questionId,

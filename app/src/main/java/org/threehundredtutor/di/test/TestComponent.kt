@@ -2,9 +2,9 @@ package org.threehundredtutor.di.test
 
 import dagger.BindsInstance
 import dagger.Component
-import org.threehundredtutor.common.utils.ResourceProvider
+import org.threehundredtutor.common.ResourceProvider
 import org.threehundredtutor.core.DiSetHelper
-import org.threehundredtutor.data.core.ServiceGeneratorProvider
+import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
 import org.threehundredtutor.di.ViewModelMapFactory
 import org.threehundredtutor.di.solution_history.SolutionHistoryModule
 import org.threehundredtutor.presentation.test.TestBundleModel

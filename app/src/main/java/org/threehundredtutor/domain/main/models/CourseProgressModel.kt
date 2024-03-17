@@ -1,6 +1,6 @@
 package org.threehundredtutor.domain.main.models
 
-import org.threehundredtutor.common.DEFAULT_NOT_VALID_VALUE_INT
+import org.threehundredtutor.ui_common.DEFAULT_NOT_VALID_VALUE_INT
 
 data class CourseProgressModel(
     val currentProgress: Int,

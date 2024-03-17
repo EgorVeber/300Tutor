@@ -1,7 +1,7 @@
 package org.threehundredtutor.data.authorization
 
 import org.threehundredtutor.data.authorization.models.LoginDateRequest
-import org.threehundredtutor.data.core.ServiceGeneratorProvider
+import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
 import javax.inject.Inject
 
 class AuthorizationDataSource @Inject constructor(

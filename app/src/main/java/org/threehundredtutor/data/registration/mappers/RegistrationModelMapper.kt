@@ -1,6 +1,6 @@
 package org.threehundredtutor.data.registration.mappers
 
-import org.threehundredtutor.data.core.models.ErrorType
+import org.threehundredtutor.data.common.network.ErrorType
 import org.threehundredtutor.data.registration.models.RegisterResponse
 import org.threehundredtutor.domain.registration.models.RegisteredUserModel
 import org.threehundredtutor.domain.registration.models.RegistrationModel

@@ -1,6 +1,6 @@
 package org.threehundredtutor.data.registration
 
-import org.threehundredtutor.data.core.ServiceGeneratorProvider
+import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
 import org.threehundredtutor.data.registration.models.AccountRegisterAndSignInResponse
 import org.threehundredtutor.data.registration.models.RegisteRequest
 import org.threehundredtutor.data.registration.models.StudentRegisterAndSignInResponse

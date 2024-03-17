@@ -9,22 +9,25 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import org.threehundredtutor.R
-import org.threehundredtutor.base.BaseFragment
-import org.threehundredtutor.common.EMPTY_STRING
-import org.threehundredtutor.common.extentions.navigate
-import org.threehundredtutor.common.extentions.observeFlow
-import org.threehundredtutor.common.extentions.showMessage
-import org.threehundredtutor.common.extentions.showSnackbar
-import org.threehundredtutor.common.getUrlYoutube
-import org.threehundredtutor.common.utils.BundleString
-import org.threehundredtutor.databinding.SolutionFragmentBinding
+import org.threehundredtutor.core.UiCoreLayout
+import org.threehundredtutor.core.UiCoreStrings
+import org.threehundredtutor.core.navigate
 import org.threehundredtutor.di.solution.SolutionComponent
-import org.threehundredtutor.presentation.PhotoDetailsFragment.Companion.PHOTO_DETAILED_KEY
-import org.threehundredtutor.presentation.common.ActionDialogFragment
-import org.threehundredtutor.presentation.common.LoadingDialog
+import org.threehundredtutor.presentation.solution.PhotoDetailsFragment.Companion.PHOTO_DETAILED_IMAGE_ID_KEY
+import org.threehundredtutor.presentation.solution.PhotoDetailsFragment.Companion.PHOTO_DETAILED_STATIC_ORIGINAL_URL_KEY
 import org.threehundredtutor.presentation.solution.adapter.SolutionManager
+import org.threehundredtutor.ui_common.EMPTY_STRING
+import org.threehundredtutor.ui_common.flow.observeFlow
+import org.threehundredtutor.ui_common.fragment.ActionDialogFragment
+import org.threehundredtutor.ui_common.fragment.LoadingDialog
+import org.threehundredtutor.ui_common.fragment.base.BaseFragment
+import org.threehundredtutor.ui_common.fragment.showMessage
+import org.threehundredtutor.ui_common.fragment.showSnack
+import org.threehundredtutor.ui_common.util.getUrlYoutube
+import org.threehundredtutor.ui_common.util_class.BundleString
+import org.threehundredtutor.ui_core.databinding.SolutionFragmentBinding
 
-class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
+class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
 
     private lateinit var binding: SolutionFragmentBinding
 
@@ -133,8 +136,11 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
             when (state) {
                 is SolutionViewModel.UiEvent.ShowMessage -> showMessage(state.message)
                 is SolutionViewModel.UiEvent.OpenYoutube -> showActionDialogOpenYoutube(state.link)
-                is SolutionViewModel.UiEvent.NavigatePhotoDetailed -> navigatePhotoDetailed(state.imageId)
-                is SolutionViewModel.UiEvent.ShowSnack -> showSnackbar(
+                is SolutionViewModel.UiEvent.NavigatePhotoDetailed -> navigatePhotoDetailed(
+                    imageId = state.imageId,
+                    staticOriginalUrl = state.staticOriginalUrl
+                )
+                is SolutionViewModel.UiEvent.ShowSnack -> showSnack(
                     title = state.message,
                     backgroundColor = state.snackBarType.colorRes,
                     length = Snackbar.LENGTH_SHORT
@@ -145,10 +151,10 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
                 SolutionViewModel.UiEvent.ShowFinishDialog -> {
                     ActionDialogFragment.showDialog(
                         fragmentManager = childFragmentManager,
-                        title = getString(R.string.finish_test_dialog),
-                        message = getString(R.string.finish_test_message),
-                        positiveText = getString(R.string.finish),
-                        neutralText = getString(R.string.come_back_later),
+                        title = getString(UiCoreStrings.finish_test_dialog),
+                        message = getString(UiCoreStrings.finish_test_message),
+                        positiveText = getString(UiCoreStrings.finish),
+                        neutralText = getString(UiCoreStrings.come_back_later),
                         onPositiveClick = {
                             viewModel.onFinishTestClicked()
                         },
@@ -174,8 +180,8 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
     private fun showActionDialogOpenYoutube(link: String) {
         ActionDialogFragment.showDialog(
             fragmentManager = childFragmentManager,
-            positiveText = getString(R.string.video_action),
-            message = getString(R.string.open_youtube_message),
+            positiveText = getString(UiCoreStrings.video_action),
+            message = getString(UiCoreStrings.open_youtube_message),
             onPositiveClick = { openYoutubeLink(link) },
         )
     }
@@ -198,9 +204,10 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
         }
     }
 
-    private fun navigatePhotoDetailed(imageId: String) {
+    private fun navigatePhotoDetailed(imageId: String, staticOriginalUrl: String) {
         navigate(R.id.action_solutionFragment_to_photoDetailsFragment, Bundle().apply {
-            putString(PHOTO_DETAILED_KEY, imageId)
+            putString(PHOTO_DETAILED_IMAGE_ID_KEY, imageId)
+            putString(PHOTO_DETAILED_STATIC_ORIGINAL_URL_KEY, staticOriginalUrl)
         })
     }
 

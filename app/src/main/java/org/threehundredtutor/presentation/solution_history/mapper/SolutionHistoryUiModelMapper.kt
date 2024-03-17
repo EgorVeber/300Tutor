@@ -1,10 +1,10 @@
 package org.threehundredtutor.presentation.solution_history.mapper
 
-import org.threehundredtutor.R
-import org.threehundredtutor.common.addPercent
-import org.threehundredtutor.common.utils.ResourceProvider
+import org.threehundredtutor.common.ResourceProvider
+import org.threehundredtutor.core.UiCoreStrings
 import org.threehundredtutor.domain.solution_history.models.SolutionHistoryItemModel
 import org.threehundredtutor.presentation.solution_history.models.SolutionHistoryUiModel
+import org.threehundredtutor.ui_common.util.addPercent
 
 fun SolutionHistoryItemModel.toSolutionHistoryUiModel(
     resourceProvider: ResourceProvider,
@@ -16,21 +16,21 @@ fun SolutionHistoryItemModel.toSolutionHistoryUiModel(
         nameTest = solutionInfoModel.testName,
         isFinished = solutionInfoModel.isFinished,
         startTestDate = resourceProvider.string(
-            R.string.start_date,
+            UiCoreStrings.start_date,
             solutionInfoModel.startedOnUtc
         ),
-        endTestDate = resourceProvider.string(R.string.end_date, solutionInfoModel.finishedOnUtc),
+        endTestDate = resourceProvider.string(UiCoreStrings.end_date, solutionInfoModel.finishedOnUtc),
         pointWithTest = resourceProvider.string(
-            R.string.received_points_out_of,
+            UiCoreStrings.received_points_out_of,
             solutionValidationModel.studentTotalPointsString,
             solutionValidationModel.maxTotalPointsString
         ),
         testIsSolvedPercent = resourceProvider.string(
-            R.string.test_solved,
+            UiCoreStrings.test_solved,
             solutionValidationModel.testIsSolvedPercent.toString().addPercent()
         ),
         issuesResolvedPercent = resourceProvider.string(
-            R.string.of_issues_resolved,
+            UiCoreStrings.of_issues_resolved,
             solutionValidationModel.issuesResolvedPercent.toString().addPercent()
         ),
         maxTotalPoints = solutionValidationModel.maxTotalPoints,
