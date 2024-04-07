@@ -1,5 +1,7 @@
 package org.threehundredtutor.domain.solution.models.test_model
 
+import org.threehundredtutor.ui_common.EMPTY_STRING
+
 enum class TestQuestionType {
     SELECT_RIGHT_ANSWER_OR_ANSWERS,
     TYPE_RIGHT_ANSWER,
@@ -21,6 +23,15 @@ enum class TestQuestionType {
                 DetailedAnswer -> DETAILED_ANSWER
                 TypeAnswerWithErrors -> TYPE_ANSWER_WITH_ERRORS
                 else -> UNKNOWN
+            }
+
+        fun TestQuestionType.getName(): String =
+            when (this) {
+                SELECT_RIGHT_ANSWER_OR_ANSWERS -> SelectRightAnswerOrAnswers
+                TYPE_RIGHT_ANSWER -> TypeRightAnswer
+                DETAILED_ANSWER -> DetailedAnswer
+                TYPE_ANSWER_WITH_ERRORS -> TypeAnswerWithErrors
+                UNKNOWN -> EMPTY_STRING
             }
     }
 }

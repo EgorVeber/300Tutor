@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/workspaceDirectoryLlContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="@dimen/margin_4"
+    android:background="@drawable/rectangle_16_content_background"
+    android:orientation="horizontal"
+    android:paddingVertical="@dimen/margin_8">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/size_36"
+        android:layout_height="@dimen/size_36"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/margin_12"
+        android:backgroundTint="?attr/background"
+        app:cardCornerRadius="@dimen/radius_full"
+        app:cardElevation="0dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_question_answer"
+            app:tint="?attr/primary" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/workspaceDirectoryTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/margin_12"
+        android:layout_marginEnd="@dimen/margin_8"
+        android:text="Математика ЕГЭ"
+        android:textColor="?attr/textPrimary"
+        android:textSize="@dimen/text_20"
+        tools:text="Тест на проверку уровня подготовки" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

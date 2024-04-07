@@ -12,6 +12,9 @@ import org.threehundredtutor.di.subject_detailed.SubjectDetailedComponent
 import org.threehundredtutor.presentation.main.MainFragment
 import org.threehundredtutor.presentation.subject_detailed.adapter.SubjectDetailedManager
 import org.threehundredtutor.presentation.subject_detailed.ui_models.SubjectMenuItemUiModel
+import org.threehundredtutor.presentation.subject_workspace.SubjectWorkspaceFragment.Companion.SUBJECT_WORKSPACE_SUB_TITLE_WORKSPACE_OR_DIRECTORY_NAME
+import org.threehundredtutor.presentation.subject_workspace.SubjectWorkspaceFragment.Companion.SUBJECT_WORKSPACE_TITLE_SUBJECT_OR_DIRECTORY_KEY
+import org.threehundredtutor.presentation.subject_workspace.SubjectWorkspaceFragment.Companion.SUBJECT_WORKSPACE_WORKSPACE_ID_KEY
 import org.threehundredtutor.ui_common.EMPTY_STRING
 import org.threehundredtutor.ui_common.flow.observeFlow
 import org.threehundredtutor.ui_common.fragment.base.BaseFragment
@@ -94,12 +97,30 @@ class SubjectDetailedFragment : BaseFragment(UiCoreLayout.subject_detailed_fragm
                         }
                     )
                 }
+
+                is SubjectDetailedViewModel.UiEvent.NavigateToWorkspace -> {
+                    navigate(
+                        resId = R.id.action_subjectDetailedFragment_to_subjectWorkspaceFragment,
+                        bundle = Bundle().apply {
+                            putString(
+                                SUBJECT_WORKSPACE_TITLE_SUBJECT_OR_DIRECTORY_KEY,
+                                state.subjectName
+                            )
+                            putString(SUBJECT_WORKSPACE_WORKSPACE_ID_KEY, state.workspaceId)
+                            putString(
+                                SUBJECT_WORKSPACE_SUB_TITLE_WORKSPACE_OR_DIRECTORY_NAME,
+                                state.workspaceName
+                            )
+                        }
+                    )
+                }
             }
         }
     }
 
     companion object {
         const val SUBJECT_DETAILED_KEY_MENU_ITEMS = "SUBJECT_DETAILED_KEY_MENU_ITEMS"
+
         const val SUBJECT_TESTS_SUBJECT_ID = "SUBJECT_TESTS_SUBJECT_ID"
         const val SUBJECT_TESTS_SUBJECT_NAME = "SUBJECT_TESTS_SUBJECT_NAME"
         const val SUBJECT_TESTS_MENU_ITEM_NAME = "SUBJECT_TESTS_MENU_ITEM_NAME"

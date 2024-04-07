@@ -10,10 +10,16 @@ import org.threehundredtutor.common.ResourceProvider
 import org.threehundredtutor.core.UiCoreStrings
 import org.threehundredtutor.domain.common.GetConfigUseCase
 import org.threehundredtutor.domain.solution.models.TestSolutionGeneralModel
+import org.threehundredtutor.domain.solution.models.directory.StartTestDirectoryParamsModel
 import org.threehundredtutor.domain.solution.models.params_model.QuestionSolutionIdParamsModel
 import org.threehundredtutor.domain.solution.models.params_model.SaveQuestionPointsValidationParamsModel
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerModel
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerValidationResultType
+import org.threehundredtutor.domain.solution.models.test_model.HtmlPageTestType
+import org.threehundredtutor.domain.solution.models.test_model.HtmlPageTestType.FIRST_PATH
+import org.threehundredtutor.domain.solution.models.test_model.HtmlPageTestType.FULL_TEST
+import org.threehundredtutor.domain.solution.models.test_model.HtmlPageTestType.SECOND_PATH
+import org.threehundredtutor.domain.solution.models.test_model.TestQuestionType
 import org.threehundredtutor.domain.solution.usecase.ChangeLikeQuestionUseCase
 import org.threehundredtutor.domain.solution.usecase.CheckAnswerUseCase
 import org.threehundredtutor.domain.solution.usecase.FinishSolutionUseCase
@@ -22,6 +28,7 @@ import org.threehundredtutor.domain.solution.usecase.GetSolutionUseCase
 import org.threehundredtutor.domain.solution.usecase.IsAllQuestionHaveAnswerUseCase
 import org.threehundredtutor.domain.solution.usecase.ResultQuestionsValidationRemoveUseCase
 import org.threehundredtutor.domain.solution.usecase.ResultQuestionsValidationSaveUseCase
+import org.threehundredtutor.domain.solution.usecase.StartTestDirectoryUseCase
 import org.threehundredtutor.domain.solution.usecase.StartTestUseCase
 import org.threehundredtutor.presentation.solution.mapper.toResultTestUiModel
 import org.threehundredtutor.presentation.solution.solution_factory.SolutionFactory
@@ -50,6 +57,7 @@ class SolutionViewModel @Inject constructor(
     private val solutionFactory: SolutionFactory,
     private val getSolutionUseCase: GetSolutionUseCase,
     private val startTestUseCase: StartTestUseCase,
+    private val startTestDirectoryUseCase: StartTestDirectoryUseCase,
     private val checkAnswerUseCase: CheckAnswerUseCase,
     private val validationSaveUseCase: ResultQuestionsValidationSaveUseCase,
     private val validationRemoveUseCase: ResultQuestionsValidationRemoveUseCase,
@@ -87,16 +95,42 @@ class SolutionViewModel @Inject constructor(
     fun getTestInfoStateFlow() = testInfoState.asSharedFlow()
     fun getErrorStateFlow() = errorState.asStateFlow()
 
-    fun onViewInitiated(testId: String, solutionId: String) {
+    fun onViewInitiated(
+        testId: String,
+        solutionId: String,
+        directoryTestId: String,
+        workSpaceId: String,
+        htmlPageTestType: HtmlPageTestType
+    ) {
         if (!firstViewAttach) return
-        loadTest(testId = testId, solutionId = solutionId, needUpdateResultTest = true)
+        loadTest(
+            testId = testId,
+            solutionId = solutionId,
+            directoryTestId = directoryTestId,
+            needUpdateResultTest = true,
+            workSpaceId = workSpaceId,
+            htmlPageTestType = htmlPageTestType
+        )
     }
 
-    private fun loadTest(testId: String, solutionId: String, needUpdateResultTest: Boolean) {
+    private fun loadTest(
+        testId: String,
+        solutionId: String,
+        directoryTestId: String,
+        workSpaceId: String,
+        htmlPageTestType: HtmlPageTestType,
+        needUpdateResultTest: Boolean
+    ) {
         viewModelScope.launchJob(tryBlock = {
             loadingState.update { true }
             firstViewAttach = false
-            val testSolutionModel = getSolution(testId, solutionId)
+            val testSolutionModel = getSolution(
+                testId = testId,
+                solutionId = solutionId,
+                directoryTestId = directoryTestId,
+                workSpaceId = workSpaceId,
+                htmlPageTestType = htmlPageTestType
+            )
 
             currentSolutionId = testSolutionModel.solutionId
 
@@ -109,7 +143,7 @@ class SolutionViewModel @Inject constructor(
             )
             uiItemsState.update { uiItemList }
 
-            if (testId.isNotEmpty()) {
+            if (testId.isNotEmpty() || (directoryTestId.isNotEmpty() && workSpaceId.isNotEmpty())) {
                 uiEventState.emit(
                     UiEvent.ShowSnack(
                         resourceProvider.string(UiCoreStrings.start_test_message),
@@ -442,7 +476,10 @@ class SolutionViewModel @Inject constructor(
                 loadTest(
                     testId = EMPTY_STRING,
                     solutionId = currentSolutionId,
-                    needUpdateResultTest = false
+                    directoryTestId = EMPTY_STRING,
+                    workSpaceId = EMPTY_STRING,
+                    needUpdateResultTest = false,
+                    htmlPageTestType = HtmlPageTestType.NONE
                 )
 
                 finishButtonState.emit(false)
@@ -469,7 +506,7 @@ class SolutionViewModel @Inject constructor(
 
     fun onDetailedAnswerTextChanged(item: DetailedAnswerUiItem, text: String) {
         val currentList = uiItemsState.value.toMutableList()
-        Collections.replaceAll(
+        Collections.replaceAll( //  TODO TutorAndroid-68  Перреписать на обыный  map
             /* list = */ currentList,
             /* oldVal = */item,
             /* newVal = */ item.copy(
@@ -483,7 +520,6 @@ class SolutionViewModel @Inject constructor(
         viewModelScope.launchJob(tryBlock = {
             loadingState.update { true }
 
-            //  TODO Придумать че делать № LikeNotValidation
             val result = changeLikeQuestionUseCase.invoke(
                 questionId = headerUiItem.questionId,
                 hasLike = !headerUiItem.isQuestionLikedByStudent
@@ -533,27 +569,65 @@ class SolutionViewModel @Inject constructor(
         if (isAllQuestionHaveAnswerUseCase()) finishButtonState.emit(true)
     }
 
+    // TODO унести в UseCase
+    private suspend fun getSolution(
+        testId: String,
+        solutionId: String,
+        directoryTestId: String,
+        workSpaceId: String,
+        htmlPageTestType: HtmlPageTestType
+    ): TestSolutionGeneralModel {
+        val testSolutionModel = when {
+            directoryTestId.isNotEmpty() && workSpaceId.isNotEmpty() -> {
+                val filterList =
+                    when (htmlPageTestType) {
+                        FIRST_PATH -> TestQuestionType.values().toList()
+                            .filter { it != TestQuestionType.DETAILED_ANSWER }
+                            .filter { it != TestQuestionType.UNKNOWN }
+
+                        SECOND_PATH -> TestQuestionType.values().toList()
+                            .filter { it == TestQuestionType.DETAILED_ANSWER }
+                            .filter { it != TestQuestionType.UNKNOWN }
+
+                        FULL_TEST -> TestQuestionType.values().toList()
+                            .filter { it != TestQuestionType.UNKNOWN }
+
+                        else -> {
+                            listOf() // TODO бомба замедленного действия
+                        }
+                    }
+
+                startTestDirectoryUseCase.invoke(
+                    StartTestDirectoryParamsModel(
+                        workSpaceId = workSpaceId,
+                        directoryId = directoryTestId,
+                        testQuestionTypeList = filterList,
+                    )
+                )
+            }
+
+            testId.isNotEmpty() -> {
+                startTestUseCase.invoke(testId)
+            }
+
+            else -> {
+                getSolutionUseCase.invoke(solutionId)
+            }
+        }
+        return testSolutionModel
+    }
+
     private fun updateResultTest(resultTestUiModel: ResultTestUiModel) {
         resultTestUiModelCache = resultTestUiModel
         resultTestState.tryEmit(resultTestUiModel)
     }
 
-    private suspend fun getSolution(
-        testId: String,
-        solutionId: String
-    ): TestSolutionGeneralModel {
-        val testSolutionModel = if (testId.isNotEmpty()) {
-            startTestUseCase.invoke(testId)
-        } else {
-            getSolutionUseCase.invoke(solutionId)
-        }
-        return testSolutionModel
-    }
-
     sealed interface UiEvent {
         data class ShowMessage(val message: String) : UiEvent
         data class OpenYoutube(val link: String) : UiEvent
-        data class NavigatePhotoDetailed(val imageId: String, val staticOriginalUrl: String) : UiEvent
+        data class NavigatePhotoDetailed(val imageId: String, val staticOriginalUrl: String) :
+            UiEvent
+
         data class ShowSnack(val message: String, val snackBarType: SnackBarType) : UiEvent
         object ShowFinishDialog : UiEvent
         object NavigateBack : UiEvent

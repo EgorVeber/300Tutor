@@ -60,8 +60,14 @@ class SubjectDetailedViewModel @Inject constructor(
             }
 
             WORK_SPACE_LINK -> {
-                //TODO TutorAndroid-62
-                //api/tutor/workspace/HtmlTree?id={id}
+
+                uiEventState.tryEmit(
+                    UiEvent.NavigateToWorkspace(
+                        subjectName = subjectDetailedBundleModel.subjectName,
+                        workspaceName = subjectDetailedMenuItemUiModel.text,
+                        workspaceId = subjectDetailedMenuItemUiModel.workSpaceId
+                    )
+                )
             }
 
             SUBJECT_TEST_LINK -> {
@@ -88,6 +94,12 @@ class SubjectDetailedViewModel @Inject constructor(
             val subjectName: String,
             val subjectMenuItemName: String,
             val subjectId: String
+        ) : UiEvent
+
+        data class NavigateToWorkspace(
+            val subjectName: String,
+            val workspaceName: String,
+            val workspaceId: String
         ) : UiEvent
     }
 }

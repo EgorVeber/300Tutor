@@ -11,6 +11,6 @@ fun TestSolutionQueryResponse.toTestSolutionModel(): List<TestSolutionModel> =
             answerModel = solutionResponse?.toSolutionModel()?.answerModelList?.find { answerModel ->
                 questionModel.questionId == answerModel.questionId
             } ?: AnswerModel.EMPTY,
-            isQuestionLikedByStudent = false //  TODO Придумать че делать № LikeNotValidation
+            isQuestionLikedByStudent = false
         )
     } ?: emptyList()

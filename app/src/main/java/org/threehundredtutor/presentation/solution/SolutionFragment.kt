@@ -13,6 +13,7 @@ import org.threehundredtutor.core.UiCoreLayout
 import org.threehundredtutor.core.UiCoreStrings
 import org.threehundredtutor.core.navigate
 import org.threehundredtutor.di.solution.SolutionComponent
+import org.threehundredtutor.domain.solution.models.test_model.HtmlPageTestType
 import org.threehundredtutor.presentation.solution.PhotoDetailsFragment.Companion.PHOTO_DETAILED_IMAGE_ID_KEY
 import org.threehundredtutor.presentation.solution.PhotoDetailsFragment.Companion.PHOTO_DETAILED_STATIC_ORIGINAL_URL_KEY
 import org.threehundredtutor.presentation.solution.adapter.SolutionManager
@@ -24,6 +25,7 @@ import org.threehundredtutor.ui_common.fragment.base.BaseFragment
 import org.threehundredtutor.ui_common.fragment.showMessage
 import org.threehundredtutor.ui_common.fragment.showSnack
 import org.threehundredtutor.ui_common.util.getUrlYoutube
+import org.threehundredtutor.ui_common.util_class.BundleSerializable
 import org.threehundredtutor.ui_common.util_class.BundleString
 import org.threehundredtutor.ui_core.databinding.SolutionFragmentBinding
 
@@ -89,6 +91,12 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
 
     private val solutionId by BundleString(SOLUTION_SOLUTION_ID_KEY, EMPTY_STRING)
     private val testId by BundleString(SOLUTION_TEST_ID_KEY, EMPTY_STRING)
+    private val directoryTestId by BundleString(SOLUTION_HTML_PAGE_DIRECTORY_ID_KEY, EMPTY_STRING)
+    private val workSpaceId by BundleString(SOLUTION_HTML_PAGE_WORKSPACE_ID_KEY, EMPTY_STRING)
+    private val htmlPageTestType by BundleSerializable(
+        SOLUTION_HTML_PAGE_TEST_TYPE_ID_KEY,
+        HtmlPageTestType.NONE
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = SolutionFragmentBinding.bind(view)
@@ -108,7 +116,14 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
         binding.solutionToolBar.setOnClickListener {
             showMessage(binding.solutionToolBar.title.toString())
         }
-        viewModel.onViewInitiated(testId, solutionId)
+        //TODO TutorAndroid-68
+        viewModel.onViewInitiated(
+            testId = testId,
+            solutionId = solutionId,
+            directoryTestId = directoryTestId,
+            workSpaceId = workSpaceId,
+            htmlPageTestType = htmlPageTestType
+        )
     }
 
     override fun onObserveData() {
@@ -140,6 +155,7 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
                     imageId = state.imageId,
                     staticOriginalUrl = state.staticOriginalUrl
                 )
+
                 is SolutionViewModel.UiEvent.ShowSnack -> showSnack(
                     title = state.message,
                     backgroundColor = state.snackBarType.colorRes,
@@ -214,7 +230,8 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
     companion object {
         const val SOLUTION_SOLUTION_ID_KEY = "SOLUTION_SOLUTION_ID_KEY"
         const val SOLUTION_TEST_ID_KEY = "SOLUTION_TEST_ID_KEY"
+        const val SOLUTION_HTML_PAGE_DIRECTORY_ID_KEY = "SOLUTION_HTML_PAGE_DIRECTORY_ID_KEY"
+        const val SOLUTION_HTML_PAGE_WORKSPACE_ID_KEY = "SOLUTION_HTML_PAGE_WORKSPACE_ID_KEY"
+        const val SOLUTION_HTML_PAGE_TEST_TYPE_ID_KEY = "SOLUTION_HTML_PAGE_TEST_TYPE_ID_KEY"
     }
 }
-
-

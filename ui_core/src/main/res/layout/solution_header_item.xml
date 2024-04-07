@@ -28,7 +28,6 @@
         android:layout_height="@dimen/size_36"
         android:layout_gravity="center"
         android:src="@drawable/ic_favorite"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="?attr/defaultBlack40" />

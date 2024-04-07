@@ -3,6 +3,7 @@ package org.threehundredtutor.ui_common.util_class
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.fragment.app.Fragment
+import java.io.Serializable
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -31,6 +32,7 @@ class BundleParcelable<B : Parcelable>(
 ) : ReadWriteProperty<Fragment, B> {
     private var cache: B? = null
     override fun getValue(thisRef: Fragment, property: KProperty<*>): B {
+
         return cache ?: (thisRef.arguments?.getParcelable(key) ?: defaultValue).also {
             cache = it
         } ?: throw IllegalArgumentException()
@@ -38,6 +40,25 @@ class BundleParcelable<B : Parcelable>(
 
     override fun setValue(thisRef: Fragment, property: KProperty<*>, value: B) {
         (thisRef.arguments ?: Bundle().also { thisRef.arguments = it }).putParcelable(key, value)
+        cache = value
+    }
+}
+
+@Suppress("UNCHECKED_CAST")
+class BundleSerializable<B : Serializable>(
+    private val key: String,
+    private val defaultValue: B,
+) : ReadWriteProperty<Fragment, B> {
+    private var cache: B? = null
+
+    override fun getValue(thisRef: Fragment, property: KProperty<*>): B {
+        return cache ?: (thisRef.arguments?.getSerializable(key) as? B).also {
+            cache = it
+        } ?: defaultValue
+    }
+
+    override fun setValue(thisRef: Fragment, property: KProperty<*>, value: B) {
+        (thisRef.arguments ?: Bundle().also { thisRef.arguments = it }).putSerializable(key, value)
         cache = value
     }
 }

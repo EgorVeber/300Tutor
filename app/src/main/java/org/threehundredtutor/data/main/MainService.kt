@@ -3,7 +3,7 @@ package org.threehundredtutor.data.main
 import org.threehundredtutor.data.main.MainApi.TUTOR_SETTINGS_EXTRA_BUTTONS
 import org.threehundredtutor.data.main.MainApi.TUTOR_STUDENT_GROUP_ENTER_VIA_CODE
 import org.threehundredtutor.data.main.MainApi.TUTOR_STUDENT_GROUP_QUERY_SEARCH_WITH_PROGRESSES
-import org.threehundredtutor.data.main.MainApi.TUTOR_SUBJECT_GET_ALL_CACHED
+import org.threehundredtutor.data.main.MainApi.TUTOR_SUBJECT_QUERY_GET_ALL_CACHED
 import org.threehundredtutor.data.main.request.EnterGroupRequest
 import org.threehundredtutor.data.main.request.GroupWithCourseRequest
 import org.threehundredtutor.data.main.response.EnterGroupResponse
@@ -15,7 +15,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface MainService {
-    @GET(TUTOR_SUBJECT_GET_ALL_CACHED)
+    @GET(TUTOR_SUBJECT_QUERY_GET_ALL_CACHED)
     suspend fun getSubjects(): List<SubjectResponse>
 
     @POST(TUTOR_STUDENT_GROUP_QUERY_SEARCH_WITH_PROGRESSES)

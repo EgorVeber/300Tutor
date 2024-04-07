@@ -9,6 +9,9 @@ import org.threehundredtutor.domain.solution.models.solution_models.AnswerModel
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerValidationResultType.UNKNOWN
 import org.threehundredtutor.domain.solution.models.test_model.QuestionModel
 import org.threehundredtutor.domain.solution.models.test_model.TestQuestionType
+import org.threehundredtutor.domain.subject_workspace.models.DirectoryModel
+import org.threehundredtutor.presentation.html_page.adapter.HtmlPageHeaderItem
+import org.threehundredtutor.presentation.html_page.adapter.HtmlPageStartTestUiModel
 import org.threehundredtutor.presentation.solution.mapper.toAnswerSelectRightUiModel
 import org.threehundredtutor.presentation.solution.mapper.toAnswerWithErrorsUiModel
 import org.threehundredtutor.presentation.solution.mapper.toRightAnswerUiModel
@@ -35,6 +38,33 @@ class SolutionFactory @Inject constructor(
     private val resourceProvider: ResourceProvider
 ) {
     private var solutionUiItems: MutableList<SolutionUiItem> = mutableListOf()
+
+    fun createHtmlPage(
+        directoryModel: DirectoryModel,
+        htmlString: String,
+        staticUrl: String
+    ): List<SolutionUiItem> {
+        return buildList {
+            add(HtmlPageHeaderItem)
+            addAll(createQuestionWithHtml(htmlString = htmlString, staticUrl = staticUrl))
+            add(FooterUiItem)
+            add(DividerUiItem(DividerType.BACKGROUND))
+            add(DividerUiItem(DividerType.BACKGROUND))
+            if (directoryModel.hasTest()) {
+                add(
+                    HtmlPageStartTestUiModel(
+                        firstCount = directoryModel.getFirstPathCount().toString(),
+                        secondCount = directoryModel.getSecondPathCount().toString(),
+                        fullCount = directoryModel.getFullTestCount().toString(),
+                        firstVisible = directoryModel.hasFirstPath(),
+                        secondVisible = directoryModel.hasSecondPath(),
+                        fullVisible = directoryModel.hasFullTest()
+                    )
+                )
+                add(DividerUiItem(DividerType.BACKGROUND))
+            }
+        }
+    }
 
     fun createSolution(
         testSolutionGeneralModel: TestSolutionGeneralModel,
@@ -344,7 +374,7 @@ class SolutionFactory @Inject constructor(
     }
 
     private fun createBottomItems(countDividerBottomQuestion: Int) {
-        solutionUiItems.add(FooterUiItem())
+        solutionUiItems.add(FooterUiItem)
         repeat(countDividerBottomQuestion) {
             solutionUiItems.add(DividerUiItem(DividerType.BACKGROUND))
         }
