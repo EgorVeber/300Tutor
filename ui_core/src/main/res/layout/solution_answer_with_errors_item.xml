@@ -8,7 +8,7 @@
     android:paddingHorizontal="@dimen/solution_item_space_horizontal">
 
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/answerEditText"
+        android:id="@+id/answerEditTextAwe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto"
@@ -22,7 +22,7 @@
         android:theme="@style/EditTextCursorColor" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/checkButton"
+        android:id="@+id/checkButtonAwE"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"

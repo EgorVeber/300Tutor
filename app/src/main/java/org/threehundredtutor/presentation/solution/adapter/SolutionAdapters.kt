@@ -32,7 +32,6 @@ import org.threehundredtutor.ui_common.view_components.applyBackground
 import org.threehundredtutor.ui_common.view_components.hideKeyboard
 import org.threehundredtutor.ui_common.view_components.loadImageMedium
 import org.threehundredtutor.ui_common.view_components.setDebouncedCheckedChangeListener
-import org.threehundredtutor.ui_common.view_components.setDebouncedClickListener
 import org.threehundredtutor.ui_common.view_components.setTint
 import org.threehundredtutor.ui_common.view_components.trimText
 import org.threehundredtutor.ui_core.databinding.SolutionAnswerSelectRightItemBinding
@@ -66,7 +65,7 @@ object SolutionAdapters {
                 questionLikeClickListener.invoke(item)
             }
             bind {
-                binding.solutionTitle.text = item.questionName
+                binding.solutionTitle.text = item.questionName.trim()
                 if (item.isQuestionLikedByStudent) {
                     binding.favoriteImage.setTint(UiCoreAttr.defaultRed)
                 } else {
@@ -182,7 +181,7 @@ object SolutionAdapters {
             { layoutInflater, root ->
                 SolutionCheckButtonItemBinding.inflate(layoutInflater, root, false)
             }) {
-            binding.checkButton.setDebouncedClickListener {
+            binding.checkButton.setOnClickListener {
                 selectRightAnswerCheckButtonClickListener.invoke(
                     item.questionId
                 )
@@ -195,7 +194,7 @@ object SolutionAdapters {
             { layoutInflater, root ->
                 SolutionRightAnswerItemBinding.inflate(layoutInflater, root, false)
             }) {
-            binding.checkButton.setDebouncedClickListener { view ->
+            binding.checkButton.setOnClickListener { view ->
                 val answer = binding.answerEditText.text.toString().trim()
                 if (answer.isNotEmpty()) {
                     rightAnswerClickListener.invoke(item, answer)
@@ -206,7 +205,7 @@ object SolutionAdapters {
                 if (item.caseInSensitive) {
                     binding.answerEditText.filters = arrayOf<InputFilter>(InputFilter.AllCaps())
                 } else {
-                    binding.answerEditText.filters = null
+                    binding.answerEditText.filters = arrayOf<InputFilter>()
                 }
             }
         }
@@ -231,8 +230,8 @@ object SolutionAdapters {
             { layoutInflater, root ->
                 SolutionAnswerWithErrorsItemBinding.inflate(layoutInflater, root, false)
             }) {
-            binding.checkButton.setDebouncedClickListener { view ->
-                val answer = binding.answerEditText.trimText()
+            binding.checkButtonAwE.setOnClickListener { view ->
+                val answer = binding.answerEditTextAwe.trimText()
                 if (answer.isNotEmpty()) {
                     answerWithErrorsClickListener.invoke(item, answer)
                     view.hideKeyboard()
@@ -266,13 +265,14 @@ object SolutionAdapters {
                 )
             })
         {
-            binding.checkButton.setDebouncedClickListener { view ->
+            binding.checkButton.setOnClickListener { view ->
                 val answer = binding.answerEditText.trimText()
                 if (answer.isNotEmpty()) {
                     detailedAnswerClickListener.invoke(item, answer)
                     view.hideKeyboard()
                 }
             }
+            // TODO Баг с сохранение теста во все модели детального ответа.
             binding.answerEditText.addTextChangedListener {
                 detailedAnswerTextChangedListener.invoke(item, it.toString())
             }

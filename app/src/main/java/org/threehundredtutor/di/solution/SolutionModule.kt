@@ -23,7 +23,6 @@ abstract class SolutionModule {
     @ScreenScope
     abstract fun bindsSolutionRepository(solutionRepositoryImpl: SolutionRepositoryImpl): SolutionRepository
 
-
     companion object {
         @Provides
         @ScreenScope

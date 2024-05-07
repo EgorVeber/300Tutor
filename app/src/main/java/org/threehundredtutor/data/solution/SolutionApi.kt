@@ -1,7 +1,7 @@
 package org.threehundredtutor.data.solution
 
 object SolutionApi {
-    const val TUTOR_TEST_SOLUTION_QUERY_BY_ID = "tutor/test-solution/query/Get/By/Id/{id}"
+    const val TUTOR_TEST_SOLUTION_QUERY_GET_BY_ID = "tutor/test-solution/query/Get/By/Id/{id}"
 
     const val TUTOR_TEST_SOLUTION_QUERY_BY_ID_DETAILED =
         "tutor/test-solution/query/Get/By/Id/{id}/detailed"
@@ -11,6 +11,7 @@ object SolutionApi {
     const val TUTOR_TEST_SOLUTION_FINISH = "tutor/test-solution/finish"
 
     const val TUTOR_TEST_SOLUTION_START_BY_TEST_ID = "tutor/test-solution/start/By/TestId"
+    const val TUTOR_TEST_SOLUTION_START_BY_DIRECTORY = "tutor/test-solution/start/By/Directory"
 
     const val TUTOR_TEST_SOLUTION_RESULT_POINTS = "tutor/test-solution-result/points/{solutionId}"
 

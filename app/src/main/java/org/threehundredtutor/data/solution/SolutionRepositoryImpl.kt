@@ -6,19 +6,23 @@ import org.threehundredtutor.data.solution.mappers.toBaseApiModel
 import org.threehundredtutor.data.solution.mappers.toQuestionAnswerWithResultBaseApiModel
 import org.threehundredtutor.data.solution.mappers.toQuestionAnswersWithResultBaseApiModel
 import org.threehundredtutor.data.solution.mappers.toTestSolutionGeneralModel
+import org.threehundredtutor.data.solution.models.directory.toStartTestDirectoryRequest
 import org.threehundredtutor.data.solution.models.finish_test.AnswerItemRequest
 import org.threehundredtutor.data.solution.models.finish_test.FinishSolutionRequest
 import org.threehundredtutor.data.solution.models.request.AnswerRequest
 import org.threehundredtutor.data.solution.models.request.CheckAnswerRequest
 import org.threehundredtutor.data.solution.models.request.QuestionSolutionIdRequest
+import org.threehundredtutor.data.solution.models.start_test.StartTestResponse
 import org.threehundredtutor.domain.solution.SolutionRepository
 import org.threehundredtutor.domain.solution.models.BaseApiModel
 import org.threehundredtutor.domain.solution.models.QuestionAnswerWithResultBaseApiModel
 import org.threehundredtutor.domain.solution.models.QuestionAnswersWithResultBaseApiModel
 import org.threehundredtutor.domain.solution.models.TestSolutionGeneralModel
+import org.threehundredtutor.domain.solution.models.directory.StartTestDirectoryParamsModel
 import org.threehundredtutor.domain.solution.models.params_model.SaveQuestionPointsValidationParamsModel
 import org.threehundredtutor.domain.solution.models.points.SolutionPointsModel
 import org.threehundredtutor.ui_common.util.ServerException
+import org.threehundredtutor.ui_common.util.orFalse
 import javax.inject.Inject
 
 class SolutionRepositoryImpl @Inject constructor(
@@ -40,11 +44,27 @@ class SolutionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun startByTestId(testId: String): TestSolutionGeneralModel {
-        val testSolutionGeneralModel =
-            solutionRemoteDataSource.startByTestId(testId)?.toTestSolutionGeneralModel()
-                ?: throw ServerException()
-        solutionLocalDataSource.saveAnswers(testSolutionGeneralModel.testSolutionModel)
-        return testSolutionGeneralModel
+        val startTestResponse: StartTestResponse =
+            solutionRemoteDataSource.startByTestId(testId)
+        return handleStartTest(startTestResponse)
+    }
+
+    override suspend fun startByDirectory(startTestDirectoryParamsModel: StartTestDirectoryParamsModel): TestSolutionGeneralModel {
+        val startTestResponse: StartTestResponse =
+            solutionRemoteDataSource.startTestByDirectory(startTestDirectoryParamsModel.toStartTestDirectoryRequest())
+        return handleStartTest(startTestResponse)
+    }
+
+    private suspend fun handleStartTest(
+        startTestResponse: StartTestResponse
+    ): TestSolutionGeneralModel {
+        val solutionId: String =
+            startTestResponse.testSolutionQueryResponse?.solutionId ?: throw ServerException()
+        if (startTestResponse.isSucceeded.orFalse() && solutionId.isNotEmpty()) {
+            return getSolutionDetailed(startTestResponse.testSolutionQueryResponse.solutionId)
+        } else {
+            throw ServerException()
+        }
     }
 
     override suspend fun checkAnswer(

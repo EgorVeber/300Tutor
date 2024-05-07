@@ -12,7 +12,7 @@
         android:background="?attr/defaultBlack"
         app:navigationIcon="@drawable/ic_back"
         app:navigationIconTint="?attr/defaultWhite"
-        app:title="Вопрос #2 по предмету Математика ЕГЭ"
+        app:title="@string/photo_detailed"
         app:titleCentered="true"
         app:titleTextAppearance="@style/TitleToolbarTextAppearance"
         app:titleTextColor="?attr/defaultWhite" />

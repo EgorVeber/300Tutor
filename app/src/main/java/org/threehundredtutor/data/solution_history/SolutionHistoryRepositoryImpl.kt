@@ -29,15 +29,4 @@ class SolutionHistoryRepositoryImpl @Inject constructor(
             solutionHistoryLocalDataSource.getSolution()
         }
     }
-
-    override suspend fun searchSolutionByTestId(
-        testId: String
-    ): SearchSolutionGeneralModel = solutionHistoryRemoteDataSource.searchSolution(
-        SearchSolutionHistoryRequest(
-            count = null,
-            isFinished = null,
-            offSet = 0,
-            testId = testId
-        )
-    ).toSearchSolutionGeneralModel()
 }

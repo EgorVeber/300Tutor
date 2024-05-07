@@ -130,6 +130,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_subjectDetailedFragment_to_subjectWorkspaceFragment"
+            app:destination="@id/subjectWorkspaceFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <action
         android:id="@+id/action_subjectDetailedFragment_to_subjectDetailedFragment"
@@ -152,15 +159,56 @@
     </fragment>
     <fragment
         android:id="@+id/testFragment"
-        android:name="org.threehundredtutor.presentation.test.TestFragment"
-        android:label="TestFragment" >
+        android:name="org.threehundredtutor.presentation.subjetc_start_test.SubjectStartTestFragment"
+        android:label="TestFragment">
         <action
             android:id="@+id/action_testFragment_to_solutionFragment"
             app:destination="@id/solutionFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/subjectWorkspaceFragment"
+        android:name="org.threehundredtutor.presentation.subject_workspace.SubjectWorkspaceFragment"
+        android:label="SubjectWorkspaceFragment">
+        <action
+            android:id="@+id/action_subjectWorkspaceFragment_to_htmlPageFragment"
+            app:destination="@id/htmlPageFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_subjectWorkspaceFragment_to_subjectWorkspaceFragment"
+        app:destination="@id/subjectWorkspaceFragment"
+        app:enterAnim="@android:anim/fade_in"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+    <fragment
+        android:id="@+id/htmlPageFragment"
+        android:name="org.threehundredtutor.presentation.html_page.HtmlPageFragment"
+        android:label="HtmlPageFragment">
+        <action
+            android:id="@+id/action_htmlPageFragment_to_photoDetailsFragment"
+            app:destination="@id/photoDetailsFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_htmlPageFragment_to_solutionFragment"
+            app:destination="@id/solutionFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
+
             />
     </fragment>
+
 </navigation>

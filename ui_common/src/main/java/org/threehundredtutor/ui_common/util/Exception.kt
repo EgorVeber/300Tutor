@@ -1,6 +1,8 @@
 package org.threehundredtutor.ui_common.util
 
-open class ServerException : Exception()
+import java.io.IOException
+
+open class ServerException : IOException()
 
 class UnauthorizedUserException : ServerException()
 

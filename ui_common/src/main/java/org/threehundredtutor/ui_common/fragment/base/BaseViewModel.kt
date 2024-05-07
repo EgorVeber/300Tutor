@@ -1,9 +1,9 @@
 package org.threehundredtutor.ui_common.fragment.base
 
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import org.threehundredtutor.ui_common.flow.SingleSharedFlow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import org.threehundredtutor.ui_common.util.BadGatewayException
 import org.threehundredtutor.ui_common.util.BadRequestException
 import org.threehundredtutor.ui_common.util.ForbiddenServerException
@@ -16,9 +16,9 @@ import org.threehundredtutor.ui_common.util.UnknownServerException
 
 open class BaseViewModel : ViewModel() {
 
-    private val errorState = SingleSharedFlow<ErrorState>()
+    private val errorState = MutableStateFlow<ErrorState>(ErrorState.NoError)
 
-    fun getErrorState(): SharedFlow<ErrorState> = errorState.asSharedFlow()
+    fun getErrorState(): Flow<ErrorState> = errorState
 
     open fun handleError(throwable: Throwable, errorAction: (() -> Unit)? = null) {
         when (throwable) {
@@ -43,6 +43,10 @@ open class BaseViewModel : ViewModel() {
             }
         }
         errorAction?.invoke()
+    }
+
+    fun updateState() {
+        errorState.update { ErrorState.NoError }
     }
 
     sealed interface ErrorState {

@@ -80,14 +80,13 @@ abstract class BaseFragment(@LayoutRes layoutResourceId: Int) : Fragment(layoutR
                 showErrorToast(getString(UiCoreStrings.unknown_error_message))
             }
 
-            else -> {
-                showErrorToast(getString(UiCoreStrings.unknown_error_message))
-            }
+            is BaseViewModel.ErrorState.NoError -> {}
         }
     }
 
     private fun showErrorToast(toastText: String) {
         showMessage(toastText)
+        viewModel.updateState()
     }
 }
 

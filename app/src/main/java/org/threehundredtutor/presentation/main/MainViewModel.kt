@@ -60,7 +60,6 @@ class MainViewModel @Inject constructor(
     private fun loadListData() {
         viewModelScope.launchJob(tryBlock = {
             loadingState.tryEmit(true)
-
             val subjects = async {
                 getSubjectUseCase.invoke().map { subjectModel ->
                     subjectModel.toSubjectUiModel()
@@ -87,9 +86,11 @@ class MainViewModel @Inject constructor(
                     extraButtons = extraButtons.await()
                 )
             }
-        }, catchBlock = { throwable ->
+        }, catchBlock =
+        { throwable ->
             handleError(throwable)
-        }, finallyBlock = {
+        }, finallyBlock =
+        {
             loadingState.tryEmit(false)
         })
     }

@@ -117,4 +117,17 @@
     <string name="continue_action">Продолжить</string>
     <string name="question_count">Количество вопросов: "%1$s"</string>
     <string name="test_solutions">Решения теста</string>
+    <string name="system_not_found">Системе не удалось найти указанный путь</string>
+    <string name="photo_detailed">Детальный просмотр</string>
+
+    //SubjectWorkspace
+    <string name="no_materials_in_this_section">В разделе нет элементов. Вернитесь позднее.</string>
+    //HtmlPage
+    <string name="no_info_in_this_section">В разделе нет информации. Вернитесь позднее.</string>
+
+    //HtmlPage
+    <string name="html_page_start_text">Начать тестирование</string>
+    <string name="html_page_first_path">Только первая часть  "%1$s"</string>
+    <string name="html_page_second_path">Только вторая часть  "%1$s"</string>
+    <string name="html_page_full_text">Полный тест  "%1$s"</string>
 </resources>

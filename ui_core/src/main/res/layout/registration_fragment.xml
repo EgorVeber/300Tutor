@@ -71,7 +71,7 @@
                     android:id="@+id/etPhohe"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberPassword"
+                    android:inputType="number"
                     android:textColor="?attr/textPrimary"
                     android:theme="@style/EditTextCursorColor" />
             </com.google.android.material.textfield.TextInputLayout>

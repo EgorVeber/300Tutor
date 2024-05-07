@@ -4,6 +4,7 @@ import org.threehundredtutor.domain.solution.models.BaseApiModel
 import org.threehundredtutor.domain.solution.models.QuestionAnswerWithResultBaseApiModel
 import org.threehundredtutor.domain.solution.models.QuestionAnswersWithResultBaseApiModel
 import org.threehundredtutor.domain.solution.models.TestSolutionGeneralModel
+import org.threehundredtutor.domain.solution.models.directory.StartTestDirectoryParamsModel
 import org.threehundredtutor.domain.solution.models.params_model.SaveQuestionPointsValidationParamsModel
 import org.threehundredtutor.domain.solution.models.points.SolutionPointsModel
 
@@ -30,4 +31,5 @@ interface SolutionRepository {
 
     suspend fun getSolutionDetailed(solutionId: String): TestSolutionGeneralModel
     suspend fun changeLikeQuestion(questionId: String, hasLike: Boolean): BaseApiModel
+    suspend fun startByDirectory(startTestDirectoryParamsModel: StartTestDirectoryParamsModel): TestSolutionGeneralModel
 }

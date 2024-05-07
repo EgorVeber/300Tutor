@@ -10,7 +10,7 @@ class TestSolutionQueryResponse(
     @SerializedName("hasCuratorValidation")
     val hasCuratorValidation: Boolean?,
     @SerializedName("canCheckSingleQuestion")
-    val canCheckSingleQuestion: Boolean?,
+    val canCheckSingleQuestion: Boolean?,//Можно ли проверять каждый вопрос в тесте на правильность
     @SerializedName("studentGroupId")
     val studentGroupId: String?,
     @SerializedName("studentId")
