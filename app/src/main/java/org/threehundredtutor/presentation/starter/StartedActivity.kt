@@ -44,9 +44,8 @@ class StartedActivity : AppCompatActivity(), BottomNavigationVisibility {
                     navController.navigate(R.id.solutionHistoryFragment)
                 }
 
-                R.id.accountFragment -> {
-                    // TODO TutorAndroid-41 Добавить меню фрагмент а аккаунт фрагмекнт внутрь
-                    navController.navigate(R.id.accountFragment)
+                R.id.mainMenuFragment -> {
+                    navController.navigate(R.id.mainMenuFragment)
                 }
             }
             true

@@ -20,7 +20,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/ic_back"
             app:navigationIconTint="?attr/secondary"
-            app:title="@string/main_menu_profile_title"
+            app:title="@string/account_title"
             app:titleCentered="true"
             app:titleTextAppearance="@style/TitleToolbarTextAppearance"
             app:titleTextColor="?attr/secondary" />

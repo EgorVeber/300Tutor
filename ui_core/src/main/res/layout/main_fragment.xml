@@ -16,7 +16,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/contentBackground"
             app:navigationIconTint="?attr/secondary"
-            app:title="@string/main_menu_home_title"
+            app:title="@string/bottom_menu_home_title"
             app:titleCentered="true"
             app:titleTextAppearance="@style/TitleToolbarTextAppearance"
             app:titleTextColor="?attr/secondary" />

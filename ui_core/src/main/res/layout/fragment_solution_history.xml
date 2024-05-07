@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/main_menu_test_solution_title"
+        app:title="@string/bottom_menu_test_solution_title"
         app:titleCentered="true"
         app:titleTextAppearance="@style/TitleToolbarTextAppearance"
         app:titleTextColor="?attr/secondary" />
