@@ -1,8 +1,23 @@
 <resources>
+    // BottomMenuItems
+    <string name="bottom_menu_home_title">Главная</string>
+    <string name="bottom_menu_test_solution_title">Решения тестов</string>
+    <string name="bottom_menu_menu_title">Меню</string>
+
+
+    // MainMenuItems
+    <string name="main_menu_schedule">Расписания</string>
+    <string name="main_menu_notes">Конспекты</string>
+    <string name="main_menu_groups">Группы</string>
+    <string name="main_menu_favorites_question">Избранные вопросы</string>
+    <string name="main_menu_completed_tests">Завершённые тесты</string>
+    <string name="main_menu_not_completed_tests">Незавёршенные тесты</string>
+    <string name="main_menu_notification">Уведомления</string>
+
+    //Аккаунт
+    <string name="account_title">Аккаунт</string>
+
     <string name="app_name">300Tutor</string>
-    <string name="main_menu_home_title">Главная</string>
-    <string name="main_menu_profile_title">Аккаунт</string>
-    <string name="main_menu_test_solution_title">Решения тестов</string>
     <string name="register_button">Register</string>
     <string name="register_text">Регистрация</string>
     <string name="email_text">E-mail</string>

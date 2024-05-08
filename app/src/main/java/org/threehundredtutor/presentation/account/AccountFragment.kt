@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import org.threehundredtutor.R
 import org.threehundredtutor.core.UiCoreLayout
 import org.threehundredtutor.core.UiCoreStrings
@@ -28,21 +29,19 @@ class AccountFragment : BaseFragment(UiCoreLayout.account_fragment) {
         accountComponent.viewModelMapFactory()
     }
 
-    private lateinit var binding: AccountFragmentBinding
+    override val bottomMenuVisible: Boolean = false
 
-    override var customHandlerBackStack = true
+    private lateinit var binding: AccountFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = AccountFragmentBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onBackPressed() {
-        navigate(R.id.action_accountFragment_to_homeFragment)
-    }
 
     override fun onInitView(savedInstanceState: Bundle?) {
         binding.logout.setOnClickListener { showLogoutDialog() }
+        binding.mainToolBar.setNavigationOnClickListener { findNavController().popBackStack() }
         binding.telegramBotContainer.setOnClickListener { showTelegramDialog() }
         binding.siteContainer.setOnClickListener { showSiteDialog() }
     }

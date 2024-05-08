@@ -4,16 +4,16 @@
     <item
         android:id="@+id/mainFragment"
         android:icon="@drawable/ic_home"
-        android:title="@string/main_menu_home_title"
+        android:title="@string/bottom_menu_home_title"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/solutionHistoryFragment"
-        android:icon="@drawable/ic_quality_education"
-        android:title="@string/main_menu_test_solution_title"
+        android:icon="@drawable/ic_notes"
+        android:title="@string/bottom_menu_test_solution_title"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/accountFragment"
-        android:icon="@drawable/ic_persone"
-        android:title="@string/main_menu_profile_title"
+        android:id="@+id/mainMenuFragment"
+        android:icon="@drawable/ic_menu"
+        android:title="@string/bottom_menu_menu_title"
         app:showAsAction="ifRoom" />
 </menu>
