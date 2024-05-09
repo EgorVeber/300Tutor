@@ -24,10 +24,10 @@ interface MainComponent {
         fun getResourceProvider(resourceProvider: ResourceProvider): Builder
 
         @BindsInstance
-        fun getAccountManager(accountLocalDataSource: AccountLocalDataSource): Builder
+        fun getConfigRepository(configRepository: ConfigRepository): Builder
 
         @BindsInstance
-        fun getConfigRepository(configRepository: ConfigRepository): Builder
+        fun getAccountLocalDataSource(accountLocalDataSource: AccountLocalDataSource): Builder
 
         fun getMainComponentBuilder(): MainComponent
     }
@@ -38,8 +38,8 @@ interface MainComponent {
                 .builder()
                 .getServiceGeneratorProvider(DiSetHelper.appComponent.getServiceGeneratorProvider())
                 .getResourceProvider(DiSetHelper.appComponent.getResourceProvider())
-                .getAccountManager(DiSetHelper.appComponent.getAccountLocalDataSource())
                 .getConfigRepository(DiSetHelper.appComponent.getConfigRepository())
+                .getAccountLocalDataSource(DiSetHelper.appComponent.getAccountLocalDataSource())
                 .getMainComponentBuilder()
     }
 }

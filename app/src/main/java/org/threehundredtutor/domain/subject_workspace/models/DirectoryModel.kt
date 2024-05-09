@@ -1,7 +1,6 @@
 package org.threehundredtutor.domain.subject_workspace.models
 
 import org.threehundredtutor.domain.solution.models.test_model.TestQuestionType
-import org.threehundredtutor.ui_common.EMPTY_STRING
 
 class DirectoryModel(
     val directoryId: String,

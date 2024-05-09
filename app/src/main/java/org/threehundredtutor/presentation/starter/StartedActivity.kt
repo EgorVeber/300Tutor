@@ -11,19 +11,19 @@ import androidx.transition.TransitionManager.beginDelayedTransition
 import androidx.transition.TransitionSet
 import org.threehundredtutor.R
 import org.threehundredtutor.databinding.StartedActivityBinding
-import org.threehundredtutor.di.starter.StartedComponent
+import org.threehundredtutor.di.activity.ActivityComponent
 import org.threehundredtutor.ui_common.fragment.BottomNavigationVisibility
 
 class StartedActivity : AppCompatActivity(), BottomNavigationVisibility {
 
     private lateinit var binding: StartedActivityBinding
 
-    private val startedComponent by lazy {
-        StartedComponent.createStartedComponent()
+    private val activityComponent by lazy {
+        ActivityComponent.createActivityComponent()
     }
 
-    val viewModel by viewModels<StarterViewModel> {
-        startedComponent.viewModelMapFactory()
+    val viewModel by viewModels<ActivityViewModel> {
+        activityComponent.viewModelMapFactory()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

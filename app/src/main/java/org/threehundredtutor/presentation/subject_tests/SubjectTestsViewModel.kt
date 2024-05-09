@@ -9,6 +9,7 @@ import org.threehundredtutor.domain.subject_tests.models.SearchTestInfoModel
 import org.threehundredtutor.domain.subject_tests.models.SearchTestModel
 import org.threehundredtutor.domain.subject_tests.usecase.SearchTestUseCase
 import org.threehundredtutor.presentation.main.mapper.toSubjectTestUiModel
+import org.threehundredtutor.presentation.subject_tests.ui_models.SubjectEmptyTestsUiItem
 import org.threehundredtutor.presentation.subject_tests.ui_models.SubjectTestUiModel
 import org.threehundredtutor.presentation.subject_tests.ui_models.SubjectTestsUiItem
 import org.threehundredtutor.ui_common.coroutines.launchJob
@@ -37,7 +38,7 @@ class SubjectTestsViewModel @Inject constructor(
                 searchTestModel.searchTestInfoModelList.map { searchTestInfoModel: SearchTestInfoModel ->
                     searchTestInfoModel.toSubjectTestUiModel(subjectTestId)
                 }
-            uiItemsState.update { uiItems }
+            uiItemsState.update { uiItems.ifEmpty { listOf(SubjectEmptyTestsUiItem) } }
         }, catchBlock = { throwable ->
             handleError(throwable)
         }, finallyBlock = {

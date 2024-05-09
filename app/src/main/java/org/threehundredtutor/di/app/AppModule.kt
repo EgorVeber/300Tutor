@@ -6,10 +6,10 @@ import dagger.Module
 import dagger.Provides
 import org.threehundredtutor.common.ResourceProvider
 import org.threehundredtutor.common.ResourceProviderImpl
-import org.threehundredtutor.data.common.AccountManagerRepositoryImpl
-import org.threehundredtutor.data.common.data_source.AccountLocalDataSource
+import org.threehundredtutor.data.common.AccountAuthorizationInfoRepositoryImpl
 import org.threehundredtutor.data.common.data_source.ConfigLocalDataSource
-import org.threehundredtutor.domain.common.AccountManagerRepository
+import org.threehundredtutor.data.common.data_source.AccountLocalDataSource
+import org.threehundredtutor.domain.common.AccountAuthorizationInfoRepository
 import javax.inject.Singleton
 
 @Module
@@ -20,7 +20,7 @@ abstract class AppModule {
 
     @Binds
     @Singleton
-    abstract fun bindsAccountManagerRepository(accountManagerRepositoryImpl: AccountManagerRepositoryImpl): AccountManagerRepository
+    abstract fun bindsAccountAuthorizationInfoRepository(accountAuthorizationInfoRepositoryImpl: AccountAuthorizationInfoRepositoryImpl): AccountAuthorizationInfoRepository
 
     companion object {
         @Provides

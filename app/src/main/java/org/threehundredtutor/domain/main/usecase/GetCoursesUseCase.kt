@@ -7,6 +7,6 @@ import javax.inject.Inject
 class GetCoursesUseCase @Inject constructor(
     private val mainRepository: MainRepository
 ) {
-    suspend operator fun invoke(): List<GroupWithCourseProgressModel> =
-        mainRepository.getCourses().list
+    suspend operator fun invoke(studentId: String): List<GroupWithCourseProgressModel> =
+        mainRepository.getCourses(studentId).list
 }

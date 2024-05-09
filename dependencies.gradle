@@ -24,4 +24,5 @@ ext.versions = [
         orchestrator       : '1.4.2',
         hamcrest           : '2.2',
         junitktx           : '1.1.5',
+        securitycrypto     : '1.0.0',
 ]

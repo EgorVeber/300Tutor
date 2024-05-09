@@ -7,6 +7,6 @@ import javax.inject.Inject
 class CreateLoginLinkResultUseCase @Inject constructor(
     private val accountRepository: AccountRepository
 ) {
-    suspend operator fun invoke(): CreateLoginLinkResultModel =
-        accountRepository.createAuthentication()
+    suspend operator fun invoke(siteUrl:String): CreateLoginLinkResultModel =
+        accountRepository.createAuthentication(siteUrl)
 }
