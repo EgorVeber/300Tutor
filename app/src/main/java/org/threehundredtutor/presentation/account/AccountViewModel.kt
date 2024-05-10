@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 class AccountViewModel @Inject constructor(
     private val getAccountUseCase: GetAccountUseCase,
-    private val getConfigUseCase: GetConfigUseCase,
+    getConfigUseCase: GetConfigUseCase,
     private val logoutUseCase: LogoutUseCase,
     private val createLoginLinkResultUseCase: CreateLoginLinkResultUseCase,
 ) : BaseViewModel() {
@@ -28,6 +28,8 @@ class AccountViewModel @Inject constructor(
 
     private val accountInfoState = MutableStateFlow(AccountModel.EMPTY)
     private val accountErrorState = MutableStateFlow(false)
+
+    private val localConfig = getConfigUseCase()
 
     init {
         getAccountInfo()
@@ -41,7 +43,7 @@ class AccountViewModel @Inject constructor(
     private fun getAccountInfo() {
         viewModelScope.launchJob(tryBlock = {
             loadingState.update { true }
-            val accountInfo = getAccountUseCase()
+            val accountInfo = getAccountUseCase(true)
             if (accountInfo.isEmpty()) throw UnknownServerException()
             accountInfoState.update { accountInfo }
         }, catchBlock = { throwable ->
@@ -67,7 +69,7 @@ class AccountViewModel @Inject constructor(
     fun onTelegramClicked() {
         accountUiEventState.tryEmit(
             AccountUiEvent.OpenTelegram(
-                telegramBotUrl = getConfigUseCase().telegramBotUrl
+                telegramBotUrl = localConfig.telegramBotUrl
             )
         )
     }
@@ -75,12 +77,12 @@ class AccountViewModel @Inject constructor(
     fun onSiteClicked() {
         viewModelScope.launchJob(tryBlock = {
             loadingState.update { true }
-            val result = createLoginLinkResultUseCase.invoke()
+            val result = createLoginLinkResultUseCase.invoke(localConfig.siteUrl)
             if (result.isSucceeded) {
                 accountUiEventState.emit(
                     AccountUiEvent.OpenSite(
                         urlAuthentication = result.urlAuthentication,
-                        siteUrl = getConfigUseCase().siteUrl
+                        siteUrl = localConfig.siteUrl
                     )
                 )
             } else {

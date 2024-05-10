@@ -139,7 +139,8 @@
     <string name="no_materials_in_this_section">В разделе нет элементов. Вернитесь позднее.</string>
     //HtmlPage
     <string name="no_info_in_this_section">В разделе нет информации. Вернитесь позднее.</string>
-
+    //Test
+    <string name="no_test_in_this_section">В разделе нет тестов. Вернитесь позднее.</string>
     //HtmlPage
     <string name="html_page_start_text">Начать тестирование</string>
     <string name="html_page_first_path">Только первая часть  "%1$s"</string>

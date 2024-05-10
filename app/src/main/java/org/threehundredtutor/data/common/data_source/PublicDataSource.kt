@@ -10,14 +10,14 @@ class PublicDataSource @Inject constructor(
 ) {
     fun setTheme(key: Int) {
         context.getSharedPreferences(
-            PREFS_SETTINGS_FILE,
+            PUBLIC_PREFS_FILE,
             Context.MODE_PRIVATE
         ).edit().putInt(PREFS_THEME_KEY, key).apply()
     }
 
     fun getThemePrefs(): Int {
         val themeKey = context.getSharedPreferences(
-            PREFS_SETTINGS_FILE,
+            PUBLIC_PREFS_FILE,
             AppCompatActivity.MODE_PRIVATE
         ).getInt(PREFS_THEME_KEY, KEY_THEME_DEFAULT)
         return when (themeKey) {
@@ -27,18 +27,18 @@ class PublicDataSource @Inject constructor(
     }
 
     fun getFirstStartApp(): Boolean = context.getSharedPreferences(
-        PREFS_SETTINGS_FILE,
+        PUBLIC_PREFS_FILE,
         Context.MODE_PRIVATE
     ).getBoolean(PREFS_FIRST_START_KEY, true)
 
     fun setFirstStartApp() = context.getSharedPreferences(
-        PREFS_SETTINGS_FILE,
+        PUBLIC_PREFS_FILE,
         Context.MODE_PRIVATE
     ).edit().putBoolean(PREFS_FIRST_START_KEY, false).apply()
 
     companion object {
+        private const val PUBLIC_PREFS_FILE = "PUBLIC_PREFS_FILE"
         private const val PREFS_FIRST_START_KEY = "PREFS_FIRST_START_KEY"
-        private const val PREFS_SETTINGS_FILE = "PREFS_SETTINGS_FILE"
         private const val PREFS_THEME_KEY = "PREFS_THEME_KEY"
         private const val KEY_THEME_DEFAULT = 1
     }

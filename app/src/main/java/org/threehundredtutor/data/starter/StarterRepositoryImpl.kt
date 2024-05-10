@@ -11,9 +11,4 @@ class StarterRepositoryImpl @Inject constructor(
     override fun setFirstStartApp() {
         publicDataSource.setFirstStartApp()
     }
-
-    override fun getThemePrefs(): Int = publicDataSource.getThemePrefs()
-    override fun setTheme(themeKey: Int) {
-        publicDataSource.setTheme(themeKey)
-    }
 }

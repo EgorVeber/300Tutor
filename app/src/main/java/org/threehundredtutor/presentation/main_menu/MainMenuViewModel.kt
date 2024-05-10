@@ -13,7 +13,6 @@ import org.threehundredtutor.ui_common.fragment.base.BaseViewModel
 import javax.inject.Inject
 
 class MainMenuViewModel @Inject constructor(
-    //getAccountInfoUseCase: GetAccountInfoUseCase // Берем из кеша
     getAccountUseCase: GetAccountUseCase
 ) : BaseViewModel() {
 
@@ -23,7 +22,7 @@ class MainMenuViewModel @Inject constructor(
     init {
         buildMainMenuItems()
         viewModelScope.launchJob(tryBlock = {
-            accountState.value = getAccountUseCase.invoke()
+            accountState.value = getAccountUseCase.invoke(false)
         }, catchBlock = {
             handleError(it)
         })

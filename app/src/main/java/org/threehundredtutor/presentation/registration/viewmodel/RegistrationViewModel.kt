@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import org.threehundredtutor.domain.common.SetAccountInfoUseCase
+import org.threehundredtutor.domain.common.SetAccountAuthorizationInfUseCase
 import org.threehundredtutor.domain.registration.models.RegistrationAccountAndSignInModel
 import org.threehundredtutor.domain.registration.models.RegistrationStudentAndSignInModel
 import org.threehundredtutor.domain.registration.usecases.RegistrationAccountUseCase
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class RegistrationViewModel @Inject constructor(
     private val registrationAccountUseCase: RegistrationAccountUseCase,
     private val registrationStudentUseCase: RegistrationStudentUseCase,
-    private val setAccountInfoUseCase: SetAccountInfoUseCase,
+    private val setAccountAuthorizationInfUseCase: SetAccountAuthorizationInfUseCase,
 ) : BaseViewModel() {
 
     private val registrationAccountState =
@@ -55,13 +55,13 @@ class RegistrationViewModel @Inject constructor(
             )
             val userId = result.registrationModel.registeredUser.id
             if (result.registrationModel.succeded && result.loginModel.succeeded) {
-                setAccountInfoUseCase(email, password, userId)
+                setAccountAuthorizationInfUseCase(email, password)
                 registrationAccountState.emit(result)
             } else {
                 if (result.registrationModel.errorMessage.isNotEmpty()) {
                     resultNotSuccessFlow.tryEmit(result.registrationModel.errorMessage)
                 } else {
-                    setAccountInfoUseCase(email, password, userId)
+                    setAccountAuthorizationInfUseCase(email, password)
                     resultNotSuccessFlow.tryEmit(result.loginModel.errorMessage)
                 }
             }
@@ -88,7 +88,7 @@ class RegistrationViewModel @Inject constructor(
                 password = password
             )
             if (result.succeeded) {
-                setAccountInfoUseCase(email, password, result.studentId)
+                setAccountAuthorizationInfUseCase(email, password)
                 registrationStudentState.emit(result)
             } else {
                 resultNotSuccessFlow.tryEmit(result.message)

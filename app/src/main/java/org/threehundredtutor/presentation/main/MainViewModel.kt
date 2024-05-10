@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.threehundredtutor.common.ResourceProvider
 import org.threehundredtutor.core.UiCoreStrings
+import org.threehundredtutor.domain.account.usecase.GetAccountUseCase
 import org.threehundredtutor.domain.common.GetConfigUseCase
 import org.threehundredtutor.domain.main.models.ExtraButtonInfoModel
 import org.threehundredtutor.domain.main.models.GroupWithCourseProgressModel
@@ -42,6 +43,7 @@ class MainViewModel @Inject constructor(
     private val resourceProvider: ResourceProvider,
     private val enterGroupUseCase: EnterGroupUseCase,
     private val getExtraButtonsUseCase: GetExtraButtonsUseCase,
+    private val getAccountUseCase: GetAccountUseCase,
 ) : BaseViewModel() {
 
     private val uiItemsState = MutableStateFlow<List<MainUiItem>>(listOf())
@@ -66,9 +68,13 @@ class MainViewModel @Inject constructor(
                 }
             }
 
+            val studentId = async {
+                getAccountUseCase(false).userId
+            }
+
             val courses =
                 async {
-                    getCoursesUseCase().map { progressModel: GroupWithCourseProgressModel ->
+                    getCoursesUseCase(studentId.await()).map { progressModel: GroupWithCourseProgressModel ->
                         if (progressModel.useCourse) {
                             progressModel.toCourseProgressUiModel()
                         } else {

@@ -4,12 +4,10 @@ import dagger.BindsInstance
 import dagger.Component
 import org.threehundredtutor.common.ResourceProvider
 import org.threehundredtutor.core.DiSetHelper
-import org.threehundredtutor.data.common.data_source.AccountLocalDataSource
 import org.threehundredtutor.data.common.data_source.ConfigLocalDataSource
+import org.threehundredtutor.data.common.data_source.AccountLocalDataSource
 import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
 import org.threehundredtutor.di.ViewModelMapFactory
-import org.threehundredtutor.di.authorization.AuthorizationComponent
-import org.threehundredtutor.domain.common.AccountManagerRepository
 
 @Component(modules = [MainMenuModule::class])
 interface MainMenuComponent {

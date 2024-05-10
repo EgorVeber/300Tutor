@@ -1,6 +1,5 @@
 package org.threehundredtutor.data.registration
 
-
 import org.threehundredtutor.data.registration.mappers.toAccountRegisterAndSignInResponseMapper
 import org.threehundredtutor.data.registration.mappers.toRegistrationStudentAndSignInModel
 import org.threehundredtutor.data.registration.models.RegisteRequest

@@ -4,12 +4,10 @@ import dagger.BindsInstance
 import dagger.Component
 import org.threehundredtutor.common.ResourceProvider
 import org.threehundredtutor.core.DiSetHelper
-import org.threehundredtutor.data.common.data_source.AccountLocalDataSource
-import org.threehundredtutor.data.common.data_source.ConfigLocalDataSource
 import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
 import org.threehundredtutor.di.ScreenScope
 import org.threehundredtutor.di.ViewModelMapFactory
-import org.threehundredtutor.domain.common.AccountManagerRepository
+import org.threehundredtutor.domain.common.AccountAuthorizationInfoRepository
 
 /**
  * Отдельная компонента, не SubComponent, свой модуль и со своей scope*
@@ -30,13 +28,7 @@ interface AuthorizationComponent {
         fun getServiceGeneratorProvider(serviceGeneratorProvider: ServiceGeneratorProvider): Builder
 
         @BindsInstance
-        fun getAccountManager(accountLocalDataSource: AccountLocalDataSource): Builder
-
-        @BindsInstance
-        fun getAccountManagerRepository(accountManagerRepository: AccountManagerRepository): Builder
-
-        @BindsInstance
-        fun getConfigLocalDataSource(configLocalDataSource: ConfigLocalDataSource): Builder
+        fun getAccountAuthorizationInfoRepository(accountAuthorizationInfoRepository: AccountAuthorizationInfoRepository): Builder
 
         fun getAuthorizationComponentBuilder(): AuthorizationComponent
     }
@@ -46,9 +38,7 @@ interface AuthorizationComponent {
             DaggerAuthorizationComponent.builder()
                 .getResourceProvider(DiSetHelper.appComponent.getResourceProvider())
                 .getServiceGeneratorProvider(DiSetHelper.appComponent.getServiceGeneratorProvider())
-                .getAccountManager(DiSetHelper.appComponent.getAccountLocalDataSource())
-                .getAccountManagerRepository(DiSetHelper.appComponent.getAccountManagerRepository())
-                .getConfigLocalDataSource(DiSetHelper.appComponent.getConfigLocalDataSource())
+                .getAccountAuthorizationInfoRepository(DiSetHelper.appComponent.getAccountAuthorizationInfoRepository())
                 .getAuthorizationComponentBuilder()
     }
 }

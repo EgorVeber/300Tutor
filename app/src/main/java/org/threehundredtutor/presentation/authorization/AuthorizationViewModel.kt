@@ -5,11 +5,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
 import org.threehundredtutor.data.common.network.ErrorType
-import org.threehundredtutor.domain.account.usecase.GetAccountUseCase
-import org.threehundredtutor.domain.authorization.LoginDateModel
 import org.threehundredtutor.domain.authorization.LoginModel
+import org.threehundredtutor.domain.authorization.LoginParamsModel
 import org.threehundredtutor.domain.authorization.LoginUseCase
-import org.threehundredtutor.domain.common.SetAccountInfoUseCase
+import org.threehundredtutor.domain.common.SetAccountAuthorizationInfUseCase
 import org.threehundredtutor.ui_common.coroutines.launchJob
 import org.threehundredtutor.ui_common.flow.SingleSharedFlow
 import org.threehundredtutor.ui_common.fragment.base.BaseViewModel
@@ -17,8 +16,7 @@ import javax.inject.Inject
 
 class AuthorizationViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-    private val setAccountInfoUseCase: SetAccountInfoUseCase,
-    private val getAccountUseCase: GetAccountUseCase,
+    private val setAccountAuthorizationInfUseCase: SetAccountAuthorizationInfUseCase,
 ) : BaseViewModel() {
 
     private val openScreenEventState = SingleSharedFlow<NavigateScreenState>()
@@ -35,13 +33,17 @@ class AuthorizationViewModel @Inject constructor(
         viewModelScope.launchJob(tryBlock = {
             loadingState.update { true }
             val emailOrPhone = if (inputTypeState.value is InputTypeState.Phone) phone else email
-            val loginModel = loginUseCase(LoginDateModel(password, false, emailOrPhone))
+            val loginModel = loginUseCase(
+                LoginParamsModel(
+                    password = password,
+                    rememberMe = false,
+                    emailOrPhoneNumber = emailOrPhone
+                )
+            )
             if (loginModel.succeeded) {
-                val accountInfo = getAccountUseCase()
-                setAccountInfoUseCase.invoke(
+                setAccountAuthorizationInfUseCase.invoke(
                     login = emailOrPhone,
                     password = password,
-                    userId = accountInfo.userId
                 )
                 openScreenEventState.emit(NavigateScreenState.NavigateHomeScreen)
             } else extractError(loginModel)

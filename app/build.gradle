@@ -10,7 +10,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        minSdk 21
+        minSdk 23
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -117,7 +117,7 @@ dependencies {
 
     implementation "ir.mahozad.android:pie-chart:$versions.piechart"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$versions.swiperefreshlayout"
-
+    implementation "androidx.security:security-crypto:$versions.securitycrypto"
     implementation project(":ui_common")
     implementation project(":ui_core")
 }
