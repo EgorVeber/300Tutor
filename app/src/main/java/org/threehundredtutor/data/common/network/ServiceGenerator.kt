@@ -8,8 +8,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.threehundredtutor.BuildConfig
 import org.threehundredtutor.data.common.data_source.ConfigLocalDataSource
 import org.threehundredtutor.data.common.data_source.AccountLocalDataSource
-import org.threehundredtutor.data.common.network.interceptor.AddCookiesInterceptor
-import org.threehundredtutor.data.common.network.interceptor.GetCookiesInterceptor
 import org.threehundredtutor.data.common.network.interceptor.ServerErrorInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -19,7 +17,6 @@ import javax.inject.Inject
 import kotlin.reflect.KClass
 
 class ServiceGenerator @Inject constructor(
-    accountLocalDataSource: AccountLocalDataSource,
     configLocalDataSource: ConfigLocalDataSource
 ) : ServiceGeneratorProvider {
 
@@ -37,8 +34,6 @@ class ServiceGenerator @Inject constructor(
             .readTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
             .addInterceptor(ServerErrorInterceptor())
-            .addInterceptor(GetCookiesInterceptor(accountLocalDataSource))
-            .addInterceptor(AddCookiesInterceptor(accountLocalDataSource))
 
         val okHttpClient = builder.build()
 

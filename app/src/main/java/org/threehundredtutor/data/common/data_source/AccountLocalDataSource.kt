@@ -63,12 +63,6 @@ class AccountLocalDataSource @Inject constructor(
         }
     }
 
-    fun getCookie(): Set<String> =
-        sharedPreferences.getStringSet(PREFS_COOKIE_KEY, setOf()) ?: emptySet()
-
-    fun setCookie(cookieSet: Set<String>) =
-        sharedPreferences.edit().putStringSet(PREFS_COOKIE_KEY, cookieSet).apply()
-
     fun clear() {
         context.getSharedPreferences(PRIVATE_PREFS_FILE, Context.MODE_PRIVATE).edit().clear()
             .apply()
@@ -87,6 +81,5 @@ class AccountLocalDataSource @Inject constructor(
         private const val PREFS_ACCOUNT_LOGIN_KEY = "PREFS_ACCOUNT_LOGIN_KEY"
         private const val PREFS_ACCOUNT_PASSWORD_KEY = "PREFS_ACCOUNT_PASSWORD_KEY"
         private const val PREFS_ACCOUNT_MODEL_KEY = "PREFS_ACCOUNT_MODEL_KEY"
-        private const val PREFS_COOKIE_KEY = "PREFS_COOKIE_KEY"
     }
 }

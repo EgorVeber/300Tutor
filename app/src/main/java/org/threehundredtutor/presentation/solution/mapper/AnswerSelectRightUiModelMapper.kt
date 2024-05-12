@@ -5,8 +5,8 @@ import org.threehundredtutor.presentation.solution.ui_models.select_right_answer
 
 fun AnswerSelectRightModel.toAnswerSelectRightUiModel(
     questionId: String,
-    enabled: Boolean = true,
-    checked: Boolean = false
+    enabled: Boolean,
+    checked: Boolean
 ): AnswerSelectRightUiModel =
     AnswerSelectRightUiModel(
         rightAnswer = isRightAnswer,

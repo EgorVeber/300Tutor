@@ -126,20 +126,10 @@
         android:insetRight="0dp"
         android:insetBottom="0dp"
         android:textSize="@dimen/text_16"
+        android:layout_marginBottom="@dimen/margin_8"
         app:cornerRadius="@dimen/radius_8"
         app:iconGravity="textStart"
         app:iconSize="@dimen/size_24"
         tools:icon="@drawable/ic_allmost_answer"
         tools:text="@string/allmost_the_right_answer" />
-
-    <TextView
-        android:id="@+id/pointQuestionTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/margin_8"
-        android:text="@string/points_question"
-        android:textSize="@dimen/text_18"
-        android:visibility="gone"
-        tools:visibility="visible" />
 </LinearLayout>

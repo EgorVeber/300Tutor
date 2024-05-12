@@ -5,13 +5,12 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import org.threehundredtutor.core.UiCoreAttr
-import org.threehundredtutor.core.UiCoreDrawable
 import org.threehundredtutor.presentation.solution.solution_factory.GravityAlign.Companion.getGravity
 import org.threehundredtutor.presentation.solution.ui_models.SolutionUiItem
 import org.threehundredtutor.presentation.solution.ui_models.answer_erros.AnswerWithErrorsResultUiItem
 import org.threehundredtutor.presentation.solution.ui_models.answer_erros.AnswerWithErrorsUiModel
-import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerResultUiItem
-import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerUiItem
+import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerYourAnswerUiItem
+import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerInputUiItem
 import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerValidationUiItem
 import org.threehundredtutor.presentation.solution.ui_models.item_common.DividerUiItem
 import org.threehundredtutor.presentation.solution.ui_models.item_common.FooterUiItem
@@ -28,7 +27,6 @@ import org.threehundredtutor.presentation.solution.ui_models.select_right_answer
 import org.threehundredtutor.presentation.solution.ui_models.select_right_answer.SelectRightAnswerCheckButtonUiItem
 import org.threehundredtutor.presentation.solution.ui_models.select_right_answer.SelectRightAnswerTitleUiItem
 import org.threehundredtutor.ui_common.util.fromHtml
-import org.threehundredtutor.ui_common.view_components.applyBackground
 import org.threehundredtutor.ui_common.view_components.hideKeyboard
 import org.threehundredtutor.ui_common.view_components.loadImageMedium
 import org.threehundredtutor.ui_common.view_components.setDebouncedCheckedChangeListener
@@ -156,35 +154,29 @@ object SolutionAdapters {
                 selectRightAnswerClickListener.invoke(item.questionId, item.answer, checked)
             }
             bind { payloadList ->
-                if (payloadList.isEmpty()) {
-                    // TODO попытаться опимизировать есть полдлаги После добавления теста. TutorAndroid-31
-                    binding.checkbox.text = item.answer
-                    binding.checkbox.isChecked = item.checked
-                    binding.checkbox.isEnabled = item.enabled
-                    binding.iconContainer.isVisible = !item.enabled
-                    if (item.enabled) return@bind
-                    if (item.rightAnswer) {
-                        binding.icon.setImageResource(UiCoreDrawable.ic_check)
-                        binding.iconContainer.applyBackground(UiCoreAttr.defaultGreen)
-                    } else {
-                        binding.icon.setImageResource(UiCoreDrawable.ic_incorrect_answer)
-                        binding.iconContainer.applyBackground(UiCoreAttr.warning)
+                when (payloadList.lastOrNull()) {
+                    is SolutionManager.Companion.AnswerSelectRightPayload.Checked -> {
+                        binding.checkbox.isChecked = item.checked
                     }
-                } else {
-                    binding.checkbox.text = item.answer
+
+                    is SolutionManager.Companion.AnswerSelectRightPayload.Enabled -> {
+                        bindAll()
+                    }
+
+                    else -> {
+                        bindAll()
+                    }
                 }
             }
         }
 
-    fun getSelectRightAnswerCheckButtonUiItemAdapter(selectRightAnswerCheckButtonClickListener: (String) -> Unit) =
+    fun getSelectRightAnswerCheckButtonUiItemAdapter(selectRightAnswerCheckButtonClickListener: (SelectRightAnswerCheckButtonUiItem) -> Unit) =
         adapterDelegateViewBinding<SelectRightAnswerCheckButtonUiItem, SolutionUiItem, SolutionCheckButtonItemBinding>(
             { layoutInflater, root ->
                 SolutionCheckButtonItemBinding.inflate(layoutInflater, root, false)
             }) {
             binding.checkButton.setOnClickListener {
-                selectRightAnswerCheckButtonClickListener.invoke(
-                    item.questionId
-                )
+                selectRightAnswerCheckButtonClickListener.invoke(item)
             }
         }
 
@@ -255,10 +247,10 @@ object SolutionAdapters {
 
     /** Адаптер для постоения интерфейса вопроса с типом Detailed.*/
     fun getDetailedAnswerUiItemAdapter(
-        detailedAnswerClickListener: (DetailedAnswerUiItem, String) -> Unit,
-        detailedAnswerTextChangedListener: (DetailedAnswerUiItem, String) -> Unit
+        detailedAnswerClickListener: (DetailedAnswerInputUiItem, String) -> Unit,
+        detailedAnswerTextChangedListener: (DetailedAnswerInputUiItem, String) -> Unit
     ) =
-        adapterDelegateViewBinding<DetailedAnswerUiItem, SolutionUiItem, SolutionDetailedAnswerItemBinding>(
+        adapterDelegateViewBinding<DetailedAnswerInputUiItem, SolutionUiItem, SolutionDetailedAnswerItemBinding>(
             { layoutInflater, root ->
                 SolutionDetailedAnswerItemBinding.inflate(
                     layoutInflater, root, false
@@ -284,7 +276,7 @@ object SolutionAdapters {
         }
 
     fun getDetailedAnswerResultUiItemAdapter() =
-        adapterDelegateViewBinding<DetailedAnswerResultUiItem, SolutionUiItem, SolutionDetailedAnswerResultItemBinding>(
+        adapterDelegateViewBinding<DetailedAnswerYourAnswerUiItem, SolutionUiItem, SolutionDetailedAnswerResultItemBinding>(
             { layoutInflater, root ->
                 SolutionDetailedAnswerResultItemBinding.inflate(layoutInflater, root, false)
             }) {
@@ -310,13 +302,10 @@ object SolutionAdapters {
             }
             binding.iconDelete.setOnClickListener { deleteValidationClickListener.invoke(item) }
             bind {
-                // binding.pointQuestionTv.text = item.pointsString
-                // binding.pointQuestionTv.isVisible = item.pointsString.isNotEmpty()
                 binding.totalPointEditText.setText(item.pointTotal)
                 binding.iconDelete.isVisible = item.isValidated
                 binding.resultButton.bindResultType(item.type)
                 binding.resultButton.isVisible = item.isValidated
-                binding.estimateButton.isClickable = !item.isValidated
                 binding.estimateButton.isVisible = !item.isValidated
                 binding.needToCheckButton.isVisible = !item.isValidated
                 binding.inputPointEditText.isEnabled = !item.isValidated

@@ -67,6 +67,8 @@ class SolutionRepositoryImpl @Inject constructor(
         }
     }
 
+
+    // TODO Сделать локальное сохранение ответов.
     override suspend fun checkAnswer(
         solutionId: String,
         questionId: String,

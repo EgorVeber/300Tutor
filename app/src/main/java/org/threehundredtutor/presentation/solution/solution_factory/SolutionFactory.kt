@@ -17,8 +17,8 @@ import org.threehundredtutor.presentation.solution.mapper.toAnswerWithErrorsUiMo
 import org.threehundredtutor.presentation.solution.mapper.toRightAnswerUiModel
 import org.threehundredtutor.presentation.solution.ui_models.SolutionUiItem
 import org.threehundredtutor.presentation.solution.ui_models.answer_erros.AnswerWithErrorsResultUiItem
-import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerResultUiItem
-import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerUiItem
+import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerYourAnswerUiItem
+import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerInputUiItem
 import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerValidationUiItem
 import org.threehundredtutor.presentation.solution.ui_models.item_common.DividerUiItem
 import org.threehundredtutor.presentation.solution.ui_models.item_common.FooterUiItem
@@ -295,7 +295,7 @@ class SolutionFactory @Inject constructor(
         val pointsValidationModel = answerModel.pointsValidationModel
         val isValidated = pointsValidationModel.isValidated
 
-        solutionUiItems.add(DetailedAnswerResultUiItem(answer))
+        solutionUiItems.add(DetailedAnswerYourAnswerUiItem(answer))
         solutionUiItems.addAll(explanationList)
 
         solutionUiItems.add(
@@ -339,7 +339,11 @@ class SolutionFactory @Inject constructor(
         solutionUiItems.add(SelectRightAnswerTitleUiItem(questionModel.selectRightAnswerOrAnswersModel.selectRightAnswerTitle))
         val listAnswer = questionModel.selectRightAnswerOrAnswersModel.answersList
         listAnswer.forEach { answerSelectRightModel ->
-            solutionUiItems.add(answerSelectRightModel.toAnswerSelectRightUiModel(questionModel.questionId))
+            solutionUiItems.add(answerSelectRightModel.toAnswerSelectRightUiModel(
+                checked = false,
+                enabled = true,
+                questionId = questionModel.questionId
+            ))
         }
         solutionUiItems.add(SelectRightAnswerCheckButtonUiItem(questionModel.questionId))
     }
@@ -365,7 +369,7 @@ class SolutionFactory @Inject constructor(
         val explanationList =
             createQuestionWithHtml(questionModel.answerExplanationMarkUp, staticUrl)
         solutionUiItems.add(
-            DetailedAnswerUiItem(
+            DetailedAnswerInputUiItem(
                 questionId = questionModel.questionId,
                 inputAnswer = EMPTY_STRING,
                 explanationList = explanationList,

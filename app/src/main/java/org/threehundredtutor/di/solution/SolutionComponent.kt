@@ -8,6 +8,7 @@ import org.threehundredtutor.data.common.ConfigRepository
 import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
 import org.threehundredtutor.di.ScreenScope
 import org.threehundredtutor.di.ViewModelMapFactory
+import org.threehundredtutor.presentation.solution.SolutionBundleModel
 import org.threehundredtutor.presentation.solution.solution_factory.SolutionFactory
 
 @Component(modules = [SolutionModule::class])
@@ -29,17 +30,21 @@ interface SolutionComponent {
         @BindsInstance
         fun getConfigRepository(configRepository: ConfigRepository): Builder
 
+        @BindsInstance
+        fun getSolutionBundleModel(solutionBundleModel: SolutionBundleModel): Builder
+
         fun getSolutionComponentBuilder(): SolutionComponent
     }
 
     companion object {
-        fun createSolutionComponent(): SolutionComponent =
+        fun createSolutionComponent(solutionBundleModel: SolutionBundleModel): SolutionComponent =
             DaggerSolutionComponent
                 .builder()
                 .getServiceGeneratorProvider(DiSetHelper.appComponent.getServiceGeneratorProvider())
                 .getTestFactory(SolutionFactory(DiSetHelper.appComponent.getResourceProvider()))
                 .getResourceProvider(DiSetHelper.appComponent.getResourceProvider())
                 .getConfigRepository(DiSetHelper.appComponent.getConfigRepository())
+                .getSolutionBundleModel(solutionBundleModel)
                 .getSolutionComponentBuilder()
     }
 }

@@ -1,13 +1,17 @@
 package org.threehundredtutor.presentation.solution.adapter
 
 import android.view.View
+import androidx.core.view.isVisible
 import com.google.android.material.button.MaterialButton
+import com.hannesdorfmann.adapterdelegates4.dsl.AdapterDelegateViewBindingViewHolder
 import org.threehundredtutor.core.UiCoreAttr
 import org.threehundredtutor.core.UiCoreDrawable
 import org.threehundredtutor.core.UiCoreStrings
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerValidationResultType
 import org.threehundredtutor.presentation.solution.solution_factory.DividerType
+import org.threehundredtutor.presentation.solution.ui_models.select_right_answer.AnswerSelectRightUiModel
 import org.threehundredtutor.ui_common.view_components.getColorAttr
+import org.threehundredtutor.ui_core.databinding.SolutionAnswerSelectRightItemBinding
 
 fun MaterialButton.bindResultType(type: AnswerValidationResultType) {
     when (type) {
@@ -46,4 +50,19 @@ fun View.bindDividerType(dividerType: DividerType) {
             DividerType.CONTENT_BACKGROUND -> getColorAttr(UiCoreAttr.contentBackground)
         }
     )
+}
+
+fun AdapterDelegateViewBindingViewHolder<AnswerSelectRightUiModel, SolutionAnswerSelectRightItemBinding>.bindAll() {
+    binding.checkbox.text = item.answer
+    binding.checkbox.isChecked = item.checked
+    binding.checkbox.isEnabled = item.enabled
+    binding.iconContainer.isVisible = !item.enabled
+    if (item.enabled) return
+    if (item.rightAnswer) {
+        binding.icon.setImageResource(UiCoreDrawable.ic_check)
+        binding.iconContainer.setBackgroundResource(UiCoreDrawable.rectangle_full_green_background)
+    } else {
+        binding.icon.setImageResource(UiCoreDrawable.ic_incorrect_answer)
+        binding.iconContainer.setBackgroundResource(UiCoreDrawable.rectangle_full_warning_background)
+    }
 }

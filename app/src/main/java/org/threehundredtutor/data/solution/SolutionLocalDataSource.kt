@@ -19,7 +19,8 @@ class SolutionLocalDataSource {
 
     fun getAnswers(): Map<String, String> = solutionAnswers.toMap()
 
-    fun isAllQuestionsHaveAnswers() =
-        solutionAnswers.size == solutionAnswers.filter { it.value.isNotEmpty() }.size
+    fun isAllQuestionsHaveAnswers(): Boolean { // TODO Потом проверитть
+        return solutionAnswers.values.all { it.isNotEmpty() }
+    }
 }
 

@@ -37,8 +37,25 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
 
     override var customHandlerBackStack: Boolean = true
 
+    private val solutionId by BundleString(SOLUTION_SOLUTION_ID_KEY, EMPTY_STRING)
+    private val testId by BundleString(SOLUTION_TEST_ID_KEY, EMPTY_STRING)
+    private val directoryTestId by BundleString(SOLUTION_HTML_PAGE_DIRECTORY_ID_KEY, EMPTY_STRING)
+    private val workSpaceId by BundleString(SOLUTION_HTML_PAGE_WORKSPACE_ID_KEY, EMPTY_STRING)
+    private val htmlPageTestType by BundleSerializable(
+        SOLUTION_HTML_PAGE_TEST_TYPE_ID_KEY,
+        HtmlPageTestType.NONE
+    )
+
     private val solutionComponent by lazy {
-        SolutionComponent.createSolutionComponent()
+        SolutionComponent.createSolutionComponent(
+            SolutionBundleModel(
+                testId = testId,
+                solutionId = solutionId,
+                directoryTestId = directoryTestId,
+                workSpaceId = workSpaceId,
+                htmlPageTestType = htmlPageTestType
+            )
+        )
     }
 
     override val viewModel by viewModels<SolutionViewModel> {
@@ -57,8 +74,8 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
                 checked = checked
             )
         },
-        selectRightAnswerCheckButtonClickListener = { questionId ->
-            viewModel.onSelectRightAnswerCheckButtonClicked(questionId)
+        selectRightAnswerCheckButtonClickListener = { selectRightAnswerCheckButtonUiItem ->
+            viewModel.onSelectRightAnswerCheckButtonClicked(selectRightAnswerCheckButtonUiItem)
         },
         rightAnswerClickListener = { rightAnswerUiModel, answer ->
             viewModel.onRightAnswerClicked(rightAnswerUiModel = rightAnswerUiModel, answer = answer)
@@ -70,7 +87,7 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
         },
         detailedAnswerClickListener = { questionDetailedAnswerUiModel, answer ->
             viewModel.onDetailedAnswerClicked(
-                detailedAnswerUiItem = questionDetailedAnswerUiModel, answer = answer
+                detailedAnswerInputUiItem = questionDetailedAnswerUiModel, answer = answer
             )
         },
         detailedAnswerValidationClickListener = { answerValidationItemUiModel, inputPoint ->
@@ -89,41 +106,26 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
         }
     )
 
-    private val solutionId by BundleString(SOLUTION_SOLUTION_ID_KEY, EMPTY_STRING)
-    private val testId by BundleString(SOLUTION_TEST_ID_KEY, EMPTY_STRING)
-    private val directoryTestId by BundleString(SOLUTION_HTML_PAGE_DIRECTORY_ID_KEY, EMPTY_STRING)
-    private val workSpaceId by BundleString(SOLUTION_HTML_PAGE_WORKSPACE_ID_KEY, EMPTY_STRING)
-    private val htmlPageTestType by BundleSerializable(
-        SOLUTION_HTML_PAGE_TEST_TYPE_ID_KEY,
-        HtmlPageTestType.NONE
-    )
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = SolutionFragmentBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onBackPressed() {
-        viewModel.onBackClicked(binding.errorImageView.isVisible)
+        viewModel.onBackClicked()
     }
 
     override fun onInitView(savedInstanceState: Bundle?) {
         super.onInitView(savedInstanceState)
+
         binding.recyclerSolution.adapter = delegateAdapter
+
         binding.solutionToolBar.setNavigationOnClickListener { onBackPressed() }
         binding.finishButton.setOnClickListener { viewModel.onFinishTestClicked() }
         binding.showResultButton.setOnClickListener { viewModel.onResultTestClicked() }
         binding.solutionToolBar.setOnClickListener {
             showMessage(binding.solutionToolBar.title.toString())
         }
-        //TODO TutorAndroid-68
-        viewModel.onViewInitiated(
-            testId = testId,
-            solutionId = solutionId,
-            directoryTestId = directoryTestId,
-            workSpaceId = workSpaceId,
-            htmlPageTestType = htmlPageTestType
-        )
     }
 
     override fun onObserveData() {
@@ -162,8 +164,6 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
                     length = Snackbar.LENGTH_SHORT
                 )
 
-                is SolutionViewModel.UiEvent.ScrollToQuestion -> {}
-                SolutionViewModel.UiEvent.ErrorSolution -> {}
                 SolutionViewModel.UiEvent.ShowFinishDialog -> {
                     ActionDialogFragment.showDialog(
                         fragmentManager = childFragmentManager,
@@ -183,7 +183,7 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
                 SolutionViewModel.UiEvent.NavigateBack -> findNavController().popBackStack()
             }
         }
-        viewModel.getResultTestStateFlow().observeFlow(this) { testResult ->
+        viewModel.getShowResultDialogEventFlow().observeFlow(this) { testResult ->
             SolutionResultDialogFragment.showDialog(testResult, childFragmentManager)
         }
 

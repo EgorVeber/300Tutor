@@ -23,21 +23,22 @@ import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getT
 import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getYoutubeUiItemAdapter
 import org.threehundredtutor.presentation.solution.ui_models.SolutionUiItem
 import org.threehundredtutor.presentation.solution.ui_models.answer_erros.AnswerWithErrorsUiModel
-import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerUiItem
+import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerInputUiItem
 import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerValidationUiItem
 import org.threehundredtutor.presentation.solution.ui_models.item_common.HeaderUiItem
 import org.threehundredtutor.presentation.solution.ui_models.right_answer.RightAnswerUiModel
 import org.threehundredtutor.presentation.solution.ui_models.select_right_answer.AnswerSelectRightUiModel
+import org.threehundredtutor.presentation.solution.ui_models.select_right_answer.SelectRightAnswerCheckButtonUiItem
 
 class SolutionManager(
     imageClickListener: (String) -> Unit,
     youtubeClickListener: (String) -> Unit,
     selectRightAnswerClickListener: (String, String, Boolean) -> Unit,
-    selectRightAnswerCheckButtonClickListener: (String) -> Unit,
+    selectRightAnswerCheckButtonClickListener: (SelectRightAnswerCheckButtonUiItem) -> Unit,
     rightAnswerClickListener: (RightAnswerUiModel, String) -> Unit,
     answerWithErrorsClickListener: (AnswerWithErrorsUiModel, String) -> Unit,
-    detailedAnswerClickListener: (DetailedAnswerUiItem, String) -> Unit,
-    detailedAnswerTextChangedListener: (DetailedAnswerUiItem, String) -> Unit,
+    detailedAnswerClickListener: (DetailedAnswerInputUiItem, String) -> Unit,
+    detailedAnswerTextChangedListener: (DetailedAnswerInputUiItem, String) -> Unit,
     detailedAnswerValidationClickListener: (DetailedAnswerValidationUiItem, String) -> Unit,
     deleteValidationClickListener: (DetailedAnswerValidationUiItem) -> Unit,
     questionLikeClickListener: (HeaderUiItem) -> Unit
@@ -56,11 +57,7 @@ class SolutionManager(
             .addDelegate(getResultButtonUiItemAdapter())
             .addDelegate(getSelectRightAnswerTitleUiItemAdapter())
             .addDelegate(getAnswerSelectRightUiModelAdapter(selectRightAnswerClickListener))
-            .addDelegate(
-                getSelectRightAnswerCheckButtonUiItemAdapter(
-                    selectRightAnswerCheckButtonClickListener
-                )
-            )
+            .addDelegate(getSelectRightAnswerCheckButtonUiItemAdapter(selectRightAnswerCheckButtonClickListener))
             .addDelegate(getRightAnswerUiModelAdapter(rightAnswerClickListener))
             .addDelegate(getRightAnswerResultUiItemAdapter())
             .addDelegate(getAnswerWithErrorsUiModelAdapter(answerWithErrorsClickListener))
@@ -87,6 +84,9 @@ class SolutionManager(
                 oldItem: SolutionUiItem,
                 newItem: SolutionUiItem
             ): Boolean {
+                if (oldItem is AnswerSelectRightUiModel && newItem is AnswerSelectRightUiModel && oldItem.answer == newItem.answer) {
+                    return true
+                }
                 return oldItem.javaClass == newItem.javaClass
             }
 
@@ -98,12 +98,21 @@ class SolutionManager(
             }
 
             override fun getChangePayload(oldItem: SolutionUiItem, newItem: SolutionUiItem): Any? {
-                return if (oldItem is AnswerSelectRightUiModel && newItem is AnswerSelectRightUiModel && oldItem.checked != newItem.checked) {
-                    true
-                } else if (oldItem is DetailedAnswerUiItem && newItem is DetailedAnswerUiItem) {
+                return if (oldItem is AnswerSelectRightUiModel && newItem is AnswerSelectRightUiModel && oldItem.enabled != newItem.enabled) {
+                    AnswerSelectRightPayload.Enabled
+                } else if (oldItem is AnswerSelectRightUiModel && newItem is AnswerSelectRightUiModel && oldItem.checked != newItem.checked) {
+                    AnswerSelectRightPayload.Checked
+                } else if (oldItem is DetailedAnswerInputUiItem && newItem is DetailedAnswerInputUiItem) {
                     true
                 } else null
             }
+        }
+
+        sealed interface AnswerSelectRightPayload {
+
+            object Checked : AnswerSelectRightPayload
+
+            object Enabled : AnswerSelectRightPayload
         }
     }
 }
