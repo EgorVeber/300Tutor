@@ -26,7 +26,7 @@ enum class MainMenuItem {
         }
 
         fun MainMenuItem.getTitle(): Int {
-           return when (this) {
+            return when (this) {
                 SCHEDULE -> UiCoreStrings.main_menu_schedule
                 NOTES -> UiCoreStrings.main_menu_notes
                 GROUPS -> UiCoreStrings.main_menu_groups

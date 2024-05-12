@@ -2,12 +2,13 @@ package org.threehundredtutor.di.main_menu
 
 import dagger.BindsInstance
 import dagger.Component
-import org.threehundredtutor.common.ResourceProvider
 import org.threehundredtutor.core.DiSetHelper
-import org.threehundredtutor.data.common.data_source.ConfigLocalDataSource
 import org.threehundredtutor.data.common.data_source.AccountLocalDataSource
+import org.threehundredtutor.data.common.data_source.ConfigLocalDataSource
+import org.threehundredtutor.data.common.data_source.PrivateDataSource
 import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
-import org.threehundredtutor.di.ViewModelMapFactory
+import org.threehundredtutor.di.common.ViewModelMapFactory
+import org.threehundredtutor.presentation.common.ResourceProvider
 
 @Component(modules = [MainMenuModule::class])
 interface MainMenuComponent {
@@ -21,13 +22,15 @@ interface MainMenuComponent {
         @BindsInstance
         fun getServiceGeneratorProvider(serviceGeneratorProvider: ServiceGeneratorProvider): Builder
 
-
-        // Подумать как без этих зависемостей
         @BindsInstance
         fun getConfigLocalDataSource(configLocalDataSource: ConfigLocalDataSource): Builder
 
         @BindsInstance
         fun getAccountLocalDataSource(accountLocalDataSource: AccountLocalDataSource): Builder
+
+        @BindsInstance
+        fun getPrivateDataSource(privateDataSource: PrivateDataSource): Builder
+
         fun getMainMenuComponentBuilder(): MainMenuComponent
     }
 
@@ -39,6 +42,7 @@ interface MainMenuComponent {
                 .getServiceGeneratorProvider(DiSetHelper.appComponent.getServiceGeneratorProvider())
                 .getConfigLocalDataSource(DiSetHelper.appComponent.getConfigLocalDataSource())
                 .getAccountLocalDataSource(DiSetHelper.appComponent.getAccountLocalDataSource())
+                .getPrivateDataSource(DiSetHelper.appComponent.getPrivateDataSource())
                 .getMainMenuComponentBuilder()
     }
 }

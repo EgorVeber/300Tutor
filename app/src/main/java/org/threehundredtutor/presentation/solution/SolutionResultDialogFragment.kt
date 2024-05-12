@@ -18,8 +18,11 @@ import kotlin.math.abs
 
 
 class SolutionResultDialogFragment : BottomSheetDialogFragment() {
+
     lateinit var binding: SolutionResultDialogBinding
+
     private var resultTest by BundleParcelable<ResultTestUiModel>(BUNDLE_ARGUMENT_KEY)
+
     override fun getTheme() = UiCoreStyle.AppBottomSheetDialogTheme
 
     override fun onCreateView(

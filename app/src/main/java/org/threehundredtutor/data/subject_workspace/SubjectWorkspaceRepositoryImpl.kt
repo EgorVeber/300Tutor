@@ -17,7 +17,7 @@ class SubjectWorkspaceRepositoryImpl @Inject constructor(
                 subjectWorkspaceLocalDataSource.setDirectory(workspaceHtmlThreeModel)
             }
 
-    override  fun getWorkSpaceId(): String =
+    override fun getWorkSpaceId(): String =
         subjectWorkspaceLocalDataSource.getWorkspaceId()
 
     override fun findDirectoryById(workspaceId: String): DirectoryModel? {

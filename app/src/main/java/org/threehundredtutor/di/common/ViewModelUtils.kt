@@ -1,4 +1,4 @@
-package org.threehundredtutor.di
+package org.threehundredtutor.di.common
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels

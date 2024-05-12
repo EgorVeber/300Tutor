@@ -5,10 +5,9 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import org.threehundredtutor.data.authorization.AuthorizationRepositoryImpl
-import org.threehundredtutor.di.ViewModelInjectMapKey
+import org.threehundredtutor.di.common.ViewModelInjectMapKey
 import org.threehundredtutor.domain.authorization.AuthorizationRepository
 import org.threehundredtutor.presentation.authorization.AuthorizationViewModel
-
 
 /**
  *Учим фабрику создавать по типу вью модели создавать инстанс *

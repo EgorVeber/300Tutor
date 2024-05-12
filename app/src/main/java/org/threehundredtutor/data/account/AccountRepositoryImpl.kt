@@ -35,7 +35,7 @@ class AccountRepositoryImpl @Inject constructor(
 
     override suspend fun logout(): LogoutModel =
         accountRemoteDataSource.logout().toLogoutModel().apply {
-            accountLocalDataSource.clear()
+            accountLocalDataSource.clearAccount()
         }
 
     override suspend fun createAuthentication(siteUrl: String) =

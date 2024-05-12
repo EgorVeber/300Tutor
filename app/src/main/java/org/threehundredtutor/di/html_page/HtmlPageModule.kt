@@ -5,7 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import org.threehundredtutor.data.subject_workspace.SubjectWorkspaceRepositoryImpl
-import org.threehundredtutor.di.ViewModelInjectMapKey
+import org.threehundredtutor.di.common.ViewModelInjectMapKey
 import org.threehundredtutor.domain.subject_workspace.SubjectWorkspaceRepository
 import org.threehundredtutor.presentation.html_page.HtmlPageViewModel
 

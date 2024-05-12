@@ -146,4 +146,6 @@
     <string name="html_page_first_path">Только первая часть  "%1$s"</string>
     <string name="html_page_second_path">Только вторая часть  "%1$s"</string>
     <string name="html_page_full_text">Полный тест  "%1$s"</string>
+    <string name="answer_solution_test_changed">Ответы "%1$s" из "%2$s"</string>
+    <string name="question_number">Вопрос "%1$s"</string>
 </resources>

@@ -7,7 +7,6 @@ import javax.inject.Inject
 class GetSolutionUseCase @Inject constructor(
     private val solutionRepository: SolutionRepository
 ) {
-    suspend operator fun invoke(solutionIdInt: String): TestSolutionGeneralModel {
-        return solutionRepository.getSolutionDetailed(solutionIdInt)
-    }
+    suspend operator fun invoke(solutionIdInt: String): TestSolutionGeneralModel =
+        solutionRepository.getSolutionDetailed(solutionIdInt)
 }

@@ -6,6 +6,6 @@ import javax.inject.Inject
 class GetWorkSpaceUseCase @Inject constructor(
     private val subjectWorkspaceRepository: SubjectWorkspaceRepository
 ) {
-    suspend operator fun invoke(workspaceId: String,): WorkspaceHtmlThreeModel =
+    suspend operator fun invoke(workspaceId: String): WorkspaceHtmlThreeModel =
         subjectWorkspaceRepository.getWorkSpace(workspaceId = workspaceId)
 }

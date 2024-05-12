@@ -5,7 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import org.threehundredtutor.data.subject_start_test.SearchSolutionRepositoryImpl
-import org.threehundredtutor.di.ViewModelInjectMapKey
+import org.threehundredtutor.di.common.ViewModelInjectMapKey
 import org.threehundredtutor.domain.test.SearchSolutionRepository
 import org.threehundredtutor.presentation.subjetc_start_test.SubjectStartTestViewModel
 

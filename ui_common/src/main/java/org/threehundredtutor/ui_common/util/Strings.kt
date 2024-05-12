@@ -7,9 +7,9 @@ import androidx.core.text.HtmlCompat
 private const val VND_YOUTUBE_APP = "vnd.youtube:"
 private const val VND_YOUTUBE_BROWSER = "http://www.youtube.com/watch?v="
 
-fun String.addQuotes() = "'$this'"
+fun String.addQuotesSymbol() = "'$this'"
 
-fun String.addPercent() = "$this%"
+fun String.addPercentSymbol() = "$this%"
 
 fun String.videoId() = this.substringAfterLast('=')
 

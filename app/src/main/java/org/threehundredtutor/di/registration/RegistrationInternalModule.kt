@@ -5,7 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import org.threehundredtutor.data.registration.RegistrationRepositoryImpl
-import org.threehundredtutor.di.ViewModelInjectMapKey
+import org.threehundredtutor.di.common.ViewModelInjectMapKey
 import org.threehundredtutor.domain.registration.repository.RegistrationRepository
 import org.threehundredtutor.presentation.registration.viewmodel.RegistrationViewModel
 
@@ -19,5 +19,4 @@ internal interface RegistrationInternalModule {
 
     @Binds
     fun bindRegistrationRepository(registrationRepositoryImpl: RegistrationRepositoryImpl): RegistrationRepository
-
 }

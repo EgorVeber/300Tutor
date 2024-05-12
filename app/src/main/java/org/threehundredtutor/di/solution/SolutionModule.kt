@@ -8,7 +8,7 @@ import dagger.multibindings.IntoMap
 import org.threehundredtutor.data.solution.SolutionLocalDataSource
 import org.threehundredtutor.data.solution.SolutionRepositoryImpl
 import org.threehundredtutor.di.ScreenScope
-import org.threehundredtutor.di.ViewModelInjectMapKey
+import org.threehundredtutor.di.common.ViewModelInjectMapKey
 import org.threehundredtutor.domain.solution.SolutionRepository
 import org.threehundredtutor.presentation.solution.SolutionViewModel
 
@@ -20,7 +20,6 @@ abstract class SolutionModule {
     abstract fun getSolutionViewModel(solutionViewModel: SolutionViewModel): ViewModel
 
     @Binds
-    @ScreenScope
     abstract fun bindsSolutionRepository(solutionRepositoryImpl: SolutionRepositoryImpl): SolutionRepository
 
     companion object {

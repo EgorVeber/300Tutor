@@ -5,13 +5,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import org.threehundredtutor.common.ResourceProvider
 import org.threehundredtutor.domain.common.GetConfigUseCase
 import org.threehundredtutor.domain.solution.models.test_model.HtmlPageTestType
 import org.threehundredtutor.domain.subject_workspace.FindDirectoryByIdUseCase
 import org.threehundredtutor.domain.subject_workspace.GetWorkSpaceIdUseCase
 import org.threehundredtutor.domain.subject_workspace.models.DirectoryModel
 import org.threehundredtutor.domain.subject_workspace.models.HtmlPageModel
+import org.threehundredtutor.presentation.common.ResourceProvider
 import org.threehundredtutor.presentation.html_page.adapter.HtmlPageEmptyUiItem
 import org.threehundredtutor.presentation.solution.solution_factory.SolutionFactory
 import org.threehundredtutor.presentation.solution.ui_models.SolutionUiItem

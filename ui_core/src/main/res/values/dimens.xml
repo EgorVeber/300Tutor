@@ -104,5 +104,5 @@
     <dimen name="elevation_8">8dp</dimen>
 
     <dimen name="pie_chart_size">180dp</dimen>
-    <dimen name="solution_item_space_horizontal">6dp</dimen>
+    <dimen name="solution_item_space_horizontal">8dp</dimen>
 </resources>

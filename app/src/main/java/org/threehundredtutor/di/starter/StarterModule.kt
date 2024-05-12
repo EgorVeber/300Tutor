@@ -7,7 +7,7 @@ import dagger.multibindings.IntoMap
 import org.threehundredtutor.data.account.AccountRepositoryImpl
 import org.threehundredtutor.data.authorization.AuthorizationRepositoryImpl
 import org.threehundredtutor.data.starter.StarterRepositoryImpl
-import org.threehundredtutor.di.ViewModelInjectMapKey
+import org.threehundredtutor.di.common.ViewModelInjectMapKey
 import org.threehundredtutor.domain.account.AccountRepository
 import org.threehundredtutor.domain.authorization.AuthorizationRepository
 import org.threehundredtutor.domain.starter.StarterRepository
@@ -28,4 +28,5 @@ abstract class StarterModule {
 
     @Binds
     abstract fun bindsAccountRepository(accountRepository: AccountRepositoryImpl): AccountRepository
+
 }

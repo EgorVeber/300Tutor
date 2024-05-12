@@ -5,6 +5,6 @@ import javax.inject.Inject
 class GetWorkSpaceIdUseCase @Inject constructor(
     private val subjectWorkspaceRepository: SubjectWorkspaceRepository
 ) {
-     operator fun invoke(): String =
+    operator fun invoke(): String =
         subjectWorkspaceRepository.getWorkSpaceId()
 }

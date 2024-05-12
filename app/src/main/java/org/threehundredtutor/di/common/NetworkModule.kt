@@ -1,4 +1,4 @@
-package org.threehundredtutor.di.app
+package org.threehundredtutor.di.common
 
 import dagger.Binds
 import dagger.Module

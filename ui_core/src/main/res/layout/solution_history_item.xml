@@ -36,8 +36,7 @@
         android:text="@string/question_count"
         android:textColor="?attr/textPrimary"
         app:layout_constraintStart_toStartOf="@+id/nameTestTv"
-        app:layout_constraintTop_toBottomOf="@+id/nameTestTv"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/nameTestTv" />
 
     <TextView
         android:id="@+id/startTestDateTv"

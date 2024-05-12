@@ -21,6 +21,7 @@ import org.threehundredtutor.domain.solution.models.TestSolutionGeneralModel
 import org.threehundredtutor.domain.solution.models.directory.StartTestDirectoryParamsModel
 import org.threehundredtutor.domain.solution.models.params_model.SaveQuestionPointsValidationParamsModel
 import org.threehundredtutor.domain.solution.models.points.SolutionPointsModel
+import org.threehundredtutor.domain.solution.models.test_model.TestSolutionModel
 import org.threehundredtutor.ui_common.util.ServerException
 import org.threehundredtutor.ui_common.util.orFalse
 import javax.inject.Inject
@@ -29,19 +30,23 @@ class SolutionRepositoryImpl @Inject constructor(
     private val solutionRemoteDataSource: SolutionRemoteDataSource,
     private val solutionLocalDataSource: SolutionLocalDataSource,
 ) : SolutionRepository {
+
+    //TODO удалить старые модели если в дальнейшем небудет необходимости
     override suspend fun getSolution(solutionId: String): TestSolutionGeneralModel {
         val testSolutionGeneralModel =
             solutionRemoteDataSource.getSolution(solutionId).toTestSolutionGeneralModel()
-        solutionLocalDataSource.saveAnswers(testSolutionGeneralModel.testSolutionModel)
+        solutionLocalDataSource.saveAnswers(answersToMap(testSolutionGeneralModel.testSolutionModel))
         return testSolutionGeneralModel
     }
 
     override suspend fun getSolutionDetailed(solutionId: String): TestSolutionGeneralModel {
         val testSolutionGeneralModel =
             solutionRemoteDataSource.getSolutionDetailed(solutionId).toTestSolutionGeneralModel()
-        solutionLocalDataSource.saveAnswers(testSolutionGeneralModel.testSolutionModel)
+
+        solutionLocalDataSource.saveAnswers(answersToMap(testSolutionGeneralModel.testSolutionModel))
         return testSolutionGeneralModel
     }
+
 
     override suspend fun startByTestId(testId: String): TestSolutionGeneralModel {
         val startTestResponse: StartTestResponse =
@@ -67,6 +72,7 @@ class SolutionRepositoryImpl @Inject constructor(
         }
     }
 
+    // TODO Сделать локальное сохранение ответов.
     override suspend fun checkAnswer(
         solutionId: String,
         questionId: String,
@@ -81,8 +87,8 @@ class SolutionRepositoryImpl @Inject constructor(
 
         if (questionAnswerWithResultBaseApiModel.isSucceeded) {
             solutionLocalDataSource.saveAnswer(
-                questionId = questionAnswerWithResultBaseApiModel.answerModel.questionId,
-                answerOrAnswers = questionAnswerWithResultBaseApiModel.answerModel.answerOrAnswers
+                questionAnswerWithResultBaseApiModel.answerModel.questionId to
+                        questionAnswerWithResultBaseApiModel.answerModel.answerOrAnswers
             )
         }
 
@@ -121,7 +127,10 @@ class SolutionRepositoryImpl @Inject constructor(
             )
         ).toQuestionAnswerWithResultBaseApiModel()
 
-    override fun isAllQuestionsHaveAnswers() = solutionLocalDataSource.isAllQuestionsHaveAnswers()
+    override fun isAllQuestionsHaveAnswers() =
+        solutionLocalDataSource.getAnswers().values.all { it.isNotEmpty() }
+
+    override fun getSolutionAnswersFlow() = solutionLocalDataSource.getSolutionAnswersFlow()
 
     override suspend fun getResultPoints(solutionId: String): SolutionPointsModel =
         solutionRemoteDataSource.getResultPoints(solutionId).toSolutionPointsModel()
@@ -131,4 +140,9 @@ class SolutionRepositoryImpl @Inject constructor(
         hasLike: Boolean
     ): BaseApiModel =
         solutionRemoteDataSource.changeLikeQuestion(questionId, hasLike).toBaseApiModel()
+
+    private fun answersToMap(testSolutionModelList: List<TestSolutionModel>) =
+        testSolutionModelList.associate { testSolutionModel ->
+            testSolutionModel.questionModel.questionId to testSolutionModel.answerModel.answerOrAnswers
+        }
 }

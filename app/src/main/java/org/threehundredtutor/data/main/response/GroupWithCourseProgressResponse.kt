@@ -2,7 +2,7 @@ package org.threehundredtutor.data.main.response
 
 import com.google.gson.annotations.SerializedName
 
-class GroupWithCourseProgressResponse (
+class GroupWithCourseProgressResponse(
     @SerializedName("groupId")
     val groupId: String?,
     @SerializedName("groupName")

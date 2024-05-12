@@ -7,7 +7,7 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import org.threehundredtutor.data.solution_history.SolutionHistoryLocalDataSource
 import org.threehundredtutor.data.solution_history.SolutionHistoryRepositoryImpl
-import org.threehundredtutor.di.ViewModelInjectMapKey
+import org.threehundredtutor.di.common.ViewModelInjectMapKey
 import org.threehundredtutor.domain.solution_history.SolutionHistoryRepository
 import org.threehundredtutor.presentation.solution_history.SolutionHistoryViewModel
 

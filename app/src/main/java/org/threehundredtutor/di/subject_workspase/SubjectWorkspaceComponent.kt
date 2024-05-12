@@ -5,7 +5,7 @@ import dagger.Component
 import org.threehundredtutor.core.DiSetHelper
 import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
 import org.threehundredtutor.data.subject_workspace.SubjectWorkspaceLocalDataSource
-import org.threehundredtutor.di.ViewModelMapFactory
+import org.threehundredtutor.di.common.ViewModelMapFactory
 import org.threehundredtutor.presentation.subject_workspace.SubjectWorkspaceBundleModel
 
 @Component(modules = [SubjectWorkspaceModule::class])

@@ -7,5 +7,5 @@
     android:background="?attr/contentBackground"
     android:paddingHorizontal="@dimen/solution_item_space_horizontal"
     android:textColor="@color/default_black"
-    tools:text="В разметку можно вставлять картинки:"/>
+    tools:text="В разметку можно вставлять картинки:" />
 

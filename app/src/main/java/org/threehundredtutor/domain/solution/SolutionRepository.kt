@@ -1,5 +1,6 @@
 package org.threehundredtutor.domain.solution
 
+import kotlinx.coroutines.flow.Flow
 import org.threehundredtutor.domain.solution.models.BaseApiModel
 import org.threehundredtutor.domain.solution.models.QuestionAnswerWithResultBaseApiModel
 import org.threehundredtutor.domain.solution.models.QuestionAnswersWithResultBaseApiModel
@@ -32,4 +33,5 @@ interface SolutionRepository {
     suspend fun getSolutionDetailed(solutionId: String): TestSolutionGeneralModel
     suspend fun changeLikeQuestion(questionId: String, hasLike: Boolean): BaseApiModel
     suspend fun startByDirectory(startTestDirectoryParamsModel: StartTestDirectoryParamsModel): TestSolutionGeneralModel
+    fun getSolutionAnswersFlow(): Flow<Map<String, String>>
 }

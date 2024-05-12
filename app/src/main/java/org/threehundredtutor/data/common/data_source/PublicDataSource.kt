@@ -43,5 +43,3 @@ class PublicDataSource @Inject constructor(
         private const val KEY_THEME_DEFAULT = 1
     }
 }
-
-

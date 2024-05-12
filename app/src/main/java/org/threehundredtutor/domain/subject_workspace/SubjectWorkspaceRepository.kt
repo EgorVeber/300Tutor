@@ -6,5 +6,5 @@ import org.threehundredtutor.domain.subject_workspace.models.WorkspaceHtmlThreeM
 interface SubjectWorkspaceRepository {
     suspend fun getWorkSpace(workspaceId: String): WorkspaceHtmlThreeModel
     fun findDirectoryById(workspaceId: String): DirectoryModel?
-     fun getWorkSpaceId(): String
+    fun getWorkSpaceId(): String
 }
