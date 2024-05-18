@@ -31,3 +31,30 @@ class MainMenuManager(
         }
     }
 }
+
+
+class ImageManager : AsyncListDifferDelegationAdapter<ImageItem>(DIFF_CALLBACK) {
+
+    init {
+        delegatesManager.addDelegate(getImagesAdapted())
+    }
+
+    companion object {
+
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ImageItem>() {
+            override fun areItemsTheSame(
+                oldItem: ImageItem,
+                newItem: ImageItem
+            ): Boolean {
+                return oldItem.name == newItem.name
+            }
+
+            override fun areContentsTheSame(
+                oldItem: ImageItem,
+                newItem: ImageItem
+            ): Boolean {
+                return oldItem.equals(newItem)
+            }
+        }
+    }
+}

@@ -25,6 +25,8 @@ class StarterViewModel @Inject constructor(
     private val uiEventState = MutableStateFlow<UiEvent>(UiEvent.Empty)
 
     init {
+        uiEventState.tryEmit(UiEvent.NavigateAuthorizationScreen)
+
         viewModelScope.launchJob(tryBlock = {
             val (login, password) = getAccountAuthorizationInfoUseCase.invoke()
             when {
