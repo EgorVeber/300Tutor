@@ -93,9 +93,7 @@
             android:textColor="?attr/textPrimary"
             android:textColorHint="?attr/textPrimary"
             android:theme="@style/EditTextCursorColor" />
-
     </com.google.android.material.textfield.TextInputLayout>
-
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/estimateButton"
@@ -119,6 +117,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_8"
+        android:layout_marginBottom="@dimen/margin_8"
         android:alpha="0.9"
         android:clickable="false"
         android:insetLeft="0dp"
@@ -131,15 +130,4 @@
         app:iconSize="@dimen/size_24"
         tools:icon="@drawable/ic_allmost_answer"
         tools:text="@string/allmost_the_right_answer" />
-
-    <TextView
-        android:id="@+id/pointQuestionTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/margin_8"
-        android:text="@string/points_question"
-        android:textSize="@dimen/text_18"
-        android:visibility="gone"
-        tools:visibility="visible" />
 </LinearLayout>

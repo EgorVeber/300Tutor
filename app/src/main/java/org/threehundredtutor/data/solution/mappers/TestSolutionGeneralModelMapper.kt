@@ -36,9 +36,9 @@ fun TestSolutionQueryDetailedResponse.toTestSolutionGeneralModel(): TestSolution
         isFinished = isFinished.orFalse(),
         descriptionTest = testResponseDetailed?.description ?: EMPTY_STRING,
         nameTest = testResponseDetailed?.name ?: EMPTY_STRING,
-        testSolutionModel = testResponseDetailed?.questionResponses?.map { questionDetailedResponse ->
+        testSolutionModel = testResponseDetailed?.questionResponses?.mapIndexed { index, questionDetailedResponse ->
             TestSolutionModel(
-                questionModel = questionDetailedResponse.question?.toQuestionModel()
+                questionModel = questionDetailedResponse.question?.toQuestionModel(questionNumber = index)
                     ?: QuestionModel.EMPTY,
                 answerModel = questionDetailedResponse.answerWithValidation?.toAnswerModel()
                     ?: AnswerModel.EMPTY,

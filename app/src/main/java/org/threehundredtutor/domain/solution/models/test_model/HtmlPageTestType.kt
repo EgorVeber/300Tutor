@@ -4,5 +4,5 @@ enum class HtmlPageTestType {
     FIRST_PATH,
     SECOND_PATH,
     FULL_TEST,
-    NONE;
+    DEFAULT_EMPTY;
 }

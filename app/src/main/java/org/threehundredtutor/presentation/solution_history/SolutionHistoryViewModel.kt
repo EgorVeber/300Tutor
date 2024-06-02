@@ -5,9 +5,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import org.threehundredtutor.common.ResourceProvider
 import org.threehundredtutor.domain.solution_history.SearchSolutionFilteredUseCase
 import org.threehundredtutor.domain.solution_history.SolutionHistoryFilter
+import org.threehundredtutor.presentation.common.ResourceProvider
 import org.threehundredtutor.presentation.solution_history.mapper.toSolutionHistoryUiModel
 import org.threehundredtutor.presentation.solution_history.models.SolutionHistoryUiItem
 import org.threehundredtutor.ui_common.DEFAULT_NOT_VALID_VALUE_INT

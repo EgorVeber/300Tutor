@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import org.threehundredtutor.common.ResourceProvider
 import org.threehundredtutor.core.UiCoreStrings
 import org.threehundredtutor.domain.account.usecase.GetAccountUseCase
 import org.threehundredtutor.domain.common.GetConfigUseCase
@@ -16,6 +15,7 @@ import org.threehundredtutor.domain.main.usecase.EnterGroupUseCase
 import org.threehundredtutor.domain.main.usecase.GetCoursesUseCase
 import org.threehundredtutor.domain.main.usecase.GetExtraButtonsUseCase
 import org.threehundredtutor.domain.main.usecase.GetSubjectUseCase
+import org.threehundredtutor.presentation.common.ResourceProvider
 import org.threehundredtutor.presentation.main.mapper.toCourseProgressUiModel
 import org.threehundredtutor.presentation.main.mapper.toCourseUiModel
 import org.threehundredtutor.presentation.main.mapper.toSubjectUiModel
@@ -32,7 +32,7 @@ import org.threehundredtutor.presentation.main.ui_models.SubjectUiModel
 import org.threehundredtutor.ui_common.coroutines.launchJob
 import org.threehundredtutor.ui_common.flow.SingleSharedFlow
 import org.threehundredtutor.ui_common.fragment.base.BaseViewModel
-import org.threehundredtutor.ui_common.util.addQuotes
+import org.threehundredtutor.ui_common.util.addQuotesSymbol
 import org.threehundredtutor.ui_core.SnackBarType
 import javax.inject.Inject
 
@@ -150,7 +150,7 @@ class MainViewModel @Inject constructor(
                     UiEvent.ShowSnack(
                         resourceProvider.string(
                             UiCoreStrings.activate_key_message,
-                            result.groupName.addQuotes()
+                            result.groupName.addQuotesSymbol()
                         )
                     )
                 )

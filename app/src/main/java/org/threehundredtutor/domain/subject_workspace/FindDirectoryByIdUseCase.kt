@@ -7,6 +7,6 @@ class FindDirectoryByIdUseCase @Inject constructor(
     private val subjectWorkspaceRepository: SubjectWorkspaceRepository
 ) {
     operator fun invoke(workspaceId: String): DirectoryModel? {
-       return subjectWorkspaceRepository.findDirectoryById(workspaceId = workspaceId)
+        return subjectWorkspaceRepository.findDirectoryById(workspaceId = workspaceId)
     }
 }

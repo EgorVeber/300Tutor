@@ -6,6 +6,7 @@ import android.widget.CompoundButton
 
 private const val DEFAULT_GLOBAL_DEBOUNCE_200: Long = 200
 private const val TIME_0: Long = 0
+
 fun View.setDebouncedClickListener(
     debounceIntervalMs: Long = DEFAULT_GLOBAL_DEBOUNCE_200,
     listener: (view: View) -> Unit
@@ -23,16 +24,16 @@ fun View.setDebouncedClickListener(
 }
 
 fun CheckBox.setDebouncedCheckedChangeListener(
-    listener: (isChecked: Boolean) -> Unit
+    listener: (view: View, isChecked: Boolean) -> Unit
 ) {
     var lastChangeTimestamp: Long = TIME_0
     val debounceIntervalMs: Long = DEFAULT_GLOBAL_DEBOUNCE_200
 
-    val customListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
+    val customListener = CompoundButton.OnCheckedChangeListener { view, isChecked ->
         val currentTime = System.currentTimeMillis()
         if (currentTime - lastChangeTimestamp > debounceIntervalMs) {
             lastChangeTimestamp = currentTime
-            listener(isChecked)
+            listener(view, isChecked)
         }
     }
 

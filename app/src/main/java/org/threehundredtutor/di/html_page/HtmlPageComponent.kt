@@ -2,12 +2,12 @@ package org.threehundredtutor.di.html_page
 
 import dagger.BindsInstance
 import dagger.Component
-import org.threehundredtutor.common.ResourceProvider
 import org.threehundredtutor.core.DiSetHelper
-import org.threehundredtutor.data.common.ConfigRepository
+import org.threehundredtutor.data.common.data_source.ConfigLocalDataSource
 import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
 import org.threehundredtutor.data.subject_workspace.SubjectWorkspaceLocalDataSource
-import org.threehundredtutor.di.ViewModelMapFactory
+import org.threehundredtutor.di.common.ViewModelMapFactory
+import org.threehundredtutor.presentation.common.ResourceProvider
 
 @Component(modules = [HtmlPageModule::class])
 interface HtmlPageComponent {
@@ -28,7 +28,7 @@ interface HtmlPageComponent {
         fun getResourceProvider(resourceProvider: ResourceProvider): Builder
 
         @BindsInstance
-        fun getConfigRepository(configRepository: ConfigRepository): Builder
+        fun getConfigLocalDataSource(configLocalDataSource: ConfigLocalDataSource): Builder
 
         fun getHtmlPageComponent(): HtmlPageComponent
     }
@@ -43,7 +43,7 @@ interface HtmlPageComponent {
                 .getDirectoryId(directoryId)
                 .getSubjectWorkspaceLocalDataSource(DiSetHelper.appComponent.getSubjectWorkspaceLocalDataSource())
                 .getResourceProvider(DiSetHelper.appComponent.getResourceProvider())
-                .getConfigRepository(DiSetHelper.appComponent.getConfigRepository())
+                .getConfigLocalDataSource(DiSetHelper.appComponent.getConfigLocalDataSource())
                 .getHtmlPageComponent()
     }
 }

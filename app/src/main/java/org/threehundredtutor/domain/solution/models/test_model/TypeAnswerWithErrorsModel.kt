@@ -4,7 +4,7 @@ import org.threehundredtutor.ui_common.EMPTY_STRING
 
 
 data class TypeAnswerWithErrorsModel(
-    val rightAnswer: String 
+    val rightAnswer: String
 ) {
     companion object {
         val EMPTY = TypeAnswerWithErrorsModel(

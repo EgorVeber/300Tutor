@@ -37,8 +37,25 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
 
     override var customHandlerBackStack: Boolean = true
 
+    private val solutionId by BundleString(SOLUTION_SOLUTION_ID_KEY, EMPTY_STRING)
+    private val testId by BundleString(SOLUTION_TEST_ID_KEY, EMPTY_STRING)
+    private val directoryTestId by BundleString(SOLUTION_HTML_PAGE_DIRECTORY_ID_KEY, EMPTY_STRING)
+    private val workSpaceId by BundleString(SOLUTION_HTML_PAGE_WORKSPACE_ID_KEY, EMPTY_STRING)
+    private val htmlPageTestType by BundleSerializable(
+        SOLUTION_HTML_PAGE_TEST_TYPE_ID_KEY,
+        HtmlPageTestType.DEFAULT_EMPTY
+    )
+
     private val solutionComponent by lazy {
-        SolutionComponent.createSolutionComponent()
+        SolutionComponent.createSolutionComponent(
+            SolutionParamsDaggerModel(
+                testId = testId,
+                solutionId = solutionId,
+                directoryTestId = directoryTestId,
+                workSpaceId = workSpaceId,
+                htmlPageTestType = htmlPageTestType
+            )
+        )
     }
 
     override val viewModel by viewModels<SolutionViewModel> {
@@ -51,26 +68,34 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
         },
         youtubeClickListener = { link -> viewModel.onYoutubeClicked(link) },
         selectRightAnswerClickListener = { questionId, answer, checked ->
-            viewModel.onCheckedChangeSelectRightAnswer(
+            viewModel.onSelectRightAnswerCheckedChange(
                 questionId = questionId,
                 answerText = answer,
                 checked = checked
             )
         },
-        selectRightAnswerCheckButtonClickListener = { questionId ->
-            viewModel.onSelectRightAnswerCheckButtonClicked(questionId)
+        selectRightAnswerCheckButtonClickListener = { selectRightAnswerCheckButtonUiItem ->
+            viewModel.onSelectRightAnswerCheckButtonClicked(selectRightAnswerCheckButtonUiItem)
         },
-        rightAnswerClickListener = { rightAnswerUiModel, answer ->
-            viewModel.onRightAnswerClicked(rightAnswerUiModel = rightAnswerUiModel, answer = answer)
+        rightAnswerClickListener = { rightAnswerUiModel, inputAnswer ->
+            viewModel.onRightAnswerClicked(
+                rightAnswerUiModel = rightAnswerUiModel,
+                inputAnswer = inputAnswer
+            )
+        },
+        rightAnswerTextChangedListener = { questionId, inputAnswer ->
+            viewModel.onRightAnswerTextChanged(questionId, inputAnswer)
         },
         answerWithErrorsClickListener = { questionAnswerWithErrorsUiModel, answer ->
             viewModel.onAnswerWithErrorClicked(
                 answerWithErrorsUiModel = questionAnswerWithErrorsUiModel, answer = answer
             )
+        }, answerWithErrorsTextChangedListener = { questionId, answer ->
+            viewModel.onAnswerWithErrorsTextChanged(questionId, answer)
         },
-        detailedAnswerClickListener = { questionDetailedAnswerUiModel, answer ->
+        detailedAnswerClickListener = { detailedAnswerInputUiItem, inputAnswer ->
             viewModel.onDetailedAnswerClicked(
-                detailedAnswerUiItem = questionDetailedAnswerUiModel, answer = answer
+                detailedAnswerInputUiItem = detailedAnswerInputUiItem, inputAnswer = inputAnswer
             )
         },
         detailedAnswerValidationClickListener = { answerValidationItemUiModel, inputPoint ->
@@ -81,21 +106,12 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
         deleteValidationClickListener = { answerValidationItemUiModel ->
             viewModel.onDeleteValidationClicked(answerValidationItemUiModel)
         },
-        detailedAnswerTextChangedListener = { item, text ->
-            viewModel.onDetailedAnswerTextChanged(item, text)
+        detailedAnswerTextChangedListener = { questionId, inputAnswer ->
+            viewModel.onDetailedAnswerTextChanged(questionId, inputAnswer)
         },
         questionLikeClickListener = { headerUiItem ->
             viewModel.onQuestionLikeClicked(headerUiItem)
         }
-    )
-
-    private val solutionId by BundleString(SOLUTION_SOLUTION_ID_KEY, EMPTY_STRING)
-    private val testId by BundleString(SOLUTION_TEST_ID_KEY, EMPTY_STRING)
-    private val directoryTestId by BundleString(SOLUTION_HTML_PAGE_DIRECTORY_ID_KEY, EMPTY_STRING)
-    private val workSpaceId by BundleString(SOLUTION_HTML_PAGE_WORKSPACE_ID_KEY, EMPTY_STRING)
-    private val htmlPageTestType by BundleSerializable(
-        SOLUTION_HTML_PAGE_TEST_TYPE_ID_KEY,
-        HtmlPageTestType.NONE
     )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -104,26 +120,20 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
     }
 
     override fun onBackPressed() {
-        viewModel.onBackClicked(binding.errorImageView.isVisible)
+        viewModel.onBackClicked()
     }
 
     override fun onInitView(savedInstanceState: Bundle?) {
         super.onInitView(savedInstanceState)
+
         binding.recyclerSolution.adapter = delegateAdapter
+
         binding.solutionToolBar.setNavigationOnClickListener { onBackPressed() }
         binding.finishButton.setOnClickListener { viewModel.onFinishTestClicked() }
         binding.showResultButton.setOnClickListener { viewModel.onResultTestClicked() }
         binding.solutionToolBar.setOnClickListener {
             showMessage(binding.solutionToolBar.title.toString())
         }
-        //TODO TutorAndroid-68
-        viewModel.onViewInitiated(
-            testId = testId,
-            solutionId = solutionId,
-            directoryTestId = directoryTestId,
-            workSpaceId = workSpaceId,
-            htmlPageTestType = htmlPageTestType
-        )
     }
 
     override fun onObserveData() {
@@ -147,6 +157,10 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
             binding.showResultButton.isVisible = isVisible
         }
 
+        viewModel.getTestResultState().observeFlow(this) { text ->
+            binding.solutionToolBar.subtitle = text
+        }
+
         viewModel.getUiEventStateFlow().observeFlow(this) { state ->
             when (state) {
                 is SolutionViewModel.UiEvent.ShowMessage -> showMessage(state.message)
@@ -162,8 +176,6 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
                     length = Snackbar.LENGTH_SHORT
                 )
 
-                is SolutionViewModel.UiEvent.ScrollToQuestion -> {}
-                SolutionViewModel.UiEvent.ErrorSolution -> {}
                 SolutionViewModel.UiEvent.ShowFinishDialog -> {
                     ActionDialogFragment.showDialog(
                         fragmentManager = childFragmentManager,
@@ -183,7 +195,7 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
                 SolutionViewModel.UiEvent.NavigateBack -> findNavController().popBackStack()
             }
         }
-        viewModel.getResultTestStateFlow().observeFlow(this) { testResult ->
+        viewModel.getShowResultDialogEventFlow().observeFlow(this) { testResult ->
             SolutionResultDialogFragment.showDialog(testResult, childFragmentManager)
         }
 

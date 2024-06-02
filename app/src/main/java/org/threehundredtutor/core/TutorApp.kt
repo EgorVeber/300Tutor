@@ -1,7 +1,7 @@
 package org.threehundredtutor.core
 
 import android.app.Application
-import org.threehundredtutor.di.app.DaggerAppComponent
+import org.threehundredtutor.di.common.DaggerAppComponent
 
 class TutorApp : Application() {
 

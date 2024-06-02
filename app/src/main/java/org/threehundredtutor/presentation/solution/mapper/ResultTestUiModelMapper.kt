@@ -1,11 +1,11 @@
 package org.threehundredtutor.presentation.solution.mapper
 
-import org.threehundredtutor.common.ResourceProvider
 import org.threehundredtutor.core.UiCoreStrings
 import org.threehundredtutor.domain.solution.models.points.SolutionPointsModel
+import org.threehundredtutor.presentation.common.ResourceProvider
 import org.threehundredtutor.presentation.solution.ui_models.ResultTestUiModel
 import org.threehundredtutor.ui_common.EMPTY_STRING
-import org.threehundredtutor.ui_common.util.addPercent
+import org.threehundredtutor.ui_common.util.addPercentSymbol
 import org.threehundredtutor.ui_common.util.fractionOf
 import org.threehundredtutor.ui_common.util.percentOf
 
@@ -28,7 +28,7 @@ fun SolutionPointsModel.toResultTestUiModel(resourceProvider: ResourceProvider):
         ),
         resultPercent = resourceProvider.string(
             UiCoreStrings.test_solved,
-            maxTotalPoints.percentOf(studentTotalPoints).toString().addPercent()
+            maxTotalPoints.percentOf(studentTotalPoints).toString().addPercentSymbol()
         ),
         fractionAnswer = maxTotalPoints.fractionOf(studentTotalPoints)
     )

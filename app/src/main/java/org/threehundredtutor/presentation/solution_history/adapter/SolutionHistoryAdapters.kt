@@ -28,7 +28,10 @@ object SolutionHistoryAdapters {
                         binding.goButton.text = getString(UiCoreStrings.continue_action)
                         if (item.questionsCount != DEFAULT_NOT_VALID_VALUE_INT) {
                             binding.questionCountTv.text =
-                                getString(UiCoreStrings.question_count, item.questionsCount.toString())
+                                getString(
+                                    UiCoreStrings.question_count,
+                                    item.questionsCount.toString()
+                                )
                             binding.questionCountTv.isVisible = true
                         }
                     }

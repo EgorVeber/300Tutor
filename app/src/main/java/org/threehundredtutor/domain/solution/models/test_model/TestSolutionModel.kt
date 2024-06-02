@@ -7,4 +7,3 @@ data class TestSolutionModel(
     val answerModel: AnswerModel,
     val isQuestionLikedByStudent: Boolean
 )
-

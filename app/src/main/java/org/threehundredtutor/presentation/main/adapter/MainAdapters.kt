@@ -17,7 +17,7 @@ import org.threehundredtutor.presentation.main.ui_models.HeaderContentUiItem
 import org.threehundredtutor.presentation.main.ui_models.HeaderUiItem
 import org.threehundredtutor.presentation.main.ui_models.MainUiItem
 import org.threehundredtutor.presentation.main.ui_models.SubjectUiModel
-import org.threehundredtutor.ui_common.util.addPercent
+import org.threehundredtutor.ui_common.util.addPercentSymbol
 import org.threehundredtutor.ui_common.view_components.getColorAttr
 import org.threehundredtutor.ui_common.view_components.hideKeyboard
 import org.threehundredtutor.ui_core.databinding.CourseItemBinding
@@ -127,7 +127,7 @@ object MainAdapters {
             // TODO TutorAndroid-60
             bind {
                 binding.courseNameTv.text = item.groupName
-                binding.coursePoints.text = item.progressPercents.toString().addPercent()
+                binding.coursePoints.text = item.progressPercents.toString().addPercentSymbol()
                 binding.courseProgress.slices = listOf(
                     PieChart.Slice(
                         fraction = (item.progressPercents / 100.0).toFloat(),

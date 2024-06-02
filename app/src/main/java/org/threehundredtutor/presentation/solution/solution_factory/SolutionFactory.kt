@@ -2,7 +2,6 @@ package org.threehundredtutor.presentation.solution.solution_factory
 
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
-import org.threehundredtutor.common.ResourceProvider
 import org.threehundredtutor.core.UiCoreStrings
 import org.threehundredtutor.domain.solution.models.TestSolutionGeneralModel
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerModel
@@ -10,16 +9,16 @@ import org.threehundredtutor.domain.solution.models.solution_models.AnswerValida
 import org.threehundredtutor.domain.solution.models.test_model.QuestionModel
 import org.threehundredtutor.domain.solution.models.test_model.TestQuestionType
 import org.threehundredtutor.domain.subject_workspace.models.DirectoryModel
+import org.threehundredtutor.presentation.common.ResourceProvider
 import org.threehundredtutor.presentation.html_page.adapter.HtmlPageHeaderItem
 import org.threehundredtutor.presentation.html_page.adapter.HtmlPageStartTestUiModel
 import org.threehundredtutor.presentation.solution.mapper.toAnswerSelectRightUiModel
-import org.threehundredtutor.presentation.solution.mapper.toAnswerWithErrorsUiModel
-import org.threehundredtutor.presentation.solution.mapper.toRightAnswerUiModel
 import org.threehundredtutor.presentation.solution.ui_models.SolutionUiItem
 import org.threehundredtutor.presentation.solution.ui_models.answer_erros.AnswerWithErrorsResultUiItem
-import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerResultUiItem
-import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerUiItem
+import org.threehundredtutor.presentation.solution.ui_models.answer_erros.toAnswerWithErrorsUiModel
+import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerInputUiItem
 import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerValidationUiItem
+import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerYourAnswerUiItem
 import org.threehundredtutor.presentation.solution.ui_models.item_common.DividerUiItem
 import org.threehundredtutor.presentation.solution.ui_models.item_common.FooterUiItem
 import org.threehundredtutor.presentation.solution.ui_models.item_common.HeaderUiItem
@@ -29,6 +28,7 @@ import org.threehundredtutor.presentation.solution.ui_models.item_common.SupSubU
 import org.threehundredtutor.presentation.solution.ui_models.item_common.TextUiItem
 import org.threehundredtutor.presentation.solution.ui_models.item_common.YoutubeUiItem
 import org.threehundredtutor.presentation.solution.ui_models.right_answer.RightAnswerResultUiItem
+import org.threehundredtutor.presentation.solution.ui_models.right_answer.toRightAnswerUiModel
 import org.threehundredtutor.presentation.solution.ui_models.select_right_answer.SelectRightAnswerCheckButtonUiItem
 import org.threehundredtutor.presentation.solution.ui_models.select_right_answer.SelectRightAnswerTitleUiItem
 import org.threehundredtutor.ui_common.EMPTY_STRING
@@ -38,6 +38,19 @@ class SolutionFactory @Inject constructor(
     private val resourceProvider: ResourceProvider
 ) {
     private var solutionUiItems: MutableList<SolutionUiItem> = mutableListOf()
+
+    fun createSolution(
+        testSolutionGeneralModel: TestSolutionGeneralModel,
+        staticUrl: String
+    ): List<SolutionUiItem> =
+        testSolutionGeneralModel.testSolutionModel.flatMap { testSolutionUnionModel ->
+            createSolutionItems(
+                questionModel = testSolutionUnionModel.questionModel,
+                answerModel = testSolutionUnionModel.answerModel,
+                isQuestionLikedByStudent = testSolutionUnionModel.isQuestionLikedByStudent,
+                staticUrl = staticUrl
+            )
+        }
 
     fun createHtmlPage(
         directoryModel: DirectoryModel,
@@ -66,19 +79,6 @@ class SolutionFactory @Inject constructor(
         }
     }
 
-    fun createSolution(
-        testSolutionGeneralModel: TestSolutionGeneralModel,
-        staticUrl: String
-    ): List<SolutionUiItem> =
-        testSolutionGeneralModel.testSolutionModel.flatMap { testSolutionUnionModel ->
-            createSolutionItems(
-                questionModel = testSolutionUnionModel.questionModel,
-                answerModel = testSolutionUnionModel.answerModel,
-                isQuestionLikedByStudent = testSolutionUnionModel.isQuestionLikedByStudent,
-                staticUrl = staticUrl
-            )
-        }
-
     private fun createSolutionItems(
         questionModel: QuestionModel,
         answerModel: AnswerModel,
@@ -90,7 +90,10 @@ class SolutionFactory @Inject constructor(
         solutionUiItems.add(
             HeaderUiItem(
                 questionId = questionModel.questionId,
-                questionName = questionModel.title,
+                questionNumber = resourceProvider.string(
+                    UiCoreStrings.question_number,
+                    questionModel.questionNumber.toString()
+                ),
                 isQuestionLikedByStudent = isQuestionLikedByStudent
             )
         )
@@ -295,7 +298,7 @@ class SolutionFactory @Inject constructor(
         val pointsValidationModel = answerModel.pointsValidationModel
         val isValidated = pointsValidationModel.isValidated
 
-        solutionUiItems.add(DetailedAnswerResultUiItem(answer))
+        solutionUiItems.add(DetailedAnswerYourAnswerUiItem(answer))
         solutionUiItems.addAll(explanationList)
 
         solutionUiItems.add(
@@ -339,7 +342,13 @@ class SolutionFactory @Inject constructor(
         solutionUiItems.add(SelectRightAnswerTitleUiItem(questionModel.selectRightAnswerOrAnswersModel.selectRightAnswerTitle))
         val listAnswer = questionModel.selectRightAnswerOrAnswersModel.answersList
         listAnswer.forEach { answerSelectRightModel ->
-            solutionUiItems.add(answerSelectRightModel.toAnswerSelectRightUiModel(questionModel.questionId))
+            solutionUiItems.add(
+                answerSelectRightModel.toAnswerSelectRightUiModel(
+                    checked = false,
+                    enabled = true,
+                    questionId = questionModel.questionId
+                )
+            )
         }
         solutionUiItems.add(SelectRightAnswerCheckButtonUiItem(questionModel.questionId))
     }
@@ -365,7 +374,7 @@ class SolutionFactory @Inject constructor(
         val explanationList =
             createQuestionWithHtml(questionModel.answerExplanationMarkUp, staticUrl)
         solutionUiItems.add(
-            DetailedAnswerUiItem(
+            DetailedAnswerInputUiItem(
                 questionId = questionModel.questionId,
                 inputAnswer = EMPTY_STRING,
                 explanationList = explanationList,

@@ -2,10 +2,10 @@ package org.threehundredtutor.di.test
 
 import dagger.BindsInstance
 import dagger.Component
-import org.threehundredtutor.common.ResourceProvider
 import org.threehundredtutor.core.DiSetHelper
 import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
-import org.threehundredtutor.di.ViewModelMapFactory
+import org.threehundredtutor.di.common.ViewModelMapFactory
+import org.threehundredtutor.presentation.common.ResourceProvider
 import org.threehundredtutor.presentation.subjetc_start_test.SubjectStartTestBundleModel
 
 @Component(modules = [SubjectStartTestModule::class])

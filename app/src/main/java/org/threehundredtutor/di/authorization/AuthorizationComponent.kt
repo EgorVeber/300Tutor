@@ -2,12 +2,11 @@ package org.threehundredtutor.di.authorization
 
 import dagger.BindsInstance
 import dagger.Component
-import org.threehundredtutor.common.ResourceProvider
 import org.threehundredtutor.core.DiSetHelper
 import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
-import org.threehundredtutor.di.ScreenScope
-import org.threehundredtutor.di.ViewModelMapFactory
+import org.threehundredtutor.di.common.ViewModelMapFactory
 import org.threehundredtutor.domain.common.AccountAuthorizationInfoRepository
+import org.threehundredtutor.presentation.common.ResourceProvider
 
 /**
  * Отдельная компонента, не SubComponent, свой модуль и со своей scope*
@@ -15,7 +14,6 @@ import org.threehundredtutor.domain.common.AccountAuthorizationInfoRepository
  */
 
 @Component(modules = [AuthorizationModule::class])
-@ScreenScope
 interface AuthorizationComponent {
     fun viewModelMapFactory(): ViewModelMapFactory
 

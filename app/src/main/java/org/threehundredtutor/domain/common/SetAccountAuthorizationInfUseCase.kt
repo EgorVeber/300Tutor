@@ -6,6 +6,9 @@ class SetAccountAuthorizationInfUseCase @Inject constructor(
     private val accountAuthorizationInfoRepository: AccountAuthorizationInfoRepository
 ) {
     operator fun invoke(login: String, password: String) {
-        accountAuthorizationInfoRepository.setAccountAuthorizationInfo(login = login, password = password)
+        accountAuthorizationInfoRepository.setAccountAuthorizationInfo(
+            login = login,
+            password = password
+        )
     }
 }

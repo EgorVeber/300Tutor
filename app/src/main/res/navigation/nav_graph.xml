@@ -213,7 +213,7 @@
     <fragment
         android:id="@+id/mainMenuFragment"
         android:name="org.threehundredtutor.presentation.main_menu.MainMenuFragment"
-        android:label="MainMenuFragment" >
+        android:label="MainMenuFragment">
         <action
             android:id="@+id/action_mainMenuFragment_to_accountFragment"
             app:enterAnim="@android:anim/fade_in"

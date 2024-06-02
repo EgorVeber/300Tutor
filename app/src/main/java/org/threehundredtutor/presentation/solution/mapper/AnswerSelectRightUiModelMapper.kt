@@ -1,14 +1,14 @@
 package org.threehundredtutor.presentation.solution.mapper
 
 import org.threehundredtutor.domain.solution.models.test_model.AnswerSelectRightModel
-import org.threehundredtutor.presentation.solution.ui_models.select_right_answer.AnswerSelectRightUiModel
+import org.threehundredtutor.presentation.solution.ui_models.select_right_answer.SelectRightAnswerUiModel
 
 fun AnswerSelectRightModel.toAnswerSelectRightUiModel(
     questionId: String,
-    enabled: Boolean = true,
-    checked: Boolean = false
-): AnswerSelectRightUiModel =
-    AnswerSelectRightUiModel(
+    enabled: Boolean,
+    checked: Boolean
+): SelectRightAnswerUiModel =
+    SelectRightAnswerUiModel(
         rightAnswer = isRightAnswer,
         answer = text,
         checked = checked,

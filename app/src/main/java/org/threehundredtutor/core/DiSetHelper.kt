@@ -1,6 +1,6 @@
 package org.threehundredtutor.core
 
-import org.threehundredtutor.di.app.AppComponent
+import org.threehundredtutor.di.common.AppComponent
 
 /**
  * Instanse*
