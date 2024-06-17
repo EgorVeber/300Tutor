@@ -135,7 +135,6 @@
                 android:textColorHint="?attr/secondary"
                 app:hintTextAppearance="@style/EditTextHintTextAppearance"
                 app:hintTextColor="?attr/primary"
-                app:layout_constraintBottom_toTopOf="@+id/inputLayoutPatronymic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/inputLayoutName">
@@ -148,48 +147,12 @@
                     android:theme="@style/EditTextCursorColor" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/inputLayoutPatronymic"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_24"
-                android:layout_marginTop="@dimen/margin_12"
-                android:hint="@string/patronymic_text_ru"
-                android:textColor="?attr/textPrimary"
-                android:textColorHint="?attr/secondary"
-                app:hintTextAppearance="@style/EditTextHintTextAppearance"
-                app:hintTextColor="?attr/primary"
-                app:layout_constraintBottom_toTopOf="@+id/checkbox"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/inputLayoutSurname">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etPatronymic"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="?attr/textPrimary"
-                    android:theme="@style/EditTextCursorColor" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <CheckBox
-                android:id="@+id/checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/space_8"
-                android:text="@string/checkbox_student_title"
-                android:textColor="?attr/defaultBlack"
-                android:textSize="@dimen/text_16"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/inputLayoutPatronymic" />
-
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/space_12"
                 android:backgroundTint="?attr/primary"
                 android:fontFamily="@font/roboto_medium"
                 android:text="@string/register_button_ru"
@@ -197,7 +160,7 @@
                 app:cornerRadius="@dimen/radius_8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/checkbox"
+                app:layout_constraintTop_toBottomOf="@id/inputLayoutSurname"
                 app:layout_constraintWidth_percent="0.8" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

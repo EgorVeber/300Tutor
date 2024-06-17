@@ -9,7 +9,9 @@ import org.threehundredtutor.domain.account.models.AccountModel
 import org.threehundredtutor.domain.account.usecase.CreateLoginLinkResultUseCase
 import org.threehundredtutor.domain.account.usecase.GetAccountUseCase
 import org.threehundredtutor.domain.account.usecase.LogoutUseCase
-import org.threehundredtutor.domain.common.GetConfigUseCase
+import org.threehundredtutor.domain.settings_app.GetSettingAppUseCase
+import org.threehundredtutor.domain.settings_app.TelegramBotSettingsModel
+import org.threehundredtutor.ui_common.EMPTY_STRING
 import org.threehundredtutor.ui_common.coroutines.launchJob
 import org.threehundredtutor.ui_common.flow.SingleSharedFlow
 import org.threehundredtutor.ui_common.fragment.base.BaseViewModel
@@ -18,7 +20,7 @@ import javax.inject.Inject
 
 class AccountViewModel @Inject constructor(
     private val getAccountUseCase: GetAccountUseCase,
-    getConfigUseCase: GetConfigUseCase,
+    private val getSettingAppUseCase: GetSettingAppUseCase,
     private val logoutUseCase: LogoutUseCase,
     private val createLoginLinkResultUseCase: CreateLoginLinkResultUseCase,
 ) : BaseViewModel() {
@@ -28,17 +30,25 @@ class AccountViewModel @Inject constructor(
 
     private val accountInfoState = MutableStateFlow(AccountModel.EMPTY)
     private val accountErrorState = MutableStateFlow(false)
-
-    private val localConfig = getConfigUseCase()
+    private val telegramVisibleState = MutableStateFlow(false)
 
     init {
+        viewModelScope.launchJob(tryBlock = {
+            val settingsAppModel = getSettingAppUseCase(false)
+            if (settingsAppModel.telegramBotSettingsModel.hasBot && settingsAppModel.telegramBotSettingsModel != TelegramBotSettingsModel.empty()) {
+                telegramVisibleState.tryEmit(true)
+            }
+        }, catchBlock = { throwable ->
+            handleError(throwable)
+        })
         getAccountInfo()
     }
 
     fun getAccountInfoStateFlow() = accountInfoState.asStateFlow()
     fun getLoadingStateStateFlow() = loadingState.asStateFlow()
-    fun getaccountUiEventState() = accountUiEventState.asSharedFlow()
+    fun getAccountUiEventState() = accountUiEventState.asSharedFlow()
     fun getAccountErrorStateFlow() = accountErrorState.asSharedFlow()
+    fun getTelegramVisibleState() = telegramVisibleState.asSharedFlow()
 
     private fun getAccountInfo() {
         viewModelScope.launchJob(tryBlock = {
@@ -58,35 +68,50 @@ class AccountViewModel @Inject constructor(
     fun onLogoutClick() {
         viewModelScope.launchJob(tryBlock = {
             val isSucceeded = logoutUseCase().isSucceeded
-            if (!isSucceeded) throw UnknownServerException()
+            if (isSucceeded) {
+                accountUiEventState.tryEmit(AccountUiEvent.Logout)
+            } else {
+                throw UnknownServerException()
+            }
         }, catchBlock = { throwable ->
             handleError(throwable)
-        }, finallyBlock = {
-            accountUiEventState.tryEmit(AccountUiEvent.Logout)
         })
     }
 
     fun onTelegramClicked() {
-        accountUiEventState.tryEmit(
-            AccountUiEvent.OpenTelegram(
-                telegramBotUrl = localConfig.telegramBotUrl
+        viewModelScope.launchJob(tryBlock = {
+            val botName = getSettingAppUseCase(false).telegramBotSettingsModel.botName
+            accountUiEventState.tryEmit(
+                AccountUiEvent.OpenTelegram(
+                    telegramBotUrl = TELEGRAM_DOMAIN + botName,
+                    telegramBotName = botName
+                )
             )
-        )
+        }, catchBlock = { throwable ->
+            handleError(throwable)
+        })
     }
 
     fun onSiteClicked() {
         viewModelScope.launchJob(tryBlock = {
             loadingState.update { true }
-            val result = createLoginLinkResultUseCase.invoke(localConfig.siteUrl)
+            val result =
+                createLoginLinkResultUseCase.invoke(
+                    siteUrl = getSettingAppUseCase(false).applicationUrl,
+                    redirectLink = EMPTY_STRING
+                )
             if (result.isSucceeded) {
                 accountUiEventState.emit(
                     AccountUiEvent.OpenSite(
                         urlAuthentication = result.urlAuthentication,
-                        siteUrl = localConfig.siteUrl
                     )
                 )
             } else {
-                accountUiEventState.emit(AccountUiEvent.ShowMessage(result.errorMessage))
+                accountUiEventState.emit(
+                    AccountUiEvent.OpenSite(
+                        urlAuthentication = getSettingAppUseCase(false).applicationUrl,
+                    )
+                )
             }
         }, catchBlock = { throwable ->
             handleError(throwable)
@@ -96,11 +121,18 @@ class AccountViewModel @Inject constructor(
     }
 
     sealed interface AccountUiEvent {
-        data class OpenSite(val urlAuthentication: String, val siteUrl: String) : AccountUiEvent
+        @JvmInline
+        value class OpenSite(val urlAuthentication: String) : AccountUiEvent
+
         data class ShowMessage(val message: String) : AccountUiEvent
 
-        @JvmInline
-        value class OpenTelegram(val telegramBotUrl: String) : AccountUiEvent
+        data class OpenTelegram(val telegramBotUrl: String, val telegramBotName: String) :
+            AccountUiEvent
+
         object Logout : AccountUiEvent
+    }
+
+    companion object {
+        const val TELEGRAM_DOMAIN = "https://telegram.me/"
     }
 }

@@ -27,15 +27,8 @@ class PhotoDetailsFragment : BaseFragment(UiCoreLayout.fragment_photo_details) {
     }
 
     override fun onInitView(savedInstanceState: Bundle?) {
-        val imageId = arguments?.getString(PHOTO_DETAILED_IMAGE_ID_KEY) ?: EMPTY_STRING
-        val staticUrl = arguments?.getString(PHOTO_DETAILED_STATIC_ORIGINAL_URL_KEY) ?: EMPTY_STRING
-
-        if (imageId.isNotEmpty() && staticUrl.isNotEmpty()) {
-            binding.photoView.loadImageOriginal(id = imageId, staticUrl = staticUrl)
-        } else {
-            findNavController().popBackStack()
-        }
-
+        val imagePath = arguments?.getString(PHOTO_DETAILED_IMAGE_PATH) ?: EMPTY_STRING
+        binding.photoView.loadImageOriginal(imagePath)
         binding.photoViewToolBar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
@@ -47,7 +40,6 @@ class PhotoDetailsFragment : BaseFragment(UiCoreLayout.fragment_photo_details) {
     }
 
     companion object {
-        const val PHOTO_DETAILED_IMAGE_ID_KEY = "PHOTO_DETAILED_IMAGE_ID_KEY"
-        const val PHOTO_DETAILED_STATIC_ORIGINAL_URL_KEY = "PHOTO_DETAILED_STATIC_ORIGINAL_URL_KEY"
+        const val PHOTO_DETAILED_IMAGE_PATH = "PHOTO_DETAILED_IMAGE_PATH"
     }
 }

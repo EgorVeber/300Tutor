@@ -115,8 +115,8 @@ class SolutionManager(
 
             override fun getChangePayload(oldItem: SolutionUiItem, newItem: SolutionUiItem): Any? {
                 return when {
-                    oldItem is SelectRightAnswerUiModel && newItem is SelectRightAnswerUiModel && oldItem.enabled != newItem.enabled -> {
-                        AnswerSelectRightPayload.Enabled
+                    oldItem is SelectRightAnswerUiModel && newItem is SelectRightAnswerUiModel && oldItem.isValidated != newItem.isValidated -> {
+                        AnswerSelectRightPayload.Validated
                     }
 
                     oldItem is SelectRightAnswerUiModel && newItem is SelectRightAnswerUiModel && oldItem.checked != newItem.checked -> {
@@ -135,6 +135,14 @@ class SolutionManager(
                         true
                     }
 
+                    oldItem is DetailedAnswerValidationUiItem && newItem is DetailedAnswerValidationUiItem -> {
+                        return oldItem.isValidated != newItem.isValidated
+                    }
+
+                    oldItem is HeaderUiItem && newItem is HeaderUiItem -> {
+                        return oldItem.isQuestionLikedByStudent != newItem.isQuestionLikedByStudent
+                    }
+
                     else -> null
                 }
             }
@@ -144,7 +152,7 @@ class SolutionManager(
 
             object Checked : AnswerSelectRightPayload
 
-            object Enabled : AnswerSelectRightPayload
+            object Validated : AnswerSelectRightPayload
         }
     }
 }

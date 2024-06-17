@@ -49,25 +49,14 @@ class RegistrationFragment : BaseFragment(UiCoreLayout.registration_fragment) {
                 showMessage(getString(UiCoreStrings.phone_wrong))
                 return@setOnClickListener
             }
-            if (binding.checkbox.isEnabled) {
-                viewModel.registerStudent(
-                    email = binding.etEmail.text.toString(),
-                    name = binding.etName.text.toString(),
-                    surname = binding.etSurname.text.toString(),
-                    patronymic = binding.etPatronymic.text.toString(),
-                    phoneNumber = binding.etPhohe.text.toString(),
-                    password = binding.etPassword.text.toString()
-                )
-            } else {
-                viewModel.registerAccount(
-                    email = binding.etEmail.text.toString(),
-                    name = binding.etName.text.toString(),
-                    surname = binding.etSurname.text.toString(),
-                    patronymic = binding.etPatronymic.text.toString(),
-                    phoneNumber = binding.etPhohe.text.toString(),
-                    password = binding.etPassword.text.toString()
-                )
-            }
+
+            viewModel.registerStudent(
+                email = binding.etEmail.text.toString(),
+                name = binding.etName.text.toString(),
+                surname = binding.etSurname.text.toString(),
+                phoneNumber = binding.etPhohe.text.toString(),
+                password = binding.etPassword.text.toString()
+            )
         }
         binding.authButton.setOnClickListener {
             findNavController().navigate(R.id.action_registrationFragment_to_authorizationFragment)

@@ -13,7 +13,6 @@ class RegistrationStudentUseCase @Inject constructor(
         email: String,
         name: String,
         surname: String,
-        patronymic: String,
         phoneNumber: String,
         password: String
     ): RegistrationStudentAndSignInModel {
@@ -22,7 +21,6 @@ class RegistrationStudentUseCase @Inject constructor(
             noEmail = email.isEmpty(),
             name = name,
             surname = surname,
-            patronymic = patronymic,
             phoneNumber = phoneNumber,
             noPhoneNumber = phoneNumber.isEmpty(),
             password = password

@@ -1,8 +1,10 @@
 package org.threehundredtutor.data.main.mappers
 
 import org.threehundredtutor.data.main.response.GroupWithCourseProgressResponse
+import org.threehundredtutor.data.subject_tests.models.toIconModel
 import org.threehundredtutor.domain.main.models.CourseProgressModel
 import org.threehundredtutor.domain.main.models.GroupWithCourseProgressModel
+import org.threehundredtutor.domain.subject_tests.models.IconModel
 import org.threehundredtutor.ui_common.util.BadRequestException
 import org.threehundredtutor.ui_common.util.orFalse
 
@@ -16,5 +18,6 @@ fun GroupWithCourseProgressResponse.toGroupWithCourseProgressModel(): GroupWithC
         shouldBlockOnUtc = shouldBlockOnUtc.orEmpty(),
         useCourse = useCourse ?: throw BadRequestException(),
         courseProgressModel = courseProgressResponse?.toCourseProgressModel()
-            ?: CourseProgressModel.EMPTY
+            ?: CourseProgressModel.EMPTY,
+        iconModel = iconResponse?.toIconModel() ?: IconModel.empty
     )

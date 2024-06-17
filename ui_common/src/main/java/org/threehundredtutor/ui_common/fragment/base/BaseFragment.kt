@@ -80,6 +80,10 @@ abstract class BaseFragment(@LayoutRes layoutResourceId: Int) : Fragment(layoutR
                 showErrorToast(getString(UiCoreStrings.unknown_error_message))
             }
 
+            BaseViewModel.ErrorState.UnknownHostException -> {
+                showErrorToast(getString(UiCoreStrings.unknown_host_error_message))
+            }
+
             is BaseViewModel.ErrorState.NoError -> {}
         }
     }

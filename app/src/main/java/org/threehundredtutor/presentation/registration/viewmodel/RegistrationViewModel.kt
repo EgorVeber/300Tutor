@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.SharedFlow
 import org.threehundredtutor.domain.common.SetAccountAuthorizationInfUseCase
 import org.threehundredtutor.domain.registration.models.RegistrationAccountAndSignInModel
 import org.threehundredtutor.domain.registration.models.RegistrationStudentAndSignInModel
-import org.threehundredtutor.domain.registration.usecases.RegistrationAccountUseCase
 import org.threehundredtutor.domain.registration.usecases.RegistrationStudentUseCase
 import org.threehundredtutor.ui_common.coroutines.launchJob
 import org.threehundredtutor.ui_common.flow.SingleSharedFlow
@@ -15,7 +14,6 @@ import org.threehundredtutor.ui_common.fragment.base.BaseViewModel
 import javax.inject.Inject
 
 class RegistrationViewModel @Inject constructor(
-    private val registrationAccountUseCase: RegistrationAccountUseCase,
     private val registrationStudentUseCase: RegistrationStudentUseCase,
     private val setAccountAuthorizationInfUseCase: SetAccountAuthorizationInfUseCase,
 ) : BaseViewModel() {
@@ -36,45 +34,10 @@ class RegistrationViewModel @Inject constructor(
 
     fun getResultNotSuccessFlow(): SharedFlow<String> = resultNotSuccessFlow
 
-    fun registerAccount(
-        email: String,
-        name: String,
-        surname: String,
-        patronymic: String,
-        phoneNumber: String,
-        password: String
-    ) {
-        viewModelScope.launchJob(tryBlock = {
-            val result = registrationAccountUseCase.invoke(
-                email = email,
-                name = name,
-                surname = surname,
-                patronymic = patronymic,
-                phoneNumber = phoneNumber,
-                password = password
-            )
-            val userId = result.registrationModel.registeredUser.id
-            if (result.registrationModel.succeded && result.loginModel.succeeded) {
-                setAccountAuthorizationInfUseCase(email, password)
-                registrationAccountState.emit(result)
-            } else {
-                if (result.registrationModel.errorMessage.isNotEmpty()) {
-                    resultNotSuccessFlow.tryEmit(result.registrationModel.errorMessage)
-                } else {
-                    setAccountAuthorizationInfUseCase(email, password)
-                    resultNotSuccessFlow.tryEmit(result.loginModel.errorMessage)
-                }
-            }
-        }, catchBlock = { error ->
-            handleError(error)
-        })
-    }
-
     fun registerStudent(
         email: String,
         name: String,
         surname: String,
-        patronymic: String,
         phoneNumber: String,
         password: String
     ) {
@@ -83,7 +46,6 @@ class RegistrationViewModel @Inject constructor(
                 email = email,
                 name = name,
                 surname = surname,
-                patronymic = patronymic,
                 phoneNumber = phoneNumber,
                 password = password
             )

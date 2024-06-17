@@ -26,20 +26,26 @@
             tools:subtitle="Конспекты"
             tools:title="Биология" />
 
+        <View
+            android:id="@+id/separatorView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_1"
+            android:background="@drawable/separator_10"
+            app:layout_constraintTop_toBottomOf="@+id/solutionToolBar" />
+
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerHtmlPAge"
+            android:id="@+id/recyclerHtmlPage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="@dimen/margin_8"
             android:clipToPadding="false"
-            android:paddingTop="@dimen/space_8"
-            android:paddingBottom="@dimen/space_8"
+            android:paddingHorizontal="@dimen/margin_12"
+            android:paddingVertical="@dimen/space_16"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/finishContainer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/solutionToolBar"
-            tools:listitem="@layout/solution_header_item" />
+            tools:listitem="@layout/solution_sup_sub_item" />
     </LinearLayout>
 
     <FrameLayout

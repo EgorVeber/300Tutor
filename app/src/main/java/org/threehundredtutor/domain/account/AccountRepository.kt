@@ -7,5 +7,8 @@ import org.threehundredtutor.domain.account.models.LogoutModel
 interface AccountRepository {
     suspend fun getAccount(force: Boolean): AccountModel
     suspend fun logout(): LogoutModel
-    suspend fun createAuthentication(siteUrl: String): CreateLoginLinkResultModel
+    suspend fun createAuthentication(
+        siteUrl: String,
+        redirectLink: String
+    ): CreateLoginLinkResultModel
 }

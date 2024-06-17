@@ -1,5 +1,6 @@
 package org.threehundredtutor.presentation.solution_history.mapper
 
+import org.threehundredtutor.core.UiCorePlurals
 import org.threehundredtutor.core.UiCoreStrings
 import org.threehundredtutor.domain.solution_history.models.SolutionHistoryItemModel
 import org.threehundredtutor.presentation.common.ResourceProvider
@@ -23,10 +24,11 @@ fun SolutionHistoryItemModel.toSolutionHistoryUiModel(
             UiCoreStrings.end_date,
             solutionInfoModel.finishedOnUtc
         ),
-        pointWithTest = resourceProvider.string(
-            UiCoreStrings.received_points_out_of,
-            solutionValidationModel.studentTotalPointsString,
-            solutionValidationModel.maxTotalPointsString
+        pointWithTest = resourceProvider.quantityString(
+            UiCorePlurals.result_test_history_point,
+            solutionValidationModel.studentTotalPoints,
+            solutionValidationModel.studentTotalPoints,
+            solutionValidationModel.maxTotalPoints
         ),
         testIsSolvedPercent = resourceProvider.string(
             UiCoreStrings.test_solved,

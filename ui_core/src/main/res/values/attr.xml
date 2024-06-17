@@ -51,6 +51,7 @@
     <attr name="warningBackground" format="reference" />
     <attr name="ripple" format="reference" />
     <attr name="ripple15" format="reference" />
-    <attr name="custom_activate" format="reference" />
-    <attr name="custom_text" format="reference" />
+    <attr name="customActivate" format="reference" />
+    <attr name="customText" format="reference" />
+    <attr name="needCheckQuestion" format="reference" />
 </resources>

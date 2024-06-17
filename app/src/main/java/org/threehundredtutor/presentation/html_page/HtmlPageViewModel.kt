@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.threehundredtutor.domain.common.GetConfigUseCase
+import org.threehundredtutor.domain.settings_app.GetSettingAppUseCase
 import org.threehundredtutor.domain.solution.models.test_model.HtmlPageTestType
 import org.threehundredtutor.domain.subject_workspace.FindDirectoryByIdUseCase
 import org.threehundredtutor.domain.subject_workspace.GetWorkSpaceIdUseCase
@@ -14,6 +15,7 @@ import org.threehundredtutor.domain.subject_workspace.models.HtmlPageModel
 import org.threehundredtutor.presentation.common.ResourceProvider
 import org.threehundredtutor.presentation.html_page.adapter.HtmlPageEmptyUiItem
 import org.threehundredtutor.presentation.solution.solution_factory.SolutionFactory
+import org.threehundredtutor.presentation.solution.solution_factory.SolutionFactory.Companion.IMAGE_ORIGINAL_TYPE
 import org.threehundredtutor.presentation.solution.ui_models.SolutionUiItem
 import org.threehundredtutor.ui_common.EMPTY_STRING
 import org.threehundredtutor.ui_common.coroutines.launchJob
@@ -28,6 +30,7 @@ class HtmlPageViewModel @Inject constructor(
     private val resourceProvider: ResourceProvider,
     private val getConfigUseCase: GetConfigUseCase,
     private val getWorkSpaceIdUseCase: GetWorkSpaceIdUseCase,
+    private val getSettingAppUseCase: GetSettingAppUseCase,
 ) : BaseViewModel() {
 
     private val uiItemsState = MutableStateFlow<List<SolutionUiItem>>(listOf())
@@ -47,7 +50,7 @@ class HtmlPageViewModel @Inject constructor(
             if (directoryModel != null && directoryModel.htmlPageModel != HtmlPageModel.EMPTY && directoryModel.htmlPageModel.html.isNotEmpty()) {
                 val uiItems = solutionFactory.createHtmlPage(
                     htmlString = directoryModel.htmlPageModel.html,
-                    staticUrl = getConfigUseCase().staticMediumUrl,
+                    staticUrl = getSettingAppUseCase(false).publicImageUrlFormat,
                     directoryModel = directoryModel,
                 )
                 uiItemsState.update { uiItems }
@@ -62,12 +65,21 @@ class HtmlPageViewModel @Inject constructor(
     }
 
     fun onImageClicked(imageId: String) {
-        if (imageId.isNotEmpty()) uiEventState.tryEmit(
-            UiEvent.NavigatePhotoDetailed(
-                imageId = imageId,
-                staticOriginalUrl = getConfigUseCase().staticOriginalUrl
-            )
-        )
+        if (imageId.isNotEmpty()) {
+            viewModelScope.launchJob(tryBlock = {
+                uiEventState.tryEmit(
+                    UiEvent.NavigatePhotoDetailed(
+                        imagePath = SolutionFactory.replaceUrl(
+                            getSettingAppUseCase(force = false).publicImageUrlFormat,
+                            imageId,
+                            IMAGE_ORIGINAL_TYPE
+                        )
+                    )
+                )
+            }, catchBlock = { throwable ->
+                handleError(throwable)
+            })
+        }
     }
 
     fun onYoutubeClicked(link: String) {
@@ -112,8 +124,8 @@ class HtmlPageViewModel @Inject constructor(
             val htmlPageTestType: HtmlPageTestType
         ) : UiEvent
 
-        data class NavigatePhotoDetailed(val imageId: String, val staticOriginalUrl: String) :
-            UiEvent
+        @JvmInline
+        value class NavigatePhotoDetailed(val imagePath: String) : UiEvent
 
         @JvmInline
         value class OpenYoutube(val link: String) : UiEvent

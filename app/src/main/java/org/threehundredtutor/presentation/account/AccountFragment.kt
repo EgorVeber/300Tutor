@@ -42,8 +42,8 @@ class AccountFragment : BaseFragment(UiCoreLayout.account_fragment) {
     override fun onInitView(savedInstanceState: Bundle?) {
         binding.logout.setOnClickListener { showLogoutDialog() }
         binding.mainToolBar.setNavigationOnClickListener { findNavController().popBackStack() }
-        binding.telegramBotContainer.setOnClickListener { showTelegramDialog() }
-        binding.siteContainer.setOnClickListener { showSiteDialog() }
+        binding.telegramBotContainer.setOnClickListener { viewModel.onTelegramClicked() }
+        binding.siteContainer.setOnClickListener { viewModel.onSiteClicked() }
     }
 
     override fun onObserveData() {
@@ -55,15 +55,16 @@ class AccountFragment : BaseFragment(UiCoreLayout.account_fragment) {
             loading(loading)
         }
 
-        viewModel.getaccountUiEventState().observeFlow(this) { state ->
+        viewModel.getAccountUiEventState().observeFlow(this) { state ->
             when (state) {
-                is AccountViewModel.AccountUiEvent.OpenSite -> openSite(
-                    state.urlAuthentication,
-                    state.siteUrl
-                )
+                is AccountViewModel.AccountUiEvent.OpenSite -> openSite(state.urlAuthentication)
 
                 is AccountViewModel.AccountUiEvent.ShowMessage -> showMessage(state.message)
-                is AccountViewModel.AccountUiEvent.OpenTelegram -> openTelegram(state.telegramBotUrl)
+                is AccountViewModel.AccountUiEvent.OpenTelegram -> openTelegram(
+                    state.telegramBotUrl,
+                    state.telegramBotName
+                )
+
                 AccountViewModel.AccountUiEvent.Logout -> logout()
             }
         }
@@ -71,13 +72,17 @@ class AccountFragment : BaseFragment(UiCoreLayout.account_fragment) {
         viewModel.getAccountErrorStateFlow().observeFlow(this) { errorAccount ->
             if (errorAccount) updateAccountError()
         }
+
+        viewModel.getTelegramVisibleState().observeFlow(this) { visible ->
+            binding.telegramBotContainer.isVisible = visible
+        }
     }
 
-    private fun openSite(urlAuthentication: String, siteUrl: String) {
+    private fun openSite(urlAuthentication: String) {
         try {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(urlAuthentication)))
         } catch (e: Exception) {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(siteUrl)))
+            showMessage(getString(UiCoreStrings.unknown_error_message))
         }
     }
 
@@ -90,24 +95,18 @@ class AccountFragment : BaseFragment(UiCoreLayout.account_fragment) {
         )
     }
 
-    private fun showTelegramDialog() {
-        ActionDialogFragment.showDialog(
-            fragmentManager = childFragmentManager,
-            message = getString(UiCoreStrings.open_telegram),
-            onPositiveClick = { viewModel.onTelegramClicked() }
-        )
-    }
-
-    private fun showSiteDialog() {
-        ActionDialogFragment.showDialog(
-            fragmentManager = childFragmentManager,
-            message = getString(UiCoreStrings.open_site),
-            onPositiveClick = { viewModel.onSiteClicked() }
-        )
-    }
-
-    private fun openTelegram(telegramBotUrl: String) {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(telegramBotUrl)))
+    private fun openTelegram(telegramBotUrl: String, telegramBotName: String) {
+        try {
+            val uri = Uri.parse(TELEGRAM_LINK.replace(TELEGRAM_BOT_SUB_STRING, telegramBotName))
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
+        } catch (e: Exception) {
+            try {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(telegramBotUrl)))
+            } catch (e: Exception) {
+                showMessage(getString(UiCoreStrings.unknown_error_message))
+            }
+        }
     }
 
     private fun logout() {
@@ -134,5 +133,10 @@ class AccountFragment : BaseFragment(UiCoreLayout.account_fragment) {
 
     private fun loading(loading: Boolean) {
         binding.progress.isVisible = loading
+    }
+
+    companion object {
+        private const val TELEGRAM_LINK = "tg://resolve?domain={botTelegram}"
+        private const val TELEGRAM_BOT_SUB_STRING = "{botTelegram}"
     }
 }

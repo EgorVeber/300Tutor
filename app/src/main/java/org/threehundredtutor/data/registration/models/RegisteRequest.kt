@@ -11,8 +11,6 @@ class RegisteRequest(
     val name: String,
     @SerializedName("surname")
     val surname: String,
-    @SerializedName("patronymic")
-    val patronymic: String,
     @SerializedName("phoneNumber")
     val phoneNumber: String,
     @SerializedName("noPhoneNumber")

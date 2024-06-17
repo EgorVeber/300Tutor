@@ -1,12 +1,15 @@
 package org.threehundredtutor.presentation.starter
 
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.threehundredtutor.data.common.network.ErrorType
 import org.threehundredtutor.domain.account.usecase.GetAccountUseCase
 import org.threehundredtutor.domain.authorization.LoginParamsModel
 import org.threehundredtutor.domain.authorization.LoginUseCase
+import org.threehundredtutor.domain.common.GetConfigUseCase
+import org.threehundredtutor.domain.settings_app.GetSettingAppUseCase
 import org.threehundredtutor.domain.starter.GetAccountAuthorizationInfoUseCase
 import org.threehundredtutor.domain.starter.GetFirstStartAppUseCase
 import org.threehundredtutor.domain.starter.SetFirstStartAppUseCase
@@ -20,15 +23,20 @@ class StarterViewModel @Inject constructor(
     private val getFirstStartAppUseCase: GetFirstStartAppUseCase,
     private val setFirstStartAppUseCase: SetFirstStartAppUseCase,
     private val getAccountUseCase: GetAccountUseCase,
+    private val getSettingAppUseCase: GetSettingAppUseCase,
+    private val getConfigUseCase: GetConfigUseCase,
 ) : BaseViewModel() {
 
     private val uiEventState = MutableStateFlow<UiEvent>(UiEvent.Empty)
 
+    private val isFirstStartApp = getFirstStartAppUseCase()
+
     init {
         viewModelScope.launchJob(tryBlock = {
+            getSettingAppUseCase(true)
             val (login, password) = getAccountAuthorizationInfoUseCase.invoke()
             when {
-                getFirstStartAppUseCase.invoke() -> {
+                isFirstStartApp -> {
                     uiEventState.tryEmit(UiEvent.NavigateRegistrationScreen)
                     setFirstStartAppUseCase.invoke()
                 }
@@ -37,11 +45,11 @@ class StarterViewModel @Inject constructor(
                     val loginModel = loginUseCase.invoke(
                         LoginParamsModel(
                             password = password,
-                            rememberMe = false,
+                            rememberMe = true,
                             emailOrPhoneNumber = login
                         )
                     )
-                    if (loginModel.succeeded || loginModel.errorType == ErrorType.AlreadyAuthenticated) {
+                    if (loginModel.succeeded || loginModel.errorType == ErrorType.ALREADY_AUTHENTICATED) {
                         getAccountUseCase(true)
                         uiEventState.tryEmit(UiEvent.NavigateHomeScreen)
                     } else {

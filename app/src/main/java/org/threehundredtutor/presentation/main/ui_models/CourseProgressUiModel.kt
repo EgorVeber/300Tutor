@@ -4,4 +4,5 @@ data class CourseProgressUiModel(
     val groupId: String,
     val groupName: String,
     val progressPercents: Int,
+    val iconPath: String
 ) : MainUiItem

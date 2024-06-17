@@ -38,11 +38,11 @@ class AccountRepositoryImpl @Inject constructor(
             accountLocalDataSource.clearAccount()
         }
 
-    override suspend fun createAuthentication(siteUrl: String) =
-        accountRemoteDataSource.createAuthentication()
+    override suspend fun createAuthentication(siteUrl: String, redirectLink: String) =
+        accountRemoteDataSource.createAuthentication(redirectLink)
             .toCreateLoginLinkResultModel(siteUrl = siteUrl)
 
     companion object {
-        private const val FIVE_MINUTES = 300000L
+        private const val FIVE_MINUTES = 3000000L
     }
 }

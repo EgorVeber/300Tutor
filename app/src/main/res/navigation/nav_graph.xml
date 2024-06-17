@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_authorizationFragment_to_homeFragment"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_authorizationFragment_to_testSectionFragment"
+            app:destination="@id/schoolFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
@@ -107,6 +110,13 @@
         <action
             android:id="@+id/action_mainFragment_to_mainMenuFragment"
             app:destination="@id/mainMenuFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/solutionHistoryFragment"
@@ -216,14 +226,61 @@
         android:label="MainMenuFragment">
         <action
             android:id="@+id/action_mainMenuFragment_to_accountFragment"
+            app:destination="@id/accountFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:destination="@id/accountFragment" />
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_mainMenuFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_favoritesFragment"
+            app:destination="@id/favoritesFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+    <fragment
+        android:id="@+id/schoolFragment"
+        android:name="org.threehundredtutor.presentation.test_section.SchoolFragment"
+        android:label="SchoolFragment">
+        <action
+            android:id="@+id/action_schoolFragment_to_authorizationFragment"
+            app:destination="@id/authorizationFragment" />
+        <action
+            android:id="@+id/action_schoolFragment_to_startedFragment"
+            app:destination="@id/startedFragment" />
+        <action
+            android:id="@+id/action_schoolFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="org.threehundredtutor.presentation.course.WebViewFragment"
+        android:label="WebViewFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="org.threehundredtutor.presentation.settings.SettingsFragment"
+        android:label="SettingsFragment">
+        <action
+            android:id="@+id/action_settingsFragment_to_schoolFragment"
+            app:destination="@id/schoolFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="org.threehundredtutor.presentation.favorites.FavoritesFragment"
+        android:label="FavoritesFragment" />
 
 </navigation>

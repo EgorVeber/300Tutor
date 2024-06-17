@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import org.threehundredtutor.core.UiCoreStrings
 import org.threehundredtutor.domain.common.GetConfigUseCase
+import org.threehundredtutor.domain.settings_app.GetSettingAppUseCase
 import org.threehundredtutor.domain.solution.models.params_model.QuestionSolutionIdParamsModel
 import org.threehundredtutor.domain.solution.models.params_model.SaveQuestionPointsValidationParamsModel
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerModel
-import org.threehundredtutor.domain.solution.models.solution_models.AnswerValidationResultType
 import org.threehundredtutor.domain.solution.usecase.ChangeLikeQuestionUseCase
 import org.threehundredtutor.domain.solution.usecase.CheckAnswerUseCase
 import org.threehundredtutor.domain.solution.usecase.FinishSolutionUseCase
@@ -66,6 +66,7 @@ class SolutionViewModel @Inject constructor(
     private val finishSolutionUseCase: FinishSolutionUseCase,
     private val getSolutionAnswersFlowUseCase: GetSolutionAnswersFlowUseCase,
     private val isAllQuestionHaveAnswerUseCase: IsAllQuestionHaveAnswerUseCase,
+    private val getSettingAppUseCase: GetSettingAppUseCase,
 ) : BaseViewModel() {
     private val localConfig = getConfigUseCase()
     private val startTestMessage = resourceProvider.string(UiCoreStrings.start_test_message)
@@ -83,7 +84,8 @@ class SolutionViewModel @Inject constructor(
     private val testInfoState = MutableStateFlow(EMPTY_STRING)
     private val answerCountState = MutableStateFlow(EMPTY_STRING)
     private val showResultDialogEventState = SingleSharedFlow<ResultTestUiModel>()
-    private val errorState = MutableStateFlow(false) // TODO TutorAndroid-72 SolutionFragment Подправить UI.
+    private val errorState =
+        MutableStateFlow(false)
 
     fun getUiItemStateFlow() = uiItemsState.asStateFlow()
     fun getShowResultDialogEventFlow() = showResultDialogEventState.asSharedFlow()
@@ -102,6 +104,7 @@ class SolutionViewModel @Inject constructor(
         val isGetSolution = solutionParamsDaggerModel.solutionId.isNotEmpty()
 
         getSolutionAnswersFlowUseCase().onEach { map ->
+            // TODO не используем до введения локального сохранения ответов.
             answerCountState.update {
                 resourceProvider.string(
                     UiCoreStrings.answer_solution_test_changed,
@@ -113,6 +116,7 @@ class SolutionViewModel @Inject constructor(
 
         viewModelScope.launchJob(tryBlock = {
             loadingState.update { true }
+
             val testSolutionModel = when {
                 isGenerateTestByDirectory -> {
                     startTestDirectoryUseCase.invoke(
@@ -133,7 +137,7 @@ class SolutionViewModel @Inject constructor(
 
             uiItemsState.value = solutionFactory.createSolution(
                 testSolutionGeneralModel = testSolutionModel,
-                staticUrl = localConfig.staticMediumUrl
+                staticUrl = getSettingAppUseCase(false).publicImageUrlFormat
             )
 
             // Порядок не менять иначе все сломается
@@ -176,7 +180,7 @@ class SolutionViewModel @Inject constructor(
                 val testSolutionModel = getSolutionUseCase.invoke(currentSolutionId)
                 uiItemsState.value = solutionFactory.createSolution(
                     testSolutionGeneralModel = testSolutionModel,
-                    staticUrl = localConfig.staticMediumUrl
+                    staticUrl = getSettingAppUseCase(false).publicImageUrlFormat
                 )
                 resultButtonState.emit(true)
                 finishButtonState.emit(false)
@@ -296,7 +300,7 @@ class SolutionViewModel @Inject constructor(
             uiItemsState.update { uiItems ->
                 uiItems.map { uiItem ->
                     if (uiItem is SelectRightAnswerUiModel && uiItem.questionId == currentQuestionId) {
-                        uiItem.copy(enabled = false)
+                        uiItem.copy(isValidated = true)
                     } else {
                         uiItem
                     }
@@ -353,7 +357,7 @@ class SolutionViewModel @Inject constructor(
                 inputPoint = EMPTY_STRING,
                 pointTotal = answerModel.pointsValidationModel.questionTotalPoints.toString(),
                 questionId = answerModel.questionId,
-                type = AnswerValidationResultType.UNKNOWN,
+                type = answerModel.answerValidationResultType, // Понаблюдать
                 isValidated = answerModel.pointsValidationModel.isValidated,
                 pointsString = getPointString(answerModel),
             )
@@ -397,9 +401,10 @@ class SolutionViewModel @Inject constructor(
                     /* list = */ currentList,
                     /* oldVal = */answerValidationItemUiModel,
                     /* newVal = */ answerValidationItemUiModel.copy(
-                        inputPoint = inputPoint,
+                        inputPoint = result.answerModel.pointsValidationModel.answerPoints.toString(),
                         type = result.answerModel.answerValidationResultType,
                         isValidated = result.answerModel.pointsValidationModel.isValidated,
+                        pointsString = getPointString(result.answerModel)
                     )
                 )
                 uiItemsState.update { currentList }
@@ -417,23 +422,24 @@ class SolutionViewModel @Inject constructor(
         })
     }
 
-    fun onDeleteValidationClicked(answerValidationItemUiModel: DetailedAnswerValidationUiItem) {
+    fun onDeleteValidationClicked(detailedAnswerValidationUiItem: DetailedAnswerValidationUiItem) {
         viewModelScope.launchJob(tryBlock = {
             loadingState.update { true }
             val result = validationRemoveUseCase.invoke(
                 solutionId = currentSolutionId,
-                questionId = answerValidationItemUiModel.questionId
+                questionId = detailedAnswerValidationUiItem.questionId
             )
+
             if (result.isSucceeded) {
                 uiEventState.emit(UiEvent.ShowSnack(result.message, SnackBarType.SUCCESS))
                 val currentList = uiItemsState.value.toMutableList()
                 Collections.replaceAll(
                     /* list = */ currentList,
-                    /* oldVal = */answerValidationItemUiModel,
-                    /* newVal = */ answerValidationItemUiModel.copy(
-                        inputPoint = EMPTY_STRING,
-                        type = AnswerValidationResultType.UNKNOWN,
-                        isValidated = false,
+                    /* oldVal = */detailedAnswerValidationUiItem,
+                    /* newVal = */ detailedAnswerValidationUiItem.copy(
+                        inputPoint = result.answerModel.pointsValidationModel.answerPoints.toString(),
+                        type = result.answerModel.answerValidationResultType,
+                        isValidated = result.answerModel.pointsValidationModel.isValidated,
                     )
                 )
                 uiItemsState.update { currentList }
@@ -517,12 +523,22 @@ class SolutionViewModel @Inject constructor(
     }
 
     fun onImageClicked(imageId: String) {
-        if (imageId.isNotEmpty()) uiEventState.tryEmit(
-            UiEvent.NavigatePhotoDetailed(
-                imageId = imageId,
-                staticOriginalUrl = localConfig.staticOriginalUrl
-            )
-        )
+        if (imageId.isNotEmpty()) {
+            viewModelScope.launchJob(tryBlock = {
+                uiEventState.tryEmit(
+                    UiEvent.NavigatePhotoDetailed(
+                        imagePath =
+                        SolutionFactory.replaceUrl(
+                            url = getSettingAppUseCase(false).publicImageUrlFormat,
+                            fileId = imageId,
+                            type = SolutionFactory.IMAGE_ORIGINAL_TYPE
+                        )
+                    )
+                )
+            }, catchBlock = { throwable ->
+                handleError(throwable)
+            })
+        }
     }
 
     fun onQuestionLikeClicked(headerUiItem: HeaderUiItem) {
@@ -564,6 +580,7 @@ class SolutionViewModel @Inject constructor(
         }
     }
 
+    // TODO не использует до введения локалькного сохранения ответов. После будем смотреть если есть локально введенные не пролвернные ответы то показываем диалог с предупреждением что локаольноые ответы не сохроняться.
     fun onBackClicked() {
         if (isFinished || errorState.value) {
             uiEventState.tryEmit(UiEvent.NavigateBack)
@@ -581,11 +598,19 @@ class SolutionViewModel @Inject constructor(
         )
     }
 
-    sealed interface UiEvent {
-        data class NavigatePhotoDetailed(val imageId: String, val staticOriginalUrl: String) :
-            UiEvent
+    private var visibleFinishTestFlag = false
 
+    fun onLastItemVisible() {
+        if (visibleFinishTestFlag) return
+        visibleFinishTestFlag = true
+        finishButtonState.tryEmit(true)
+    }
+
+    sealed interface UiEvent {
         data class ShowSnack(val message: String, val snackBarType: SnackBarType) : UiEvent
+
+        @JvmInline
+        value class NavigatePhotoDetailed(val imagePath: String) : UiEvent
 
         @JvmInline
         value class ShowMessage(val message: String) : UiEvent

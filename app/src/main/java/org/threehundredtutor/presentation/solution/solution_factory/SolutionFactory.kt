@@ -5,7 +5,6 @@ import org.jsoup.select.Elements
 import org.threehundredtutor.core.UiCoreStrings
 import org.threehundredtutor.domain.solution.models.TestSolutionGeneralModel
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerModel
-import org.threehundredtutor.domain.solution.models.solution_models.AnswerValidationResultType.UNKNOWN
 import org.threehundredtutor.domain.solution.models.test_model.QuestionModel
 import org.threehundredtutor.domain.solution.models.test_model.TestQuestionType
 import org.threehundredtutor.domain.subject_workspace.models.DirectoryModel
@@ -42,15 +41,19 @@ class SolutionFactory @Inject constructor(
     fun createSolution(
         testSolutionGeneralModel: TestSolutionGeneralModel,
         staticUrl: String
-    ): List<SolutionUiItem> =
-        testSolutionGeneralModel.testSolutionModel.flatMap { testSolutionUnionModel ->
+    ): List<SolutionUiItem> {
+        val lastIndex = testSolutionGeneralModel.testSolutionModel.lastIndex
+
+        return testSolutionGeneralModel.testSolutionModel.flatMapIndexed { index, testSolutionUnionModel ->
             createSolutionItems(
                 questionModel = testSolutionUnionModel.questionModel,
                 answerModel = testSolutionUnionModel.answerModel,
                 isQuestionLikedByStudent = testSolutionUnionModel.isQuestionLikedByStudent,
-                staticUrl = staticUrl
+                staticUrl = staticUrl,
+                isLastItem = index == lastIndex
             )
         }
+    }
 
     fun createHtmlPage(
         directoryModel: DirectoryModel,
@@ -61,7 +64,6 @@ class SolutionFactory @Inject constructor(
             add(HtmlPageHeaderItem)
             addAll(createQuestionWithHtml(htmlString = htmlString, staticUrl = staticUrl))
             add(FooterUiItem)
-            add(DividerUiItem(DividerType.BACKGROUND))
             add(DividerUiItem(DividerType.BACKGROUND))
             if (directoryModel.hasTest()) {
                 add(
@@ -79,12 +81,45 @@ class SolutionFactory @Inject constructor(
         }
     }
 
+    fun createFavoritesQuestion(
+        questionList: List<QuestionModel>,
+        staticUrl: String,
+    ): List<SolutionUiItem> {
+        val lastQuestionIndex = questionList.lastIndex
+        return questionList.flatMapIndexed { index: Int, questionModel: QuestionModel ->
+            solutionUiItems.clear()
+            solutionUiItems.add(
+                HeaderUiItem(
+                    questionId = questionModel.questionId,
+                    questionNumber = resourceProvider.string(
+                        UiCoreStrings.question_number,
+                        questionModel.questionNumber.toString()
+                    ),
+                    isQuestionLikedByStudent = true
+                )
+            )
+            solutionUiItems += createQuestionWithHtml(
+                htmlString = questionModel.titleBodyMarkUp,
+                staticUrl = staticUrl
+            )
+
+            //createSolutionForAnswerWithType(questionModel = questionModel, staticUrl = staticUrl)
+            if (index == lastQuestionIndex) {
+                createBottomItems(0)
+            } else {
+                createBottomItems(COUNT_DIVIDER_BOTTOM_QUESTION)
+            }
+            solutionUiItems
+        }
+    }
+
     private fun createSolutionItems(
         questionModel: QuestionModel,
         answerModel: AnswerModel,
         isQuestionLikedByStudent: Boolean,
         countDividerBottomQuestion: Int = COUNT_DIVIDER_BOTTOM_QUESTION,
-        staticUrl: String
+        staticUrl: String,
+        isLastItem: Boolean
     ): List<SolutionUiItem> {
         solutionUiItems.clear()
         solutionUiItems.add(
@@ -111,7 +146,12 @@ class SolutionFactory @Inject constructor(
         } else {
             createSolutionForAnswerWithType(questionModel = questionModel, staticUrl = staticUrl)
         }
-        createBottomItems(countDividerBottomQuestion)
+
+        if (isLastItem) {
+            createBottomItems(0)
+        } else {
+            createBottomItems(countDividerBottomQuestion)
+        }
         return solutionUiItems
     }
 
@@ -140,10 +180,11 @@ class SolutionFactory @Inject constructor(
 
             when {
                 isImageItem -> {
+                    val imageId = element.attr(FILE_ID_ATTR)
                     solutionUiItems.add(
                         ImageUiItem(
-                            idImage = element.attr(FILE_ID_ATTR),
-                            staticUrl = staticUrl
+                            idImage = imageId,
+                            path = replaceUrl(staticUrl, imageId)
                         )
                     )
                 }
@@ -220,12 +261,11 @@ class SolutionFactory @Inject constructor(
 
         val rightAnswersList = questionModel.selectRightAnswerOrAnswersModel.answersList
 
-
         rightAnswersList.forEach { answerSelectRightModel ->
             solutionUiItems.add(
                 answerSelectRightModel.toAnswerSelectRightUiModel(
                     questionId = questionModel.questionId,
-                    enabled = false,
+                    isValidated = true,
                     checked = answerList.contains(answerSelectRightModel.text)
                 )
             )
@@ -306,7 +346,7 @@ class SolutionFactory @Inject constructor(
                 inputPoint = if (isValidated) pointsValidationModel.answerPoints.toString() else EMPTY_STRING,
                 pointTotal = pointsValidationModel.questionTotalPoints.toString(),
                 questionId = questionModel.questionId,
-                type = if (isValidated) answerModel.answerValidationResultType else UNKNOWN,
+                type = answerModel.answerValidationResultType,
                 isValidated = isValidated,
                 pointsString = getPointString(answerModel),
             )
@@ -345,7 +385,7 @@ class SolutionFactory @Inject constructor(
             solutionUiItems.add(
                 answerSelectRightModel.toAnswerSelectRightUiModel(
                     checked = false,
-                    enabled = true,
+                    isValidated = false,
                     questionId = questionModel.questionId
                 )
             )
@@ -389,8 +429,9 @@ class SolutionFactory @Inject constructor(
         }
     }
 
+
     companion object {
-        private const val COUNT_DIVIDER_BOTTOM_QUESTION = 6
+        private const val COUNT_DIVIDER_BOTTOM_QUESTION = 2
         private const val FILE_IMAGE_TAG = "file-image"
         private const val SUP_TEXT_TAG = "sup"
         private const val SUB_TEXT_TAG = "sub"
@@ -399,6 +440,15 @@ class SolutionFactory @Inject constructor(
         private const val EXTERNAL_VIDEO = "external-video"
         private const val LINK = "link"
 
+        private const val FORMAT_SIZE_TYPE = "{sizeType}"
+        private const val FORMAT_FILE_ID = "{fileId}"
+        private const val IMAGE_MEDIUM_TYPE = "Medium"
+        const val IMAGE_ORIGINAL_TYPE = "Original"
+
         private const val ANSWERS_DELIMITERS = ";"
+
+        fun replaceUrl(url: String, fileId: String, type: String = IMAGE_MEDIUM_TYPE): String {
+            return url.replace(FORMAT_FILE_ID, fileId).replace(FORMAT_SIZE_TYPE, type)
+        }
     }
 }

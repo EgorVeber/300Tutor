@@ -2,7 +2,7 @@
 <resources>
     <dimen name="size_1">1dp</dimen>
     <dimen name="size_2">2dp</dimen>
-    <dimen name="size_3">2dp</dimen>
+    <dimen name="size_3">3dp</dimen>
     <dimen name="size_4">4dp</dimen>
     <dimen name="size_8">8dp</dimen>
     <dimen name="size_10">10dp</dimen>
@@ -27,6 +27,7 @@
     <dimen name="size_144">144dp</dimen>
     <dimen name="size_192">192dp</dimen>
     <dimen name="size_256">256dp</dimen>
+    <dimen name="size_300">300dp</dimen>
 
     <dimen name="space_2">2dp</dimen>
     <dimen name="space_4">4dp</dimen>
@@ -104,5 +105,5 @@
     <dimen name="elevation_8">8dp</dimen>
 
     <dimen name="pie_chart_size">180dp</dimen>
-    <dimen name="solution_item_space_horizontal">8dp</dimen>
+    <dimen name="solution_item_space_horizontal">12dp</dimen>
 </resources>

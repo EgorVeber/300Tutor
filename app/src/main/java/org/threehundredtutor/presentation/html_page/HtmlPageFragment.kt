@@ -9,12 +9,14 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import org.threehundredtutor.R
+import org.threehundredtutor.core.UiCoreDimens
 import org.threehundredtutor.core.UiCoreLayout
 import org.threehundredtutor.core.navigate
 import org.threehundredtutor.di.html_page.HtmlPageComponent
 import org.threehundredtutor.presentation.html_page.adapter.HtmlPageManager
 import org.threehundredtutor.presentation.solution.PhotoDetailsFragment
 import org.threehundredtutor.presentation.solution.SolutionFragment
+import org.threehundredtutor.presentation.solution.adapter.SolutionItemDecoration
 import org.threehundredtutor.ui_common.EMPTY_STRING
 import org.threehundredtutor.ui_common.flow.observeFlow
 import org.threehundredtutor.ui_common.fragment.base.BaseFragment
@@ -58,7 +60,14 @@ class HtmlPageFragment : BaseFragment(UiCoreLayout.html_page_fragment) {
     }
 
     override fun onInitView(savedInstanceState: Bundle?) {
-        binding.recyclerHtmlPAge.adapter = delegateAdapter
+        binding.recyclerHtmlPage.adapter = delegateAdapter
+        binding.recyclerHtmlPage.addItemDecoration(
+            SolutionItemDecoration(
+                paddingItems = resources.getDimension(
+                    UiCoreDimens.solution_item_space_horizontal
+                )
+            )
+        )
         binding.htmlPageToolbar.title = title
         binding.htmlPageToolbar.subtitle = subTitle
         binding.htmlPageToolbar.setNavigationOnClickListener {
@@ -83,11 +92,7 @@ class HtmlPageFragment : BaseFragment(UiCoreLayout.html_page_fragment) {
             when (uiEvent) {
                 is HtmlPageViewModel.UiEvent.NavigatePhotoDetailed -> {
                     navigate(R.id.action_htmlPageFragment_to_photoDetailsFragment, Bundle().apply {
-                        putString(PhotoDetailsFragment.PHOTO_DETAILED_IMAGE_ID_KEY, uiEvent.imageId)
-                        putString(
-                            PhotoDetailsFragment.PHOTO_DETAILED_STATIC_ORIGINAL_URL_KEY,
-                            uiEvent.staticOriginalUrl
-                        )
+                        putString(PhotoDetailsFragment.PHOTO_DETAILED_IMAGE_PATH, uiEvent.imagePath)
                     })
                 }
 

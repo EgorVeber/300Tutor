@@ -7,14 +7,15 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.threehundredtutor.core.UiCoreStrings
+import org.threehundredtutor.domain.account.usecase.CreateLoginLinkResultUseCase
 import org.threehundredtutor.domain.account.usecase.GetAccountUseCase
 import org.threehundredtutor.domain.common.GetConfigUseCase
-import org.threehundredtutor.domain.main.models.ExtraButtonInfoModel
 import org.threehundredtutor.domain.main.models.GroupWithCourseProgressModel
 import org.threehundredtutor.domain.main.usecase.EnterGroupUseCase
 import org.threehundredtutor.domain.main.usecase.GetCoursesUseCase
 import org.threehundredtutor.domain.main.usecase.GetExtraButtonsUseCase
 import org.threehundredtutor.domain.main.usecase.GetSubjectUseCase
+import org.threehundredtutor.domain.settings_app.GetSettingAppUseCase
 import org.threehundredtutor.presentation.common.ResourceProvider
 import org.threehundredtutor.presentation.main.mapper.toCourseProgressUiModel
 import org.threehundredtutor.presentation.main.mapper.toCourseUiModel
@@ -23,16 +24,14 @@ import org.threehundredtutor.presentation.main.ui_models.ActivateKeyUiItem
 import org.threehundredtutor.presentation.main.ui_models.CourseLottieUiItem
 import org.threehundredtutor.presentation.main.ui_models.CourseProgressUiModel
 import org.threehundredtutor.presentation.main.ui_models.CourseUiModel
-import org.threehundredtutor.presentation.main.ui_models.FooterContentUiItem
 import org.threehundredtutor.presentation.main.ui_models.FooterUiItem
-import org.threehundredtutor.presentation.main.ui_models.HeaderContentUiItem
 import org.threehundredtutor.presentation.main.ui_models.HeaderUiItem
+import org.threehundredtutor.presentation.main.ui_models.MainDividerUiItem
 import org.threehundredtutor.presentation.main.ui_models.MainUiItem
 import org.threehundredtutor.presentation.main.ui_models.SubjectUiModel
 import org.threehundredtutor.ui_common.coroutines.launchJob
 import org.threehundredtutor.ui_common.flow.SingleSharedFlow
 import org.threehundredtutor.ui_common.fragment.base.BaseViewModel
-import org.threehundredtutor.ui_common.util.addQuotesSymbol
 import org.threehundredtutor.ui_core.SnackBarType
 import javax.inject.Inject
 
@@ -40,16 +39,17 @@ class MainViewModel @Inject constructor(
     private val getSubjectUseCase: GetSubjectUseCase,
     private val getCoursesUseCase: GetCoursesUseCase,
     private val getConfigUseCase: GetConfigUseCase,
+    private val getSettingAppUseCase: GetSettingAppUseCase,
     private val resourceProvider: ResourceProvider,
     private val enterGroupUseCase: EnterGroupUseCase,
     private val getExtraButtonsUseCase: GetExtraButtonsUseCase,
     private val getAccountUseCase: GetAccountUseCase,
+    private val createLoginLinkResultUseCase: CreateLoginLinkResultUseCase,
 ) : BaseViewModel() {
 
     private val uiItemsState = MutableStateFlow<List<MainUiItem>>(listOf())
     private val uiEventState = SingleSharedFlow<UiEvent>()
     private val loadingState = MutableStateFlow(false)
-
 
     fun getUiEventStateFlow() = uiEventState.asSharedFlow()
     fun getUiItemStateFlow() = uiItemsState.asStateFlow()
@@ -62,9 +62,12 @@ class MainViewModel @Inject constructor(
     private fun loadListData() {
         viewModelScope.launchJob(tryBlock = {
             loadingState.tryEmit(true)
+            val applicationUrl = getSettingAppUseCase(false).applicationUrl
+            val imagePackModel = getSettingAppUseCase(false).imagesPack
+
             val subjects = async {
                 getSubjectUseCase.invoke().map { subjectModel ->
-                    subjectModel.toSubjectUiModel()
+                    subjectModel.toSubjectUiModel(applicationUrl)
                 }
             }
 
@@ -76,20 +79,18 @@ class MainViewModel @Inject constructor(
                 async {
                     getCoursesUseCase(studentId.await()).map { progressModel: GroupWithCourseProgressModel ->
                         if (progressModel.useCourse) {
-                            progressModel.toCourseProgressUiModel()
+                            progressModel.toCourseProgressUiModel(applicationUrl)
                         } else {
-                            progressModel.toCourseUiModel()
+                            progressModel.toCourseUiModel(applicationUrl)
                         }
                     }
                 }
-
-            val extraButtons = async { getExtraButtonsUseCase() }
 
             uiItemsState.update {
                 buildUiItems(
                     courses = courses.await(),
                     subjects = subjects.await(),
-                    extraButtons = extraButtons.await()
+                    emptyCoursesImagePath = imagePackModel.error
                 )
             }
         }, catchBlock =
@@ -104,25 +105,18 @@ class MainViewModel @Inject constructor(
     private fun buildUiItems(
         courses: List<MainUiItem>,
         subjects: List<SubjectUiModel>,
-        extraButtons: List<ExtraButtonInfoModel>
+        emptyCoursesImagePath: String,
     ): List<MainUiItem> = buildList {
-        add(ActivateKeyUiItem)
-
         add(HeaderUiItem(resourceProvider.string(UiCoreStrings.my_course)))
         if (courses.isNotEmpty()) addAll(courses)
-        else add(CourseLottieUiItem)
+        else add(CourseLottieUiItem(emptyCoursesImagePath))
+        add(ActivateKeyUiItem(courses.isNotEmpty()))
         add(FooterUiItem)
-
+        add(MainDividerUiItem)
         if (subjects.isNotEmpty()) {
             add(HeaderUiItem(resourceProvider.string(UiCoreStrings.subject)))
             addAll(subjects)
             add(FooterUiItem)
-        }
-
-        if (extraButtons.isNotEmpty()) {
-            add(HeaderContentUiItem)
-            addAll(extraButtons)
-            add(FooterContentUiItem)
         }
     }
 
@@ -132,52 +126,84 @@ class MainViewModel @Inject constructor(
 
     fun onCourseClicked(courseUiModel: CourseUiModel) {
         //TODO sprint4
+        createLoginLinkAndShowDialog(getLinkGroupById(courseUiModel.groupId))
     }
 
     fun onCourseProgressClicked(courseProgressUiModel: CourseProgressUiModel) {
-        //TODO sprint4
+        //TODO sprint4=
+        createLoginLinkAndShowDialog(getLinkGroupById(courseProgressUiModel.groupId))
     }
 
     fun onCourseLottieClicked() {
         //TODO /api/tutor/course-shop-window-detailed/default
+        createLoginLinkAndShowDialog(REDIRECT_LINK_COURSES)
     }
 
-    fun onActivateKeyClicked(key: String) {
+    private fun createLoginLinkAndShowDialog(link: String) {
         viewModelScope.launchJob(tryBlock = {
-            val result = enterGroupUseCase.invoke(key)
-            if (result.succeeded) {
+            val setting = getSettingAppUseCase(false)
+            val result = createLoginLinkResultUseCase(setting.applicationUrl, link)
+            if (result.isSucceeded) {
                 uiEventState.tryEmit(
-                    UiEvent.ShowSnack(
-                        resourceProvider.string(
-                            UiCoreStrings.activate_key_message,
-                            result.groupName.addQuotesSymbol()
-                        )
+                    UiEvent.NavigateWebScreen(
+                        urlAuthentication = result.urlAuthentication,
+                        siteUrl = setting.applicationUrl,
+                        schoolName = setting.applicationName
                     )
                 )
-                loadListData()
             } else {
-                uiEventState.tryEmit(UiEvent.ShowSnack(result.errorMessage, SnackBarType.ERROR))
+                uiEventState.tryEmit(
+                    UiEvent.ShowSnack(
+                        resourceProvider.string(UiCoreStrings.main_to_web_screen_link_failed),
+                        SnackBarType.ERROR
+                    )
+                )
             }
         }, catchBlock = { throwable ->
             handleError(throwable)
         })
     }
 
-    fun onExtraButtonClicked(link: String) {
-        uiEventState.tryEmit(UiEvent.ShowDialogOpenLink(link))
+    fun onActivateKeyClicked() {
+        uiEventState.tryEmit(UiEvent.OpenActivateKeyDialog)
     }
 
-    fun onDialogOpenLinkPositiveClicked(link: String) {
-        uiEventState.tryEmit(UiEvent.OpenLink(link = link, siteUrl = getConfigUseCase().siteUrl))
+    private fun getLinkGroupById(id: String) =
+        REDIRECT_STUDENT_GROUP_COURSES.replace(ID_GROUP, id)
+
+    fun onTickUpClicked() {
+        createLoginLinkAndShowDialog(REDIRECT_LINK_COURSES)
     }
+
+    fun onSuccessActivateKey() {
+        loadListData()
+    }
+
+    fun onRefresh() {
+        loadListData()
+    }
+
 
     sealed interface UiEvent {
-        data class ShowDialogOpenLink(val link: String) : UiEvent
         data class NavigateToDetailedSubject(val subjectInfo: Pair<String, String>) : UiEvent
-        data class OpenLink(val link: String, val siteUrl: String) : UiEvent
+
+        data class NavigateWebScreen(
+            val urlAuthentication: String,
+            val schoolName: String,
+            val siteUrl: String
+        ) : UiEvent
+
+        object OpenActivateKeyDialog : UiEvent
+
         data class ShowSnack(
             val message: String,
             val snackBarType: SnackBarType = SnackBarType.SUCCESS
         ) : UiEvent
+    }
+
+    companion object {
+        const val REDIRECT_LINK_COURSES = "/courses"
+        const val ID_GROUP = "{id}"
+        const val REDIRECT_STUDENT_GROUP_COURSES = "/student/group/{id}"
     }
 }

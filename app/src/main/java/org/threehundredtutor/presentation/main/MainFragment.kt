@@ -1,21 +1,20 @@
 package org.threehundredtutor.presentation.main
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import org.threehundredtutor.R
 import org.threehundredtutor.core.UiCoreLayout
-import org.threehundredtutor.core.UiCoreStrings
 import org.threehundredtutor.core.navigate
 import org.threehundredtutor.di.main.MainComponent
+import org.threehundredtutor.presentation.course.WebViewFragment
+import org.threehundredtutor.presentation.main.activate_key_dialog.ActivateKeyDialogFragment
 import org.threehundredtutor.presentation.main.adapter.MainManager
 import org.threehundredtutor.ui_common.flow.observeFlow
-import org.threehundredtutor.ui_common.fragment.ActionDialogFragment
 import org.threehundredtutor.ui_common.fragment.base.BaseFragment
 import org.threehundredtutor.ui_common.fragment.showSnack
+import org.threehundredtutor.ui_core.SnackBarType
 import org.threehundredtutor.ui_core.databinding.MainFragmentBinding
 
 class MainFragment : BaseFragment(UiCoreLayout.main_fragment) {
@@ -34,8 +33,11 @@ class MainFragment : BaseFragment(UiCoreLayout.main_fragment) {
         subjectClickListener = { subjectUiModel ->
             viewModel.onSubjectClicked(subjectUiModel)
         },
-        activateKeyClickListener = { key ->
-            viewModel.onActivateKeyClicked(key)
+        activateKeyClickListener = {
+            viewModel.onActivateKeyClicked()
+        },
+        tickUpClickListener = {
+            viewModel.onTickUpClicked()
         },
         courseUiModelClickListener = { courseUiModel ->
             viewModel.onCourseClicked(courseUiModel)
@@ -43,13 +45,27 @@ class MainFragment : BaseFragment(UiCoreLayout.main_fragment) {
         courseProgressUiModelClickListener = { courseProgressUiModel ->
             viewModel.onCourseProgressClicked(courseProgressUiModel)
         },
-        extraButtonClickListener = { link ->
-            viewModel.onExtraButtonClicked(link)
-        },
+        extraButtonClickListener = { link -> },
         courseLottieUiItemClickListener = {
             viewModel.onCourseLottieClicked()
         }
     )
+
+    private fun setResultKeyListener() {
+        childFragmentManager.setFragmentResultListener(
+            ACTIVATE_KEY_KEY,
+            viewLifecycleOwner
+        ) { _, bundle ->
+            val message = bundle.getString(ACTIVATE_KEY_DATA) ?: ""
+            if (message.isNotEmpty()) {
+                showSnack(
+                    title = message,
+                    backgroundColor = SnackBarType.SUCCESS.colorRes
+                )
+            }
+            viewModel.onSuccessActivateKey()
+        }
+    }
 
     private lateinit var binding: MainFragmentBinding
 
@@ -60,6 +76,9 @@ class MainFragment : BaseFragment(UiCoreLayout.main_fragment) {
 
     override fun onInitView(savedInstanceState: Bundle?) {
         binding.mainRecycler.adapter = delegateAdapter
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.onRefresh()
+        }
     }
 
     override fun onObserveData() {
@@ -69,7 +88,6 @@ class MainFragment : BaseFragment(UiCoreLayout.main_fragment) {
 
         viewModel.getUiEventStateFlow().observeFlow(this) { state ->
             when (state) {
-
                 is MainViewModel.UiEvent.NavigateToDetailedSubject -> {
                     navigate(R.id.action_mainFragment_to_subjectDetailedFragment,
                         Bundle().apply {
@@ -85,42 +103,35 @@ class MainFragment : BaseFragment(UiCoreLayout.main_fragment) {
                     )
                 }
 
-                is MainViewModel.UiEvent.ShowDialogOpenLink -> {
-                    showActionDialogOpenLink(state.link)
+                is MainViewModel.UiEvent.NavigateWebScreen -> {
+                    openSite(info = state)
                 }
 
-                is MainViewModel.UiEvent.OpenLink -> {
-                    openSite(link = state.link, siteUrl = state.siteUrl)
+                MainViewModel.UiEvent.OpenActivateKeyDialog -> {
+                    setResultKeyListener()
+                    ActivateKeyDialogFragment.showDialog(childFragmentManager)
                 }
             }
         }
 
-        viewModel.getLoadingState().observeFlow(this) { state ->
-            binding.progressContainer.isVisible = state
+        viewModel.getLoadingState().observeFlow(this) { loading ->
+            binding.progressContainer.isVisible = loading
+            if (!loading) binding.swipeRefreshLayout.isRefreshing = false
         }
     }
 
-    private fun showActionDialogOpenLink(link: String) {
-        ActionDialogFragment.showDialog(
-            fragmentManager = childFragmentManager,
-            positiveText = getString(UiCoreStrings.ok),
-            title = getString(UiCoreStrings.confirm_action),
-            message = getString(UiCoreStrings.open_link, link),
-            onPositiveClick = {
-                viewModel.onDialogOpenLinkPositiveClicked(link)
-            },
-        )
-    }
-
-    private fun openSite(link: String, siteUrl: String) {
-        try {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link)))
-        } catch (e: Exception) {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(siteUrl)))
-        }
+    private fun openSite(info: MainViewModel.UiEvent.NavigateWebScreen) {
+        navigate(R.id.action_mainFragment_to_webViewFragment, bundle = Bundle().apply {
+            putString(WebViewFragment.LINK_KEY, info.urlAuthentication)
+            putString(WebViewFragment.SITE_URL_KEY, info.siteUrl)
+            putString(WebViewFragment.SCHOOL_KEY, info.schoolName)
+        })
     }
 
     companion object {
+        const val ACTIVATE_KEY_KEY = "ACTIVATE_KEY_KEY"
+        const val ACTIVATE_KEY_DATA = "ACTIVATE_KEY_DATA"
+
         const val SUBJECT_DETAILED_KEY_ID = "SUBJECT_DETAILED_KEY_ID"
         const val SUBJECT_DETAILED_KEY_NAME = "SUBJECT_DETAILED_KEY_NAME"
     }

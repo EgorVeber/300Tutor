@@ -5,13 +5,13 @@ import org.threehundredtutor.presentation.solution.ui_models.select_right_answer
 
 fun AnswerSelectRightModel.toAnswerSelectRightUiModel(
     questionId: String,
-    enabled: Boolean,
+    isValidated: Boolean,
     checked: Boolean
 ): SelectRightAnswerUiModel =
     SelectRightAnswerUiModel(
         rightAnswer = isRightAnswer,
         answer = text,
         checked = checked,
-        enabled = enabled,
+        isValidated = isValidated,
         questionId = questionId,
     )

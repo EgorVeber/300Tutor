@@ -1,6 +1,7 @@
 package org.threehundredtutor.ui_common.fragment
 
 import android.util.TypedValue
+import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.AttrRes
@@ -68,6 +69,7 @@ fun Fragment.dropWindowColor() {
 }
 
 fun Fragment.showSnack(
+    view: View? = null,
     title: String,
     backgroundColor: Int? = null,
     description: String? = null,
@@ -77,7 +79,7 @@ fun Fragment.showSnack(
     imageResId: Int? = null
 ) {
     TutorSnackbar.make(
-        view = this.requireView(),
+        view = view ?: this.requireView(),
         backgroundColor = backgroundColor,
         title = title,
         message = description,

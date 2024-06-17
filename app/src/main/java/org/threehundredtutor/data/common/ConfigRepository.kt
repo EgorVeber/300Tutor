@@ -10,10 +10,6 @@ class ConfigRepository @Inject constructor(
     fun getConfigModel() =
         ConfigModel(
             baseUrl = configLocalDataSource.baseUrl,
-            refId = configLocalDataSource.refId,
-            siteUrl = configLocalDataSource.siteUrl,
-            staticMediumUrl = configLocalDataSource.staticMediumUrl,
-            staticOriginalUrl = configLocalDataSource.staticOriginalUrl,
-            telegramBotUrl = configLocalDataSource.telegramBotUrl,
+            changeDomain = configLocalDataSource.changeDomain,
         )
 }

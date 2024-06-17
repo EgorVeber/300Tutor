@@ -1,6 +1,7 @@
 package org.threehundredtutor.data.main.response
 
 import com.google.gson.annotations.SerializedName
+import org.threehundredtutor.data.subject_tests.models.IconResponse
 
 class GroupWithCourseProgressResponse(
     @SerializedName("groupId")
@@ -19,4 +20,6 @@ class GroupWithCourseProgressResponse(
     val useCourse: Boolean?,
     @SerializedName("courseProgress")
     val courseProgressResponse: CourseProgressResponse?,
+    @SerializedName("icon")
+    val iconResponse: IconResponse?
 )

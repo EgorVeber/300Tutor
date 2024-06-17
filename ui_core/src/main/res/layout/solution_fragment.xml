@@ -5,19 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/errorImageView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/banner_question"
-        android:scaleType="centerCrop"
-        android:visibility="gone" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rootContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvError"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/margin_16"
+            android:gravity="center"
+            android:text="@string/error_load_solution"
+            android:textColor="?attr/textPrimary"
+            android:textSize="@dimen/text_18"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/solutionToolBar" />
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/solutionToolBar"
@@ -37,18 +45,25 @@
             tools:subtitle="Математика ЕГЭ"
             tools:title="Математика ЕГЭ" />
 
+        <View
+            android:id="@+id/separatorView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_1"
+            android:background="@drawable/separator_10"
+            app:layout_constraintTop_toBottomOf="@+id/solutionToolBar" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerSolution"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="@dimen/margin_8"
+            android:paddingHorizontal="@dimen/margin_12"
             android:clipToPadding="false"
-            android:paddingTop="@dimen/space_8"
+            android:paddingVertical="@dimen/space_16"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/finishContainer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/solutionToolBar"
+            app:layout_constraintTop_toBottomOf="@+id/separatorView"
             tools:listitem="@layout/solution_detailed_answer_validation_item" />
 
         <FrameLayout
@@ -56,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="?attr/contentBackground"
+            android:background="@drawable/rectangle_12_top_content_background"
             android:elevation="@dimen/elevation_8"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

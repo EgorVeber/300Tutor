@@ -7,15 +7,18 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import org.threehundredtutor.R
+import org.threehundredtutor.core.UiCoreDimens
 import org.threehundredtutor.core.UiCoreLayout
 import org.threehundredtutor.core.UiCoreStrings
 import org.threehundredtutor.core.navigate
 import org.threehundredtutor.di.solution.SolutionComponent
 import org.threehundredtutor.domain.solution.models.test_model.HtmlPageTestType
-import org.threehundredtutor.presentation.solution.PhotoDetailsFragment.Companion.PHOTO_DETAILED_IMAGE_ID_KEY
-import org.threehundredtutor.presentation.solution.PhotoDetailsFragment.Companion.PHOTO_DETAILED_STATIC_ORIGINAL_URL_KEY
+import org.threehundredtutor.presentation.solution.PhotoDetailsFragment.Companion.PHOTO_DETAILED_IMAGE_PATH
+import org.threehundredtutor.presentation.solution.adapter.SolutionItemDecoration
 import org.threehundredtutor.presentation.solution.adapter.SolutionManager
 import org.threehundredtutor.ui_common.EMPTY_STRING
 import org.threehundredtutor.ui_common.flow.observeFlow
@@ -28,6 +31,7 @@ import org.threehundredtutor.ui_common.util.getUrlYoutube
 import org.threehundredtutor.ui_common.util_class.BundleSerializable
 import org.threehundredtutor.ui_common.util_class.BundleString
 import org.threehundredtutor.ui_core.databinding.SolutionFragmentBinding
+
 
 class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
 
@@ -103,8 +107,8 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
                 answerValidationItemUiModel = answerValidationItemUiModel, inputPoint = inputPoint
             )
         },
-        deleteValidationClickListener = { answerValidationItemUiModel ->
-            viewModel.onDeleteValidationClicked(answerValidationItemUiModel)
+        deleteValidationClickListener = { detailedAnswerValidationUiItem ->
+            viewModel.onDeleteValidationClicked(detailedAnswerValidationUiItem)
         },
         detailedAnswerTextChangedListener = { questionId, inputAnswer ->
             viewModel.onDetailedAnswerTextChanged(questionId, inputAnswer)
@@ -120,13 +124,32 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
     }
 
     override fun onBackPressed() {
-        viewModel.onBackClicked()
+        findNavController().popBackStack()
+        //viewModel.onBackClicked()
     }
 
     override fun onInitView(savedInstanceState: Bundle?) {
         super.onInitView(savedInstanceState)
 
         binding.recyclerSolution.adapter = delegateAdapter
+        binding.recyclerSolution.addItemDecoration(
+            SolutionItemDecoration(
+                paddingItems = resources.getDimension(
+                    UiCoreDimens.solution_item_space_horizontal
+                )
+            )
+        )
+
+        binding.recyclerSolution.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                val layoutManager = (recyclerView.layoutManager as? LinearLayoutManager) ?: return
+                val totalItemCount = layoutManager.itemCount
+                val endHasBeenReached = layoutManager.findLastVisibleItemPosition() + 1 >= totalItemCount
+                if (totalItemCount > 0 && endHasBeenReached) {
+                    viewModel.onLastItemVisible()
+                }
+            }
+        })
 
         binding.solutionToolBar.setNavigationOnClickListener { onBackPressed() }
         binding.finishButton.setOnClickListener { viewModel.onFinishTestClicked() }
@@ -150,7 +173,7 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
         }
 
         viewModel.getFinishButtonState().observeFlow(this) { isVisible ->
-            binding.finishButton.isVisible = isVisible
+            binding.finishButton.isVisible = isVisible // TODO кнопка поднимается с клавиатурой
         }
 
         viewModel.getResultButtonState().observeFlow(this) { isVisible ->
@@ -158,16 +181,15 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
         }
 
         viewModel.getTestResultState().observeFlow(this) { text ->
-            binding.solutionToolBar.subtitle = text
+            //binding.solutionToolBar.subtitle = text
         }
 
         viewModel.getUiEventStateFlow().observeFlow(this) { state ->
             when (state) {
                 is SolutionViewModel.UiEvent.ShowMessage -> showMessage(state.message)
-                is SolutionViewModel.UiEvent.OpenYoutube -> showActionDialogOpenYoutube(state.link)
+                is SolutionViewModel.UiEvent.OpenYoutube -> openYoutubeLink(state.link)
                 is SolutionViewModel.UiEvent.NavigatePhotoDetailed -> navigatePhotoDetailed(
-                    imageId = state.imageId,
-                    staticOriginalUrl = state.staticOriginalUrl
+                    imagePath = state.imagePath,
                 )
 
                 is SolutionViewModel.UiEvent.ShowSnack -> showSnack(
@@ -179,7 +201,7 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
                 SolutionViewModel.UiEvent.ShowFinishDialog -> {
                     ActionDialogFragment.showDialog(
                         fragmentManager = childFragmentManager,
-                        title = getString(UiCoreStrings.finish_test_dialog),
+                        title = getString(UiCoreStrings.finish_test_title_dialog),
                         message = getString(UiCoreStrings.finish_test_message),
                         positiveText = getString(UiCoreStrings.finish),
                         neutralText = getString(UiCoreStrings.come_back_later),
@@ -199,21 +221,10 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
             SolutionResultDialogFragment.showDialog(testResult, childFragmentManager)
         }
 
-        viewModel.getErrorStateFlow().observeFlow(this) { showError ->
-            binding.errorImageView.isVisible = showError
-            binding.rootContent.isVisible = !showError
+        viewModel.getErrorStateFlow().observeFlow(this) { visible ->
+            binding.tvError.isVisible = visible
         }
     }
-
-    private fun showActionDialogOpenYoutube(link: String) {
-        ActionDialogFragment.showDialog(
-            fragmentManager = childFragmentManager,
-            positiveText = getString(UiCoreStrings.video_action),
-            message = getString(UiCoreStrings.open_youtube_message),
-            onPositiveClick = { openYoutubeLink(link) },
-        )
-    }
-
 
     private fun showLoadingDialog(loading: Boolean) {
         if (loading) {
@@ -232,10 +243,9 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
         }
     }
 
-    private fun navigatePhotoDetailed(imageId: String, staticOriginalUrl: String) {
+    private fun navigatePhotoDetailed(imagePath: String) {
         navigate(R.id.action_solutionFragment_to_photoDetailsFragment, Bundle().apply {
-            putString(PHOTO_DETAILED_IMAGE_ID_KEY, imageId)
-            putString(PHOTO_DETAILED_STATIC_ORIGINAL_URL_KEY, staticOriginalUrl)
+            putString(PHOTO_DETAILED_IMAGE_PATH, imagePath)
         })
     }
 

@@ -6,6 +6,7 @@ import org.threehundredtutor.core.DiSetHelper
 import org.threehundredtutor.data.common.data_source.AccountLocalDataSource
 import org.threehundredtutor.data.common.data_source.ConfigLocalDataSource
 import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
+import org.threehundredtutor.data.settings_app.SettingsAppLocalDataSource
 import org.threehundredtutor.di.common.ViewModelMapFactory
 import org.threehundredtutor.domain.common.AccountAuthorizationInfoRepository
 import org.threehundredtutor.presentation.common.ResourceProvider
@@ -31,6 +32,9 @@ interface AccountComponent {
         @BindsInstance
         fun getConfigLocalDataSource(configLocalDataSource: ConfigLocalDataSource): Builder
 
+        @BindsInstance
+        fun getSettingsAppLocalDataSource(settingsAppLocalDataSource: SettingsAppLocalDataSource): Builder
+
         fun getAccountComponentBuilder(): AccountComponent
     }
 
@@ -43,6 +47,7 @@ interface AccountComponent {
                 .getAccountLocalDataSource(DiSetHelper.appComponent.getAccountLocalDataSource())
                 .getConfigLocalDataSource(DiSetHelper.appComponent.getConfigLocalDataSource())
                 .getAccountAuthorizationInfoRepository(DiSetHelper.appComponent.getAccountAuthorizationInfoRepository())
+                .getSettingsAppLocalDataSource(DiSetHelper.appComponent.getSettingsAppLocalDataSource())
                 .getAccountComponentBuilder()
     }
 }

@@ -5,6 +5,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import org.threehundredtutor.core.UiCoreAttr
+import org.threehundredtutor.core.UiCoreDrawable
 import org.threehundredtutor.presentation.solution.solution_factory.GravityAlign.Companion.getGravity
 import org.threehundredtutor.presentation.solution.ui_models.SolutionUiItem
 import org.threehundredtutor.presentation.solution.ui_models.answer_erros.AnswerWithErrorsResultUiItem
@@ -62,12 +63,21 @@ object SolutionAdapters {
             binding.favoriteImage.setOnClickListener {
                 questionLikeClickListener.invoke(item)
             }
-            bind {
-                binding.solutionTitle.text = item.questionNumber.trim()
+
+            fun bindLikeQuestionIcon() {
                 if (item.isQuestionLikedByStudent) {
                     binding.favoriteImage.setTint(UiCoreAttr.defaultRed)
                 } else {
                     binding.favoriteImage.setTint(UiCoreAttr.defaultBlack40)
+                }
+            }
+
+            bind { payloadList ->
+                if (payloadList.isEmpty()) {
+                    binding.solutionTitle.text = item.questionNumber.trim()
+                    bindLikeQuestionIcon()
+                } else {
+                    bindLikeQuestionIcon()
                 }
             }
         }
@@ -92,7 +102,10 @@ object SolutionAdapters {
             SolutionImageItemBinding.inflate(layoutInflater, root, false)
         }) {
             binding.solutionImage.setOnClickListener { imageClickListener.invoke(item.idImage) }
-            bind { binding.solutionImage.loadImageMedium(item.idImage, item.staticUrl) }
+            bind {
+                binding.solutionImage.layout(0, 0, 0, 0) //TODO еще раз проверить все с фотками
+                binding.solutionImage.loadImageMedium(item.path)
+            }
         }
 
     fun getYoutubeUiItemAdapter(youtubeClickListener: (String) -> Unit) =
@@ -116,7 +129,9 @@ object SolutionAdapters {
         adapterDelegateViewBinding<DividerUiItem, SolutionUiItem, SolutionDividerItemBinding>({ layoutInflater, root ->
             SolutionDividerItemBinding.inflate(layoutInflater, root, false)
         }) {
-            bind { binding.viewDivider.bindDividerType(item.dividerType) }
+            bind {
+                binding.viewDivider.bindDividerType(item.dividerType)
+            }
         }
 
     fun getSeparatorUiItemAdapter() =
@@ -150,23 +165,47 @@ object SolutionAdapters {
             { layoutInflater, root ->
                 SolutionAnswerSelectRightItemBinding.inflate(layoutInflater, root, false)
             }) {
+
             binding.checkbox.setDebouncedCheckedChangeListener { view, checked ->
                 if (view.isPressed) {
                     selectRightAnswerClickListener.invoke(item.questionId, item.answer, checked)
                 }
             }
-            bind { payloadList ->
-                when (payloadList.lastOrNull()) { //  TutorAndroid-72 убрать лишние из bindALL разделить правильно.
-                    is SolutionManager.Companion.AnswerSelectRightPayload.Checked -> {
-                        binding.checkbox.isChecked = item.checked
-                    }
 
-                    is SolutionManager.Companion.AnswerSelectRightPayload.Enabled -> {
-                        bindAll()
+            fun bindAnswerTextAndChecked() {
+                binding.checkbox.text = item.answer
+                binding.checkbox.isChecked = item.checked
+            }
+
+            fun bindValidated() {
+                binding.checkbox.isEnabled = !item.isValidated
+                binding.iconContainer.isVisible = item.isValidated
+            }
+
+            fun bindAnswerIcon() {
+                if (!item.isValidated) return
+                if (item.rightAnswer) {
+                    binding.icon.setImageResource(UiCoreDrawable.ic_check)
+                    binding.iconContainer.setBackgroundResource(UiCoreDrawable.rectangle_full_green_background)
+                } else {
+                    binding.icon.setImageResource(UiCoreDrawable.ic_incorrect_answer)
+                    binding.iconContainer.setBackgroundResource(UiCoreDrawable.rectangle_full_warning_background)
+                }
+            }
+
+            bind { payloadList ->
+                when (payloadList.lastOrNull()) {
+                    is SolutionManager.Companion.AnswerSelectRightPayload.Checked -> {}
+
+                    is SolutionManager.Companion.AnswerSelectRightPayload.Validated -> {
+                        bindValidated()
+                        bindAnswerIcon()
                     }
 
                     else -> {
-                        bindAll()
+                        bindAnswerTextAndChecked()
+                        bindValidated()
+                        bindAnswerIcon()
                     }
                 }
             }
@@ -320,19 +359,30 @@ object SolutionAdapters {
                 }
             }
             binding.iconDelete.setOnClickListener { deleteValidationClickListener.invoke(item) }
-            bind {
-                // TODO избавиться от needToCheckButton в пользу bindResultType TutorAndroid-72
+
+            fun bindInputPoint() {
+                binding.inputPointEditText.setText(item.inputPoint)
                 binding.totalPointEditText.setText(item.pointTotal)
+                binding.pointQuestionTv.text = item.pointsString
+            }
+
+            fun bindVisible() {
                 binding.iconDelete.isVisible = item.isValidated
-                binding.resultButton.bindResultType(item.type)
-                binding.resultButton.isVisible = item.isValidated
+                binding.pointQuestionTv.isVisible = item.isValidated
                 binding.estimateButton.isVisible = !item.isValidated
-                binding.needToCheckButton.isVisible = !item.isValidated
-                binding.inputPointEditText.isEnabled = !item.isValidated
-                if (item.inputPoint.isNotEmpty()) {
-                    binding.inputPointEditText.setText(item.inputPoint)
+                binding.inputPointTextInputLayout.isVisible = !item.isValidated
+                binding.totalPointTextInputLayout.isVisible = !item.isValidated
+            }
+
+            bind { payloadList ->
+                if (payloadList.isEmpty()) {
+                    binding.resultButton.bindResultType(item.type)
+                    bindVisible()
+                    bindInputPoint()
                 } else {
-                    binding.inputPointEditText.text = null
+                    binding.resultButton.bindResultType(item.type)
+                    bindVisible()
+                    bindInputPoint()
                 }
             }
         }

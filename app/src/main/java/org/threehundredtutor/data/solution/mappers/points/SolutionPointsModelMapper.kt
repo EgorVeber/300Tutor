@@ -21,7 +21,7 @@ fun SolutionPointsResponse.toSolutionPointsModel(): SolutionPointsModel =
         solutionId = solutionId ?: throw BadRequestException(),
         studentTotalPoints = studentTotalPoints.orDefaultNotValidValue(),
         validatedQuestionsCount = validatedQuestionsCount.orDefaultNotValidValue(),
-        inProccessQuestionsCount = inProccessQuestionsCount.orDefaultNotValidValue(),
+        inProcessQuestionsCount = inProccessQuestionsCount.orDefaultNotValidValue(),
         questionCountNeedCheck = solutionPointsQuestionResponses?.filter {
             AnswerValidationResultType.getType(it.resultType.orEmpty()) == AnswerValidationResultType.NEED_TO_CHECK_BY_YOUR_SELF
         }?.size ?: DEFAULT_NOT_VALID_VALUE_INT

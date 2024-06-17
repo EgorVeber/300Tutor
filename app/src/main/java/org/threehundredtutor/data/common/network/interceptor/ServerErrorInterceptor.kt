@@ -11,6 +11,7 @@ import org.threehundredtutor.ui_common.util.NotFoundServerException
 import org.threehundredtutor.ui_common.util.ServiceUnavailableException
 import org.threehundredtutor.ui_common.util.UnauthorizedUserException
 import org.threehundredtutor.ui_common.util.UnknownServerException
+import javax.inject.Inject
 
 class ServerErrorInterceptor : Interceptor {
 
@@ -32,5 +33,3 @@ class ServerErrorInterceptor : Interceptor {
         }
     }
 }
-
-

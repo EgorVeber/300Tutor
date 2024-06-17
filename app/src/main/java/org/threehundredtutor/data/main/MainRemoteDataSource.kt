@@ -12,9 +12,12 @@ import javax.inject.Inject
 class MainRemoteDataSource @Inject constructor(
     serviceGeneratorProvider: ServiceGeneratorProvider
 ) {
-    private val service = { serviceGeneratorProvider.getService(MainService::class) }
+    private val service: () -> MainService = {
+        serviceGeneratorProvider.getService(MainService::class)
+    }
 
-    suspend fun getSubjects(): List<SubjectResponse> = service().getSubjects()
+    suspend fun getSubjects(): List<SubjectResponse> =
+        service().getSubjects(ICON_SET_ID_DEFAULT)
 
     suspend fun getCourses(groupWithCourseRequest: GroupWithCourseRequest): GroupWithCourseResponse =
         service().getCourses(groupWithCourseRequest)
@@ -23,4 +26,8 @@ class MainRemoteDataSource @Inject constructor(
         service().enterGroup(EnterGroupRequest(key))
 
     suspend fun getExtraButtons(): ExtraButtonResponse = service().getExtraButtons()
+
+    companion object {
+        const val ICON_SET_ID_DEFAULT = "Default"
+    }
 }

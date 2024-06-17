@@ -55,8 +55,8 @@
   <color name="ripple_15_tutor">#26F9F2E7</color>-->
 
 
-    <color name="primary_tutor">#E7B12C</color>
-    <color name="primary_tutor_40">#66E7B12C</color>
+    <color name="primary_tutor">#34c1d6</color>
+    <color name="primary_tutor_40">#6634c1d6</color>
     <color name="secondary_tutor">#79939D</color>
     <color name="secondary_40_tutor">#6679939D</color>
     <color name="secondary_60_tutor">#9979939D</color>
@@ -70,6 +70,6 @@
     <color name="ripple_tutor">#10896610</color>
     <color name="ripple_15_tutor">#26896610</color>
 
-    <color name="custom_activate_tutor">#ED5181</color>
-    <color name="custom_text_tutor">#FFA19B</color>
+    <color name="custom_text_tutor">#ED5181</color>
+    <color name="need_check_question">#E7B12C</color>
 </resources>

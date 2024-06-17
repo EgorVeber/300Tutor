@@ -8,5 +8,7 @@ class SubjectResponse(
     @SerializedName("name")
     val name: String?,
     @SerializedName("alias")
-    val alias: String?
+    val alias: String?,
+    @SerializedName("icon")
+    val iconResponse: IconResponse?
 )

@@ -40,24 +40,14 @@ android {
         demo {
             applicationId "org.threehundredtutor.demo"
             dimension "org.threehundredtutor"
-            buildConfigField "String", "BASE_URL", "\"https://mini-apps.crocosoft.ru/api/\""
-            buildConfigField "String", "BASE_URL_TEST", "\"https://mini-apps.crocosoft.ru/api/\""
-            buildConfigField "String", "REF_ID", "\"1\""
-            buildConfigField "String", "TELEGRAM_BOT_URL", "\"https://telegram.me\""
-            buildConfigField "String", "SITE_URL", "\"https://mini-apps.crocosoft.ru\""
-            buildConfigField "String", "STATIC_ORIGINAL_URL", "\"https://mini-apps.crocosoft.ru/FileCopies/Images/Original/\""
-            buildConfigField "String", "STATIC_MEDIUM_URL", "\"https://mini-apps.crocosoft.ru/FileCopies/Images/Medium/\""
+            buildConfigField "String", "BASE_URL", "\"https://app.mega-academy.online\""
+            buildConfigField "Boolean", "CHANGE_DOMAIN", "true"
         }
         kursbio {
             applicationId "org.threehundredtutor.kursbio"
             dimension "org.threehundredtutor"
-            buildConfigField "String", "BASE_URL", "\"https://api.kursbio.ru/api/\""
-            buildConfigField "String", "BASE_URL_TEST", "\"https://s1.kursbio.ru/api/\""
-            buildConfigField "String", "REF_ID", "\"2\""
-            buildConfigField "String", "TELEGRAM_BOT_URL", "\"https://telegram.me/kursbio_bot\""
-            buildConfigField "String", "SITE_URL", "\"https://kursbio.ru/\""
-            buildConfigField "String", "STATIC_ORIGINAL_URL", "\"https://kursbio.ru/FileCopies/Images/Original/\""
-            buildConfigField "String", "STATIC_MEDIUM_URL", "\"https://kursbio.ru/FileCopies/Images/Medium/\""
+            buildConfigField "String", "BASE_URL", "\"https://api.kursbio.ru\""
+            buildConfigField "Boolean", "CHANGE_DOMAIN", "false"
         }
     }
 }

@@ -4,7 +4,6 @@
     <string name="bottom_menu_test_solution_title">Решения тестов</string>
     <string name="bottom_menu_menu_title">Меню</string>
 
-
     // MainMenuItems
     <string name="main_menu_schedule">Расписания</string>
     <string name="main_menu_notes">Конспекты</string>
@@ -17,7 +16,7 @@
     //Аккаунт
     <string name="account_title">Аккаунт</string>
 
-    <string name="app_name">300Tutor</string>
+    <string name="app_name">Mega Academy</string>
     <string name="register_button">Register</string>
     <string name="register_text">Регистрация</string>
     <string name="email_text">E-mail</string>
@@ -53,6 +52,7 @@
 
     <!--    errors-->
     <string name="unknown_error_message">Произошла неизвестная ошибка. Повторите попытку позже</string>
+    <string name="unknown_host_error_message">Нет соединения</string>
     <string name="wrong_data_error_message">Ошибка! Проверьте введеные данные</string>
     <string name="server_error_message">Неизвестная ошибка на сервере. Повторите попытку позже</string>
     <string name="unathorized_error_message">Произошла ошибка авторизации</string>
@@ -63,13 +63,14 @@
     <string name="answer_with_errors_helper_text">Введите правильный ответ</string>
     <string name="answer_verify_text">Проверить</string>
     <string name="answer_send_text">Отправить</string>
-    <string name="video_action">Открыть</string>
+    <string name="video_action">Открыть видео</string>
     <string name="video_title">К вопросу прикреплено видео.</string>
 
     //Solution
     <string name="your_answer">Ваш ответ:</string>
+    <string name="error_load_solution">Не удалось загрузить решение. Пожалуйста попробуйте позднее</string>
     <string name="correct_answer_without_errors">Правильный ответ (без ошибок):</string>
-    <string name="explanation_answer">Пояснения к ответу на вопрос</string>
+    <string name="explanation_answer">Пояснения к ответу на вопрос:</string>
     <string name="incorrect_answer">Неправильный ответ</string>
     <string name="correct_answer">Правильный ответ</string>
     <string name="correct_answers">Правильные ответы:</string>
@@ -78,7 +79,6 @@
     <string name="your_detailed_answer">Ваш развернутый ответ</string>
     <string name="detailed_answer_received">Получено:</string>
     <string name="detailed_answer_total">Всего:</string>
-    <string name="points_answer">Баллы за ответ:</string>
     <string name="question_has_been_rated">Установлена оценка для вопроса</string>
     <string name="answer_needs_to_be_checked">Ответ необходимо оценить</string>
     <string name="attention">Внимание</string>
@@ -101,9 +101,6 @@
     <string name="not_complited_solution">Не завершенные</string>
     <string name="all">Все</string>
     <string name="go">Перейти</string>
-    <string name="received_points_out_of">Получено %1$s баллов из %2$s.</string>
-    <string name="received_points_out_of_result">Вы получили %1$s баллов из %2$s.</string>
-    <string name="you_answered_out_of_questions_correctly">Вы правильно ответили на %1$s из %2$s вопросов.</string>
     <string name="pie_chat_title_point">%1$s из %2$s</string>
     <string name="test_solved">Тест решён на %1$s.</string>
     <string name="of_issues_resolved">Решено %1$s вопросов</string>
@@ -113,27 +110,33 @@
     <string name="points_question">Баллы: %1$s из %2$s.</string>
     <string name="points">Баллы</string>
     <string name="finish">Завершить</string>
-    <string name="finish_test_dialog">Завершение теста</string>
+    <string name="finish_test_title_dialog">Завершение теста</string>
     <string name="finish_test_message">Если завершите тест не сможете вернуться к решению</string>
     <string name="come_back_later">Вернуться позже</string>
     <string name="your_not_answer">[Вы не указали ответ]</string>
-    <string name="result_test_need_to_check_questions">Не проверен %1$s вопрос. Его необходимо проверить самому или с помощью куратора.</string>
     <string name="open_site">Перейти на сайт?</string>
+    <string name="open_site_schedules">Открыть сайт и перейти в раздел расписания?</string>
+    <string name="open_site_materials">Открыть сайт и перейти в раздел конспекты?</string>
     <string name="open_link">Перейти по ссылке?\n "%1$s"</string>
     <string name="site">Сайт</string>
     <string name="start_test_message">Началось решение теста</string>
     <string name="result">Результат решения</string>
-    <string name="course_access_key">Ключ доступа к курсу</string>
+    <string name="course_access_key">Введите ключ доступа к курсу</string>
     <string name="my_course">Мои курсы</string>
     <string name="choose_course">Подобрать курс</string>
     <string name="oops">Упс...</string>
-    <string name="dont_havecourses">У вас сейчас нет курсов. Давайте подберём подходящий</string>
+    <string name="dont_havecourses">У вас сейчас нет курсов. Давайте подберём подходящий.</string>
     <string name="activate_key_message">Вы добавлены в группу "%1$s"</string>
     <string name="continue_action">Продолжить</string>
     <string name="question_count">Количество вопросов: "%1$s"</string>
     <string name="test_solutions">Решения теста</string>
     <string name="system_not_found">Системе не удалось найти указанный путь</string>
-    <string name="photo_detailed">Детальный просмотр</string>
+    <string name="photo_detailed">Полный размер</string>
+    <string name="result_test_need_to_check_question">Его необходимо проверить самому или с помощью куратора.</string>
+    <string name="result_test_need_to_check_questions">Их необходимо проверить самому или с помощью куратора.</string>
+
+    <!-- А этот код мы используем для проверки того, как выглядит реальное склонение -->
+
 
     //SubjectWorkspace
     <string name="no_materials_in_this_section">В разделе нет элементов. Вернитесь позднее.</string>
@@ -148,4 +151,43 @@
     <string name="html_page_full_text">Полный тест  "%1$s"</string>
     <string name="answer_solution_test_changed">Ответы "%1$s" из "%2$s"</string>
     <string name="question_number">Вопрос "%1$s"</string>
+    <string name="error_loading_common">Не удалось загрузить данные. Пожалуйста повторите попытку позже</string>
+
+    // RestorePassword
+    <string name="reset_password_title">Восстановление пароля</string>
+    <string name="reset_password_description">Для восстановления пароля введите адрес электронной почты вашего аккаунта. На него будет отправлена ссылка для восстановлени.</string>
+    <string name="reset_password_send_description">На почту "%1$s" отправлена ссылка для восстановлению пароля.</string>
+
+    // School
+    <string name="domain_change">Школа "%1$s" выбрана </string>
+    <string name="domain_change_error">Не удалось сменить школу</string>
+    <string name="domain_change_and_auth_error">Не удалось авторизоваться</string>
+
+    // Authorization
+    <string name="school_change_title">Школа: "%1$s"</string>
+
+    //SchoolFragment
+    <string name="chosen_school_title">Выбор школы</string>
+
+    //CourseFragment
+    <string name="course_title">Курсы</string>
+
+    //Settings
+    <string name="settings">Настройки</string>
+    <string name="started_text">Загрузка...</string>
+
+    //MainFragment
+    <string name="main_to_web_screen_link_failed">Не удалось загрузить ссылку на курс.</string>
+    <string name="main_key_input">Ввести ключ доступа к курсу</string>
+    <string name="main_tuck_up_course">Подобрать курс</string>
+
+    //ActivateKeyDialog
+    <string name="activate_key">Активация курса</string>
+    <string name="activate_key_input">Введите ключ доступа к курсу</string>
+    <string name="activate">Активировать</string>
+
+
+    //Favorites
+    <string name="favorites_title">Избранные вопросы</string>
+    <string name="favorites_empty">Нет избранных вопросов.</string>
 </resources>

@@ -10,5 +10,7 @@ class GroupWithCourseRequest(
     @SerializedName("q")
     val q: String?,
     @SerializedName("studentId")
-    val studentId: String
+    val studentId: String,
+    @SerializedName("iconSetId")
+    val iconSetId: String
 )

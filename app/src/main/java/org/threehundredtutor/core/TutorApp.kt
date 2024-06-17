@@ -5,7 +5,6 @@ import org.threehundredtutor.di.common.DaggerAppComponent
 
 class TutorApp : Application() {
 
-    //TODO Убарть tutorAppInstance не выпускать на ружу контект app использовать провады даггер
     companion object {
         lateinit var tutorAppInstance: TutorApp
     }

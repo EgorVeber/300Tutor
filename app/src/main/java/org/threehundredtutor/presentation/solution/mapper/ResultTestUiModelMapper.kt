@@ -1,5 +1,6 @@
 package org.threehundredtutor.presentation.solution.mapper
 
+import org.threehundredtutor.core.UiCorePlurals
 import org.threehundredtutor.core.UiCoreStrings
 import org.threehundredtutor.domain.solution.models.points.SolutionPointsModel
 import org.threehundredtutor.presentation.common.ResourceProvider
@@ -11,16 +12,30 @@ import org.threehundredtutor.ui_common.util.percentOf
 
 fun SolutionPointsModel.toResultTestUiModel(resourceProvider: ResourceProvider): ResultTestUiModel =
     ResultTestUiModel(
-        resultTestRightQuestion = resourceProvider.string(
-            UiCoreStrings.you_answered_out_of_questions_correctly,
+        resultTestRightQuestion = resourceProvider.quantityString(
+            UiCorePlurals.result_test_you_answered_out_of_questions_correctly,
+            questionsCount,
+            questionsCount,
             hasRightAnswerQuestionsCount,
-            questionsCount
         ),
-        questionCountNeedCheckText = if (questionCountNeedCheck > 0)
-            resourceProvider.string(
-                UiCoreStrings.result_test_need_to_check_questions,
-                questionCountNeedCheck,
-            ) else EMPTY_STRING,
+        questionCountNeedCheckText =
+        when {
+            questionCountNeedCheck == 1 -> {
+                resourceProvider.quantityString(
+                    UiCorePlurals.result_test_need_to_check_questions,
+                    questionCountNeedCheck, questionCountNeedCheck
+                ) + resourceProvider.string(UiCoreStrings.result_test_need_to_check_question)
+            }
+
+            questionCountNeedCheck > 1 -> {
+                resourceProvider.quantityString(
+                    UiCorePlurals.result_test_need_to_check_questions,
+                    questionCountNeedCheck, questionCountNeedCheck
+                ) + resourceProvider.string(UiCoreStrings.result_test_need_to_check_questions)
+            }
+
+            else -> EMPTY_STRING
+        },
         titlePoint = resourceProvider.string(
             UiCoreStrings.pie_chat_title_point,
             studentTotalPoints.toString(),

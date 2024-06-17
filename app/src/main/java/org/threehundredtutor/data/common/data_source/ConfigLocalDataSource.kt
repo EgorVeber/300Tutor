@@ -1,18 +1,13 @@
 package org.threehundredtutor.data.common.data_source
 
+import android.util.Log
 import org.threehundredtutor.BuildConfig
 
 class ConfigLocalDataSource {
-    //TODO TutorAndroid-67 Добавить механизм смены домена.
-    val baseUrl = BuildConfig.BASE_URL_TEST
+    init {
+        Log.d("LocalDataSource", "ConfigLocalDataSource" + this.toString())
+    }
 
-    val refId = BuildConfig.REF_ID
-
-    val siteUrl = BuildConfig.SITE_URL
-
-    val staticMediumUrl = BuildConfig.STATIC_MEDIUM_URL
-
-    val staticOriginalUrl = BuildConfig.STATIC_ORIGINAL_URL
-
-    val telegramBotUrl = BuildConfig.TELEGRAM_BOT_URL
+    val baseUrl = BuildConfig.BASE_URL
+    val changeDomain: Boolean = BuildConfig.CHANGE_DOMAIN
 }

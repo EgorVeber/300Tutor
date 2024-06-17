@@ -5,7 +5,6 @@ import org.threehundredtutor.domain.solution_history.models.SolutionInfoModel
 import org.threehundredtutor.ui_common.util.orFalse
 import org.threehundredtutor.ui_common.util_class.DateFormatter.toFormatDateDefault
 
-// TODO разобраться что не приходит
 fun SolutionInfoResponse.toSolutionInfoModel(): SolutionInfoModel =
     SolutionInfoModel(
         finishedOnUtc = finishedOnUtc?.toFormatDateDefault().orEmpty(),

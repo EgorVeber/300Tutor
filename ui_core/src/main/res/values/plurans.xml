@@ -1,0 +1,26 @@
+<resources>
+    <!-- А этот код мы используем для проверки того, как выглядит реальное склонение -->
+    <plurals name="result_test_need_to_check_questions">
+        <item quantity="one">Не проверен %1$s вопрос.\u0020</item>
+        <item quantity="two">Не проверено %1$s вопроса.\u0020</item>
+        <item quantity="few">Не проверено %1$s вопроса.\u0020</item>
+        <item quantity="many">Не проверено %1$s вопросов.\u0020</item>
+        <item quantity="other">Не проверено %1$s вопросов.\u0020</item>
+    </plurals>
+
+    <plurals name="result_test_history_point">
+        <item quantity="one">Получен %1$s балл из %2$s.</item>
+        <item quantity="two">Получено %1$s балла из %2$s.</item>
+        <item quantity="few">Получено %1$s балла из %2$s.</item>
+        <item quantity="many">Получено %1$s баллов из %2$s.</item>
+        <item quantity="other">Получено %1$s баллов из %2$s.</item>
+    </plurals>
+
+    <plurals name="result_test_you_answered_out_of_questions_correctly">
+        <item quantity="one">Вы правильно ответили на %2$s из %1$s вопроса.</item>
+        <item quantity="two">Вы правильно ответили на %2$s из %1$s вопросов.</item>
+        <item quantity="few">Вы правильно ответили на %2$s из %1$s вопросов.</item>
+        <item quantity="many">Вы правильно ответили на %2$s из %1$s вопросов.</item>
+        <item quantity="other">Вы правильно ответили на %2$s из %1$s вопросов.</item>
+    </plurals>
+</resources>
