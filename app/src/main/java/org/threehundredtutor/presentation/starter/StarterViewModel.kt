@@ -1,42 +1,56 @@
 package org.threehundredtutor.presentation.starter
 
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import org.threehundredtutor.base.BaseViewModel
-import org.threehundredtutor.common.extentions.launchJob
-import org.threehundredtutor.data.core.models.ErrorType
-import org.threehundredtutor.domain.authorization.LoginDateModel
+import org.threehundredtutor.data.common.network.ErrorType
+import org.threehundredtutor.domain.account.usecase.GetAccountUseCase
+import org.threehundredtutor.domain.authorization.LoginParamsModel
 import org.threehundredtutor.domain.authorization.LoginUseCase
-import org.threehundredtutor.domain.starter.GetAccountInfoUseCase
+import org.threehundredtutor.domain.common.GetConfigUseCase
+import org.threehundredtutor.domain.settings_app.GetSettingAppUseCase
+import org.threehundredtutor.domain.starter.GetAccountAuthorizationInfoUseCase
 import org.threehundredtutor.domain.starter.GetFirstStartAppUseCase
-import org.threehundredtutor.domain.starter.GetThemePrefsUseCase
 import org.threehundredtutor.domain.starter.SetFirstStartAppUseCase
+import org.threehundredtutor.ui_common.coroutines.launchJob
+import org.threehundredtutor.ui_common.fragment.base.BaseViewModel
 import javax.inject.Inject
 
-// TODO сохздаеться 2 вьемодели подумать.
 class StarterViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-    private val getAccountInfoUseCase: GetAccountInfoUseCase,
+    private val getAccountAuthorizationInfoUseCase: GetAccountAuthorizationInfoUseCase,
     private val getFirstStartAppUseCase: GetFirstStartAppUseCase,
     private val setFirstStartAppUseCase: SetFirstStartAppUseCase,
-    private val getThemePrefsUseCase: GetThemePrefsUseCase,
+    private val getAccountUseCase: GetAccountUseCase,
+    private val getSettingAppUseCase: GetSettingAppUseCase,
+    private val getConfigUseCase: GetConfigUseCase,
 ) : BaseViewModel() {
 
     private val uiEventState = MutableStateFlow<UiEvent>(UiEvent.Empty)
 
+    private val isFirstStartApp = getFirstStartAppUseCase()
+
     init {
         viewModelScope.launchJob(tryBlock = {
-            val (login, password) = getAccountInfoUseCase.invoke()
+            getSettingAppUseCase(true)
+            val (login, password) = getAccountAuthorizationInfoUseCase.invoke()
             when {
-                getFirstStartAppUseCase.invoke() -> {
+                isFirstStartApp -> {
                     uiEventState.tryEmit(UiEvent.NavigateRegistrationScreen)
                     setFirstStartAppUseCase.invoke()
                 }
 
                 login.isNotEmpty() && password.isNotEmpty() -> {
-                    val loginModel = loginUseCase.invoke(LoginDateModel(password, false, login))
-                    if (loginModel.succeeded || loginModel.errorType == ErrorType.AlreadyAuthenticated) {
+                    val loginModel = loginUseCase.invoke(
+                        LoginParamsModel(
+                            password = password,
+                            rememberMe = true,
+                            emailOrPhoneNumber = login
+                        )
+                    )
+                    if (loginModel.succeeded || loginModel.errorType == ErrorType.ALREADY_AUTHENTICATED) {
+                        getAccountUseCase(true)
                         uiEventState.tryEmit(UiEvent.NavigateHomeScreen)
                     } else {
                         uiEventState.tryEmit(UiEvent.NavigateAuthorizationScreen)
@@ -48,14 +62,13 @@ class StarterViewModel @Inject constructor(
                 }
             }
         }, catchBlock = { throwable ->
-            handleError(throwable){
+            handleError(throwable) {
                 uiEventState.tryEmit(UiEvent.NavigateAuthorizationScreen)
             }
         })
     }
 
     fun getUiEventStateFlow() = uiEventState.asStateFlow()
-    fun onCreateActivity(): Int = getThemePrefsUseCase()
 
     sealed interface UiEvent {
         object NavigateRegistrationScreen : UiEvent

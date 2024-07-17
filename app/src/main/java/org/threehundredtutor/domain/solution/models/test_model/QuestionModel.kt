@@ -1,10 +1,12 @@
 package org.threehundredtutor.domain.solution.models.test_model
 
-import org.threehundredtutor.common.EMPTY_STRING
+import org.threehundredtutor.ui_common.DEFAULT_NOT_VALID_VALUE_INT
+import org.threehundredtutor.ui_common.EMPTY_STRING
 
 data class QuestionModel(
     val questionId: String,
     val title: String,
+    val questionNumber: Int,
     val titleBodyMarkUp: String,
     val helpBodyMarkUp: String,
     val answerExplanationMarkUp: String,
@@ -27,6 +29,7 @@ data class QuestionModel(
             selectRightAnswerOrAnswersModel = SelectRightAnswerOrAnswersModel.EMPTY,
             typeRightAnswerQuestionModel = TypeRightAnswerQuestionModel.EMPTY,
             typeAnswerWithErrorsModel = TypeAnswerWithErrorsModel.EMPTY,
+            questionNumber = DEFAULT_NOT_VALID_VALUE_INT,
         )
     }
 }

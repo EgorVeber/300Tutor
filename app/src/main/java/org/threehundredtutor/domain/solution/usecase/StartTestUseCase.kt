@@ -7,10 +7,6 @@ import javax.inject.Inject
 class StartTestUseCase @Inject constructor(
     private val solutionRepository: SolutionRepository
 ) {
-    suspend operator fun invoke(testId: String): TestSolutionGeneralModel {
-        val testSolutionGeneralModel = solutionRepository.startByTestId(testId)
-        return testSolutionGeneralModel.copy(
-            testSolutionModel = testSolutionGeneralModel.testSolutionModel.sortedBy { it.questionModel.title }
-        )
-    }
+    suspend operator fun invoke(testId: String): TestSolutionGeneralModel =
+        solutionRepository.startByTestId(testId)
 }

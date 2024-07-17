@@ -1,10 +1,10 @@
 package org.threehundredtutor.presentation.restore
 
 import androidx.fragment.app.viewModels
-import org.threehundredtutor.R
-import org.threehundredtutor.base.BaseFragment
-import org.threehundredtutor.base.BaseViewModel
+import org.threehundredtutor.core.UiCoreLayout
+import org.threehundredtutor.ui_common.fragment.base.BaseFragment
+import org.threehundredtutor.ui_common.fragment.base.BaseViewModel
 
-class RestorePasswordFragment : BaseFragment(R.layout.restore_password_fragment){
+class RestorePasswordFragment : BaseFragment(UiCoreLayout.restore_password_fragment) {
     override val viewModel: BaseViewModel by viewModels()
 }

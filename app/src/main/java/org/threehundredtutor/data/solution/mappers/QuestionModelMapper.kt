@@ -7,7 +7,7 @@ import org.threehundredtutor.domain.solution.models.test_model.TestQuestionType
 import org.threehundredtutor.domain.solution.models.test_model.TypeAnswerWithErrorsModel
 import org.threehundredtutor.domain.solution.models.test_model.TypeRightAnswerQuestionModel
 
-fun QuestionResponse.toQuestionModel(): QuestionModel =
+fun QuestionResponse.toQuestionModel(questionNumber: Int): QuestionModel =
     QuestionModel(
         questionId = id.orEmpty(),
         title = title.orEmpty(),
@@ -22,4 +22,5 @@ fun QuestionResponse.toQuestionModel(): QuestionModel =
             ?: TypeRightAnswerQuestionModel.EMPTY,
         typeAnswerWithErrorsModel = typeAnswerWithErrorsDataResponse?.toTypeAnswerWithErrorsModel()
             ?: TypeAnswerWithErrorsModel.EMPTY,
+        questionNumber = questionNumber + 1
     )

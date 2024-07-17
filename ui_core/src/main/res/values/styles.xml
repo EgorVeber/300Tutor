@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet_background</item>
+    </style>
+
+    <style name="MaterialAlertDialog.App" parent="MaterialAlertDialog.MaterialComponents">
+        <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
+    </style>
+
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_8</item>
+    </style>
+
+    <style name="EditTextCursorColor" parent="Theme.MaterialComponents">
+        <item name="colorControlActivated">?attr/primary</item>
+        <item name="colorControlNormal">?attr/secondary</item>
+    </style>
+
+    <style name="EditTextHintTextAppearance" parent="">
+        <item name="android:textColor">?attr/secondary</item>
+        <item name="android:textSize">@dimen/text_12</item>
+        <item name="fontFamily">@font/roboto</item>
+    </style>
+
+    <style name="TitleToolbarTextAppearance" parent="@style/Base.TextAppearance.AppCompat.Title">
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="SubtitleToolbarTextAppearance" parent="@style/Base.TextAppearance.AppCompat.Title">
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="LoadingDialogStyle" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:background">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowFullscreen">false</item>
+    </style>
+
+    <style name="Widget.ChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipStrokeWidth">@dimen/size_1</item>
+        <item name="chipStrokeColor">?attr/secondary40</item>
+        <item name="android:textColor">@color/chip_text_color</item>
+        <item name="chipBackgroundColor">@color/chip_background_color</item>
+    </style>
+
+</resources>

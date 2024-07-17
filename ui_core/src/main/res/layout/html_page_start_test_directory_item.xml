@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rectangle_12_content_background"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/margin_8"
+    android:paddingBottom="@dimen/space_8">
+
+    <TextView
+        android:id="@+id/solutionTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_8"
+        android:text="@string/html_page_start_text"
+        android:textColor="?attr/defaultBlack"
+        android:textSize="@dimen/text_20" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/firstPartButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_8"
+        android:backgroundTint="?attr/primary"
+        android:text="@string/html_page_first_path"
+        app:cornerRadius="@dimen/radius_8"
+        app:iconGravity="textEnd" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/secondPartButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_4"
+        android:backgroundTint="?attr/primary"
+        android:text="@string/html_page_second_path"
+        app:cornerRadius="@dimen/radius_8" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fullTestButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_4"
+        android:backgroundTint="?attr/primary"
+        android:text="@string/html_page_full_text"
+        app:cornerRadius="@dimen/radius_8" />
+
+</LinearLayout>

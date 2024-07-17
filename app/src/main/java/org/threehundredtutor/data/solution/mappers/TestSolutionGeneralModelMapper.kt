@@ -1,13 +1,13 @@
 package org.threehundredtutor.data.solution.mappers
 
-import org.threehundredtutor.common.EMPTY_STRING
-import org.threehundredtutor.common.orFalse
 import org.threehundredtutor.data.solution.models.TestSolutionQueryDetailedResponse
 import org.threehundredtutor.data.solution.models.TestSolutionQueryResponse
 import org.threehundredtutor.domain.solution.models.TestSolutionGeneralModel
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerModel
 import org.threehundredtutor.domain.solution.models.test_model.QuestionModel
 import org.threehundredtutor.domain.solution.models.test_model.TestSolutionModel
+import org.threehundredtutor.ui_common.EMPTY_STRING
+import org.threehundredtutor.ui_common.util.orFalse
 
 fun TestSolutionQueryResponse.toTestSolutionGeneralModel(): TestSolutionGeneralModel =
     TestSolutionGeneralModel(
@@ -36,9 +36,9 @@ fun TestSolutionQueryDetailedResponse.toTestSolutionGeneralModel(): TestSolution
         isFinished = isFinished.orFalse(),
         descriptionTest = testResponseDetailed?.description ?: EMPTY_STRING,
         nameTest = testResponseDetailed?.name ?: EMPTY_STRING,
-        testSolutionModel = testResponseDetailed?.questionResponses?.map { questionDetailedResponse ->
+        testSolutionModel = testResponseDetailed?.questionResponses?.mapIndexed { index, questionDetailedResponse ->
             TestSolutionModel(
-                questionModel = questionDetailedResponse.question?.toQuestionModel()
+                questionModel = questionDetailedResponse.question?.toQuestionModel(questionNumber = index)
                     ?: QuestionModel.EMPTY,
                 answerModel = questionDetailedResponse.answerWithValidation?.toAnswerModel()
                     ?: AnswerModel.EMPTY,

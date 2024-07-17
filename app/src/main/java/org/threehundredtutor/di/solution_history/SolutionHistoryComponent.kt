@@ -2,14 +2,12 @@ package org.threehundredtutor.di.solution_history
 
 import dagger.BindsInstance
 import dagger.Component
-import org.threehundredtutor.common.utils.ResourceProvider
 import org.threehundredtutor.core.DiSetHelper
-import org.threehundredtutor.data.core.ServiceGeneratorProvider
-import org.threehundredtutor.di.ScreenScope
-import org.threehundredtutor.di.ViewModelMapFactory
+import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
+import org.threehundredtutor.di.common.ViewModelMapFactory
+import org.threehundredtutor.presentation.common.ResourceProvider
 
 @Component(modules = [SolutionHistoryModule::class])
-@ScreenScope
 interface SolutionHistoryComponent {
     fun viewModelMapFactory(): ViewModelMapFactory
 
@@ -17,6 +15,7 @@ interface SolutionHistoryComponent {
     interface Builder {
         @BindsInstance
         fun getServiceGeneratorProvider(serviceGeneratorProvider: ServiceGeneratorProvider): Builder
+
         @BindsInstance
         fun getResourceProvider(resourceProvider: ResourceProvider): Builder
         fun getSolutionHistoryComponentBuilder(): SolutionHistoryComponent

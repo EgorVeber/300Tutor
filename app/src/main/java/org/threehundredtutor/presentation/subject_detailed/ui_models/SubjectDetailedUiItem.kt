@@ -1,0 +1,3 @@
+package org.threehundredtutor.presentation.subject_detailed.ui_models
+
+interface SubjectDetailedUiItem

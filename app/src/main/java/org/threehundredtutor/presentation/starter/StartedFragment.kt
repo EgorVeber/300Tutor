@@ -3,16 +3,24 @@ package org.threehundredtutor.presentation.starter
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.threehundredtutor.R
-import org.threehundredtutor.base.BaseFragment
-import org.threehundredtutor.common.extentions.navigate
-import org.threehundredtutor.common.extentions.observeFlow
-import org.threehundredtutor.common.viewcopmponents.applyWindowColor
-import org.threehundredtutor.common.viewcopmponents.dropWindowColor
-import org.threehundredtutor.databinding.StartedFragmentBinding
+import org.threehundredtutor.core.UiCoreAttr
+import org.threehundredtutor.core.UiCoreLayout
+import org.threehundredtutor.core.navigate
 import org.threehundredtutor.di.starter.StartedComponent
+import org.threehundredtutor.ui_common.flow.observeFlow
+import org.threehundredtutor.ui_common.fragment.applyWindowColor
+import org.threehundredtutor.ui_common.fragment.base.BaseFragment
+import org.threehundredtutor.ui_common.fragment.dropWindowColor
+import org.threehundredtutor.ui_core.databinding.StartedFragmentBinding
 
-class StartedFragment : BaseFragment(R.layout.started_fragment) {
+class StartedFragment : BaseFragment(UiCoreLayout.started_fragment) {
 
     private lateinit var binding: StartedFragmentBinding
     override val bottomMenuVisible = false
@@ -27,8 +35,8 @@ class StartedFragment : BaseFragment(R.layout.started_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = StartedFragmentBinding.bind(view)
-        applyWindowColor(R.attr.defaultBlack)
         super.onViewCreated(view, savedInstanceState)
+        applyWindowColor(UiCoreAttr.defaultBlack)
     }
 
     override fun onObserveData() {

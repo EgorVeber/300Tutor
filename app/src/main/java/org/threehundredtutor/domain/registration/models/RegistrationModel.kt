@@ -1,6 +1,6 @@
 package org.threehundredtutor.domain.registration.models
 
-import org.threehundredtutor.data.core.models.ErrorType
+import org.threehundredtutor.data.common.network.ErrorType
 
 data class RegistrationModel(
     val succeded: Boolean,

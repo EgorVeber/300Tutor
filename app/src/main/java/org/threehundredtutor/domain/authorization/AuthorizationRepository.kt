@@ -1,6 +1,5 @@
 package org.threehundredtutor.domain.authorization
 
 interface AuthorizationRepository {
-
-   suspend fun login(loginDateModel: LoginDateModel): LoginModel
+    suspend fun login(loginParamsModel: LoginParamsModel): LoginModel
 }

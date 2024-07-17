@@ -1,6 +1,6 @@
 package org.threehundredtutor.domain.authorization
 
-import org.threehundredtutor.data.core.models.ErrorType
+import org.threehundredtutor.data.common.network.ErrorType
 
 data class LoginModel(
     val errorType: ErrorType,

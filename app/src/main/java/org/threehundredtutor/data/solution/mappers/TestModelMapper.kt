@@ -7,6 +7,10 @@ fun TestResponse.toTestModel(): TestModel =
     TestModel(
         description = description.orEmpty(),
         name = name.orEmpty(),
-        questionList = questionResponses?.map { questionResponse -> questionResponse.toQuestionModel() }
+        questionList = questionResponses?.mapIndexed { index, questionResponse ->
+            questionResponse.toQuestionModel(
+                questionNumber = index
+            )
+        }
             ?: emptyList(),
     )

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="defaultWhite" format="reference" />
+    <attr name="defaultWhite80" format="reference" />
+    <attr name="defaultWhite60" format="reference" />
+    <attr name="defaultWhite50" format="reference" />
+    <attr name="defaultWhite40" format="reference" />
+    <attr name="defaultWhite20" format="reference" />
+    <attr name="defaultWhite10" format="reference" />
+    <attr name="defaultBlack" format="reference" />
+    <attr name="defaultBlack60" format="reference" />
+    <attr name="defaultBlack40" format="reference" />
+    <attr name="defaultBlack20" format="reference" />
+    <attr name="defaultBlack10" format="reference" />
+    <attr name="defaultGray" format="reference" />
+    <attr name="defaultRed" format="reference" />
+    <attr name="defaultRed20" format="reference" />
+    <attr name="defaultRed10" format="reference" />
+    <attr name="defaultGreen" format="reference" />
+    <attr name="defaultGreen20" format="reference" />
+    <attr name="defaultGreen10" format="reference" />
+    <attr name="defaultLightGreen" format="reference" />
+    <attr name="defaultViolet" format="reference" />
+    <attr name="defaultPurple" format="reference" />
+    <attr name="defaultBlue" format="reference" />
+    <attr name="defaultTeal" format="reference" />
+    <attr name="defaultYellow" format="reference" />
+    <attr name="defaultYellow20" format="reference" />
+    <attr name="defaultLightYellow" format="reference" />
+    <attr name="defaultOrange" format="reference" />
+    <attr name="defaultDarkOrange" format="reference" />
+    <attr name="defaultDarkOrange20" format="reference" />
+    <attr name="defaultDarkOrange10" format="reference" />
+    <attr name="defaultBrown" format="reference" />
+    <attr name="defaultPink" format="reference" />
+    <attr name="defaultDarkPink" format="reference" />
+    <attr name="defaultBackground" format="reference" />
+    <attr name="defaultTransparent" format="reference" />
+
+    <attr name="primary" format="reference" />
+    <attr name="primary40" format="reference" />
+    <attr name="secondary" format="reference" />
+    <attr name="secondary40" format="reference" />
+    <attr name="secondary60" format="reference" />
+    <attr name="separator" format="reference" />
+    <attr name="separator60" format="reference" />
+    <attr name="textPrimary" format="reference" />
+    <attr name="background" format="reference" />
+    <attr name="contentBackground" format="reference" />
+    <attr name="warning" format="reference" />
+    <attr name="warningBackground" format="reference" />
+    <attr name="ripple" format="reference" />
+    <attr name="ripple15" format="reference" />
+    <attr name="customActivate" format="reference" />
+    <attr name="customText" format="reference" />
+    <attr name="needCheckQuestion" format="reference" />
+</resources>

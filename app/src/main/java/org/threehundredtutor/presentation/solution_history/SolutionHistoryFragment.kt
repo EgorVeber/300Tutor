@@ -3,19 +3,21 @@ package org.threehundredtutor.presentation.solution_history
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import org.threehundredtutor.R
-import org.threehundredtutor.base.BaseFragment
-import org.threehundredtutor.common.extentions.navigate
-import org.threehundredtutor.common.extentions.observeFlow
-import org.threehundredtutor.databinding.FragmentSolutionHistoryBinding
+import org.threehundredtutor.core.UiCoreLayout
+import org.threehundredtutor.core.UiCoreStrings
+import org.threehundredtutor.core.navigate
 import org.threehundredtutor.di.solution_history.SolutionHistoryComponent
-import org.threehundredtutor.presentation.common.ActionDialogFragment
-import org.threehundredtutor.presentation.common.LoadingDialog
-import org.threehundredtutor.presentation.solution_history.adapter.SolutionHistoryAdapters.DIFF_CALLBACK
-import org.threehundredtutor.presentation.solution_history.adapter.SolutionHistoryAdapters.getSolutionHistoryUiItemAdapter
+import org.threehundredtutor.presentation.solution.SolutionFragment.Companion.SOLUTION_SOLUTION_ID_KEY
+import org.threehundredtutor.presentation.solution_history.adapter.SolutionHistoryManager
+import org.threehundredtutor.ui_common.flow.observeFlow
+import org.threehundredtutor.ui_common.fragment.ActionDialogFragment
+import org.threehundredtutor.ui_common.fragment.LoadingDialog
+import org.threehundredtutor.ui_common.fragment.base.BaseFragment
+import org.threehundredtutor.ui_common.view_components.setDebouncedClickListener
+import org.threehundredtutor.ui_core.databinding.FragmentSolutionHistoryBinding
 
-class SolutionHistoryFragment : BaseFragment(R.layout.fragment_solution_history) {
+class SolutionHistoryFragment : BaseFragment(UiCoreLayout.fragment_solution_history) {
     private lateinit var binding: FragmentSolutionHistoryBinding
 
     override var customHandlerBackStack = true
@@ -28,13 +30,11 @@ class SolutionHistoryFragment : BaseFragment(R.layout.fragment_solution_history)
         solutionHistoryComponent.viewModelMapFactory()
     }
 
-    private val delegateAdapter =
-        AsyncListDifferDelegationAdapter(
-            DIFF_CALLBACK,
-            getSolutionHistoryUiItemAdapter { id ->
-                viewModel.onGoSolutionClickListener(id)
-            }
-        )
+    private val delegateAdapter = SolutionHistoryManager(
+        solutionHistoryClickListener = { solutionId, isFinished ->
+            viewModel.onSolutionHistoryClicked(solutionId)
+        },
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentSolutionHistoryBinding.bind(view)
@@ -47,13 +47,8 @@ class SolutionHistoryFragment : BaseFragment(R.layout.fragment_solution_history)
         }
         viewModel.getUiEventStateFlow().observeFlow(this) { state ->
             when (state) {
-                is SolutionHistoryViewModel.UiEvent.NavigateToSolution -> navigateSolutionDetailedScreen(
-                    state.solutionId
-                )
-
-                is SolutionHistoryViewModel.UiEvent.ShowDialogSolution -> showActionDialogOpenSolution(
-                    state.solutionId
-                )
+                is SolutionHistoryViewModel.UiEvent.NavigateToSolution ->
+                    navigateToSolutionFragment(state.solutionId)
             }
         }
 
@@ -75,31 +70,22 @@ class SolutionHistoryFragment : BaseFragment(R.layout.fragment_solution_history)
         navigate(R.id.action_solutionHistoryFragment_to_homeFragment)
     }
 
-    private fun showActionDialogOpenSolution(solutionId: String) {
-        ActionDialogFragment.showDialog(
-            fragmentManager = childFragmentManager,
-            positiveText = getString(R.string.go),
-            message = getString(R.string.go_to_test_solution),
-            onPositiveClick = { viewModel.onDialogOkClicked(solutionId) },
-        )
-    }
-
-    private fun navigateSolutionDetailedScreen(solutionId: String) {
+    private fun navigateToSolutionFragment(solutionId: String) {
         navigate(R.id.action_solutionHistoryFragment_to_solutionFragment, Bundle().apply
         {
-            putString(SOLUTION_TEST_KEY, solutionId)
+            putString(SOLUTION_SOLUTION_ID_KEY, solutionId)
         })
     }
 
     override fun onInitView(savedInstanceState: Bundle?) {
         binding.recyclerSolutionHistory.adapter = delegateAdapter
-        binding.completedSolution.setOnClickListener {
+        binding.completedSolution.setDebouncedClickListener {
             viewModel.onCompletedChipClicked()
         }
-        binding.allSolution.setOnClickListener {
+        binding.allSolution.setDebouncedClickListener {
             viewModel.onAllChipClicked()
         }
-        binding.notCompletedSolution.setOnClickListener {
+        binding.notCompletedSolution.setDebouncedClickListener {
             viewModel.onNotCompletedChipClicked()
         }
         binding.swipeRefreshLayout.setOnRefreshListener { viewModel.onRefresh() }
@@ -109,9 +95,5 @@ class SolutionHistoryFragment : BaseFragment(R.layout.fragment_solution_history)
         //  TODO потом обдумать поведение.
         LoadingDialog.close(requireActivity().supportFragmentManager)
         super.onDestroyView()
-    }
-
-    companion object {
-        const val SOLUTION_TEST_KEY = "SOLUTION_TEST_KEY"
     }
 }

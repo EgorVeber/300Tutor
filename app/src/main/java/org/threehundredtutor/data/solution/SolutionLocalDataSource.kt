@@ -1,24 +1,22 @@
 package org.threehundredtutor.data.solution
 
-import org.threehundredtutor.domain.solution.models.test_model.TestSolutionModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 
 class SolutionLocalDataSource {
-    private var solutionAnswers: MutableMap<String, String> = mutableMapOf()
+    private var solutionAnswersFlow: MutableStateFlow<MutableMap<String, String>> =
+        MutableStateFlow(mutableMapOf())
 
-    fun saveAnswers(testSolutionModeList: List<TestSolutionModel>) {
-        testSolutionModeList.map { testSolutionModel ->
-            solutionAnswers[testSolutionModel.questionModel.questionId] =
-                testSolutionModel.answerModel.answerOrAnswers
-        }
+    fun saveAnswers(answers: Map<String, String>) {
+        solutionAnswersFlow.update { answers.toMutableMap() }
     }
 
-    fun saveAnswer(questionId: String, answerOrAnswers: String) {
-        solutionAnswers[questionId] = answerOrAnswers
+    fun saveAnswer(answer: Pair<String, String>) {
+        solutionAnswersFlow.update { answers -> (answers + answer).toMutableMap() }
     }
 
-    fun getAnswers(): Map<String, String> = solutionAnswers.toMap()
+    fun getSolutionAnswersFlow(): Flow<Map<String, String>> = solutionAnswersFlow
 
-    fun isAllQuestionsHaveAnswers() =
-        solutionAnswers.size == solutionAnswers.filter { it.value.isNotEmpty() }.size
+    fun getAnswers(): Map<String, String> = solutionAnswersFlow.value
 }
-

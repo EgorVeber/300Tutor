@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/contentBackground"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/space_8">
+
+    <TextView
+        android:id="@+id/yourAnswerTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/your_answer"
+        android:textColor="?attr/defaultBlack"
+        android:textSize="@dimen/text_18" />
+
+    <TextView
+        android:id="@+id/yourAnswerValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_4"
+        android:textColor="?attr/textPrimary"
+        android:textSize="@dimen/text_16"
+        tools:text="246" />
+
+    <TextView
+        android:id="@+id/correctAnswerTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_8"
+        android:layout_marginBottom="@dimen/margin_4"
+        android:text="@string/explanation_answer"
+        android:textColor="?attr/defaultBlack"
+        android:textSize="@dimen/text_18" />
+</LinearLayout>

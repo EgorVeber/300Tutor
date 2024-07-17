@@ -1,10 +1,10 @@
 package org.threehundredtutor.data.solution_history.mappers
 
-import org.threehundredtutor.common.DEFAULT_NOT_VALID_VALUE_INT
-import org.threehundredtutor.common.orDefaultNotValidValue
-import org.threehundredtutor.common.percentOf
 import org.threehundredtutor.data.solution_history.models.response.SolutionValidationResponse
 import org.threehundredtutor.domain.solution_history.models.SolutionValidationModel
+import org.threehundredtutor.ui_common.DEFAULT_NOT_VALID_VALUE_INT
+import org.threehundredtutor.ui_common.util.orDefaultNotValidValue
+import org.threehundredtutor.ui_common.util.percentOf
 
 fun SolutionValidationResponse.toSolutionValidationModel(): SolutionValidationModel =
     SolutionValidationModel(

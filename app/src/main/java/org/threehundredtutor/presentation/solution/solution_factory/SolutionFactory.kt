@@ -2,22 +2,22 @@ package org.threehundredtutor.presentation.solution.solution_factory
 
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
-import org.threehundredtutor.R
-import org.threehundredtutor.common.EMPTY_STRING
-import org.threehundredtutor.common.utils.ResourceProvider
+import org.threehundredtutor.core.UiCoreStrings
 import org.threehundredtutor.domain.solution.models.TestSolutionGeneralModel
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerModel
-import org.threehundredtutor.domain.solution.models.solution_models.AnswerValidationResultType.UNKNOWN
 import org.threehundredtutor.domain.solution.models.test_model.QuestionModel
 import org.threehundredtutor.domain.solution.models.test_model.TestQuestionType
+import org.threehundredtutor.domain.subject_workspace.models.DirectoryModel
+import org.threehundredtutor.presentation.common.ResourceProvider
+import org.threehundredtutor.presentation.html_page.adapter.HtmlPageHeaderItem
+import org.threehundredtutor.presentation.html_page.adapter.HtmlPageStartTestUiModel
 import org.threehundredtutor.presentation.solution.mapper.toAnswerSelectRightUiModel
-import org.threehundredtutor.presentation.solution.mapper.toAnswerWithErrorsUiModel
-import org.threehundredtutor.presentation.solution.mapper.toRightAnswerUiModel
 import org.threehundredtutor.presentation.solution.ui_models.SolutionUiItem
 import org.threehundredtutor.presentation.solution.ui_models.answer_erros.AnswerWithErrorsResultUiItem
-import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerResultUiItem
-import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerUiItem
+import org.threehundredtutor.presentation.solution.ui_models.answer_erros.toAnswerWithErrorsUiModel
+import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerInputUiItem
 import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerValidationUiItem
+import org.threehundredtutor.presentation.solution.ui_models.detailed_answer.DetailedAnswerYourAnswerUiItem
 import org.threehundredtutor.presentation.solution.ui_models.item_common.DividerUiItem
 import org.threehundredtutor.presentation.solution.ui_models.item_common.FooterUiItem
 import org.threehundredtutor.presentation.solution.ui_models.item_common.HeaderUiItem
@@ -27,8 +27,10 @@ import org.threehundredtutor.presentation.solution.ui_models.item_common.SupSubU
 import org.threehundredtutor.presentation.solution.ui_models.item_common.TextUiItem
 import org.threehundredtutor.presentation.solution.ui_models.item_common.YoutubeUiItem
 import org.threehundredtutor.presentation.solution.ui_models.right_answer.RightAnswerResultUiItem
+import org.threehundredtutor.presentation.solution.ui_models.right_answer.toRightAnswerUiModel
 import org.threehundredtutor.presentation.solution.ui_models.select_right_answer.SelectRightAnswerCheckButtonUiItem
 import org.threehundredtutor.presentation.solution.ui_models.select_right_answer.SelectRightAnswerTitleUiItem
+import org.threehundredtutor.ui_common.EMPTY_STRING
 import javax.inject.Inject
 
 class SolutionFactory @Inject constructor(
@@ -36,42 +38,126 @@ class SolutionFactory @Inject constructor(
 ) {
     private var solutionUiItems: MutableList<SolutionUiItem> = mutableListOf()
 
-    fun createSolution(testSolutionGeneralModel: TestSolutionGeneralModel): List<SolutionUiItem> =
-        testSolutionGeneralModel.testSolutionModel.flatMap { testSolutionUnionModel ->
+    fun createSolution(
+        testSolutionGeneralModel: TestSolutionGeneralModel,
+        staticUrl: String
+    ): List<SolutionUiItem> {
+        val lastIndex = testSolutionGeneralModel.testSolutionModel.lastIndex
+
+        return testSolutionGeneralModel.testSolutionModel.flatMapIndexed { index, testSolutionUnionModel ->
             createSolutionItems(
                 questionModel = testSolutionUnionModel.questionModel,
                 answerModel = testSolutionUnionModel.answerModel,
-                isQuestionLikedByStudent = testSolutionUnionModel.isQuestionLikedByStudent
+                isQuestionLikedByStudent = testSolutionUnionModel.isQuestionLikedByStudent,
+                staticUrl = staticUrl,
+                isLastItem = index == lastIndex
             )
         }
+    }
+
+    fun createHtmlPage(
+        directoryModel: DirectoryModel,
+        htmlString: String,
+        staticUrl: String
+    ): List<SolutionUiItem> {
+        return buildList {
+            add(HtmlPageHeaderItem)
+            addAll(createQuestionWithHtml(htmlString = htmlString, staticUrl = staticUrl))
+            add(FooterUiItem)
+            add(DividerUiItem(DividerType.BACKGROUND))
+            if (directoryModel.hasTest()) {
+                add(
+                    HtmlPageStartTestUiModel(
+                        firstCount = directoryModel.getFirstPathCount().toString(),
+                        secondCount = directoryModel.getSecondPathCount().toString(),
+                        fullCount = directoryModel.getFullTestCount().toString(),
+                        firstVisible = directoryModel.hasFirstPath(),
+                        secondVisible = directoryModel.hasSecondPath(),
+                        fullVisible = directoryModel.hasFullTest()
+                    )
+                )
+                add(DividerUiItem(DividerType.BACKGROUND))
+            }
+        }
+    }
+
+    fun createFavoritesQuestion(
+        questionList: List<QuestionModel>,
+        staticUrl: String,
+    ): List<SolutionUiItem> {
+        val lastQuestionIndex = questionList.lastIndex
+        return questionList.flatMapIndexed { index: Int, questionModel: QuestionModel ->
+            solutionUiItems.clear()
+            solutionUiItems.add(
+                HeaderUiItem(
+                    questionId = questionModel.questionId,
+                    questionNumber = resourceProvider.string(
+                        UiCoreStrings.question_number,
+                        questionModel.questionNumber.toString()
+                    ),
+                    isQuestionLikedByStudent = true
+                )
+            )
+            solutionUiItems += createQuestionWithHtml(
+                htmlString = questionModel.titleBodyMarkUp,
+                staticUrl = staticUrl
+            )
+
+            //createSolutionForAnswerWithType(questionModel = questionModel, staticUrl = staticUrl)
+            if (index == lastQuestionIndex) {
+                createBottomItems(0)
+            } else {
+                createBottomItems(COUNT_DIVIDER_BOTTOM_QUESTION)
+            }
+            solutionUiItems
+        }
+    }
 
     private fun createSolutionItems(
         questionModel: QuestionModel,
         answerModel: AnswerModel,
         isQuestionLikedByStudent: Boolean,
         countDividerBottomQuestion: Int = COUNT_DIVIDER_BOTTOM_QUESTION,
+        staticUrl: String,
+        isLastItem: Boolean
     ): List<SolutionUiItem> {
         solutionUiItems.clear()
         solutionUiItems.add(
             HeaderUiItem(
                 questionId = questionModel.questionId,
-                questionName = questionModel.title,
+                questionNumber = resourceProvider.string(
+                    UiCoreStrings.question_number,
+                    questionModel.questionNumber.toString()
+                ),
                 isQuestionLikedByStudent = isQuestionLikedByStudent
             )
         )
-        solutionUiItems += createQuestionWithHtml(htmlString = questionModel.titleBodyMarkUp)
+        solutionUiItems += createQuestionWithHtml(
+            htmlString = questionModel.titleBodyMarkUp,
+            staticUrl = staticUrl
+        )
 
         if (answerModel.isHaveAnswer()) {
-            createResultAnswerWithType(questionModel = questionModel, answerModel = answerModel)
+            createResultAnswerWithType(
+                questionModel = questionModel,
+                answerModel = answerModel,
+                staticUrl = staticUrl
+            )
         } else {
-            createSolutionForAnswerWithType(questionModel)
+            createSolutionForAnswerWithType(questionModel = questionModel, staticUrl = staticUrl)
         }
-        createBottomItems(countDividerBottomQuestion)
+
+        if (isLastItem) {
+            createBottomItems(0)
+        } else {
+            createBottomItems(countDividerBottomQuestion)
+        }
         return solutionUiItems
     }
 
     private fun createQuestionWithHtml(
-        htmlString: String
+        htmlString: String,
+        staticUrl: String
     ): List<SolutionUiItem> {
         val solutionUiItems: MutableList<SolutionUiItem> = mutableListOf()
         val elements = Jsoup.parse(htmlString).body().children()
@@ -93,11 +179,31 @@ class SolutionFactory @Inject constructor(
             val isDividerItem = text.isEmpty()
 
             when {
-                isImageItem -> solutionUiItems.add(ImageUiItem(element.attr(FILE_ID_ATTR)))
-                isYoutubeItem -> solutionUiItems.add(YoutubeUiItem(element.attr(LINK)))
-                isTextItem -> solutionUiItems.add(TextUiItem(element.toString(), gravityAlign))
-                isSupSubItem -> solutionUiItems.add(SupSubUiItem(element.toString(), gravityAlign))
-                isDividerItem -> solutionUiItems.add(DividerUiItem(DividerType.CONTENT_BACKGROUND))
+                isImageItem -> {
+                    val imageId = element.attr(FILE_ID_ATTR)
+                    solutionUiItems.add(
+                        ImageUiItem(
+                            idImage = imageId,
+                            path = replaceUrl(staticUrl, imageId)
+                        )
+                    )
+                }
+
+                isYoutubeItem -> {
+                    solutionUiItems.add(YoutubeUiItem(element.attr(LINK)))
+                }
+
+                isTextItem -> {
+                    solutionUiItems.add(TextUiItem(element.toString(), gravityAlign))
+                }
+
+                isSupSubItem -> {
+                    solutionUiItems.add(SupSubUiItem(element.toString(), gravityAlign))
+                }
+
+                isDividerItem -> {
+                    solutionUiItems.add(DividerUiItem(DividerType.CONTENT_BACKGROUND))
+                }
             }
         }
         return solutionUiItems
@@ -106,6 +212,7 @@ class SolutionFactory @Inject constructor(
     private fun createResultAnswerWithType(
         questionModel: QuestionModel,
         answerModel: AnswerModel,
+        staticUrl: String
     ) {
         when (questionModel.testQuestionType) {
             TestQuestionType.SELECT_RIGHT_ANSWER_OR_ANSWERS -> {
@@ -133,6 +240,7 @@ class SolutionFactory @Inject constructor(
                 createDetailedResultAnswer(
                     questionModel = questionModel,
                     answerModel = answerModel,
+                    staticUrl = staticUrl
                 )
             }
 
@@ -153,12 +261,11 @@ class SolutionFactory @Inject constructor(
 
         val rightAnswersList = questionModel.selectRightAnswerOrAnswersModel.answersList
 
-
         rightAnswersList.forEach { answerSelectRightModel ->
             solutionUiItems.add(
                 answerSelectRightModel.toAnswerSelectRightUiModel(
                     questionId = questionModel.questionId,
-                    enabled = false,
+                    isValidated = true,
                     checked = answerList.contains(answerSelectRightModel.text)
                 )
             )
@@ -178,7 +285,7 @@ class SolutionFactory @Inject constructor(
         answerModel: AnswerModel,
     ) {
         val answer =
-            answerModel.answerOrAnswers.ifEmpty { resourceProvider.string(R.string.your_not_answer) }
+            answerModel.answerOrAnswers.ifEmpty { resourceProvider.string(UiCoreStrings.your_not_answer) }
 
         solutionUiItems.add(
             AnswerWithErrorsResultUiItem(
@@ -196,12 +303,12 @@ class SolutionFactory @Inject constructor(
         answerModel: AnswerModel,
     ) {
         val answer =
-            answerModel.answerOrAnswers.ifEmpty { resourceProvider.string(R.string.your_not_answer) }
+            answerModel.answerOrAnswers.ifEmpty { resourceProvider.string(UiCoreStrings.your_not_answer) }
 
         val pointsString = with(answerModel) {
             if (pointsValidationModel.isValidated) {
                 resourceProvider.string(
-                    R.string.points_question,
+                    UiCoreStrings.points_question,
                     answerModel.pointsValidationModel.answerPoints,
                     answerModel.pointsValidationModel.questionTotalPoints
                 )
@@ -222,14 +329,16 @@ class SolutionFactory @Inject constructor(
     private fun createDetailedResultAnswer(
         questionModel: QuestionModel,
         answerModel: AnswerModel,
+        staticUrl: String,
     ) {
         val answer =
-            answerModel.answerOrAnswers.ifEmpty { resourceProvider.string(R.string.your_not_answer) }
-        val explanationList = createQuestionWithHtml(questionModel.answerExplanationMarkUp)
+            answerModel.answerOrAnswers.ifEmpty { resourceProvider.string(UiCoreStrings.your_not_answer) }
+        val explanationList =
+            createQuestionWithHtml(questionModel.answerExplanationMarkUp, staticUrl)
         val pointsValidationModel = answerModel.pointsValidationModel
         val isValidated = pointsValidationModel.isValidated
 
-        solutionUiItems.add(DetailedAnswerResultUiItem(answer))
+        solutionUiItems.add(DetailedAnswerYourAnswerUiItem(answer))
         solutionUiItems.addAll(explanationList)
 
         solutionUiItems.add(
@@ -237,7 +346,7 @@ class SolutionFactory @Inject constructor(
                 inputPoint = if (isValidated) pointsValidationModel.answerPoints.toString() else EMPTY_STRING,
                 pointTotal = pointsValidationModel.questionTotalPoints.toString(),
                 questionId = questionModel.questionId,
-                type = if (isValidated) answerModel.answerValidationResultType else UNKNOWN,
+                type = answerModel.answerValidationResultType,
                 isValidated = isValidated,
                 pointsString = getPointString(answerModel),
             )
@@ -248,7 +357,7 @@ class SolutionFactory @Inject constructor(
         val pointsString =
             if (answerModel.pointsValidationModel.isValidated) {
                 resourceProvider.string(
-                    R.string.points_question,
+                    UiCoreStrings.points_question,
                     answerModel.pointsValidationModel.answerPoints,
                     answerModel.pointsValidationModel.questionTotalPoints
                 )
@@ -258,12 +367,13 @@ class SolutionFactory @Inject constructor(
 
     private fun createSolutionForAnswerWithType(
         questionModel: QuestionModel,
+        staticUrl: String
     ) {
         when (questionModel.testQuestionType) {
             TestQuestionType.SELECT_RIGHT_ANSWER_OR_ANSWERS -> createSelectAnswers(questionModel)
             TestQuestionType.TYPE_ANSWER_WITH_ERRORS -> createTypeAnswerWithErrors(questionModel)
             TestQuestionType.TYPE_RIGHT_ANSWER -> createTypeRightAnswer(questionModel)
-            TestQuestionType.DETAILED_ANSWER -> createDetailedAnswer(questionModel)
+            TestQuestionType.DETAILED_ANSWER -> createDetailedAnswer(questionModel, staticUrl)
             TestQuestionType.UNKNOWN -> {}
         }
     }
@@ -272,7 +382,13 @@ class SolutionFactory @Inject constructor(
         solutionUiItems.add(SelectRightAnswerTitleUiItem(questionModel.selectRightAnswerOrAnswersModel.selectRightAnswerTitle))
         val listAnswer = questionModel.selectRightAnswerOrAnswersModel.answersList
         listAnswer.forEach { answerSelectRightModel ->
-            solutionUiItems.add(answerSelectRightModel.toAnswerSelectRightUiModel(questionModel.questionId))
+            solutionUiItems.add(
+                answerSelectRightModel.toAnswerSelectRightUiModel(
+                    checked = false,
+                    isValidated = false,
+                    questionId = questionModel.questionId
+                )
+            )
         }
         solutionUiItems.add(SelectRightAnswerCheckButtonUiItem(questionModel.questionId))
     }
@@ -294,10 +410,11 @@ class SolutionFactory @Inject constructor(
         )
     }
 
-    private fun createDetailedAnswer(questionModel: QuestionModel) {
-        val explanationList = createQuestionWithHtml(questionModel.answerExplanationMarkUp)
+    private fun createDetailedAnswer(questionModel: QuestionModel, staticUrl: String) {
+        val explanationList =
+            createQuestionWithHtml(questionModel.answerExplanationMarkUp, staticUrl)
         solutionUiItems.add(
-            DetailedAnswerUiItem(
+            DetailedAnswerInputUiItem(
                 questionId = questionModel.questionId,
                 inputAnswer = EMPTY_STRING,
                 explanationList = explanationList,
@@ -306,14 +423,15 @@ class SolutionFactory @Inject constructor(
     }
 
     private fun createBottomItems(countDividerBottomQuestion: Int) {
-        solutionUiItems.add(FooterUiItem())
+        solutionUiItems.add(FooterUiItem)
         repeat(countDividerBottomQuestion) {
             solutionUiItems.add(DividerUiItem(DividerType.BACKGROUND))
         }
     }
 
+
     companion object {
-        private const val COUNT_DIVIDER_BOTTOM_QUESTION = 6
+        private const val COUNT_DIVIDER_BOTTOM_QUESTION = 2
         private const val FILE_IMAGE_TAG = "file-image"
         private const val SUP_TEXT_TAG = "sup"
         private const val SUB_TEXT_TAG = "sub"
@@ -322,6 +440,15 @@ class SolutionFactory @Inject constructor(
         private const val EXTERNAL_VIDEO = "external-video"
         private const val LINK = "link"
 
+        private const val FORMAT_SIZE_TYPE = "{sizeType}"
+        private const val FORMAT_FILE_ID = "{fileId}"
+        private const val IMAGE_MEDIUM_TYPE = "Medium"
+        const val IMAGE_ORIGINAL_TYPE = "Original"
+
         private const val ANSWERS_DELIMITERS = ";"
+
+        fun replaceUrl(url: String, fileId: String, type: String = IMAGE_MEDIUM_TYPE): String {
+            return url.replace(FORMAT_FILE_ID, fileId).replace(FORMAT_SIZE_TYPE, type)
+        }
     }
 }

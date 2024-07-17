@@ -1,17 +1,18 @@
 package org.threehundredtutor.data.account.mappers
 
-import org.threehundredtutor.common.PATH_LOGIN
-import org.threehundredtutor.common.SITE_URL
-import org.threehundredtutor.common.orFalse
 import org.threehundredtutor.data.account.models.CreateLoginLinkResultResponse
 import org.threehundredtutor.domain.account.models.CreateLoginLinkResultModel
+import org.threehundredtutor.ui_common.util.orFalse
 
-fun CreateLoginLinkResultResponse.toCreateLoginLinkResultModel(): CreateLoginLinkResultModel =
+private const val PATH_LOGIN = "login-by-link"
+fun CreateLoginLinkResultResponse.toCreateLoginLinkResultModel(
+    siteUrl: String,
+): CreateLoginLinkResultModel =
     CreateLoginLinkResultModel(
         isSucceeded = isSucceeded.orFalse(),
         errorMessage = errorMessage.orEmpty(),
         urlAuthentication = StringBuilder()
-            .append(SITE_URL)
+            .append(siteUrl)
             .append("/")
             .append(PATH_LOGIN)
             .append("/")

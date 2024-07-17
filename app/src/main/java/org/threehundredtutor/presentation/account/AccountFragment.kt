@@ -6,19 +6,20 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import org.threehundredtutor.R
-import org.threehundredtutor.base.BaseFragment
-import org.threehundredtutor.common.SITE_URL
-import org.threehundredtutor.common.TELEGRAM_BOT_URL
-import org.threehundredtutor.common.extentions.navigate
-import org.threehundredtutor.common.extentions.observeFlow
-import org.threehundredtutor.common.extentions.showMessage
-import org.threehundredtutor.databinding.AccountFragmentBinding
+import org.threehundredtutor.core.UiCoreLayout
+import org.threehundredtutor.core.UiCoreStrings
+import org.threehundredtutor.core.navigate
 import org.threehundredtutor.di.account.AccountComponent
 import org.threehundredtutor.domain.account.models.AccountModel
-import org.threehundredtutor.presentation.common.ActionDialogFragment
+import org.threehundredtutor.ui_common.flow.observeFlow
+import org.threehundredtutor.ui_common.fragment.ActionDialogFragment
+import org.threehundredtutor.ui_common.fragment.base.BaseFragment
+import org.threehundredtutor.ui_common.fragment.showMessage
+import org.threehundredtutor.ui_core.databinding.AccountFragmentBinding
 
-class AccountFragment : BaseFragment(R.layout.account_fragment) {
+class AccountFragment : BaseFragment(UiCoreLayout.account_fragment) {
 
     private val accountComponent by lazy {
         AccountComponent.createAccountComponent()
@@ -28,23 +29,21 @@ class AccountFragment : BaseFragment(R.layout.account_fragment) {
         accountComponent.viewModelMapFactory()
     }
 
-    private lateinit var binding: AccountFragmentBinding
+    override val bottomMenuVisible: Boolean = false
 
-    override var customHandlerBackStack = true
+    private lateinit var binding: AccountFragmentBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = AccountFragmentBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onBackPressed() {
-        navigate(R.id.action_accountFragment_to_homeFragment)
-    }
 
     override fun onInitView(savedInstanceState: Bundle?) {
         binding.logout.setOnClickListener { showLogoutDialog() }
-        binding.telegramBotContainer.setOnClickListener { showTelegramDialog() }
-        binding.siteContainer.setOnClickListener { showSiteDialog() }
+        binding.mainToolBar.setNavigationOnClickListener { findNavController().popBackStack() }
+        binding.telegramBotContainer.setOnClickListener { viewModel.onTelegramClicked() }
+        binding.siteContainer.setOnClickListener { viewModel.onSiteClicked() }
     }
 
     override fun onObserveData() {
@@ -56,20 +55,26 @@ class AccountFragment : BaseFragment(R.layout.account_fragment) {
             loading(loading)
         }
 
-        viewModel.getaccountUiEventState().observeFlow(this) { state ->
+        viewModel.getAccountUiEventState().observeFlow(this) { state ->
             when (state) {
-                is AccountViewModel.AccountUiEvent.OpenSite -> openSite(
-                    state.urlAuthentication,
-                )
+                is AccountViewModel.AccountUiEvent.OpenSite -> openSite(state.urlAuthentication)
 
                 is AccountViewModel.AccountUiEvent.ShowMessage -> showMessage(state.message)
+                is AccountViewModel.AccountUiEvent.OpenTelegram -> openTelegram(
+                    state.telegramBotUrl,
+                    state.telegramBotName
+                )
+
                 AccountViewModel.AccountUiEvent.Logout -> logout()
-                AccountViewModel.AccountUiEvent.OpenTelegram -> openTelegram()
             }
         }
 
         viewModel.getAccountErrorStateFlow().observeFlow(this) { errorAccount ->
             if (errorAccount) updateAccountError()
+        }
+
+        viewModel.getTelegramVisibleState().observeFlow(this) { visible ->
+            binding.telegramBotContainer.isVisible = visible
         }
     }
 
@@ -77,37 +82,31 @@ class AccountFragment : BaseFragment(R.layout.account_fragment) {
         try {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(urlAuthentication)))
         } catch (e: Exception) {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(SITE_URL)))
+            showMessage(getString(UiCoreStrings.unknown_error_message))
         }
     }
 
     private fun showLogoutDialog() {
         ActionDialogFragment.showDialog(
-            title = getString(R.string.confirm_logout),
+            title = getString(UiCoreStrings.confirm_logout),
             fragmentManager = childFragmentManager,
-            message = getString(R.string.warning_logout),
+            message = getString(UiCoreStrings.warning_logout),
             onPositiveClick = { viewModel.onLogoutClick() }
         )
     }
 
-    private fun showTelegramDialog() {
-        ActionDialogFragment.showDialog(
-            fragmentManager = childFragmentManager,
-            message = getString(R.string.open_telegram),
-            onPositiveClick = { viewModel.onTelegramClicked() }
-        )
-    }
-
-    private fun showSiteDialog() {
-        ActionDialogFragment.showDialog(
-            fragmentManager = childFragmentManager,
-            message = getString(R.string.open_site),
-            onPositiveClick = { viewModel.onSiteClicked() }
-        )
-    }
-
-    private fun openTelegram() {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(TELEGRAM_BOT_URL)))
+    private fun openTelegram(telegramBotUrl: String, telegramBotName: String) {
+        try {
+            val uri = Uri.parse(TELEGRAM_LINK.replace(TELEGRAM_BOT_SUB_STRING, telegramBotName))
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
+        } catch (e: Exception) {
+            try {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(telegramBotUrl)))
+            } catch (e: Exception) {
+                showMessage(getString(UiCoreStrings.unknown_error_message))
+            }
+        }
     }
 
     private fun logout() {
@@ -125,15 +124,19 @@ class AccountFragment : BaseFragment(R.layout.account_fragment) {
 
     private fun updateAccountError() {
         with(binding) {
-            nameValueTextView.text = getString(R.string.profile_error_account)
-            surnameValueTextView.text = getString(R.string.profile_error_account)
-            emailValueTextView.text = getString(R.string.profile_error_account)
-            phoneValueTextView.text = getString(R.string.profile_error_account)
+            nameValueTextView.text = getString(UiCoreStrings.profile_error_account)
+            surnameValueTextView.text = getString(UiCoreStrings.profile_error_account)
+            emailValueTextView.text = getString(UiCoreStrings.profile_error_account)
+            phoneValueTextView.text = getString(UiCoreStrings.profile_error_account)
         }
     }
 
     private fun loading(loading: Boolean) {
         binding.progress.isVisible = loading
     }
-}
 
+    companion object {
+        private const val TELEGRAM_LINK = "tg://resolve?domain={botTelegram}"
+        private const val TELEGRAM_BOT_SUB_STRING = "{botTelegram}"
+    }
+}

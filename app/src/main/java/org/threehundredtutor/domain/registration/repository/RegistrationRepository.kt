@@ -6,6 +6,5 @@ import org.threehundredtutor.domain.registration.models.RegistrationStudentAndSi
 
 interface RegistrationRepository {
 
-    suspend fun registerAccount(params: RegistrationParamsModel): RegistrationAccountAndSignInModel
     suspend fun registerStudent(params: RegistrationParamsModel): RegistrationStudentAndSignInModel
 }

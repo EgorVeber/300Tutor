@@ -5,7 +5,7 @@ import org.threehundredtutor.domain.solution.models.test_model.TestSolutionModel
 data class TestSolutionGeneralModel(
     val solutionId: String,
     val hasCuratorValidation: Boolean,
-    val canCheckSingleQuestion: Boolean,
+    val canCheckSingleQuestion: Boolean,//Можно ли проверять каждый вопрос в тесте на правильность
     val studentGroupId: String,
     val studentId: String,
     val startedOnUtc: String,

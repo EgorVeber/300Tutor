@@ -8,16 +8,22 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ir.mahozad.android.PieChart.Slice
-import org.threehundredtutor.R
-import org.threehundredtutor.common.getColorAttr
-import org.threehundredtutor.common.utils.BundleParcelable
-import org.threehundredtutor.databinding.SolutionResultDialogBinding
+import org.threehundredtutor.core.UiCoreAttr
+import org.threehundredtutor.core.UiCoreStyle
 import org.threehundredtutor.presentation.solution.ui_models.ResultTestUiModel
+import org.threehundredtutor.ui_common.fragment.getColorAttr
+import org.threehundredtutor.ui_common.util_class.BundleParcelable
+import org.threehundredtutor.ui_core.databinding.SolutionResultDialogBinding
+import kotlin.math.abs
+
 
 class SolutionResultDialogFragment : BottomSheetDialogFragment() {
+
     lateinit var binding: SolutionResultDialogBinding
+
     private var resultTest by BundleParcelable<ResultTestUiModel>(BUNDLE_ARGUMENT_KEY)
-    override fun getTheme() = R.style.AppBottomSheetDialogTheme
+
+    override fun getTheme() = UiCoreStyle.AppBottomSheetDialogTheme
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,7 +39,6 @@ class SolutionResultDialogFragment : BottomSheetDialogFragment() {
         onInitView()
     }
 
-
     private fun onInitView() {
         with(binding) {
             pieChart.slices = getSlices()
@@ -48,11 +53,11 @@ class SolutionResultDialogFragment : BottomSheetDialogFragment() {
     private fun getSlices() = listOf(
         Slice(
             fraction = resultTest.fractionAnswer,
-            color = getColorAttr(R.attr.primary, needResId = false)
+            color = getColorAttr(UiCoreAttr.primary, needResId = false)
         ),
         Slice(
-            fraction = 1 - resultTest.fractionAnswer,
-            color = getColorAttr(R.attr.primary40, needResId = false)
+            fraction = abs(1 - resultTest.fractionAnswer),
+            color = getColorAttr(UiCoreAttr.primary40, needResId = false)
         )
     )
 

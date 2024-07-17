@@ -4,11 +4,14 @@ import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import org.threehundredtutor.data.account.AccountRepositoryImpl
 import org.threehundredtutor.data.authorization.AuthorizationRepositoryImpl
+import org.threehundredtutor.data.settings_app.SettingsAppRepositoryImpl
 import org.threehundredtutor.data.starter.StarterRepositoryImpl
-import org.threehundredtutor.di.ScreenScope
-import org.threehundredtutor.di.ViewModelInjectMapKey
+import org.threehundredtutor.di.common.ViewModelInjectMapKey
+import org.threehundredtutor.domain.account.AccountRepository
 import org.threehundredtutor.domain.authorization.AuthorizationRepository
+import org.threehundredtutor.domain.settings_app.SettingsAppRepository
 import org.threehundredtutor.domain.starter.StarterRepository
 import org.threehundredtutor.presentation.starter.StarterViewModel
 
@@ -20,10 +23,15 @@ abstract class StarterModule {
     abstract fun getStarterViewModel(starterViewModel: StarterViewModel): ViewModel
 
     @Binds
-    @ScreenScope
     abstract fun bindsAuthorizationRepository(authorizationRepositoryImpl: AuthorizationRepositoryImpl): AuthorizationRepository
 
     @Binds
-    @ScreenScope
     abstract fun bindsStarterRepository(starterRepositoryImpl: StarterRepositoryImpl): StarterRepository
+
+    @Binds
+    abstract fun bindsAccountRepository(accountRepository: AccountRepositoryImpl): AccountRepository
+
+    @Binds
+    abstract fun bindsSettingsAppRepository(accountRepositoryImpl: SettingsAppRepositoryImpl): SettingsAppRepository
+
 }

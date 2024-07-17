@@ -1,6 +1,6 @@
 package org.threehundredtutor.domain.solution_history.models
 
-import org.threehundredtutor.common.EMPTY_STRING
+import org.threehundredtutor.ui_common.EMPTY_STRING
 
 data class SolutionValidationModel(
     val hasRightAnswerQuestionsCount: Int,

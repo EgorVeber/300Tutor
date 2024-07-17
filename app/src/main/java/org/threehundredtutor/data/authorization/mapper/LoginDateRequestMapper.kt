@@ -1,9 +1,9 @@
 package org.threehundredtutor.data.authorization.mapper
 
 import org.threehundredtutor.data.authorization.models.LoginDateRequest
-import org.threehundredtutor.domain.authorization.LoginDateModel
+import org.threehundredtutor.domain.authorization.LoginParamsModel
 
-fun LoginDateModel.toLoginDateRequest(): LoginDateRequest =
+fun LoginParamsModel.toLoginDateRequest(): LoginDateRequest =
     LoginDateRequest(
         password = password,
         rememberMe = rememberMe,

@@ -2,15 +2,16 @@ package org.threehundredtutor.di.account
 
 import dagger.BindsInstance
 import dagger.Component
-import org.threehundredtutor.common.utils.AccountManager
-import org.threehundredtutor.common.utils.ResourceProvider
 import org.threehundredtutor.core.DiSetHelper
-import org.threehundredtutor.data.core.ServiceGeneratorProvider
-import org.threehundredtutor.di.ScreenScope
-import org.threehundredtutor.di.ViewModelMapFactory
+import org.threehundredtutor.data.common.data_source.AccountLocalDataSource
+import org.threehundredtutor.data.common.data_source.ConfigLocalDataSource
+import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
+import org.threehundredtutor.data.settings_app.SettingsAppLocalDataSource
+import org.threehundredtutor.di.common.ViewModelMapFactory
+import org.threehundredtutor.domain.common.AccountAuthorizationInfoRepository
+import org.threehundredtutor.presentation.common.ResourceProvider
 
 @Component(modules = [AccountModule::class])
-@ScreenScope
 interface AccountComponent {
     fun viewModelMapFactory(): ViewModelMapFactory
 
@@ -23,7 +24,16 @@ interface AccountComponent {
         fun getServiceGeneratorProvider(serviceGeneratorProvider: ServiceGeneratorProvider): Builder
 
         @BindsInstance
-        fun getAccountManager(accountManager: AccountManager): Builder
+        fun getAccountLocalDataSource(accountLocalDataSource: AccountLocalDataSource): Builder
+
+        @BindsInstance
+        fun getAccountAuthorizationInfoRepository(accountAuthorizationInfoRepository: AccountAuthorizationInfoRepository): Builder
+
+        @BindsInstance
+        fun getConfigLocalDataSource(configLocalDataSource: ConfigLocalDataSource): Builder
+
+        @BindsInstance
+        fun getSettingsAppLocalDataSource(settingsAppLocalDataSource: SettingsAppLocalDataSource): Builder
 
         fun getAccountComponentBuilder(): AccountComponent
     }
@@ -34,7 +44,10 @@ interface AccountComponent {
                 .builder()
                 .getBuilder(DiSetHelper.appComponent.getResourceProvider())
                 .getServiceGeneratorProvider(DiSetHelper.appComponent.getServiceGeneratorProvider())
-                .getAccountManager(DiSetHelper.appComponent.getAccountManager())
+                .getAccountLocalDataSource(DiSetHelper.appComponent.getAccountLocalDataSource())
+                .getConfigLocalDataSource(DiSetHelper.appComponent.getConfigLocalDataSource())
+                .getAccountAuthorizationInfoRepository(DiSetHelper.appComponent.getAccountAuthorizationInfoRepository())
+                .getSettingsAppLocalDataSource(DiSetHelper.appComponent.getSettingsAppLocalDataSource())
                 .getAccountComponentBuilder()
     }
 }

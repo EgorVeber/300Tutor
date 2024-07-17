@@ -4,9 +4,10 @@ import com.google.gson.annotations.SerializedName
 
 class StartTestRequest(
     @SerializedName("canCheckSingleQuestion")
-    val canCheckSingleQuestion: Boolean, // Не понятно на что влияет
+    //Можно ли проверять каждый вопрос в тесте на правильность
+    val canCheckSingleQuestion: Boolean = true,// TODO пока всегда true узнать откуда его брать и сделать обработку. Согласованно всегда true.
     @SerializedName("studentGroupId")
-    val studentGroupId: String?,
+    val studentGroupId: String? = null,
     @SerializedName("testId")
     val testId: String
 )

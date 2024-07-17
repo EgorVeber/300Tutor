@@ -7,26 +7,33 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import org.threehundredtutor.R
-import org.threehundredtutor.base.BaseFragment
-import org.threehundredtutor.common.EMPTY_STRING
-import org.threehundredtutor.common.extentions.navigate
-import org.threehundredtutor.common.extentions.observeFlow
-import org.threehundredtutor.common.extentions.showMessage
-import org.threehundredtutor.common.extentions.showSnackbar
-import org.threehundredtutor.common.getUrlYoutube
-import org.threehundredtutor.common.utils.BundleString
-import org.threehundredtutor.databinding.SolutionFragmentBinding
+import org.threehundredtutor.core.UiCoreDimens
+import org.threehundredtutor.core.UiCoreLayout
+import org.threehundredtutor.core.UiCoreStrings
+import org.threehundredtutor.core.navigate
 import org.threehundredtutor.di.solution.SolutionComponent
-import org.threehundredtutor.presentation.PhotoDetailsFragment.Companion.PHOTO_DETAILED_KEY
-import org.threehundredtutor.presentation.common.ActionDialogFragment
-import org.threehundredtutor.presentation.common.LoadingDialog
-import org.threehundredtutor.presentation.home.HomeFragment.Companion.SUBJECT_TEST_KEY
+import org.threehundredtutor.domain.solution.models.test_model.HtmlPageTestType
+import org.threehundredtutor.presentation.solution.PhotoDetailsFragment.Companion.PHOTO_DETAILED_IMAGE_PATH
+import org.threehundredtutor.presentation.solution.adapter.SolutionItemDecoration
 import org.threehundredtutor.presentation.solution.adapter.SolutionManager
-import org.threehundredtutor.presentation.solution_history.SolutionHistoryFragment.Companion.SOLUTION_TEST_KEY
+import org.threehundredtutor.ui_common.EMPTY_STRING
+import org.threehundredtutor.ui_common.flow.observeFlow
+import org.threehundredtutor.ui_common.fragment.ActionDialogFragment
+import org.threehundredtutor.ui_common.fragment.LoadingDialog
+import org.threehundredtutor.ui_common.fragment.base.BaseFragment
+import org.threehundredtutor.ui_common.fragment.showMessage
+import org.threehundredtutor.ui_common.fragment.showSnack
+import org.threehundredtutor.ui_common.util.getUrlYoutube
+import org.threehundredtutor.ui_common.util_class.BundleSerializable
+import org.threehundredtutor.ui_common.util_class.BundleString
+import org.threehundredtutor.ui_core.databinding.SolutionFragmentBinding
 
-class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
+
+class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
 
     private lateinit var binding: SolutionFragmentBinding
 
@@ -34,8 +41,25 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
 
     override var customHandlerBackStack: Boolean = true
 
+    private val solutionId by BundleString(SOLUTION_SOLUTION_ID_KEY, EMPTY_STRING)
+    private val testId by BundleString(SOLUTION_TEST_ID_KEY, EMPTY_STRING)
+    private val directoryTestId by BundleString(SOLUTION_HTML_PAGE_DIRECTORY_ID_KEY, EMPTY_STRING)
+    private val workSpaceId by BundleString(SOLUTION_HTML_PAGE_WORKSPACE_ID_KEY, EMPTY_STRING)
+    private val htmlPageTestType by BundleSerializable(
+        SOLUTION_HTML_PAGE_TEST_TYPE_ID_KEY,
+        HtmlPageTestType.DEFAULT_EMPTY
+    )
+
     private val solutionComponent by lazy {
-        SolutionComponent.createSolutionComponent()
+        SolutionComponent.createSolutionComponent(
+            SolutionParamsDaggerModel(
+                testId = testId,
+                solutionId = solutionId,
+                directoryTestId = directoryTestId,
+                workSpaceId = workSpaceId,
+                htmlPageTestType = htmlPageTestType
+            )
+        )
     }
 
     override val viewModel by viewModels<SolutionViewModel> {
@@ -48,26 +72,34 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
         },
         youtubeClickListener = { link -> viewModel.onYoutubeClicked(link) },
         selectRightAnswerClickListener = { questionId, answer, checked ->
-            viewModel.onCheckedChangeSelectRightAnswer(
+            viewModel.onSelectRightAnswerCheckedChange(
                 questionId = questionId,
                 answerText = answer,
                 checked = checked
             )
         },
-        selectRightAnswerCheckButtonClickListener = { questionId ->
-            viewModel.onSelectRightAnswerCheckButtonClicked(questionId)
+        selectRightAnswerCheckButtonClickListener = { selectRightAnswerCheckButtonUiItem ->
+            viewModel.onSelectRightAnswerCheckButtonClicked(selectRightAnswerCheckButtonUiItem)
         },
-        rightAnswerClickListener = { rightAnswerUiModel, answer ->
-            viewModel.onRightAnswerClicked(rightAnswerUiModel = rightAnswerUiModel, answer = answer)
+        rightAnswerClickListener = { rightAnswerUiModel, inputAnswer ->
+            viewModel.onRightAnswerClicked(
+                rightAnswerUiModel = rightAnswerUiModel,
+                inputAnswer = inputAnswer
+            )
+        },
+        rightAnswerTextChangedListener = { questionId, inputAnswer ->
+            viewModel.onRightAnswerTextChanged(questionId, inputAnswer)
         },
         answerWithErrorsClickListener = { questionAnswerWithErrorsUiModel, answer ->
             viewModel.onAnswerWithErrorClicked(
                 answerWithErrorsUiModel = questionAnswerWithErrorsUiModel, answer = answer
             )
+        }, answerWithErrorsTextChangedListener = { questionId, answer ->
+            viewModel.onAnswerWithErrorsTextChanged(questionId, answer)
         },
-        detailedAnswerClickListener = { questionDetailedAnswerUiModel, answer ->
+        detailedAnswerClickListener = { detailedAnswerInputUiItem, inputAnswer ->
             viewModel.onDetailedAnswerClicked(
-                detailedAnswerUiItem = questionDetailedAnswerUiModel, answer = answer
+                detailedAnswerInputUiItem = detailedAnswerInputUiItem, inputAnswer = inputAnswer
             )
         },
         detailedAnswerValidationClickListener = { answerValidationItemUiModel, inputPoint ->
@@ -75,11 +107,11 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
                 answerValidationItemUiModel = answerValidationItemUiModel, inputPoint = inputPoint
             )
         },
-        deleteValidationClickListener = { answerValidationItemUiModel ->
-            viewModel.onDeleteValidationClicked(answerValidationItemUiModel)
+        deleteValidationClickListener = { detailedAnswerValidationUiItem ->
+            viewModel.onDeleteValidationClicked(detailedAnswerValidationUiItem)
         },
-        detailedAnswerTextChangedListener = { item, text ->
-            viewModel.onDetailedAnswerTextChanged(item, text)
+        detailedAnswerTextChangedListener = { questionId, inputAnswer ->
+            viewModel.onDetailedAnswerTextChanged(questionId, inputAnswer)
         },
         questionLikeClickListener = { headerUiItem ->
             viewModel.onQuestionLikeClicked(headerUiItem)
@@ -92,28 +124,44 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
     }
 
     override fun onBackPressed() {
-        viewModel.onBackClicked(binding.errorImageView.isVisible)
+        findNavController().popBackStack()
+        //viewModel.onBackClicked()
     }
-
-    private val subjectId by BundleString(SUBJECT_TEST_KEY, EMPTY_STRING)
-
-    private val solutionId by BundleString(SOLUTION_TEST_KEY, EMPTY_STRING)
 
     override fun onInitView(savedInstanceState: Bundle?) {
         super.onInitView(savedInstanceState)
+
         binding.recyclerSolution.adapter = delegateAdapter
-        binding.accountToolBar.setNavigationOnClickListener { onBackPressed() }
+        binding.recyclerSolution.addItemDecoration(
+            SolutionItemDecoration(
+                paddingItems = resources.getDimension(
+                    UiCoreDimens.solution_item_space_horizontal
+                )
+            )
+        )
+
+        binding.recyclerSolution.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                val layoutManager = (recyclerView.layoutManager as? LinearLayoutManager) ?: return
+                val totalItemCount = layoutManager.itemCount
+                val endHasBeenReached = layoutManager.findLastVisibleItemPosition() + 1 >= totalItemCount
+                if (totalItemCount > 0 && endHasBeenReached) {
+                    viewModel.onLastItemVisible()
+                }
+            }
+        })
+
+        binding.solutionToolBar.setNavigationOnClickListener { onBackPressed() }
         binding.finishButton.setOnClickListener { viewModel.onFinishTestClicked() }
         binding.showResultButton.setOnClickListener { viewModel.onResultTestClicked() }
-        binding.accountToolBar.setOnClickListener {
-            showMessage(binding.accountToolBar.title.toString())
+        binding.solutionToolBar.setOnClickListener {
+            showMessage(binding.solutionToolBar.title.toString())
         }
-        viewModel.onViewInitiated(subjectId, solutionId)
     }
 
     override fun onObserveData() {
         viewModel.getTestInfoStateFlow().observeFlow(this) { nameTest ->
-            binding.accountToolBar.title = nameTest
+            binding.solutionToolBar.title = nameTest
         }
 
         viewModel.getUiItemStateFlow().observeFlow(this) { items ->
@@ -125,33 +173,38 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
         }
 
         viewModel.getFinishButtonState().observeFlow(this) { isVisible ->
-            binding.finishButton.isVisible = isVisible
+            binding.finishButton.isVisible = isVisible // TODO кнопка поднимается с клавиатурой
         }
 
         viewModel.getResultButtonState().observeFlow(this) { isVisible ->
             binding.showResultButton.isVisible = isVisible
         }
 
+        viewModel.getTestResultState().observeFlow(this) { text ->
+            //binding.solutionToolBar.subtitle = text
+        }
+
         viewModel.getUiEventStateFlow().observeFlow(this) { state ->
             when (state) {
                 is SolutionViewModel.UiEvent.ShowMessage -> showMessage(state.message)
-                is SolutionViewModel.UiEvent.OpenYoutube -> showActionDialogOpenYoutube(state.link)
-                is SolutionViewModel.UiEvent.NavigatePhotoDetailed -> navigatePhotoDetailed(state.imageId)
-                is SolutionViewModel.UiEvent.ShowSnack -> showSnackbar(
+                is SolutionViewModel.UiEvent.OpenYoutube -> openYoutubeLink(state.link)
+                is SolutionViewModel.UiEvent.NavigatePhotoDetailed -> navigatePhotoDetailed(
+                    imagePath = state.imagePath,
+                )
+
+                is SolutionViewModel.UiEvent.ShowSnack -> showSnack(
                     title = state.message,
                     backgroundColor = state.snackBarType.colorRes,
                     length = Snackbar.LENGTH_SHORT
                 )
 
-                is SolutionViewModel.UiEvent.ScrollToQuestion -> {}
-                SolutionViewModel.UiEvent.ErrorSolution -> {}
                 SolutionViewModel.UiEvent.ShowFinishDialog -> {
                     ActionDialogFragment.showDialog(
                         fragmentManager = childFragmentManager,
-                        title = getString(R.string.finish_test_dialog),
-                        message = getString(R.string.finish_test_message),
-                        positiveText = getString(R.string.finish),
-                        neutralText = getString(R.string.come_back_later),
+                        title = getString(UiCoreStrings.finish_test_title_dialog),
+                        message = getString(UiCoreStrings.finish_test_message),
+                        positiveText = getString(UiCoreStrings.finish),
+                        neutralText = getString(UiCoreStrings.come_back_later),
                         onPositiveClick = {
                             viewModel.onFinishTestClicked()
                         },
@@ -164,25 +217,14 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
                 SolutionViewModel.UiEvent.NavigateBack -> findNavController().popBackStack()
             }
         }
-        viewModel.getResultTestStateFlow().observeFlow(this) { testResult ->
+        viewModel.getShowResultDialogEventFlow().observeFlow(this) { testResult ->
             SolutionResultDialogFragment.showDialog(testResult, childFragmentManager)
         }
 
-        viewModel.getErrorStateFlow().observeFlow(this) { showError ->
-            binding.errorImageView.isVisible = showError
-            binding.rootContent.isVisible = !showError
+        viewModel.getErrorStateFlow().observeFlow(this) { visible ->
+            binding.tvError.isVisible = visible
         }
     }
-
-    private fun showActionDialogOpenYoutube(link: String) {
-        ActionDialogFragment.showDialog(
-            fragmentManager = childFragmentManager,
-            positiveText = getString(R.string.video_action),
-            message = getString(R.string.open_youtube_message),
-            onPositiveClick = { openYoutubeLink(link) },
-        )
-    }
-
 
     private fun showLoadingDialog(loading: Boolean) {
         if (loading) {
@@ -201,11 +243,17 @@ class SolutionFragment : BaseFragment(R.layout.solution_fragment) {
         }
     }
 
-    private fun navigatePhotoDetailed(imageId: String) {
+    private fun navigatePhotoDetailed(imagePath: String) {
         navigate(R.id.action_solutionFragment_to_photoDetailsFragment, Bundle().apply {
-            putString(PHOTO_DETAILED_KEY, imageId)
+            putString(PHOTO_DETAILED_IMAGE_PATH, imagePath)
         })
     }
+
+    companion object {
+        const val SOLUTION_SOLUTION_ID_KEY = "SOLUTION_SOLUTION_ID_KEY"
+        const val SOLUTION_TEST_ID_KEY = "SOLUTION_TEST_ID_KEY"
+        const val SOLUTION_HTML_PAGE_DIRECTORY_ID_KEY = "SOLUTION_HTML_PAGE_DIRECTORY_ID_KEY"
+        const val SOLUTION_HTML_PAGE_WORKSPACE_ID_KEY = "SOLUTION_HTML_PAGE_WORKSPACE_ID_KEY"
+        const val SOLUTION_HTML_PAGE_TEST_TYPE_ID_KEY = "SOLUTION_HTML_PAGE_TEST_TYPE_ID_KEY"
+    }
 }
-
-

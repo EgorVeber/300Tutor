@@ -5,20 +5,22 @@ import org.threehundredtutor.data.solution.SolutionApi.SOLUTION_ID
 import org.threehundredtutor.data.solution.SolutionApi.TUTOR_QUESTION_LIKES_CHANGE
 import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_CHECK_ANSWER
 import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_FINISH
-import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_QUERY_BY_ID
 import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_QUERY_BY_ID_DETAILED
+import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_QUERY_GET_BY_ID
 import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_RESULT_POINTS
 import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_RESULT_QUESTIONS_VALIDATION_REMOVE
 import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_RESULT_QUESTIONS_VALIDATION_SAVE
+import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_START_BY_DIRECTORY
 import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_START_BY_TEST_ID
 import org.threehundredtutor.data.solution.models.BaseApiResponse
 import org.threehundredtutor.data.solution.models.QuestionAnswerWithResultBaseApiResponse
 import org.threehundredtutor.data.solution.models.QuestionAnswersWithResultBaseApiResponse
-import org.threehundredtutor.data.solution.models.request.ChangeLikeQuestionRequest
 import org.threehundredtutor.data.solution.models.TestSolutionQueryDetailedResponse
 import org.threehundredtutor.data.solution.models.TestSolutionQueryResponse
+import org.threehundredtutor.data.solution.models.directory.StartTestDirectoryRequest
 import org.threehundredtutor.data.solution.models.finish_test.FinishSolutionRequest
 import org.threehundredtutor.data.solution.models.points.SolutionPointsResponse
+import org.threehundredtutor.data.solution.models.request.ChangeLikeQuestionRequest
 import org.threehundredtutor.data.solution.models.request.CheckAnswerRequest
 import org.threehundredtutor.data.solution.models.request.QuestionSolutionIdRequest
 import org.threehundredtutor.data.solution.models.request.SaveQuestionPointsValidationRequest
@@ -30,7 +32,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface SolutionService {
-    @GET(TUTOR_TEST_SOLUTION_QUERY_BY_ID)
+    @GET(TUTOR_TEST_SOLUTION_QUERY_GET_BY_ID)
     suspend fun getSolution(@Path(ID) id: String): TestSolutionQueryResponse
 
     @GET(TUTOR_TEST_SOLUTION_QUERY_BY_ID_DETAILED)
@@ -38,6 +40,9 @@ interface SolutionService {
 
     @POST(TUTOR_TEST_SOLUTION_START_BY_TEST_ID)
     suspend fun startByTestId(@Body params: StartTestRequest): StartTestResponse
+
+    @POST(TUTOR_TEST_SOLUTION_START_BY_DIRECTORY)
+    suspend fun startByDirectory(@Body params: StartTestDirectoryRequest): StartTestResponse
 
     @POST(TUTOR_TEST_SOLUTION_FINISH)
     suspend fun finish(@Body params: FinishSolutionRequest): QuestionAnswersWithResultBaseApiResponse
