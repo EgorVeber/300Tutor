@@ -80,8 +80,8 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="D:\DomloadBrowse\20824332_6339547.jpg" />
-                                                <entry key="scalingPercent" value="49" />
+                                                <entry key="imagePath" value="D:\ic_logo.png" />
+                                                <entry key="scalingPercent" value="67" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -114,7 +114,7 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="ffffff" />
+                                      <entry key="backgroundColor" value="7ec7c8" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -308,7 +308,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/notifications/baseline_notifications_24.xml" />
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/key/baseline_key_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -319,8 +319,8 @@
                         <option name="values">
                           <map>
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="baseline_notifications_24" />
-                            <entry key="sourceFile" value="D:\DomloadBrowse\icons8-settings.svg" />
+                            <entry key="outputName" value="ic_key" />
+                            <entry key="sourceFile" value="D:\DomloadBrowse\placeholder_question.svg" />
                           </map>
                         </option>
                       </PersistentState>

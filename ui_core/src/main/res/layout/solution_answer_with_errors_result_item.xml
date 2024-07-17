@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="?attr/contentBackground"
     android:orientation="vertical"
-    android:paddingHorizontal="@dimen/solution_item_space_horizontal">
+    android:paddingTop="@dimen/space_8">
 
     <TextView
         android:id="@+id/yourAnswerTitle"

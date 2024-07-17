@@ -5,7 +5,9 @@ import org.threehundredtutor.domain.account.models.CreateLoginLinkResultModel
 import org.threehundredtutor.ui_common.util.orFalse
 
 private const val PATH_LOGIN = "login-by-link"
-fun CreateLoginLinkResultResponse.toCreateLoginLinkResultModel(siteUrl: String): CreateLoginLinkResultModel =
+fun CreateLoginLinkResultResponse.toCreateLoginLinkResultModel(
+    siteUrl: String,
+): CreateLoginLinkResultModel =
     CreateLoginLinkResultModel(
         isSucceeded = isSucceeded.orFalse(),
         errorMessage = errorMessage.orEmpty(),

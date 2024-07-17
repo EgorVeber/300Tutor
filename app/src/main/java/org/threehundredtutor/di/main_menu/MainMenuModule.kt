@@ -16,8 +16,6 @@ abstract class MainMenuModule {
     @ViewModelInjectMapKey(MainMenuViewModel::class)
     abstract fun getMainMenuViewModel(mainMenuViewModel: MainMenuViewModel): ViewModel
 
-
-    // TODO подумать над правильным провайдем. 2 бинда репозитория
     @Binds
     abstract fun bindsAccountRepository(accountRepositoryImpl: AccountRepositoryImpl): AccountRepository
 }

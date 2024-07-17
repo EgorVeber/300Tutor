@@ -4,8 +4,10 @@ import dagger.BindsInstance
 import dagger.Component
 import org.threehundredtutor.core.DiSetHelper
 import org.threehundredtutor.data.common.data_source.AccountLocalDataSource
+import org.threehundredtutor.data.common.data_source.ConfigLocalDataSource
 import org.threehundredtutor.data.common.data_source.PublicDataSource
 import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
+import org.threehundredtutor.data.settings_app.SettingsAppLocalDataSource
 import org.threehundredtutor.di.common.ViewModelMapFactory
 import org.threehundredtutor.domain.common.AccountAuthorizationInfoRepository
 
@@ -23,8 +25,15 @@ interface StartedComponent {
 
         @BindsInstance
         fun getAccountLocalDataSource(accountLocalDataSource: AccountLocalDataSource): Builder
+
         @BindsInstance
         fun getAccountAuthorizationInfoRepository(accountAuthorizationInfoRepository: AccountAuthorizationInfoRepository): Builder
+
+        @BindsInstance
+        fun getSettingsAppLocalDataSource(settingsAppLocalDataSource: SettingsAppLocalDataSource): Builder
+
+        @BindsInstance
+        fun getConfigLocalDataSource(configLocalDataSource: ConfigLocalDataSource): Builder
 
         fun getStartedComponentBuilder(): StartedComponent
     }
@@ -36,6 +45,8 @@ interface StartedComponent {
                 .getPublicDataSource(DiSetHelper.appComponent.getPublicDataSource())
                 .getAccountLocalDataSource(DiSetHelper.appComponent.getAccountLocalDataSource())
                 .getAccountAuthorizationInfoRepository(DiSetHelper.appComponent.getAccountAuthorizationInfoRepository())
+                .getSettingsAppLocalDataSource(DiSetHelper.appComponent.getSettingsAppLocalDataSource())
+                .getConfigLocalDataSource(DiSetHelper.appComponent.getConfigLocalDataSource())
                 .getStartedComponentBuilder()
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,17 +18,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIconTint="?attr/secondary"
+            app:subtitleCentered="true"
+            app:subtitleTextColor="?attr/secondary"
             app:title="@string/authorization_text"
             app:titleCentered="true"
             app:titleTextAppearance="@style/TitleToolbarTextAppearance"
-            app:titleTextColor="?attr/secondary" />
+            app:titleTextColor="?attr/secondary"
+            tools:subtitle="Школа: Kursbio" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/logo"
-            android:layout_width="@dimen/size_256"
-            android:layout_height="@dimen/size_128"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_marginTop="@dimen/margin_16"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.20"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/authorizationToolbar"
             app:srcCompat="@drawable/ic_logo" />
@@ -47,7 +52,7 @@
             android:id="@+id/authContainerLl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_40"
+            android:layout_marginTop="@dimen/margin_24"
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@+id/logo">
 
@@ -123,6 +128,7 @@
                         android:autofillHints="phone"
                         android:fontFamily="@font/roboto"
                         android:imeOptions="actionDone"
+                        android:maxLength="10"
                         android:inputType="phone"
                         android:lines="1"
                         android:textColor="?attr/textPrimary"
@@ -257,15 +263,34 @@
             android:textSize="@dimen/text_14"
             app:cornerRadius="@dimen/radius_2"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/changeSchoolButton"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/changeSchoolButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_4"
+            android:backgroundTint="?attr/primary"
+            android:fontFamily="@font/roboto_medium"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="Сменить школу"
+            android:textAllCaps="true"
+            android:textSize="@dimen/text_14"
+            android:visibility="gone"
+            app:cornerRadius="@dimen/radius_2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/registrationButton" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ProgressBar
         android:id="@+id/progress"
         android:layout_width="wrap_content"
-        android:visibility="gone"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:visibility="gone" />
 </FrameLayout>

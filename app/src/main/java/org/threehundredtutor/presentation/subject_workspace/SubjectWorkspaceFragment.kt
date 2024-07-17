@@ -131,7 +131,7 @@ class SubjectWorkspaceFragment : BaseFragment(UiCoreLayout.subject_workspace_fra
                 }
 
                 SubjectWorkspaceViewModel.UiEvent.ShowErrorFind -> {
-                    showSnack(getString(UiCoreStrings.system_not_found))
+                    showSnack(title = getString(UiCoreStrings.system_not_found))
                 }
             }
         }

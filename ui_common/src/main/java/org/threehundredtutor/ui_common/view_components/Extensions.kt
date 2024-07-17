@@ -38,3 +38,11 @@ fun View.hideKeyboard(): Boolean = try {
 } catch (ignored: RuntimeException) {
     false
 }
+
+fun View.dpFromPx(px: Float): Float {
+    return px / resources.displayMetrics.density
+}
+
+fun View.pxFromDp(dp: Float): Float {
+    return dp * resources.displayMetrics.density
+}

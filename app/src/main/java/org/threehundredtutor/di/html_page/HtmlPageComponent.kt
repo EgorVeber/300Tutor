@@ -7,6 +7,7 @@ import org.threehundredtutor.data.common.data_source.ConfigLocalDataSource
 import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
 import org.threehundredtutor.data.subject_workspace.SubjectWorkspaceLocalDataSource
 import org.threehundredtutor.di.common.ViewModelMapFactory
+import org.threehundredtutor.domain.settings_app.SettingsAppRepository
 import org.threehundredtutor.presentation.common.ResourceProvider
 
 @Component(modules = [HtmlPageModule::class])
@@ -30,6 +31,9 @@ interface HtmlPageComponent {
         @BindsInstance
         fun getConfigLocalDataSource(configLocalDataSource: ConfigLocalDataSource): Builder
 
+        @BindsInstance
+        fun getSettingsAppRepository(settingsAppRepository: SettingsAppRepository): Builder
+
         fun getHtmlPageComponent(): HtmlPageComponent
     }
 
@@ -44,6 +48,7 @@ interface HtmlPageComponent {
                 .getSubjectWorkspaceLocalDataSource(DiSetHelper.appComponent.getSubjectWorkspaceLocalDataSource())
                 .getResourceProvider(DiSetHelper.appComponent.getResourceProvider())
                 .getConfigLocalDataSource(DiSetHelper.appComponent.getConfigLocalDataSource())
+                .getSettingsAppRepository(DiSetHelper.appComponent.getSettingsAppRepository())
                 .getHtmlPageComponent()
     }
 }

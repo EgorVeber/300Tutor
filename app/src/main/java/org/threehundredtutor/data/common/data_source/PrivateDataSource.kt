@@ -3,11 +3,14 @@ package org.threehundredtutor.data.common.data_source
 import android.content.Context
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import org.threehundredtutor.domain.common.AuthorizationInfoAndDomainModel
 import org.threehundredtutor.ui_common.EMPTY_STRING
 import javax.inject.Inject
 
 class PrivateDataSource @Inject constructor(
-    private val context: Context
+    context: Context
 ) {
     private val encryptedSharedPreferences =
         EncryptedSharedPreferences.create(
@@ -30,8 +33,27 @@ class PrivateDataSource @Inject constructor(
                     .orEmpty()
 
     fun clearAuthorizationInfo() {
-        context.getSharedPreferences(PRIVATE_PREFS_FILE, Context.MODE_PRIVATE).edit().clear()
+        encryptedSharedPreferences.edit()
+            .putString(PREFS_ACCOUNT_LOGIN_KEY, "")
+            .putString(PREFS_ACCOUNT_PASSWORD_KEY, "").apply()
+    }
+
+    fun setAuthDomainInfo(list: List<AuthorizationInfoAndDomainModel>) {
+        encryptedSharedPreferences.edit().putString(PREFS_ACCOUNTS_INFO_KEY, Gson().toJson(list))
             .apply()
+    }
+
+    fun getAccountsAuthInfo(): List<AuthorizationInfoAndDomainModel> {
+        val jsonAccountsList: String =
+            encryptedSharedPreferences.getString(PREFS_ACCOUNTS_INFO_KEY, "") ?: ""
+        runCatching {
+            return if (jsonAccountsList.isNotEmpty()) {
+                val type = object : TypeToken<List<AuthorizationInfoAndDomainModel?>?>() {}.type
+                Gson().fromJson(jsonAccountsList, type)
+            } else {
+                listOf()
+            }
+        }.getOrElse { return listOf() }
     }
 
     companion object {
@@ -39,5 +61,7 @@ class PrivateDataSource @Inject constructor(
 
         private const val PREFS_ACCOUNT_LOGIN_KEY = "PREFS_ACCOUNT_LOGIN_KEY"
         private const val PREFS_ACCOUNT_PASSWORD_KEY = "PREFS_ACCOUNT_PASSWORD_KEY"
+
+        private const val PREFS_ACCOUNTS_INFO_KEY = "PREFS_ACCOUNTS_INFO_KEY"
     }
 }

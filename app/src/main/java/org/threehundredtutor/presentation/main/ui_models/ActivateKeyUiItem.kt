@@ -1,3 +1,4 @@
 package org.threehundredtutor.presentation.main.ui_models
 
-object ActivateKeyUiItem : MainUiItem
+@JvmInline
+value class ActivateKeyUiItem(val enableTuckUp: Boolean) : MainUiItem

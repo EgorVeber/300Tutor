@@ -7,8 +7,9 @@ import javax.inject.Inject
 class AuthorizationDataSource @Inject constructor(
     serviceGeneratorProvider: ServiceGeneratorProvider
 ) {
-    private val service: AuthorizationService =
+    private val service: () -> AuthorizationService = {
         serviceGeneratorProvider.getService(AuthorizationService::class)
+    }
 
-    suspend fun login(loginDateModel: LoginDateRequest) = service.login(loginDateModel)
+    suspend fun login(loginDateModel: LoginDateRequest) = service().login(loginDateModel)
 }

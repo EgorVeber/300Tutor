@@ -1,31 +1,31 @@
 package org.threehundredtutor.presentation.main.adapter
 
-import android.text.InputFilter
-import android.view.KeyEvent
-import android.view.inputmethod.EditorInfo
+import androidx.core.view.isVisible
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import ir.mahozad.android.PieChart
 import org.threehundredtutor.core.UiCoreAttr
+import org.threehundredtutor.core.UiCoreDrawable
 import org.threehundredtutor.domain.main.models.ExtraButtonInfoModel
 import org.threehundredtutor.presentation.main.ui_models.ActivateKeyUiItem
 import org.threehundredtutor.presentation.main.ui_models.CourseLottieUiItem
 import org.threehundredtutor.presentation.main.ui_models.CourseProgressUiModel
 import org.threehundredtutor.presentation.main.ui_models.CourseUiModel
-import org.threehundredtutor.presentation.main.ui_models.FooterContentUiItem
 import org.threehundredtutor.presentation.main.ui_models.FooterUiItem
-import org.threehundredtutor.presentation.main.ui_models.HeaderContentUiItem
 import org.threehundredtutor.presentation.main.ui_models.HeaderUiItem
+import org.threehundredtutor.presentation.main.ui_models.MainDividerUiItem
 import org.threehundredtutor.presentation.main.ui_models.MainUiItem
 import org.threehundredtutor.presentation.main.ui_models.SubjectUiModel
 import org.threehundredtutor.ui_common.util.addPercentSymbol
 import org.threehundredtutor.ui_common.view_components.getColorAttr
-import org.threehundredtutor.ui_common.view_components.hideKeyboard
+import org.threehundredtutor.ui_common.view_components.loadIcon
+import org.threehundredtutor.ui_common.view_components.loadImage
+import org.threehundredtutor.ui_common.view_components.setDebouncedClickListener
+import org.threehundredtutor.ui_common.view_components.setTint
 import org.threehundredtutor.ui_core.databinding.CourseItemBinding
 import org.threehundredtutor.ui_core.databinding.CourseProgressItemBinding
 import org.threehundredtutor.ui_core.databinding.CoursesLotieItemBinding
-import org.threehundredtutor.ui_core.databinding.FooterContentItemBinding
-import org.threehundredtutor.ui_core.databinding.HeaderContentItemBinding
 import org.threehundredtutor.ui_core.databinding.HomeActivateKeyItemBinding
+import org.threehundredtutor.ui_core.databinding.MainDividerItemBinding
 import org.threehundredtutor.ui_core.databinding.MainExtraButtonItemBinding
 import org.threehundredtutor.ui_core.databinding.SubjectFooterItemBinding
 import org.threehundredtutor.ui_core.databinding.SubjectHeaderItemBinding
@@ -42,16 +42,6 @@ object MainAdapters {
                 binding.solutionTitle.text = item.title
             }
         }
-
-    fun getMainHeaderContentUiItemAdapter() =
-        adapterDelegateViewBinding<HeaderContentUiItem, MainUiItem, HeaderContentItemBinding>({ layoutInflater, root ->
-            HeaderContentItemBinding.inflate(layoutInflater, root, false)
-        }) {}
-
-    fun getFooterContentUiItemAdapter() =
-        adapterDelegateViewBinding<FooterContentUiItem, MainUiItem, FooterContentItemBinding>({ layoutInflater, root ->
-            FooterContentItemBinding.inflate(layoutInflater, root, false)
-        }) {}
 
     fun getFooterUiItemAdapter() =
         adapterDelegateViewBinding<FooterUiItem, MainUiItem, SubjectFooterItemBinding>({ layoutInflater, root ->
@@ -71,39 +61,22 @@ object MainAdapters {
             }
         }
 
-    fun getActivateKeyUiItemAdapter(activateKeyClickListener: (String) -> Unit) =
+    fun getActivateKeyUiItemAdapter(
+        activateKeyClickListener: () -> Unit, tuckUpClickListener: () -> Unit
+    ) =
         adapterDelegateViewBinding<ActivateKeyUiItem, MainUiItem, HomeActivateKeyItemBinding>({ layoutInflater, root ->
             HomeActivateKeyItemBinding.inflate(layoutInflater, root, false)
         }) {
 
             binding.activateKeyBtn.setOnClickListener {
-                val key = binding.activateKetEdt.text.toString().trim()
-                if (key.isNotEmpty()) {
-                    activateKeyClickListener.invoke(key)
-                    it.hideKeyboard()
-                }
+                activateKeyClickListener.invoke()
             }
-
-            binding.activateKetEdt.setOnEditorActionListener { textView, actionId, event ->
-                if (actionId == EditorInfo.IME_ACTION_SEARCH
-                    || actionId == EditorInfo.IME_ACTION_DONE
-                    || event.action == KeyEvent.ACTION_DOWN
-                    && event.keyCode == KeyEvent.KEYCODE_ENTER
-                ) {
-                    val key = binding.activateKetEdt.text.toString().trim()
-                    if (key.isNotEmpty()) {
-                        activateKeyClickListener.invoke(textView.toString())
-                        false
-                    } else {
-                        true
-                    }
-                } else {
-                    true
-                }
+            binding.tuckUp.setOnClickListener {
+                tuckUpClickListener.invoke()
             }
-            binding.activateKetEdt.filters = arrayOf(InputFilter { source, _, _, _, _, _ ->
-                source.toString().filterNot { it.isWhitespace() }
-            })
+            bind {
+                binding.tuckUp.isVisible = item.enableTuckUp
+            }
         }
 
     fun getSubjectUiModelAdapted(subjectUiModelClickListener: (SubjectUiModel) -> Unit) =
@@ -113,7 +86,22 @@ object MainAdapters {
             binding.subjectLlContainer.setOnClickListener {
                 subjectUiModelClickListener.invoke(item)
             }
-            bind { binding.subjectNameTv.text = item.subjectName }
+            bind {
+                if (item.iconPath.isEmpty()) {
+                    binding.iconSubject.setImageResource(UiCoreDrawable.ic_teacher)
+                    binding.iconSubject.setTint(UiCoreAttr.primary)
+                } else {
+                    binding.iconSubject.loadImage(item.iconPath)
+                    binding.iconSubject.imageTintList = null
+                }
+                binding.subjectNameTv.text = item.subjectName
+            }
+        }
+
+    fun getMainDividerUiItemAdapter() =
+        adapterDelegateViewBinding<MainDividerUiItem, MainUiItem, MainDividerItemBinding>({ layoutInflater, root ->
+            MainDividerItemBinding.inflate(layoutInflater, root, false)
+        }) {
         }
 
     fun getCourseProgressUiModelAdapter(courseProgressUiModelClickListener: (CourseProgressUiModel) -> Unit) =
@@ -124,10 +112,18 @@ object MainAdapters {
             binding.courseLlContainer.setOnClickListener {
                 courseProgressUiModelClickListener.invoke(item)
             }
-            // TODO TutorAndroid-60
+            // TODO TutorAndroid-60  PiaChat
             bind {
                 binding.courseNameTv.text = item.groupName
                 binding.coursePoints.text = item.progressPercents.toString().addPercentSymbol()
+                if (item.iconPath.isEmpty()) {
+                    binding.iconCourse.setImageResource(UiCoreDrawable.ic_teacher)
+                    binding.iconCourse.setTint(UiCoreAttr.primary)
+                } else {
+                    binding.iconCourse.loadIcon(item.iconPath)
+                    binding.iconCourse.imageTintList = null
+                }
+
                 binding.courseProgress.slices = listOf(
                     PieChart.Slice(
                         fraction = (item.progressPercents / 100.0).toFloat(),
@@ -148,15 +144,27 @@ object MainAdapters {
             binding.courseLlContainer.setOnClickListener {
                 courseUiModelClickListener.invoke(item)
             }
-            bind { binding.courseNameTv.text = item.groupName }
+            bind {
+                if (item.iconPath.isEmpty()) {
+                    binding.iconCourse.setImageResource(UiCoreDrawable.ic_teacher)
+                    binding.iconCourse.setTint(UiCoreAttr.primary)
+                } else {
+                    binding.iconCourse.loadIcon(item.iconPath)
+                    binding.iconCourse.imageTintList = null
+                }
+                binding.courseNameTv.text = item.groupName
+            }
         }
 
     fun getCourseLottieUiItemAdapter(courseLottieUiItemClickListener: () -> Unit) =
         adapterDelegateViewBinding<CourseLottieUiItem, MainUiItem, CoursesLotieItemBinding>({ layoutInflater, root ->
             CoursesLotieItemBinding.inflate(layoutInflater, root, false)
         }) {
-            binding.chooseButton.setOnClickListener {
+            binding.pickAppCourses.setDebouncedClickListener {
                 courseLottieUiItemClickListener.invoke()
+            }
+            bind {
+                binding.imageView.loadIcon(item.imagePath)
             }
         }
 }

@@ -7,6 +7,7 @@ import org.threehundredtutor.data.common.data_source.ConfigLocalDataSource
 import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
 import org.threehundredtutor.di.ScreenScope
 import org.threehundredtutor.di.common.ViewModelMapFactory
+import org.threehundredtutor.domain.settings_app.SettingsAppRepository
 import org.threehundredtutor.presentation.common.ResourceProvider
 import org.threehundredtutor.presentation.solution.SolutionParamsDaggerModel
 import org.threehundredtutor.presentation.solution.solution_factory.SolutionFactory
@@ -33,6 +34,10 @@ interface SolutionComponent {
         @BindsInstance
         fun getSolutionBundleModel(solutionParamsDaggerModel: SolutionParamsDaggerModel): Builder
 
+        @BindsInstance
+        fun getSettingsAppRepository(settingsAppRepository: SettingsAppRepository): Builder
+
+
         fun getSolutionComponentBuilder(): SolutionComponent
     }
 
@@ -44,6 +49,7 @@ interface SolutionComponent {
                 .getTestFactory(SolutionFactory(DiSetHelper.appComponent.getResourceProvider()))
                 .getResourceProvider(DiSetHelper.appComponent.getResourceProvider())
                 .getConfigLocalDataSource(DiSetHelper.appComponent.getConfigLocalDataSource())
+                .getSettingsAppRepository(DiSetHelper.appComponent.getSettingsAppRepository())
                 .getSolutionBundleModel(solutionParamsDaggerModel)
                 .getSolutionComponentBuilder()
     }

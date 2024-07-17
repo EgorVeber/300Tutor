@@ -32,7 +32,7 @@ class SolutionHistoryFragment : BaseFragment(UiCoreLayout.fragment_solution_hist
 
     private val delegateAdapter = SolutionHistoryManager(
         solutionHistoryClickListener = { solutionId, isFinished ->
-            viewModel.onSolutionHistoryClicked(solutionId, isFinished)
+            viewModel.onSolutionHistoryClicked(solutionId)
         },
     )
 
@@ -49,13 +49,6 @@ class SolutionHistoryFragment : BaseFragment(UiCoreLayout.fragment_solution_hist
             when (state) {
                 is SolutionHistoryViewModel.UiEvent.NavigateToSolution ->
                     navigateToSolutionFragment(state.solutionId)
-
-                is SolutionHistoryViewModel.UiEvent.ShowDialogGoSolution ->
-                    showActionDialogGoSolution(state.solutionId)
-
-                is SolutionHistoryViewModel.UiEvent.ShowDialogContinueSolution -> {
-                    showActionDialogContinueSolution(state.solutionId)
-                }
             }
         }
 
@@ -75,26 +68,6 @@ class SolutionHistoryFragment : BaseFragment(UiCoreLayout.fragment_solution_hist
 
     override fun onBackPressed() {
         navigate(R.id.action_solutionHistoryFragment_to_homeFragment)
-    }
-
-    private fun showActionDialogGoSolution(solutionId: String) {
-        ActionDialogFragment.showDialog(
-            title = getString(UiCoreStrings.confirm_action),
-            fragmentManager = childFragmentManager,
-            positiveText = getString(UiCoreStrings.go),
-            message = getString(UiCoreStrings.go_to_test_solution),
-            onPositiveClick = { viewModel.onDialogOkClicked(solutionId) },
-        )
-    }
-
-    private fun showActionDialogContinueSolution(solutionId: String) {
-        ActionDialogFragment.showDialog(
-            title = getString(UiCoreStrings.confirm_action),
-            fragmentManager = childFragmentManager,
-            positiveText = getString(UiCoreStrings.continue_action),
-            message = getString(UiCoreStrings.continue_to_test_solution),
-            onPositiveClick = { viewModel.onDialogOkClicked(solutionId) },
-        )
     }
 
     private fun navigateToSolutionFragment(solutionId: String) {

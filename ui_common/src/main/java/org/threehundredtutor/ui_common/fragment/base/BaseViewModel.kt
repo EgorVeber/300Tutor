@@ -13,6 +13,7 @@ import org.threehundredtutor.ui_common.util.NotFoundServerException
 import org.threehundredtutor.ui_common.util.ServiceUnavailableException
 import org.threehundredtutor.ui_common.util.UnauthorizedUserException
 import org.threehundredtutor.ui_common.util.UnknownServerException
+import java.net.UnknownHostException
 
 open class BaseViewModel : ViewModel() {
 
@@ -28,6 +29,10 @@ open class BaseViewModel : ViewModel() {
 
             is UnauthorizedUserException -> {
                 errorState.tryEmit(ErrorState.UserUnathorized)
+            }
+
+            is UnknownHostException -> {
+                errorState.tryEmit(ErrorState.UnknownHostException)
             }
 
             is InternalServerException,
@@ -53,6 +58,7 @@ open class BaseViewModel : ViewModel() {
         object WrongData : ErrorState
         object ServerError : ErrorState
         object UserUnathorized : ErrorState
+        object UnknownHostException : ErrorState
         object SomethingWrongError : ErrorState
         object NoError : ErrorState
     }

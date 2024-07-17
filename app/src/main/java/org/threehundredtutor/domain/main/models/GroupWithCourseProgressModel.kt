@@ -1,5 +1,7 @@
 package org.threehundredtutor.domain.main.models
 
+import org.threehundredtutor.domain.subject_tests.models.IconModel
+
 data class GroupWithCourseProgressModel(
     val groupId: String,
     val groupName: String,
@@ -9,4 +11,5 @@ data class GroupWithCourseProgressModel(
     val shouldBlockOnUtc: String,
     val useCourse: Boolean,
     val courseProgressModel: CourseProgressModel,
+    val iconModel: IconModel,
 )

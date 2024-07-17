@@ -22,8 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_8"
-        android:text="@string/html_page_first_path"
         android:backgroundTint="?attr/primary"
+        android:text="@string/html_page_first_path"
         app:cornerRadius="@dimen/radius_8"
         app:iconGravity="textEnd" />
 

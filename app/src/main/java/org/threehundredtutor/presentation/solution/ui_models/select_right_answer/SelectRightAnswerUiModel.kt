@@ -7,5 +7,5 @@ data class SelectRightAnswerUiModel(
     val answer: String,
     val rightAnswer: Boolean,
     val checked: Boolean,
-    val enabled: Boolean
+    val isValidated: Boolean
 ) : SolutionUiItem

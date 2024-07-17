@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/contentBackground"
-    android:paddingHorizontal="@dimen/solution_item_space_horizontal"
     android:paddingVertical="@dimen/space_8"
     android:textColor="@color/default_black"
     tools:text="Теорема Пифагора: a2 + b2 = c2" />

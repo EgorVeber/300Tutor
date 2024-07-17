@@ -1,3 +1,4 @@
 package org.threehundredtutor.presentation.main.ui_models
 
-object CourseLottieUiItem : MainUiItem
+@JvmInline
+value class CourseLottieUiItem(val imagePath: String) : MainUiItem

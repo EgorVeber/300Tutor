@@ -53,7 +53,7 @@ class SolutionHistoryViewModel @Inject constructor(
 
             uiItemsState.update { uiItems }
         }, catchBlock = { throwable ->
-            //TODO TutorAndroid-44
+            //TODO TutorAndroid-44 емпти лист обработать
             handleError(throwable)
             loadingState.update { false }
         }, finallyBlock = {
@@ -80,21 +80,11 @@ class SolutionHistoryViewModel @Inject constructor(
         searchSolution(force = true, filter = currentFilter)
     }
 
-    fun onSolutionHistoryClicked(solutionId: String, isFinished: Boolean) {
-        if (isFinished) {
-            uiEventState.tryEmit(UiEvent.ShowDialogGoSolution(solutionId))
-        } else {
-            uiEventState.tryEmit(UiEvent.ShowDialogContinueSolution(solutionId))
-        }
-    }
-
-    fun onDialogOkClicked(solutionId: String) {
+    fun onSolutionHistoryClicked(solutionId: String) {
         uiEventState.tryEmit(UiEvent.NavigateToSolution(solutionId))
     }
 
     sealed interface UiEvent {
-        data class ShowDialogGoSolution(val solutionId: String) : UiEvent
-        data class ShowDialogContinueSolution(val solutionId: String) : UiEvent
         data class NavigateToSolution(val solutionId: String) : UiEvent
     }
 }

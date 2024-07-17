@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/rectangle_12_top_content_background"
+    android:background="@drawable/rectangle_16_top_content_background"
     android:orientation="horizontal"
-    android:paddingHorizontal="@dimen/solution_item_space_horizontal"
     android:paddingVertical="@dimen/space_4">
 
     <TextView
@@ -15,13 +14,10 @@
         android:layout_height="wrap_content"
         android:textColor="?attr/secondary"
         android:textSize="@dimen/text_20"
-        app:layout_constrainedWidth="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/favoriteImage"
-        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintBottom_toBottomOf="@+id/favoriteImage"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Вопрос #2 по предмету Математика Е" />
+        app:layout_constraintTop_toTopOf="@+id/favoriteImage"
+        tools:text="Вопрос 1" />
 
     <ImageView
         android:id="@+id/favoriteImage"
@@ -29,6 +25,7 @@
         android:layout_height="@dimen/size_36"
         android:layout_gravity="center"
         android:src="@drawable/ic_favorite"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="?attr/defaultBlack40" />

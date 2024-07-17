@@ -7,6 +7,7 @@ import org.threehundredtutor.data.common.data_source.AccountLocalDataSource
 import org.threehundredtutor.data.common.data_source.ConfigLocalDataSource
 import org.threehundredtutor.data.common.data_source.PrivateDataSource
 import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
+import org.threehundredtutor.data.settings_app.SettingsAppLocalDataSource
 import org.threehundredtutor.di.common.ViewModelMapFactory
 import org.threehundredtutor.presentation.common.ResourceProvider
 
@@ -31,6 +32,9 @@ interface MainComponent {
         @BindsInstance
         fun getPrivateDataSource(privateDataSource: PrivateDataSource): Builder
 
+        @BindsInstance
+        fun getSettingsAppLocalDataSource(settingsAppLocalDataSource: SettingsAppLocalDataSource): Builder
+
         fun getMainComponentBuilder(): MainComponent
     }
 
@@ -43,6 +47,7 @@ interface MainComponent {
                 .getConfigLocalDataSource(DiSetHelper.appComponent.getConfigLocalDataSource())
                 .getAccountLocalDataSource(DiSetHelper.appComponent.getAccountLocalDataSource())
                 .getPrivateDataSource(DiSetHelper.appComponent.getPrivateDataSource())
+                .getSettingsAppLocalDataSource(DiSetHelper.appComponent.getSettingsAppLocalDataSource())
                 .getMainComponentBuilder()
     }
 }

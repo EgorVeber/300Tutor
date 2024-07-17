@@ -7,9 +7,8 @@ import org.threehundredtutor.presentation.main.adapter.MainAdapters.getCourseLot
 import org.threehundredtutor.presentation.main.adapter.MainAdapters.getCourseProgressUiModelAdapter
 import org.threehundredtutor.presentation.main.adapter.MainAdapters.getCourseUiModelAdapter
 import org.threehundredtutor.presentation.main.adapter.MainAdapters.getExtraButtonUiItemAdapter
-import org.threehundredtutor.presentation.main.adapter.MainAdapters.getFooterContentUiItemAdapter
 import org.threehundredtutor.presentation.main.adapter.MainAdapters.getFooterUiItemAdapter
-import org.threehundredtutor.presentation.main.adapter.MainAdapters.getMainHeaderContentUiItemAdapter
+import org.threehundredtutor.presentation.main.adapter.MainAdapters.getMainDividerUiItemAdapter
 import org.threehundredtutor.presentation.main.adapter.MainAdapters.getSubjectHeaderUiItemAdapter
 import org.threehundredtutor.presentation.main.adapter.MainAdapters.getSubjectUiModelAdapted
 import org.threehundredtutor.presentation.main.ui_models.CourseProgressUiModel
@@ -19,7 +18,8 @@ import org.threehundredtutor.presentation.main.ui_models.SubjectUiModel
 
 class MainManager(
     subjectClickListener: (SubjectUiModel) -> Unit,
-    activateKeyClickListener: (String) -> Unit,
+    activateKeyClickListener: () -> Unit,
+    tickUpClickListener: () -> Unit,
     courseProgressUiModelClickListener: (CourseProgressUiModel) -> Unit,
     courseUiModelClickListener: (CourseUiModel) -> Unit,
     extraButtonClickListener: (String) -> Unit,
@@ -30,12 +30,11 @@ class MainManager(
         delegatesManager
             .addDelegate(getSubjectHeaderUiItemAdapter())
             .addDelegate(getFooterUiItemAdapter())
-            .addDelegate(getActivateKeyUiItemAdapter(activateKeyClickListener))
+            .addDelegate(getActivateKeyUiItemAdapter(activateKeyClickListener,tickUpClickListener))
             .addDelegate(getSubjectUiModelAdapted(subjectClickListener))
             .addDelegate(getCourseProgressUiModelAdapter(courseProgressUiModelClickListener))
+            .addDelegate(getMainDividerUiItemAdapter())
             .addDelegate(getCourseUiModelAdapter(courseUiModelClickListener))
-            .addDelegate(getFooterContentUiItemAdapter())
-            .addDelegate(getMainHeaderContentUiItemAdapter())
             .addDelegate(getExtraButtonUiItemAdapter(extraButtonClickListener))
             .addDelegate(getCourseLottieUiItemAdapter(courseLottieUiItemClickListener))
     }

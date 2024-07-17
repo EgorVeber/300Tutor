@@ -4,9 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/contentBackground"
-    android:paddingVertical="@dimen/space_6"
     android:orientation="vertical"
-    android:paddingHorizontal="@dimen/solution_item_space_horizontal">
+    android:paddingTop="@dimen/space_8">
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/answerEditText"

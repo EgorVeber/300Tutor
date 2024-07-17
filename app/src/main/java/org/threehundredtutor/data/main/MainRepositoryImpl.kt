@@ -1,5 +1,6 @@
 package org.threehundredtutor.data.main
 
+import org.threehundredtutor.data.main.MainRemoteDataSource.Companion.ICON_SET_ID_DEFAULT
 import org.threehundredtutor.data.main.mappers.toEnterGroupModel
 import org.threehundredtutor.data.main.mappers.toExtraButtonInfoModel
 import org.threehundredtutor.data.main.mappers.toGroupWithCourseModel
@@ -26,7 +27,8 @@ class MainRepositoryImpl @Inject constructor(
                 count = null,
                 offSet = 0,
                 q = null,
-                studentId = studentId
+                studentId = studentId,
+                iconSetId = ICON_SET_ID_DEFAULT
             )
         ).toGroupWithCourseModel()
 
