@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:paddingBottom="@dimen/space_16">
 
+
     <View
         android:id="@+id/view"
         android:layout_width="@dimen/size_30"
@@ -28,6 +29,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_12"
+        android:layout_marginTop="@dimen/margin_12"
+        android:maxWidth="@dimen/size_192"
+        android:maxHeight="@dimen/size_192"
+        android:minWidth="@dimen/size_96"
+        android:minHeight="@dimen/size_96"
+        android:scaleType="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nameTestTv" />
+
+    <View
+        android:id="@+id/separatorDate"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_3"
+        android:layout_marginHorizontal="@dimen/space_12"
+        android:layout_marginTop="@dimen/margin_8"
+        android:background="@drawable/separator_10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
     <TextView
         android:id="@+id/titlePoints"
         android:layout_width="wrap_content"
@@ -46,12 +72,12 @@
         android:id="@+id/pieChart"
         android:layout_width="@dimen/pie_chart_size"
         android:layout_height="@dimen/pie_chart_size"
-        android:layout_marginStart="@dimen/margin_12"
         android:layout_marginTop="@dimen/margin_12"
         app:holeRatio="0.85"
         app:labelType="none"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameTestTv" />
+        app:layout_constraintTop_toBottomOf="@+id/separatorDate" />
 
     <View
         android:id="@+id/legendColorView"
@@ -69,27 +95,26 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/points"
+        android:layout_marginEnd="@dimen/space_12"
         android:textColor="?attr/textPrimary"
+        android:layout_marginTop="@dimen/space_12"
         android:textSize="@dimen/text_18"
-        app:layout_constraintBottom_toBottomOf="@+id/pieChart"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.3"
-        app:layout_constraintStart_toEndOf="@+id/pieChart"
-        app:layout_constraintTop_toTopOf="@+id/pieChart"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintTop_toBottomOf="@+id/separatorDate" />
 
     <TextView
         android:id="@+id/resultTestRightQuestion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/margin_12"
+        android:layout_marginStart="@dimen/space_4"
+        android:paddingHorizontal="@dimen/space_12"
         android:textColor="?attr/textPrimary"
         android:textSize="@dimen/text_18"
         app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/legendColorView"
-        app:layout_constraintTop_toBottomOf="@+id/legendColorView"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
         tools:text="Вы правильно ответили на 3 из 5 вопросов." />
 
     <TextView
@@ -97,6 +122,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_12"
+        android:paddingHorizontal="@dimen/space_12"
         android:textColor="?attr/textPrimary"
         android:textSize="@dimen/text_18"
         app:layout_constrainedWidth="true"
@@ -108,11 +134,12 @@
         android:id="@+id/resultTestNeedToCheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_12"
-        android:paddingHorizontal="@dimen/margin_12"
+        android:layout_marginTop="@dimen/space_12"
+        android:paddingHorizontal="@dimen/space_12"
         android:textColor="?attr/textPrimary"
         android:textSize="@dimen/text_18"
         android:visibility="gone"
+        app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pieChart"

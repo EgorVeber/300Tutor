@@ -10,7 +10,10 @@ import org.threehundredtutor.ui_common.util.addPercentSymbol
 import org.threehundredtutor.ui_common.util.fractionOf
 import org.threehundredtutor.ui_common.util.percentOf
 
-fun SolutionPointsModel.toResultTestUiModel(resourceProvider: ResourceProvider): ResultTestUiModel =
+fun SolutionPointsModel.toResultTestUiModel(
+    resourceProvider: ResourceProvider,
+    imagePath: String
+): ResultTestUiModel =
     ResultTestUiModel(
         resultTestRightQuestion = resourceProvider.quantityString(
             UiCorePlurals.result_test_you_answered_out_of_questions_correctly,
@@ -45,5 +48,6 @@ fun SolutionPointsModel.toResultTestUiModel(resourceProvider: ResourceProvider):
             UiCoreStrings.test_solved,
             maxTotalPoints.percentOf(studentTotalPoints).toString().addPercentSymbol()
         ),
-        fractionAnswer = maxTotalPoints.fractionOf(studentTotalPoints)
+        fractionAnswer = maxTotalPoints.fractionOf(studentTotalPoints),
+        imagePath = imagePath
     )

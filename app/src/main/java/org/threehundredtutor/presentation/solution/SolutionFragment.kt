@@ -25,6 +25,7 @@ import org.threehundredtutor.ui_common.flow.observeFlow
 import org.threehundredtutor.ui_common.fragment.ActionDialogFragment
 import org.threehundredtutor.ui_common.fragment.LoadingDialog
 import org.threehundredtutor.ui_common.fragment.base.BaseFragment
+import org.threehundredtutor.ui_common.fragment.openYoutubeLink
 import org.threehundredtutor.ui_common.fragment.showMessage
 import org.threehundredtutor.ui_common.fragment.showSnack
 import org.threehundredtutor.ui_common.util.getUrlYoutube
@@ -70,7 +71,7 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
         imageClickListener = { imageId ->
             viewModel.onImageClicked(imageId)
         },
-        youtubeClickListener = { link -> viewModel.onYoutubeClicked(link) },
+        youtubeClickListener = { link -> openYoutubeLink(link) },
         selectRightAnswerClickListener = { questionId, answer, checked ->
             viewModel.onSelectRightAnswerCheckedChange(
                 questionId = questionId,
@@ -231,15 +232,6 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
             LoadingDialog.show(requireActivity().supportFragmentManager)
         } else {
             LoadingDialog.close(requireActivity().supportFragmentManager)
-        }
-    }
-
-    private fun openYoutubeLink(link: String) {
-        val (appUri, browserUri) = link.getUrlYoutube()
-        try {
-            startActivity(Intent(Intent.ACTION_VIEW, appUri))
-        } catch (ex: ActivityNotFoundException) {
-            startActivity(Intent(Intent.ACTION_VIEW, browserUri))
         }
     }
 

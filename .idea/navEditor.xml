@@ -85,9 +85,18 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="778" />
-                            <option name="y" value="167" />
+                            <option name="x" value="508" />
+                            <option name="y" value="-396" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_favoritesFragment_to_photoDetailsFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -165,6 +174,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_mainMenuFragment_to_favoritesFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_mainMenuFragment_to_mainFragment">
                               <value>
                                 <LayoutPositions />
@@ -190,8 +204,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-121" />
-                            <option name="y" value="-278" />
+                            <option name="x" value="155" />
+                            <option name="y" value="-516" />
                           </Point>
                         </option>
                         <option name="myPositions">

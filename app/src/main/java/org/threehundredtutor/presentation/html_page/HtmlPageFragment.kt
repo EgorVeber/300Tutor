@@ -1,8 +1,6 @@
 package org.threehundredtutor.presentation.html_page
 
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -20,7 +18,7 @@ import org.threehundredtutor.presentation.solution.adapter.SolutionItemDecoratio
 import org.threehundredtutor.ui_common.EMPTY_STRING
 import org.threehundredtutor.ui_common.flow.observeFlow
 import org.threehundredtutor.ui_common.fragment.base.BaseFragment
-import org.threehundredtutor.ui_common.util.getUrlYoutube
+import org.threehundredtutor.ui_common.fragment.openYoutubeLink
 import org.threehundredtutor.ui_common.util_class.BundleString
 import org.threehundredtutor.ui_core.databinding.HtmlPageFragmentBinding
 
@@ -47,7 +45,7 @@ class HtmlPageFragment : BaseFragment(UiCoreLayout.html_page_fragment) {
         imageClickListener = { imageId ->
             viewModel.onImageClicked(imageId)
         },
-        youtubeClickListener = { link -> viewModel.onYoutubeClicked(link) },
+        youtubeClickListener = { link -> openYoutubeLink(link) },
         firstStartTestClickListener = { viewModel.onFirstStartTestClicked() },
         secondStartTestClickListener = { viewModel.onSecondStartTestClicked() },
         fullStartTestClickListener = { viewModel.onFullStartTestClicked() },
@@ -118,16 +116,6 @@ class HtmlPageFragment : BaseFragment(UiCoreLayout.html_page_fragment) {
                     })
                 }
             }
-        }
-    }
-
-    //TODO common
-    private fun openYoutubeLink(link: String) {
-        val (appUri, browserUri) = link.getUrlYoutube()
-        try {
-            startActivity(Intent(Intent.ACTION_VIEW, appUri))
-        } catch (ex: ActivityNotFoundException) {
-            startActivity(Intent(Intent.ACTION_VIEW, browserUri))
         }
     }
 

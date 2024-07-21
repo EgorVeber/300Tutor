@@ -6,6 +6,7 @@ import org.threehundredtutor.presentation.main.adapter.MainAdapters.getActivateK
 import org.threehundredtutor.presentation.main.adapter.MainAdapters.getCourseLottieUiItemAdapter
 import org.threehundredtutor.presentation.main.adapter.MainAdapters.getCourseProgressUiModelAdapter
 import org.threehundredtutor.presentation.main.adapter.MainAdapters.getCourseUiModelAdapter
+import org.threehundredtutor.presentation.main.adapter.MainAdapters.getEmptyMainUiItem
 import org.threehundredtutor.presentation.main.adapter.MainAdapters.getExtraButtonUiItemAdapter
 import org.threehundredtutor.presentation.main.adapter.MainAdapters.getFooterUiItemAdapter
 import org.threehundredtutor.presentation.main.adapter.MainAdapters.getMainDividerUiItemAdapter
@@ -30,13 +31,14 @@ class MainManager(
         delegatesManager
             .addDelegate(getSubjectHeaderUiItemAdapter())
             .addDelegate(getFooterUiItemAdapter())
-            .addDelegate(getActivateKeyUiItemAdapter(activateKeyClickListener,tickUpClickListener))
+            .addDelegate(getActivateKeyUiItemAdapter(activateKeyClickListener, tickUpClickListener))
             .addDelegate(getSubjectUiModelAdapted(subjectClickListener))
             .addDelegate(getCourseProgressUiModelAdapter(courseProgressUiModelClickListener))
             .addDelegate(getMainDividerUiItemAdapter())
             .addDelegate(getCourseUiModelAdapter(courseUiModelClickListener))
             .addDelegate(getExtraButtonUiItemAdapter(extraButtonClickListener))
             .addDelegate(getCourseLottieUiItemAdapter(courseLottieUiItemClickListener))
+            .addDelegate(getEmptyMainUiItem())
     }
 
     companion object {

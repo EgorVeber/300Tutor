@@ -17,7 +17,7 @@ class SolutionHistoryRepositoryImpl @Inject constructor(
             solutionHistoryLocalDataSource.setSolution(
                 solutionHistoryRemoteDataSource.searchSolution(
                     SearchSolutionHistoryRequest(
-                        count = null,
+                        count = 100,// TODO пагинация
                         isFinished = null,
                         offSet = 0,
                         testId = null

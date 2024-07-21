@@ -35,7 +35,7 @@ class SchoolViewModel @Inject constructor(
     private val setAccountAuthorizationInfUseCase: SetAccountAuthorizationInfUseCase,
 ) : BaseViewModel() {
 
-    private val uiItemsState = MutableStateFlow<List<SchoolUiModel>>(listOf())
+    private val uiItemsState = MutableStateFlow<List<SchoolUiItem>>(listOf())
     private val messagesStream = SingleSharedFlow<String>()
     private val navigationEvent = SingleSharedFlow<NavigationEvent>()
     private val loadingState = MutableStateFlow(false)
@@ -44,6 +44,7 @@ class SchoolViewModel @Inject constructor(
 
     init {
         viewModelScope.launchJob(tryBlock = {
+            loadingState.update { true }
             uiItemsState.update {
                 getSchoolUseCase().map { schoolItem ->
                     schoolItem.toSchoolUiModel(currentDomainSettings == schoolItem.hostUrl)
@@ -51,10 +52,15 @@ class SchoolViewModel @Inject constructor(
             }
         }, catchBlock = { throwable ->
             handleError(throwable)
+            uiItemsState.update {
+                listOf(ErrorSchool(resourceProvider.string(UiCoreStrings.error_loading_common)))
+            }
+        }, finallyBlock = {
+            loadingState.update { false }
         })
     }
 
-    fun getUiItems(): Flow<List<SchoolUiModel>> = uiItemsState
+    fun getUiItems(): Flow<List<SchoolUiItem>> = uiItemsState
     fun getMessagesStream(): Flow<String> = messagesStream
     fun getUiAction(): Flow<NavigationEvent> = navigationEvent
     fun getLoadingState(): Flow<Boolean> = loadingState
@@ -123,10 +129,14 @@ class SchoolViewModel @Inject constructor(
     private fun selectCurrentSchool(host: String) {
         uiItemsState.update { uiItems ->
             uiItems.map { uiItem ->
-                if (uiItem.hostUrl == host) {
-                    uiItem.copy(checked = true)
+                if (uiItem is SchoolUiModel) {
+                    if (uiItem.hostUrl == host) {
+                        uiItem.copy(checked = true)
+                    } else {
+                        uiItem.copy(checked = false)
+                    }
                 } else {
-                    uiItem.copy(checked = false)
+                    uiItem
                 }
             }
         }

@@ -102,6 +102,7 @@
     <dimen name="text_32">32sp</dimen>
     <dimen name="text_40">40sp</dimen>
 
+    <dimen name="elevation_4">4dp</dimen>
     <dimen name="elevation_8">8dp</dimen>
 
     <dimen name="pie_chart_size">180dp</dimen>

@@ -6,13 +6,16 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import org.threehundredtutor.R
 import org.threehundredtutor.core.UiCoreDimens
 import org.threehundredtutor.core.UiCoreLayout
+import org.threehundredtutor.core.navigate
 import org.threehundredtutor.di.favorites.FavoritesComponent
+import org.threehundredtutor.presentation.solution.PhotoDetailsFragment
 import org.threehundredtutor.presentation.solution.adapter.SolutionItemDecoration
-import org.threehundredtutor.presentation.solution.adapter.SolutionManager
 import org.threehundredtutor.ui_common.flow.observeFlow
 import org.threehundredtutor.ui_common.fragment.base.BaseFragment
+import org.threehundredtutor.ui_common.fragment.openYoutubeLink
 import org.threehundredtutor.ui_common.fragment.showSnack
 import org.threehundredtutor.ui_core.databinding.FavoritesFragmentBinding
 
@@ -30,60 +33,17 @@ class FavoritesFragment : BaseFragment(UiCoreLayout.favorites_fragment) {
         favoritesComponent.viewModelMapFactory()
     }
 
-    private val delegateAdapter: SolutionManager = SolutionManager(
+    private val delegateAdapter: FavoritesManager = FavoritesManager(
         imageClickListener = { imageId ->
-            // viewModel.onImageClicked(imageId)
+            viewModel.onImageClicked(imageId)
         },
         youtubeClickListener = { link ->
-            // viewModel.onYoutubeClicked(link)
-        },
-        selectRightAnswerClickListener = { questionId, answer, checked ->
-            // viewModel.onSelectRightAnswerCheckedChange(
-            //     questionId = questionId,
-            //     answerText = answer,
-            //     checked = checked
-            // )
-        },
-        selectRightAnswerCheckButtonClickListener = { selectRightAnswerCheckButtonUiItem ->
-            // viewModel.onSelectRightAnswerCheckButtonClicked(selectRightAnswerCheckButtonUiItem)
-        },
-        rightAnswerClickListener = { rightAnswerUiModel, inputAnswer ->
-            //   viewModel.onRightAnswerClicked(
-            // rightAnswerUiModel = rightAnswerUiModel,
-            // inputAnswer = inputAnswer
-            // )
-        },
-        rightAnswerTextChangedListener = { questionId, inputAnswer ->
-            // viewModel.onRightAnswerTextChanged(questionId, inputAnswer)
-        },
-        answerWithErrorsClickListener = { questionAnswerWithErrorsUiModel, answer ->
-            // viewModel.onAnswerWithErrorClicked(
-            // answerWithErrorsUiModel = questionAnswerWithErrorsUiModel, answer = answer
-            // )
-        }, answerWithErrorsTextChangedListener = { questionId, answer ->
-            //  viewModel.onAnswerWithErrorsTextChanged(questionId, answer)
-        },
-        detailedAnswerClickListener = { detailedAnswerInputUiItem, inputAnswer ->
-            // viewModel.onDetailedAnswerClicked(
-            // detailedAnswerInputUiItem = detailedAnswerInputUiItem, inputAnswer = inputAnswer
-            // )
-        },
-        detailedAnswerValidationClickListener = { answerValidationItemUiModel, inputPoint ->
-            // viewModel.onDetailedAnswerValidationSaveClicked(
-            // answerValidationItemUiModel = answerValidationItemUiModel, inputPoint = inputPoint
-            // )
-        },
-        deleteValidationClickListener = { detailedAnswerValidationUiItem ->
-            // viewModel.onDeleteValidationClicked(detailedAnswerValidationUiItem)
-        },
-        detailedAnswerTextChangedListener = { questionId, inputAnswer ->
-            //  viewModel.onDetailedAnswerTextChanged(questionId, inputAnswer)
+            openYoutubeLink(link)
         },
         questionLikeClickListener = { headerUiItem ->
             viewModel.onQuestionLikeClicked(headerUiItem)
         }
     )
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FavoritesFragmentBinding.bind(view)
@@ -103,7 +63,6 @@ class FavoritesFragment : BaseFragment(UiCoreLayout.favorites_fragment) {
         binding.swipeRefreshLayout.setOnRefreshListener {
             viewModel.onRefresh()
         }
-
 
         binding.favoritesToolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
@@ -128,6 +87,12 @@ class FavoritesFragment : BaseFragment(UiCoreLayout.favorites_fragment) {
                         backgroundColor = uiEvent.snackBarType.colorRes,
                         length = Snackbar.LENGTH_SHORT
                     )
+                }
+
+                is FavoritesViewModel.UiEvent.NavigatePhotoDetailed -> {
+                    navigate(R.id.action_favoritesFragment_to_photoDetailsFragment, Bundle().apply {
+                        putString(PhotoDetailsFragment.PHOTO_DETAILED_IMAGE_PATH, uiEvent.imagePath)
+                    })
                 }
             }
         }

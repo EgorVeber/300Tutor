@@ -6,6 +6,9 @@ import androidx.core.widget.doAfterTextChanged
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import org.threehundredtutor.core.UiCoreAttr
 import org.threehundredtutor.core.UiCoreDrawable
+import org.threehundredtutor.presentation.favorites.AnswerFavoritesWithErrorsResultUiItem
+import org.threehundredtutor.presentation.favorites.EmptyUiItem
+import org.threehundredtutor.presentation.favorites.SuccessAnswerTitleUiItem
 import org.threehundredtutor.presentation.solution.solution_factory.GravityAlign.Companion.getGravity
 import org.threehundredtutor.presentation.solution.ui_models.SolutionUiItem
 import org.threehundredtutor.presentation.solution.ui_models.answer_erros.AnswerWithErrorsResultUiItem
@@ -33,6 +36,7 @@ import org.threehundredtutor.ui_common.view_components.loadImageMedium
 import org.threehundredtutor.ui_common.view_components.setDebouncedCheckedChangeListener
 import org.threehundredtutor.ui_common.view_components.setTint
 import org.threehundredtutor.ui_common.view_components.trimText
+import org.threehundredtutor.ui_core.databinding.EmptyItemBinding
 import org.threehundredtutor.ui_core.databinding.SolutionAnswerSelectRightItemBinding
 import org.threehundredtutor.ui_core.databinding.SolutionAnswerWithErrorsItemBinding
 import org.threehundredtutor.ui_core.databinding.SolutionAnswerWithErrorsResultItemBinding
@@ -41,6 +45,7 @@ import org.threehundredtutor.ui_core.databinding.SolutionDetailedAnswerItemBindi
 import org.threehundredtutor.ui_core.databinding.SolutionDetailedAnswerResultItemBinding
 import org.threehundredtutor.ui_core.databinding.SolutionDetailedAnswerValidationItemBinding
 import org.threehundredtutor.ui_core.databinding.SolutionDividerItemBinding
+import org.threehundredtutor.ui_core.databinding.SolutionFavoritesAnswerWithErrorsResultItemBinding
 import org.threehundredtutor.ui_core.databinding.SolutionFooterItemBinding
 import org.threehundredtutor.ui_core.databinding.SolutionHeaderItemBinding
 import org.threehundredtutor.ui_core.databinding.SolutionImageItemBinding
@@ -52,6 +57,7 @@ import org.threehundredtutor.ui_core.databinding.SolutionSeparatorItemBinding
 import org.threehundredtutor.ui_core.databinding.SolutionSupSubItemBinding
 import org.threehundredtutor.ui_core.databinding.SolutionTextItemBinding
 import org.threehundredtutor.ui_core.databinding.SolutionYoutubeItemBinding
+import org.threehundredtutor.ui_core.databinding.SuccessAnswerTitleItemBinding
 
 object SolutionAdapters {
 
@@ -384,6 +390,81 @@ object SolutionAdapters {
                     bindVisible()
                     bindInputPoint()
                 }
+            }
+        }
+
+
+    /** Адаптеры для постоения Избранных воропсов SelectRightAnswerOrAnswers.*/
+    fun getSuccessAnswerTitleUiItemAdapter() =
+        adapterDelegateViewBinding<SuccessAnswerTitleUiItem, SolutionUiItem, SuccessAnswerTitleItemBinding>(
+            { layoutInflater, root ->
+                SuccessAnswerTitleItemBinding.inflate(layoutInflater, root, false)
+            }) {
+            bind {
+                binding.title.text = item.title
+            }
+        }
+
+
+    /** Адаптер для постоения интерфейса вопроса с типом AnswerWithErrors Favorites.*/
+    fun getFavoritesAnswerWithErrorsResultUiItemAdapter() =
+        adapterDelegateViewBinding<AnswerFavoritesWithErrorsResultUiItem, SolutionUiItem, SolutionFavoritesAnswerWithErrorsResultItemBinding>(
+            { layoutInflater, root ->
+                SolutionFavoritesAnswerWithErrorsResultItemBinding.inflate(
+                    layoutInflater,
+                    root,
+                    false
+                )
+            }) {
+            bind {
+                binding.correctAnswerValue.text = item.answer
+                binding.correctAnswerTitle.text = item.title
+            }
+        }
+
+    fun getAnswerFavoritesSelectRightUiModelAdapter() =
+        adapterDelegateViewBinding<SelectRightAnswerUiModel, SolutionUiItem, SolutionAnswerSelectRightItemBinding>(
+            { layoutInflater, root ->
+                SolutionAnswerSelectRightItemBinding.inflate(layoutInflater, root, false)
+            }) {
+
+            fun bindAnswerTextAndChecked() {
+                binding.checkbox.text = item.answer
+                binding.checkbox.isChecked = item.checked
+            }
+
+            fun bindValidated() {
+                binding.checkbox.isEnabled = !item.isValidated
+                binding.iconContainer.isVisible = item.isValidated
+            }
+
+            fun bindAnswerIcon() {
+                if (!item.isValidated) return
+                if (item.rightAnswer) {
+                    binding.icon.setImageResource(UiCoreDrawable.ic_check)
+                    binding.iconContainer.setBackgroundResource(UiCoreDrawable.rectangle_full_green_background)
+                } else {
+                    binding.icon.setImageResource(UiCoreDrawable.ic_incorrect_answer)
+                    binding.iconContainer.setBackgroundResource(UiCoreDrawable.rectangle_full_warning_background)
+                }
+            }
+
+            bind {
+                bindValidated()
+                bindAnswerTextAndChecked()
+                bindAnswerIcon()
+            }
+        }
+
+
+
+    fun getEmptyUiItem() =
+        adapterDelegateViewBinding<EmptyUiItem, SolutionUiItem, EmptyItemBinding>(
+            { layoutInflater, root ->
+                EmptyItemBinding.inflate(layoutInflater, root, false)
+            }) {
+            bind {
+                binding.rootTextView.text = item.title
             }
         }
 }

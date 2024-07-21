@@ -10,4 +10,5 @@ data class ResultTestUiModel(
     val titlePoint: String,
     val resultPercent: String,
     val fractionAnswer: Float,
+    val imagePath: String,
 ) : Parcelable

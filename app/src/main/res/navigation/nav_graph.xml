@@ -281,6 +281,10 @@
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="org.threehundredtutor.presentation.favorites.FavoritesFragment"
-        android:label="FavoritesFragment" />
+        android:label="FavoritesFragment" >
+        <action
+            android:id="@+id/action_favoritesFragment_to_photoDetailsFragment"
+            app:destination="@id/photoDetailsFragment" />
+    </fragment>
 
 </navigation>

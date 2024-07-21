@@ -1,11 +1,12 @@
 package org.threehundredtutor.presentation.test_section
 
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
+import org.threehundredtutor.ui_core.databinding.EmptyItemBinding
 import org.threehundredtutor.ui_core.databinding.TestSectionDomainItemBinding
 
 object SchoolAdapter {
     fun getSchoolUiModelAdapted(schoolClickListener: (String, String) -> Unit) =
-        adapterDelegateViewBinding<SchoolUiModel, SchoolUiModel, TestSectionDomainItemBinding>(
+        adapterDelegateViewBinding<SchoolUiModel, SchoolUiItem, TestSectionDomainItemBinding>(
             { layoutInflater, root ->
                 TestSectionDomainItemBinding.inflate(layoutInflater, root, false)
             }) {
@@ -24,6 +25,16 @@ object SchoolAdapter {
                     binding.domain.text = item.hostUrl
                     binding.radioButton.isChecked = item.checked
                 }
+            }
+        }
+
+    fun getErrorSchoolUiItem() =
+        adapterDelegateViewBinding<ErrorSchool, SchoolUiItem, EmptyItemBinding>(
+            { layoutInflater, root ->
+                EmptyItemBinding.inflate(layoutInflater, root, false)
+            }) {
+            bind {
+                binding.rootTextView.text = item.title
             }
         }
 }

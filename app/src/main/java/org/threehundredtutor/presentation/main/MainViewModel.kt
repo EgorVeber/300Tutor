@@ -24,6 +24,7 @@ import org.threehundredtutor.presentation.main.ui_models.ActivateKeyUiItem
 import org.threehundredtutor.presentation.main.ui_models.CourseLottieUiItem
 import org.threehundredtutor.presentation.main.ui_models.CourseProgressUiModel
 import org.threehundredtutor.presentation.main.ui_models.CourseUiModel
+import org.threehundredtutor.presentation.main.ui_models.EmptyMainUiItem
 import org.threehundredtutor.presentation.main.ui_models.FooterUiItem
 import org.threehundredtutor.presentation.main.ui_models.HeaderUiItem
 import org.threehundredtutor.presentation.main.ui_models.MainDividerUiItem
@@ -96,6 +97,9 @@ class MainViewModel @Inject constructor(
         }, catchBlock =
         { throwable ->
             handleError(throwable)
+            uiItemsState.update {
+                listOf(EmptyMainUiItem(resourceProvider.string(UiCoreStrings.error_loading_common)))
+            }
         }, finallyBlock =
         {
             loadingState.tryEmit(false)
@@ -182,7 +186,6 @@ class MainViewModel @Inject constructor(
     fun onRefresh() {
         loadListData()
     }
-
 
     sealed interface UiEvent {
         data class NavigateToDetailedSubject(val subjectInfo: Pair<String, String>) : UiEvent
