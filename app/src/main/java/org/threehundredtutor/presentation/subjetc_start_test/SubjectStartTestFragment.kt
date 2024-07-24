@@ -15,7 +15,7 @@ import org.threehundredtutor.presentation.subject_tests.SubjectTestsFragment.Com
 import org.threehundredtutor.presentation.subject_tests.SubjectTestsFragment.Companion.SUBJECT_TESTS_TEST_ID_KEY
 import org.threehundredtutor.presentation.subject_tests.SubjectTestsFragment.Companion.SUBJECT_TESTS_TEST_NAME_KEY
 import org.threehundredtutor.presentation.subject_tests.SubjectTestsFragment.Companion.SUBJECT_TESTS_TEST_QUESTION_COUNT_KEY
-import org.threehundredtutor.presentation.subjetc_start_test.adapter.SubjectStatrTestManager
+import org.threehundredtutor.presentation.subjetc_start_test.adapter.SubjectStartTestManager
 import org.threehundredtutor.ui_common.DEFAULT_NOT_VALID_VALUE_INT
 import org.threehundredtutor.ui_common.EMPTY_STRING
 import org.threehundredtutor.ui_common.flow.observeFlow
@@ -50,7 +50,7 @@ class SubjectStartTestFragment : BaseFragment(UiCoreLayout.test_fragment) {
         DEFAULT_NOT_VALID_VALUE_INT
     )
 
-    private val delegateAdapter = SubjectStatrTestManager(
+    private val delegateAdapter = SubjectStartTestManager(
         solutionHistoryClickListener = { solutionId, _ ->
             viewModel.onSolutionHistoryClicked(solutionId)
         },

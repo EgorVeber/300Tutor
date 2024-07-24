@@ -10,6 +10,7 @@ import org.threehundredtutor.presentation.main.ui_models.ActivateKeyUiItem
 import org.threehundredtutor.presentation.main.ui_models.CourseLottieUiItem
 import org.threehundredtutor.presentation.main.ui_models.CourseProgressUiModel
 import org.threehundredtutor.presentation.main.ui_models.CourseUiModel
+import org.threehundredtutor.presentation.main.ui_models.EmptyMainUiItem
 import org.threehundredtutor.presentation.main.ui_models.FooterUiItem
 import org.threehundredtutor.presentation.main.ui_models.HeaderUiItem
 import org.threehundredtutor.presentation.main.ui_models.MainDividerUiItem
@@ -18,12 +19,12 @@ import org.threehundredtutor.presentation.main.ui_models.SubjectUiModel
 import org.threehundredtutor.ui_common.util.addPercentSymbol
 import org.threehundredtutor.ui_common.view_components.getColorAttr
 import org.threehundredtutor.ui_common.view_components.loadIcon
-import org.threehundredtutor.ui_common.view_components.loadImage
 import org.threehundredtutor.ui_common.view_components.setDebouncedClickListener
 import org.threehundredtutor.ui_common.view_components.setTint
 import org.threehundredtutor.ui_core.databinding.CourseItemBinding
 import org.threehundredtutor.ui_core.databinding.CourseProgressItemBinding
 import org.threehundredtutor.ui_core.databinding.CoursesLotieItemBinding
+import org.threehundredtutor.ui_core.databinding.EmptyItemBinding
 import org.threehundredtutor.ui_core.databinding.HomeActivateKeyItemBinding
 import org.threehundredtutor.ui_core.databinding.MainDividerItemBinding
 import org.threehundredtutor.ui_core.databinding.MainExtraButtonItemBinding
@@ -91,7 +92,7 @@ object MainAdapters {
                     binding.iconSubject.setImageResource(UiCoreDrawable.ic_teacher)
                     binding.iconSubject.setTint(UiCoreAttr.primary)
                 } else {
-                    binding.iconSubject.loadImage(item.iconPath)
+                    binding.iconSubject.loadIcon(item.iconPath, UiCoreDrawable.ic_teacher)
                     binding.iconSubject.imageTintList = null
                 }
                 binding.subjectNameTv.text = item.subjectName
@@ -120,7 +121,7 @@ object MainAdapters {
                     binding.iconCourse.setImageResource(UiCoreDrawable.ic_teacher)
                     binding.iconCourse.setTint(UiCoreAttr.primary)
                 } else {
-                    binding.iconCourse.loadIcon(item.iconPath)
+                    binding.iconCourse.loadIcon(item.iconPath, UiCoreDrawable.ic_teacher)
                     binding.iconCourse.imageTintList = null
                 }
 
@@ -149,7 +150,7 @@ object MainAdapters {
                     binding.iconCourse.setImageResource(UiCoreDrawable.ic_teacher)
                     binding.iconCourse.setTint(UiCoreAttr.primary)
                 } else {
-                    binding.iconCourse.loadIcon(item.iconPath)
+                    binding.iconCourse.loadIcon(item.iconPath, UiCoreDrawable.ic_teacher)
                     binding.iconCourse.imageTintList = null
                 }
                 binding.courseNameTv.text = item.groupName
@@ -164,7 +165,17 @@ object MainAdapters {
                 courseLottieUiItemClickListener.invoke()
             }
             bind {
-                binding.imageView.loadIcon(item.imagePath)
+                binding.imageView.loadIcon(item.imagePath, UiCoreDrawable.ic_teacher)
+            }
+        }
+
+    fun getEmptyMainUiItem() =
+        adapterDelegateViewBinding<EmptyMainUiItem, MainUiItem, EmptyItemBinding>(
+            { layoutInflater, root ->
+                EmptyItemBinding.inflate(layoutInflater, root, false)
+            }) {
+            bind {
+                binding.rootTextView.text = item.title
             }
         }
 }

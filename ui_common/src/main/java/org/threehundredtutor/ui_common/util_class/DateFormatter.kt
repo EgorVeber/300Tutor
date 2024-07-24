@@ -10,7 +10,7 @@ object DateFormatter {
 
     private const val TIME_ZONE = "UTC"
     private const val FORMAT_DATE_SERVER_RESPONSE = "yyyy-MM-dd'T'HH:mm:ss"
-    private const val FORMAT_DATE_DEFAULT_YYYY_MM_DD_HH_MM_NEW = "HH:mm dd-MM-yy"
+    private const val FORMAT_DATE_DEFAULT_YYYY_MM_DD_HH_MM_NEW = "HH:mm dd.MM.yy"
     private const val HOUR_3 = 3 //Будет работать только с GMT+3
 
     private val SIMPLE_FORMAT_YYYY_MM_DD_HH_MM_NEW =

@@ -97,6 +97,9 @@ class SolutionViewModel @Inject constructor(
     fun getErrorStateFlow() = errorState.asStateFlow()
     fun getTestResultState() = answerCountState.asStateFlow()
 
+
+    private var imageSuccessPath = ""
+
     init {
         val isGenerateTestByDirectory =
             solutionParamsDaggerModel.directoryTestId.isNotEmpty() && solutionParamsDaggerModel.workSpaceId.isNotEmpty()
@@ -135,17 +138,22 @@ class SolutionViewModel @Inject constructor(
             isFinished = testSolutionModel.isFinished
             testInfoState.update { testSolutionModel.nameTest }
 
+            val settings = getSettingAppUseCase(false)
             uiItemsState.value = solutionFactory.createSolution(
                 testSolutionGeneralModel = testSolutionModel,
-                staticUrl = getSettingAppUseCase(false).publicImageUrlFormat
+                staticUrl = settings.publicImageUrlFormat
             )
+            imageSuccessPath = settings.imagesPack.success
 
             // Порядок не менять иначе все сломается
             when {
                 testSolutionModel.isFinished -> {
                     resultButtonState.emit(true)
                     resultTestUiModelCache =
-                        getPointsUseCase(currentSolutionId).toResultTestUiModel(resourceProvider)
+                        getPointsUseCase(currentSolutionId).toResultTestUiModel(
+                            resourceProvider,
+                            imageSuccessPath
+                        )
                 }
 
                 isStartTest || isGenerateTestByDirectory -> {
@@ -184,7 +192,8 @@ class SolutionViewModel @Inject constructor(
                 )
                 resultButtonState.emit(true)
                 finishButtonState.emit(false)
-                val resultTestUiModel = points.toResultTestUiModel(resourceProvider)
+                val resultTestUiModel =
+                    points.toResultTestUiModel(resourceProvider, imageSuccessPath)
                 resultTestUiModelCache = resultTestUiModel
                 showResultDialogEventState.tryEmit(resultTestUiModel)
             } else {
@@ -410,7 +419,10 @@ class SolutionViewModel @Inject constructor(
                 uiItemsState.update { currentList }
                 if (isFinished) {
                     resultTestUiModelCache =
-                        getPointsUseCase(currentSolutionId).toResultTestUiModel(resourceProvider)
+                        getPointsUseCase(currentSolutionId).toResultTestUiModel(
+                            resourceProvider,
+                            imageSuccessPath
+                        )
                 }
             } else {
                 uiEventState.emit(UiEvent.ShowSnack(result.message, SnackBarType.ERROR))
@@ -446,7 +458,10 @@ class SolutionViewModel @Inject constructor(
 
                 if (isFinished) {
                     resultTestUiModelCache =
-                        getPointsUseCase(currentSolutionId).toResultTestUiModel(resourceProvider)
+                        getPointsUseCase(currentSolutionId).toResultTestUiModel(
+                            resourceProvider,
+                            imageSuccessPath
+                        )
                 }
 
             } else {

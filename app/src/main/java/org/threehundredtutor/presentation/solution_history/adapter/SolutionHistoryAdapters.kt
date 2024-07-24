@@ -3,10 +3,14 @@ package org.threehundredtutor.presentation.solution_history.adapter
 import androidx.core.view.isVisible
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import org.threehundredtutor.core.UiCoreStrings
+import org.threehundredtutor.presentation.favorites.EmptyUiItem
+import org.threehundredtutor.presentation.solution.ui_models.SolutionUiItem
+import org.threehundredtutor.presentation.solution_history.models.EmptyHistoryUiItem
 import org.threehundredtutor.presentation.solution_history.models.SolutionHistoryUiItem
 import org.threehundredtutor.presentation.solution_history.models.SolutionHistoryUiModel
 import org.threehundredtutor.presentation.solution_history.models.StartTestUiModel
 import org.threehundredtutor.ui_common.DEFAULT_NOT_VALID_VALUE_INT
+import org.threehundredtutor.ui_core.databinding.EmptyItemBinding
 import org.threehundredtutor.ui_core.databinding.SolutionHistoryItemBinding
 import org.threehundredtutor.ui_core.databinding.TestStartItemBinding
 
@@ -58,6 +62,16 @@ object SolutionHistoryAdapters {
                 binding.nameTestTv.text = item.nameTest
                 binding.questionCountTv.text =
                     getString(UiCoreStrings.question_count, item.questionsCount.toString())
+            }
+        }
+
+    fun getEmptyHistoryUiItem() =
+        adapterDelegateViewBinding<EmptyHistoryUiItem, SolutionHistoryUiItem, EmptyItemBinding>(
+            { layoutInflater, root ->
+                EmptyItemBinding.inflate(layoutInflater, root, false)
+            }) {
+            bind {
+                binding.rootTextView.text = item.title
             }
         }
 }

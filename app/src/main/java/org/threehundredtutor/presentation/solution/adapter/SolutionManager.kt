@@ -9,6 +9,7 @@ import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getD
 import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getDetailedAnswerUiItemAdapter
 import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getDetailedAnswerValidationUiItemAdapted
 import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getDividerUiItemAdapter
+import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getFavoritesAnswerWithErrorsResultUiItemAdapter
 import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getFooterUiItemAdapter
 import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getHeaderUiItemAdapter
 import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getImageUiItemAdapter
@@ -18,6 +19,7 @@ import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getR
 import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getSelectRightAnswerCheckButtonUiItemAdapter
 import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getSelectRightAnswerTitleUiItemAdapter
 import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getSeparatorUiItemAdapter
+import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getSuccessAnswerTitleUiItemAdapter
 import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getSupSubUiItemAdapter
 import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getTextUiItemAdapter
 import org.threehundredtutor.presentation.solution.adapter.SolutionAdapters.getYoutubeUiItemAdapter
@@ -91,6 +93,9 @@ class SolutionManager(
                     deleteValidationClickListener
                 )
             )
+
+            .addDelegate(getSuccessAnswerTitleUiItemAdapter())
+            .addDelegate(getFavoritesAnswerWithErrorsResultUiItemAdapter())
     }
 
     companion object {

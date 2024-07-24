@@ -1,5 +1,8 @@
 package org.threehundredtutor.ui_common.fragment
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
@@ -12,6 +15,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.threehundredtutor.ui_common.UiCoreAttr
 import org.threehundredtutor.ui_common.UiCoreStrings
+import org.threehundredtutor.ui_common.util.getUrlYoutube
 import org.threehundredtutor.ui_core.TutorSnackbar
 
 fun Fragment.getColorAttr(@AttrRes attrRes: Int, needResId: Boolean = true): Int {
@@ -88,5 +92,14 @@ fun Fragment.showSnack(
         length = length,
         buttonClick = buttonClick
     ).show()
+}
+
+fun Fragment.openYoutubeLink(link: String) {
+    val (appUri, browserUri) = link.getUrlYoutube()
+    try {
+        startActivity(Intent(Intent.ACTION_VIEW, appUri))
+    } catch (ex: ActivityNotFoundException) {
+        startActivity(Intent(Intent.ACTION_VIEW, browserUri))
+    }
 }
 

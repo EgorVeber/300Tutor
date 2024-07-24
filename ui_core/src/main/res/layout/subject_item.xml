@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_8"
         android:layout_marginVertical="@dimen/margin_8"
+        android:elevation="@dimen/elevation_4"
         android:background="@drawable/rectangle_12_content_background"
         android:paddingVertical="@dimen/margin_8">
 

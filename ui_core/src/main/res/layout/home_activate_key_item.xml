@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/defaultWhite60">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,9 +31,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:insetTop="0dp"
-            android:visibility="gone"
             android:insetBottom="0dp"
             android:text="@string/main_tuck_up_course"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:visibility="gone" />
     </LinearLayout>
 </FrameLayout>

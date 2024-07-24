@@ -5,10 +5,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import org.threehundredtutor.core.UiCoreStrings
 import org.threehundredtutor.domain.solution_history.SearchSolutionFilteredUseCase
 import org.threehundredtutor.domain.solution_history.SolutionHistoryFilter
 import org.threehundredtutor.presentation.common.ResourceProvider
 import org.threehundredtutor.presentation.solution_history.mapper.toSolutionHistoryUiModel
+import org.threehundredtutor.presentation.solution_history.models.EmptyHistoryUiItem
 import org.threehundredtutor.presentation.solution_history.models.SolutionHistoryUiItem
 import org.threehundredtutor.ui_common.DEFAULT_NOT_VALID_VALUE_INT
 import org.threehundredtutor.ui_common.coroutines.launchJob
@@ -50,11 +52,15 @@ class SolutionHistoryViewModel @Inject constructor(
                     questionsCount = DEFAULT_NOT_VALID_VALUE_INT
                 )
             }
+                .ifEmpty { listOf(EmptyHistoryUiItem(resourceProvider.string(UiCoreStrings.history_empty))) }
 
             uiItemsState.update { uiItems }
         }, catchBlock = { throwable ->
             //TODO TutorAndroid-44 емпти лист обработать
             handleError(throwable)
+            uiItemsState.update {
+                listOf(EmptyHistoryUiItem(resourceProvider.string(UiCoreStrings.error_loading_common)))
+            }
             loadingState.update { false }
         }, finallyBlock = {
             if (force) loadingState.update { false }

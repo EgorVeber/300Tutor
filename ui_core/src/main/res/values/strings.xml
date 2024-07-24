@@ -69,10 +69,10 @@
     //Solution
     <string name="your_answer">Ваш ответ:</string>
     <string name="error_load_solution">Не удалось загрузить решение. Пожалуйста попробуйте позднее</string>
-    <string name="correct_answer_without_errors">Правильный ответ (без ошибок):</string>
+    <string name="correct_answer_without_errors">Правильный ответ (без ошибок) :</string>
     <string name="explanation_answer">Пояснения к ответу на вопрос:</string>
     <string name="incorrect_answer">Неправильный ответ</string>
-    <string name="correct_answer">Правильный ответ</string>
+    <string name="correct_answer">Правильный ответ:</string>
     <string name="correct_answers">Правильные ответы:</string>
     <string name="allmost_the_right_answer">Почти правильный ответ</string>
     <string name="estimate_text">Оценить</string>
@@ -135,8 +135,7 @@
     <string name="result_test_need_to_check_question">Его необходимо проверить самому или с помощью куратора.</string>
     <string name="result_test_need_to_check_questions">Их необходимо проверить самому или с помощью куратора.</string>
 
-    <!-- А этот код мы используем для проверки того, как выглядит реальное склонение -->
-
+    <string name="history_empty">Тесты отсутствуют.</string>
 
     //SubjectWorkspace
     <string name="no_materials_in_this_section">В разделе нет элементов. Вернитесь позднее.</string>
@@ -151,6 +150,7 @@
     <string name="html_page_full_text">Полный тест  "%1$s"</string>
     <string name="answer_solution_test_changed">Ответы "%1$s" из "%2$s"</string>
     <string name="question_number">Вопрос "%1$s"</string>
+    <string name="question">Вопрос"</string>
     <string name="error_loading_common">Не удалось загрузить данные. Пожалуйста повторите попытку позже</string>
 
     // RestorePassword
@@ -190,4 +190,8 @@
     //Favorites
     <string name="favorites_title">Избранные вопросы</string>
     <string name="favorites_empty">Нет избранных вопросов.</string>
+
+
+
+
 </resources>

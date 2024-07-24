@@ -1,6 +1,7 @@
 package org.threehundredtutor.ui_common.view_components
 
 import android.widget.ImageView
+import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import org.threehundredtutor.ui_common.UiCoreDrawable
@@ -9,27 +10,21 @@ import org.threehundredtutor.ui_common.UiCoreDrawable
 fun ImageView.loadImageMedium(path: String) {
     Glide.with(context).load(path)
         .diskCacheStrategy(DiskCacheStrategy.DATA)
-        //.placeholder(UiCoreDrawable.placeholder_question) // ЛОАДЕР
+        //.override(this.layoutParams.width)
+        .placeholder(UiCoreDrawable.ic_loading) // ЛОАДЕР
         .into(this)
 }
 
 fun ImageView.loadImageOriginal(path: String) {
     Glide.with(context).load(path)
         .diskCacheStrategy(DiskCacheStrategy.DATA)
-            //.placeholder(UiCoreDrawable.placeholder_question) // ЛОАДЕР
+        .placeholder(UiCoreDrawable.ic_loading) // ЛОАДЕР
         .into(this)
 }
 
-fun ImageView.loadIcon(path: String) {
+fun ImageView.loadIcon(path: String, @DrawableRes placeHolder: Int) {
     Glide.with(context).load(path)
         .diskCacheStrategy(DiskCacheStrategy.DATA)
-        .placeholder(UiCoreDrawable.ic_teacher)
-        .into(this)
-}
-
-fun ImageView.loadImage(path: String) {
-    Glide.with(context).load(path)
-        .diskCacheStrategy(DiskCacheStrategy.DATA)
-        .placeholder(UiCoreDrawable.ic_logo)
+        .placeholder(placeHolder)
         .into(this)
 }

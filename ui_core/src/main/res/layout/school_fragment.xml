@@ -33,6 +33,18 @@
             tools:listitem="@layout/subject_item" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/rootTextView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:text="@string/error_loading_common"
+        android:layout_marginHorizontal="@dimen/margin_16"
+        android:gravity="center"
+        android:textColor="?attr/textPrimary"
+        android:textSize="@dimen/text_18" />
+
     <FrameLayout
         android:id="@+id/progressContainer"
         android:layout_width="match_parent"

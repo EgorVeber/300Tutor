@@ -5,10 +5,13 @@ import org.jsoup.select.Elements
 import org.threehundredtutor.core.UiCoreStrings
 import org.threehundredtutor.domain.solution.models.TestSolutionGeneralModel
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerModel
+import org.threehundredtutor.domain.solution.models.test_model.AnswerSelectRightModel
 import org.threehundredtutor.domain.solution.models.test_model.QuestionModel
 import org.threehundredtutor.domain.solution.models.test_model.TestQuestionType
 import org.threehundredtutor.domain.subject_workspace.models.DirectoryModel
 import org.threehundredtutor.presentation.common.ResourceProvider
+import org.threehundredtutor.presentation.favorites.AnswerFavoritesWithErrorsResultUiItem
+import org.threehundredtutor.presentation.favorites.SuccessAnswerTitleUiItem
 import org.threehundredtutor.presentation.html_page.adapter.HtmlPageHeaderItem
 import org.threehundredtutor.presentation.html_page.adapter.HtmlPageStartTestUiModel
 import org.threehundredtutor.presentation.solution.mapper.toAnswerSelectRightUiModel
@@ -91,10 +94,7 @@ class SolutionFactory @Inject constructor(
             solutionUiItems.add(
                 HeaderUiItem(
                     questionId = questionModel.questionId,
-                    questionNumber = resourceProvider.string(
-                        UiCoreStrings.question_number,
-                        questionModel.questionNumber.toString()
-                    ),
+                    questionNumber = resourceProvider.string(UiCoreStrings.question),
                     isQuestionLikedByStudent = true
                 )
             )
@@ -103,7 +103,7 @@ class SolutionFactory @Inject constructor(
                 staticUrl = staticUrl
             )
 
-            //createSolutionForAnswerWithType(questionModel = questionModel, staticUrl = staticUrl)
+            createSolutionFavoritesWithType(questionModel = questionModel, staticUrl = staticUrl)
             if (index == lastQuestionIndex) {
                 createBottomItems(0)
             } else {
@@ -266,7 +266,7 @@ class SolutionFactory @Inject constructor(
                 answerSelectRightModel.toAnswerSelectRightUiModel(
                     questionId = questionModel.questionId,
                     isValidated = true,
-                    checked = answerList.contains(answerSelectRightModel.text)
+                    checked = answerList.contains(answerSelectRightModel.text),
                 )
             )
         }
@@ -378,6 +378,35 @@ class SolutionFactory @Inject constructor(
         }
     }
 
+    private fun createSolutionFavoritesWithType(
+        questionModel: QuestionModel,
+        staticUrl: String
+    ) {
+        when (questionModel.testQuestionType) {
+            TestQuestionType.SELECT_RIGHT_ANSWER_OR_ANSWERS -> createFavoritesSelectAnswers(
+                answers = questionModel.selectRightAnswerOrAnswersModel.answersList
+            )
+
+            TestQuestionType.TYPE_ANSWER_WITH_ERRORS -> createTypeAnswerWithErrorsFavorites(
+                rightsAnswer = questionModel.typeAnswerWithErrorsModel.rightAnswer
+            )
+
+            TestQuestionType.TYPE_RIGHT_ANSWER -> {
+                createTypeRightAnswerFavorites(
+                    rightsAnswers = questionModel.typeRightAnswerQuestionModel.rightAnswers
+                )
+            }
+
+            TestQuestionType.DETAILED_ANSWER -> createDetailedAnswerFavorites(
+                questionModel,
+                staticUrl
+            )
+
+            TestQuestionType.UNKNOWN -> {}
+        }
+    }
+
+
     private fun createSelectAnswers(questionModel: QuestionModel) {
         solutionUiItems.add(SelectRightAnswerTitleUiItem(questionModel.selectRightAnswerOrAnswersModel.selectRightAnswerTitle))
         val listAnswer = questionModel.selectRightAnswerOrAnswersModel.answersList
@@ -386,11 +415,24 @@ class SolutionFactory @Inject constructor(
                 answerSelectRightModel.toAnswerSelectRightUiModel(
                     checked = false,
                     isValidated = false,
-                    questionId = questionModel.questionId
+                    questionId = questionModel.questionId,
                 )
             )
         }
         solutionUiItems.add(SelectRightAnswerCheckButtonUiItem(questionModel.questionId))
+    }
+
+    private fun createFavoritesSelectAnswers(answers: List<AnswerSelectRightModel>) {
+        solutionUiItems.add(SuccessAnswerTitleUiItem(resourceProvider.string(UiCoreStrings.correct_answers)))
+        answers.forEach { answerSelectRightModel ->
+            solutionUiItems.add(
+                answerSelectRightModel.toAnswerSelectRightUiModel(
+                    questionId = "-1",
+                    isValidated = true,
+                    checked = answerSelectRightModel.isRightAnswer,
+                )
+            )
+        }
     }
 
     private fun createTypeAnswerWithErrors(questionModel: QuestionModel) {
@@ -401,11 +443,29 @@ class SolutionFactory @Inject constructor(
         )
     }
 
+    private fun createTypeAnswerWithErrorsFavorites(rightsAnswer: String) {
+        solutionUiItems.add(
+            AnswerFavoritesWithErrorsResultUiItem(
+                answer = rightsAnswer,
+                title = resourceProvider.string(UiCoreStrings.correct_answer_without_errors)
+            )
+        )
+    }
+
     private fun createTypeRightAnswer(questionModel: QuestionModel) {
         solutionUiItems.add(
             questionModel.toRightAnswerUiModel(
                 rightAnswersList = questionModel.typeRightAnswerQuestionModel.rightAnswers,
                 caseInSensitive = questionModel.typeRightAnswerQuestionModel.caseInSensitive,
+            )
+        )
+    }
+
+    private fun createTypeRightAnswerFavorites(rightsAnswers: List<String>) {
+        solutionUiItems.add(
+            AnswerFavoritesWithErrorsResultUiItem(
+                answer = rightsAnswers.joinToString(separator = "\n"),
+                title = resourceProvider.string(UiCoreStrings.correct_answers)
             )
         )
     }
@@ -420,6 +480,13 @@ class SolutionFactory @Inject constructor(
                 explanationList = explanationList,
             )
         )
+    }
+
+    private fun createDetailedAnswerFavorites(questionModel: QuestionModel, staticUrl: String) {
+        solutionUiItems.add(SuccessAnswerTitleUiItem(resourceProvider.string(UiCoreStrings.explanation_answer)))
+        val explanationList =
+            createQuestionWithHtml(questionModel.answerExplanationMarkUp, staticUrl)
+        solutionUiItems.addAll(explanationList)
     }
 
     private fun createBottomItems(countDividerBottomQuestion: Int) {

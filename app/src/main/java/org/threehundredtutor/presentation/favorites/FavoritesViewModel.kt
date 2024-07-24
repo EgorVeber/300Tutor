@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import org.threehundredtutor.core.UiCoreStrings
 import org.threehundredtutor.domain.account.usecase.GetAccountUseCase
 import org.threehundredtutor.domain.favorites.GetFavoritesQuestionUseCase
 import org.threehundredtutor.domain.settings_app.GetSettingAppUseCase
@@ -45,10 +46,13 @@ class FavoritesViewModel @Inject constructor(
             loadingState.update { true }
             val studentId = getAccountUseCase.invoke(false).userId
             val questions = getFavoritesQuestionUseCase(studentId)
+
             val uiItems = solutionFactory.createFavoritesQuestion(
                 questionList = questions,
                 staticUrl = getSettingAppUseCase(false).publicImageUrlFormat
-            )
+            ).ifEmpty {
+                listOf(EmptyUiItem(resourceProvider.string(UiCoreStrings.favorites_empty)))
+            }
             uiItemsState.update { uiItems }
         }, catchBlock = { throwable ->
             handleError(throwable)
@@ -103,7 +107,27 @@ class FavoritesViewModel @Inject constructor(
         loadData()
     }
 
+    fun onImageClicked(imageId: String) {
+        if (imageId.isNotEmpty()) {
+            viewModelScope.launchJob(tryBlock = {
+                uiEventState.tryEmit(
+                    UiEvent.NavigatePhotoDetailed(
+                        imagePath = SolutionFactory.replaceUrl(
+                            getSettingAppUseCase(force = false).publicImageUrlFormat,
+                            imageId,
+                            SolutionFactory.IMAGE_ORIGINAL_TYPE
+                        )
+                    )
+                )
+            }, catchBlock = { throwable ->
+                handleError(throwable)
+            })
+        }
+    }
+
     sealed interface UiEvent {
+        @JvmInline
+        value class NavigatePhotoDetailed(val imagePath: String) : UiEvent
         data class ShowSnack(val message: String, val snackBarType: SnackBarType) : UiEvent
     }
 }

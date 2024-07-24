@@ -15,6 +15,7 @@ class SolutionHistoryManager(
                 solutionHistoryClickListener
             )
         )
+        delegatesManager.addDelegate(SolutionHistoryAdapters.getEmptyHistoryUiItem())
     }
 
     companion object {

@@ -5,4 +5,9 @@ data class SchoolUiModel(
     val hostUrl: String,
     val name: String,
     val checked: Boolean
-)
+) : SchoolUiItem
+
+interface SchoolUiItem
+
+@JvmInline
+value class ErrorSchool(val title: String) : SchoolUiItem
