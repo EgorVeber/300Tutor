@@ -5,9 +5,7 @@ import dagger.Component
 import org.threehundredtutor.core.DiSetHelper
 import org.threehundredtutor.data.common.data_source.AccountLocalDataSource
 import org.threehundredtutor.data.common.network.ServiceGeneratorProvider
-import org.threehundredtutor.data.solution.SolutionLocalDataSource
 import org.threehundredtutor.di.common.ViewModelMapFactory
-import org.threehundredtutor.domain.account.AccountRepository
 import org.threehundredtutor.domain.settings_app.SettingsAppRepository
 import org.threehundredtutor.presentation.common.ResourceProvider
 

@@ -12,3 +12,14 @@ fun QuestionModel.toAnswerWithErrorsUiModel(
         rightAnswer = rightAnswer,
         inputAnswer = EMPTY_STRING
     )
+
+fun QuestionModel.toAnswerWithErrorsUiModel(
+    rightAnswer: String,
+    inputAnswer:String
+): AnswerWithErrorsUiModel =
+    AnswerWithErrorsUiModel(
+        questionId = questionId,
+        title = title,
+        rightAnswer = rightAnswer,
+        inputAnswer = inputAnswer
+    )

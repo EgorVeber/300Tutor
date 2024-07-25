@@ -9,8 +9,6 @@ class IconResponse(
     val id: String?,
     @SerializedName("name")
     val name: String?,
-    @SerializedName("serverPath")
-    val serverPath: String?,
     @SerializedName("setId")
     val setId: String?
 )

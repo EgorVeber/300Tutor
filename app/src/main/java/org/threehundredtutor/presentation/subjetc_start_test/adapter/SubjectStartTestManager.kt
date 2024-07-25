@@ -2,7 +2,6 @@ package org.threehundredtutor.presentation.subjetc_start_test.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
-import org.threehundredtutor.presentation.solution_history.adapter.SolutionHistoryAdapters.getEmptyHistoryUiItem
 import org.threehundredtutor.presentation.solution_history.adapter.SolutionHistoryAdapters.getSolutionHistoryUiModelAdapter
 import org.threehundredtutor.presentation.solution_history.adapter.SolutionHistoryAdapters.getStartTestUiModelAdapter
 import org.threehundredtutor.presentation.solution_history.models.SolutionHistoryUiItem

@@ -1,7 +1,5 @@
 package org.threehundredtutor.presentation.solution
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -28,7 +26,6 @@ import org.threehundredtutor.ui_common.fragment.base.BaseFragment
 import org.threehundredtutor.ui_common.fragment.openYoutubeLink
 import org.threehundredtutor.ui_common.fragment.showMessage
 import org.threehundredtutor.ui_common.fragment.showSnack
-import org.threehundredtutor.ui_common.util.getUrlYoutube
 import org.threehundredtutor.ui_common.util_class.BundleSerializable
 import org.threehundredtutor.ui_common.util_class.BundleString
 import org.threehundredtutor.ui_core.databinding.SolutionFragmentBinding
@@ -125,8 +122,8 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
     }
 
     override fun onBackPressed() {
-        findNavController().popBackStack()
-        //viewModel.onBackClicked()
+        //findNavController().popBackStack()
+        viewModel.onBackClicked()
     }
 
     override fun onInitView(savedInstanceState: Bundle?) {
@@ -145,7 +142,8 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 val layoutManager = (recyclerView.layoutManager as? LinearLayoutManager) ?: return
                 val totalItemCount = layoutManager.itemCount
-                val endHasBeenReached = layoutManager.findLastVisibleItemPosition() + 1 >= totalItemCount
+                val endHasBeenReached =
+                    layoutManager.findLastVisibleItemPosition() + 1 >= totalItemCount
                 if (totalItemCount > 0 && endHasBeenReached) {
                     viewModel.onLastItemVisible()
                 }
@@ -199,23 +197,32 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
                     length = Snackbar.LENGTH_SHORT
                 )
 
-                SolutionViewModel.UiEvent.ShowFinishDialog -> {
+                SolutionViewModel.UiEvent.ShowSaveAnswersDialog -> {
                     ActionDialogFragment.showDialog(
                         fragmentManager = childFragmentManager,
-                        title = getString(UiCoreStrings.finish_test_title_dialog),
-                        message = getString(UiCoreStrings.finish_test_message),
-                        positiveText = getString(UiCoreStrings.finish),
-                        neutralText = getString(UiCoreStrings.come_back_later),
+                        title = getString(UiCoreStrings.confirm_action),
+                        message = getString(UiCoreStrings.save_answers),
+                        positiveText = getString(UiCoreStrings.save),
+                        negativeText = getString(UiCoreStrings.not_save),
+                        neutralText = getString(UiCoreStrings.cancel),
                         onPositiveClick = {
-                            viewModel.onFinishTestClicked()
+                            viewModel.onSaveAnswersClicked()
                         },
-                        onNeutralClick = {
+                        onNegativeClick = {
                             findNavController().popBackStack()
                         }
                     )
                 }
 
                 SolutionViewModel.UiEvent.NavigateBack -> findNavController().popBackStack()
+                is SolutionViewModel.UiEvent.NavigateBackAndShowMessage -> {
+                    showSnack(
+                        title = state.message,
+                        backgroundColor = state.snackBarType.colorRes,
+                        length = Snackbar.LENGTH_SHORT
+                    )
+                    findNavController().popBackStack()
+                }
             }
         }
         viewModel.getShowResultDialogEventFlow().observeFlow(this) { testResult ->

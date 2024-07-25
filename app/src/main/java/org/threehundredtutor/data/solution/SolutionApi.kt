@@ -15,6 +15,7 @@ object SolutionApi {
 
     const val TUTOR_TEST_SOLUTION_RESULT_POINTS = "/api/tutor/test-solution-result/points/{solutionId}"
 
+
     const val TUTOR_TEST_SOLUTION_RESULT_QUESTIONS_VALIDATION_SAVE =
         "/api/tutor/test-solution-result/question/validation/save"
 
@@ -22,6 +23,8 @@ object SolutionApi {
         "/api/tutor/test-solution-result/question/validation/remove"
 
     const val TUTOR_QUESTION_LIKES_CHANGE = "/api/tutor/question-likes/change"
+
+    const val TUTOR_TEST_SOLUTION_SAVE_ANSWERS_WITH_HOUT= "/api/tutor/test-solution/save-answers-without-validation"
 
     const val ID = "id"
     const val SOLUTION_ID = "solutionId"

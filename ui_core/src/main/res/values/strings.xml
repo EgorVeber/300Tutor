@@ -110,9 +110,10 @@
     <string name="points_question">Баллы: %1$s из %2$s.</string>
     <string name="points">Баллы</string>
     <string name="finish">Завершить</string>
-    <string name="finish_test_title_dialog">Завершение теста</string>
-    <string name="finish_test_message">Если завершите тест не сможете вернуться к решению</string>
-    <string name="come_back_later">Вернуться позже</string>
+    <string name="save_answers">Сохранить введенные ответы ?</string>
+    <string name="save_answers_success">Ответы успешно сохранены</string>
+    <string name="save">Сохранить</string>
+    <string name="not_save">Не сохранять</string>
     <string name="your_not_answer">[Вы не указали ответ]</string>
     <string name="open_site">Перейти на сайт?</string>
     <string name="open_site_schedules">Открыть сайт и перейти в раздел расписания?</string>
@@ -190,8 +191,6 @@
     //Favorites
     <string name="favorites_title">Избранные вопросы</string>
     <string name="favorites_empty">Нет избранных вопросов.</string>
-
-
 
 
 </resources>

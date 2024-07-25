@@ -3,8 +3,6 @@ package org.threehundredtutor.presentation.solution_history.adapter
 import androidx.core.view.isVisible
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import org.threehundredtutor.core.UiCoreStrings
-import org.threehundredtutor.presentation.favorites.EmptyUiItem
-import org.threehundredtutor.presentation.solution.ui_models.SolutionUiItem
 import org.threehundredtutor.presentation.solution_history.models.EmptyHistoryUiItem
 import org.threehundredtutor.presentation.solution_history.models.SolutionHistoryUiItem
 import org.threehundredtutor.presentation.solution_history.models.SolutionHistoryUiModel

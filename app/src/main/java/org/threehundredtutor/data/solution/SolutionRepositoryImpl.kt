@@ -47,7 +47,6 @@ class SolutionRepositoryImpl @Inject constructor(
         return testSolutionGeneralModel
     }
 
-
     override suspend fun startByTestId(testId: String): TestSolutionGeneralModel {
         val startTestResponse: StartTestResponse =
             solutionRemoteDataSource.startByTestId(testId)
@@ -72,7 +71,6 @@ class SolutionRepositoryImpl @Inject constructor(
         }
     }
 
-    // TODO Сделать локальное сохранение ответов.
     override suspend fun checkAnswer(
         solutionId: String,
         questionId: String,
@@ -86,13 +84,20 @@ class SolutionRepositoryImpl @Inject constructor(
         ).toQuestionAnswerWithResultBaseApiModel()
 
         if (questionAnswerWithResultBaseApiModel.isSucceeded) {
-            solutionLocalDataSource.saveAnswer(
+            solutionLocalDataSource.saveCheckAnswer(
                 questionAnswerWithResultBaseApiModel.answerModel.questionId to
                         questionAnswerWithResultBaseApiModel.answerModel.answerOrAnswers
             )
         }
 
         return questionAnswerWithResultBaseApiModel
+    }
+
+    override fun saveLocalAnswer(
+        questionId: String,
+        answerOrAnswers: String
+    ) {
+        solutionLocalDataSource.saveAnswer(questionId to answerOrAnswers)
     }
 
     override suspend fun finishTest(solutionId: String): QuestionAnswersWithResultBaseApiModel {
@@ -107,6 +112,20 @@ class SolutionRepositoryImpl @Inject constructor(
                 },
             )
         ).toQuestionAnswersWithResultBaseApiModel()
+    }
+
+    override suspend fun saveRemoteAnswers(solutionId: String): BaseApiModel {
+        return solutionRemoteDataSource.saveAnswers(
+            finishSolutionRequest = FinishSolutionRequest(
+                solutionId = solutionId,
+                answerList = solutionLocalDataSource.getAnswers().map {
+                    AnswerItemRequest(
+                        questionId = it.key,
+                        answerOrAnswers = it.value
+                    )
+                },
+            )
+        ).toBaseApiModel()
     }
 
     override suspend fun resultQuestionsValidationSave(
@@ -129,6 +148,21 @@ class SolutionRepositoryImpl @Inject constructor(
 
     override fun isAllQuestionsHaveAnswers() =
         solutionLocalDataSource.getAnswers().values.all { it.isNotEmpty() }
+
+    override fun getAnswerByQuestionId(questionId: String): String {
+        return solutionLocalDataSource.getAnswers()[questionId].orEmpty()
+    }
+
+    override fun isAnyQuestionsHaveAnswers(): Boolean {
+        val checkedQuestions = solutionLocalDataSource.getListCheckedQuestion()
+        val currentAnswer = solutionLocalDataSource.getAnswers().filter { (key, value) ->
+            !checkedQuestions.contains(key)
+        }
+        val initAnswer = solutionLocalDataSource.getInitAnswers().filter { (key, value) ->
+            !checkedQuestions.contains(key)
+        }
+        return currentAnswer == initAnswer
+    }
 
     override fun getSolutionAnswersFlow() = solutionLocalDataSource.getSolutionAnswersFlow()
 

@@ -8,10 +8,16 @@ class SettingsAppResponse(
     val applicationName: String?,
     @SerializedName("applicationUrl")
     val applicationUrl: String?,
+    @SerializedName("icon")
+    val iconSettingsResponse: IconSettingsResponse?,
     @SerializedName("publicImageUrlFormat")
     val publicImageUrlFormat: String?,
     @SerializedName("telegramBotSettings")
     val telegramBotSettingsResponse: TelegramBotSettingsResponse?,
     @SerializedName("imagesPack")
-    val imagesPackResponse: ImagePackResponse?
+    val imagesPackResponse: ImagePackResponse?,
+    @SerializedName("telephoneInputOptions")
+    val telephoneInputOptionsResponse: TelephoneInputOptionsResponse?,
+    @SerializedName("webAppRoutes")
+    val webAppRoutesResponse: WebAppRoutesResponse?
 )

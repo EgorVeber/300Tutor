@@ -34,4 +34,8 @@ interface SolutionRepository {
     suspend fun changeLikeQuestion(questionId: String, hasLike: Boolean): BaseApiModel
     suspend fun startByDirectory(startTestDirectoryParamsModel: StartTestDirectoryParamsModel): TestSolutionGeneralModel
     fun getSolutionAnswersFlow(): Flow<Map<String, String>>
+    fun saveLocalAnswer(questionId: String, answerOrAnswers: String)
+    suspend fun saveRemoteAnswers(solutionId: String): BaseApiModel
+    fun isAnyQuestionsHaveAnswers(): Boolean
+    fun getAnswerByQuestionId(questionId: String): String
 }

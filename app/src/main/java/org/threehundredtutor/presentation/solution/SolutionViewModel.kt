@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import org.threehundredtutor.core.UiCoreStrings
-import org.threehundredtutor.domain.common.GetConfigUseCase
 import org.threehundredtutor.domain.settings_app.GetSettingAppUseCase
 import org.threehundredtutor.domain.solution.models.params_model.QuestionSolutionIdParamsModel
 import org.threehundredtutor.domain.solution.models.params_model.SaveQuestionPointsValidationParamsModel
@@ -17,12 +16,16 @@ import org.threehundredtutor.domain.solution.models.solution_models.AnswerModel
 import org.threehundredtutor.domain.solution.usecase.ChangeLikeQuestionUseCase
 import org.threehundredtutor.domain.solution.usecase.CheckAnswerUseCase
 import org.threehundredtutor.domain.solution.usecase.FinishSolutionUseCase
+import org.threehundredtutor.domain.solution.usecase.GetAnswerByQuestionIdUseCase
 import org.threehundredtutor.domain.solution.usecase.GetPointsUseCase
 import org.threehundredtutor.domain.solution.usecase.GetSolutionAnswersFlowUseCase
 import org.threehundredtutor.domain.solution.usecase.GetSolutionUseCase
 import org.threehundredtutor.domain.solution.usecase.IsAllQuestionHaveAnswerUseCase
+import org.threehundredtutor.domain.solution.usecase.ContainsAnswersRemoteWithLocalUseCase
 import org.threehundredtutor.domain.solution.usecase.ResultQuestionsValidationRemoveUseCase
 import org.threehundredtutor.domain.solution.usecase.ResultQuestionsValidationSaveUseCase
+import org.threehundredtutor.domain.solution.usecase.SaveLocalAnswerUseCase
+import org.threehundredtutor.domain.solution.usecase.SaveRemoteAnswersUseCase
 import org.threehundredtutor.domain.solution.usecase.StartTestDirectoryUseCase
 import org.threehundredtutor.domain.solution.usecase.StartTestUseCase
 import org.threehundredtutor.presentation.common.ResourceProvider
@@ -58,7 +61,6 @@ class SolutionViewModel @Inject constructor(
     private val startTestDirectoryUseCase: StartTestDirectoryUseCase,
     private val getSolutionUseCase: GetSolutionUseCase,
     private val getPointsUseCase: GetPointsUseCase,
-    getConfigUseCase: GetConfigUseCase,
     private val checkAnswerUseCase: CheckAnswerUseCase,
     private val validationSaveUseCase: ResultQuestionsValidationSaveUseCase,
     private val validationRemoveUseCase: ResultQuestionsValidationRemoveUseCase,
@@ -67,13 +69,15 @@ class SolutionViewModel @Inject constructor(
     private val getSolutionAnswersFlowUseCase: GetSolutionAnswersFlowUseCase,
     private val isAllQuestionHaveAnswerUseCase: IsAllQuestionHaveAnswerUseCase,
     private val getSettingAppUseCase: GetSettingAppUseCase,
+    private val saveLocalAnswerUseCase: SaveLocalAnswerUseCase,
+    private val saveRemoteAnswersUseCase: SaveRemoteAnswersUseCase,
+    private val containsAnswersRemoteWithLocalUseCase: ContainsAnswersRemoteWithLocalUseCase,
+    private val getAnswerByQuestionIdUseCase: GetAnswerByQuestionIdUseCase,
 ) : BaseViewModel() {
-    private val localConfig = getConfigUseCase()
     private val startTestMessage = resourceProvider.string(UiCoreStrings.start_test_message)
 
     private var resultTestUiModelCache: ResultTestUiModel? = null
     private var isFinished: Boolean = false
-    private var rightAnswersCheckedMap: MutableMap<String, List<String>> = mutableMapOf()
     private var currentSolutionId: String = EMPTY_STRING
 
     private val loadingState = MutableStateFlow(false)
@@ -86,6 +90,8 @@ class SolutionViewModel @Inject constructor(
     private val showResultDialogEventState = SingleSharedFlow<ResultTestUiModel>()
     private val errorState =
         MutableStateFlow(false)
+
+    private var visibleFinishTestFlag = false
 
     fun getUiItemStateFlow() = uiItemsState.asStateFlow()
     fun getShowResultDialogEventFlow() = showResultDialogEventState.asSharedFlow()
@@ -288,16 +294,18 @@ class SolutionViewModel @Inject constructor(
             loadingState.update { true }
             val currentQuestionId = selectRightAnswerCheckButtonUiItem.questionId
 
-            val answerJoin =
-                rightAnswersCheckedMap[currentQuestionId].orEmpty().ifEmpty {
-                    loadingState.update { false }
-                    return@launchJob
-                }.joinToString(separator = ANSWERS_SEPARATOR)
+            val localAnswerJoin =
+                getAnswerByQuestionIdUseCase(selectRightAnswerCheckButtonUiItem.questionId)
+
+            if (localAnswerJoin.isEmpty()) {
+                loadingState.update { false }
+                return@launchJob
+            }
 
             val (isSucceeded, message, answerModel) = checkAnswerUseCase(
                 solutionId = currentSolutionId,
                 questionId = currentQuestionId,
-                answerOrAnswers = answerJoin
+                answerOrAnswers = localAnswerJoin
             )
 
             if (!isSucceeded) {
@@ -475,6 +483,7 @@ class SolutionViewModel @Inject constructor(
     }
 
     fun onDetailedAnswerTextChanged(questionId: String, inputAnswer: String) {
+        saveLocalAnswerUseCase(questionId, inputAnswer)
         uiItemsState.update { uiItems ->
             uiItems.map { uiItem ->
                 if (uiItem is DetailedAnswerInputUiItem && uiItem.questionId == questionId) {
@@ -487,6 +496,7 @@ class SolutionViewModel @Inject constructor(
     }
 
     fun onRightAnswerTextChanged(questionId: String, inputAnswer: String) {
+        saveLocalAnswerUseCase(questionId, inputAnswer)
         uiItemsState.update { uiItems ->
             uiItems.map { uiItem ->
                 if (uiItem is RightAnswerUiModel && uiItem.questionId == questionId) {
@@ -499,6 +509,7 @@ class SolutionViewModel @Inject constructor(
     }
 
     fun onAnswerWithErrorsTextChanged(questionId: String, inputAnswer: String) {
+        saveLocalAnswerUseCase(questionId, inputAnswer)
         uiItemsState.update { uiItems ->
             uiItems.map { uiItem ->
                 if (uiItem is AnswerWithErrorsUiModel && uiItem.questionId == questionId) {
@@ -515,12 +526,23 @@ class SolutionViewModel @Inject constructor(
         answerText: String,
         checked: Boolean
     ) {
-        val answersList = rightAnswersCheckedMap[questionId] ?: emptyList()
-        if (checked) {
-            rightAnswersCheckedMap[questionId] = answersList + listOf(answerText)
+
+        val localAnswer =
+            getAnswerByQuestionIdUseCase(questionId).split(SolutionFactory.ANSWERS_DELIMITERS)
+                .filter { answerItem ->
+                    answerItem.isNotEmpty()
+                }
+
+        val newAnswer = if (checked) {
+            localAnswer + listOf(answerText)
         } else {
-            rightAnswersCheckedMap[questionId] = answersList - listOf(answerText).toSet()
+            localAnswer - listOf(answerText).toSet()
         }
+
+        saveLocalAnswerUseCase(
+            questionId,
+            newAnswer.joinToString(separator = SolutionFactory.ANSWERS_DELIMITERS)
+        )
 
         uiItemsState.update { uiItems ->
             uiItems.map { uiItem ->
@@ -595,12 +617,11 @@ class SolutionViewModel @Inject constructor(
         }
     }
 
-    // TODO не использует до введения локалькного сохранения ответов. После будем смотреть если есть локально введенные не пролвернные ответы то показываем диалог с предупреждением что локаольноые ответы не сохроняться.
     fun onBackClicked() {
-        if (isFinished || errorState.value) {
+        if (isFinished || errorState.value || containsAnswersRemoteWithLocalUseCase()) {
             uiEventState.tryEmit(UiEvent.NavigateBack)
         } else {
-            uiEventState.tryEmit(UiEvent.ShowFinishDialog)
+            uiEventState.tryEmit(UiEvent.ShowSaveAnswersDialog)
         }
     }
 
@@ -613,12 +634,28 @@ class SolutionViewModel @Inject constructor(
         )
     }
 
-    private var visibleFinishTestFlag = false
-
     fun onLastItemVisible() {
         if (visibleFinishTestFlag) return
         visibleFinishTestFlag = true
         finishButtonState.tryEmit(true)
+    }
+
+    fun onSaveAnswersClicked() {
+        viewModelScope.launchJob(tryBlock = {
+            val result = saveRemoteAnswersUseCase(currentSolutionId)
+            if (result.isSucceeded) {
+                uiEventState.emit(
+                    UiEvent.NavigateBackAndShowMessage(
+                        message = resourceProvider.string(UiCoreStrings.save_answers_success),
+                        snackBarType = SnackBarType.SUCCESS
+                    )
+                )
+            } else {
+                uiEventState.emit(UiEvent.ShowMessage(result.message))
+            }
+        }, catchBlock = { throwable ->
+            handleError(throwable)
+        })
     }
 
     sealed interface UiEvent {
@@ -633,8 +670,12 @@ class SolutionViewModel @Inject constructor(
         @JvmInline
         value class OpenYoutube(val link: String) : UiEvent
 
-        object ShowFinishDialog : UiEvent
+        object ShowSaveAnswersDialog : UiEvent
+
         object NavigateBack : UiEvent
+
+        data class NavigateBackAndShowMessage(val message: String, val snackBarType: SnackBarType) :
+            UiEvent
     }
 
     companion object {

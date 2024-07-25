@@ -5,13 +5,11 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import org.threehundredtutor.R
 import org.threehundredtutor.core.UiCoreLayout
-import org.threehundredtutor.core.UiCoreStrings
 import org.threehundredtutor.core.navigate
 import org.threehundredtutor.di.solution_history.SolutionHistoryComponent
 import org.threehundredtutor.presentation.solution.SolutionFragment.Companion.SOLUTION_SOLUTION_ID_KEY
 import org.threehundredtutor.presentation.solution_history.adapter.SolutionHistoryManager
 import org.threehundredtutor.ui_common.flow.observeFlow
-import org.threehundredtutor.ui_common.fragment.ActionDialogFragment
 import org.threehundredtutor.ui_common.fragment.LoadingDialog
 import org.threehundredtutor.ui_common.fragment.base.BaseFragment
 import org.threehundredtutor.ui_common.view_components.setDebouncedClickListener

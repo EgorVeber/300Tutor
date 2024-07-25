@@ -3,12 +3,6 @@ package org.threehundredtutor.presentation.starter
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import org.threehundredtutor.R
 import org.threehundredtutor.core.UiCoreAttr
 import org.threehundredtutor.core.UiCoreLayout
