@@ -143,6 +143,12 @@ class SolutionFactory @Inject constructor(
                 answerModel = answerModel,
                 staticUrl = staticUrl
             )
+        } else if (answerModel.answerOrAnswers.isNotEmpty()) {
+            createSolutionWithAnswerNotChecked(
+                questionModel = questionModel,
+                staticUrl = staticUrl,
+                answerOrAnswers = answerModel.answerOrAnswers
+            )
         } else {
             createSolutionForAnswerWithType(questionModel = questionModel, staticUrl = staticUrl)
         }
@@ -378,6 +384,37 @@ class SolutionFactory @Inject constructor(
         }
     }
 
+    private fun createSolutionWithAnswerNotChecked(
+        questionModel: QuestionModel,
+        staticUrl: String,
+        answerOrAnswers: String,
+    ) {
+        when (questionModel.testQuestionType) {
+            TestQuestionType.SELECT_RIGHT_ANSWER_OR_ANSWERS -> createSelectAnswersNotChecked(
+                questionModel,
+                answerOrAnswers
+            )
+
+            TestQuestionType.TYPE_ANSWER_WITH_ERRORS -> createTypeAnswerNotCheckedWithErrors(
+                questionModel,
+                answerOrAnswers
+            )
+
+            TestQuestionType.TYPE_RIGHT_ANSWER -> createTypeRightAnswerNotChecked(
+                questionModel,
+                answerOrAnswers
+            )
+
+            TestQuestionType.DETAILED_ANSWER -> createDetailedAnswerNotChecked(
+                questionModel,
+                staticUrl,
+                answerOrAnswers
+            )
+
+            TestQuestionType.UNKNOWN -> {}
+        }
+    }
+
     private fun createSolutionFavoritesWithType(
         questionModel: QuestionModel,
         staticUrl: String
@@ -422,6 +459,29 @@ class SolutionFactory @Inject constructor(
         solutionUiItems.add(SelectRightAnswerCheckButtonUiItem(questionModel.questionId))
     }
 
+    private fun createSelectAnswersNotChecked(
+        questionModel: QuestionModel,
+        answerOrAnswers: String
+    ) {
+        solutionUiItems.add(SelectRightAnswerTitleUiItem(questionModel.selectRightAnswerOrAnswersModel.selectRightAnswerTitle))
+        val listAnswer = questionModel.selectRightAnswerOrAnswersModel.answersList
+
+        val answerList = answerOrAnswers.split(ANSWERS_DELIMITERS).filter { answerItem ->
+            answerItem.isNotEmpty()
+        }
+
+        listAnswer.forEach { answerSelectRightModel ->
+            solutionUiItems.add(
+                answerSelectRightModel.toAnswerSelectRightUiModel(
+                    checked = answerList.contains(answerSelectRightModel.text),
+                    isValidated = false,
+                    questionId = questionModel.questionId,
+                )
+            )
+        }
+        solutionUiItems.add(SelectRightAnswerCheckButtonUiItem(questionModel.questionId))
+    }
+
     private fun createFavoritesSelectAnswers(answers: List<AnswerSelectRightModel>) {
         solutionUiItems.add(SuccessAnswerTitleUiItem(resourceProvider.string(UiCoreStrings.correct_answers)))
         answers.forEach { answerSelectRightModel ->
@@ -433,6 +493,18 @@ class SolutionFactory @Inject constructor(
                 )
             )
         }
+    }
+
+    private fun createTypeAnswerNotCheckedWithErrors(
+        questionModel: QuestionModel,
+        answerOrAnswers: String
+    ) {
+        solutionUiItems.add(
+            questionModel.toAnswerWithErrorsUiModel(
+                rightAnswer = questionModel.typeAnswerWithErrorsModel.rightAnswer,
+                inputAnswer = answerOrAnswers
+            )
+        )
     }
 
     private fun createTypeAnswerWithErrors(questionModel: QuestionModel) {
@@ -461,6 +533,19 @@ class SolutionFactory @Inject constructor(
         )
     }
 
+    private fun createTypeRightAnswerNotChecked(
+        questionModel: QuestionModel,
+        answerOrAnswers: String
+    ) {
+        solutionUiItems.add(
+            questionModel.toRightAnswerUiModel(
+                rightAnswersList = questionModel.typeRightAnswerQuestionModel.rightAnswers,
+                caseInSensitive = questionModel.typeRightAnswerQuestionModel.caseInSensitive,
+                inputAnswer = answerOrAnswers
+            )
+        )
+    }
+
     private fun createTypeRightAnswerFavorites(rightsAnswers: List<String>) {
         solutionUiItems.add(
             AnswerFavoritesWithErrorsResultUiItem(
@@ -482,6 +567,22 @@ class SolutionFactory @Inject constructor(
         )
     }
 
+    private fun createDetailedAnswerNotChecked(
+        questionModel: QuestionModel,
+        staticUrl: String,
+        answerOrAnswers: String
+    ) {
+        val explanationList =
+            createQuestionWithHtml(questionModel.answerExplanationMarkUp, staticUrl)
+        solutionUiItems.add(
+            DetailedAnswerInputUiItem(
+                questionId = questionModel.questionId,
+                inputAnswer = answerOrAnswers,
+                explanationList = explanationList,
+            )
+        )
+    }
+
     private fun createDetailedAnswerFavorites(questionModel: QuestionModel, staticUrl: String) {
         solutionUiItems.add(SuccessAnswerTitleUiItem(resourceProvider.string(UiCoreStrings.explanation_answer)))
         val explanationList =
@@ -495,7 +596,6 @@ class SolutionFactory @Inject constructor(
             solutionUiItems.add(DividerUiItem(DividerType.BACKGROUND))
         }
     }
-
 
     companion object {
         private const val COUNT_DIVIDER_BOTTOM_QUESTION = 2
@@ -512,7 +612,7 @@ class SolutionFactory @Inject constructor(
         private const val IMAGE_MEDIUM_TYPE = "Medium"
         const val IMAGE_ORIGINAL_TYPE = "Original"
 
-        private const val ANSWERS_DELIMITERS = ";"
+        const val ANSWERS_DELIMITERS = ";"
 
         fun replaceUrl(url: String, fileId: String, type: String = IMAGE_MEDIUM_TYPE): String {
             return url.replace(FORMAT_FILE_ID, fileId).replace(FORMAT_SIZE_TYPE, type)

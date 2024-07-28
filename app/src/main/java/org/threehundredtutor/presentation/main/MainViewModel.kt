@@ -30,6 +30,7 @@ import org.threehundredtutor.presentation.main.ui_models.HeaderUiItem
 import org.threehundredtutor.presentation.main.ui_models.MainDividerUiItem
 import org.threehundredtutor.presentation.main.ui_models.MainUiItem
 import org.threehundredtutor.presentation.main.ui_models.SubjectUiModel
+import org.threehundredtutor.presentation.solution.solution_factory.SolutionFactory
 import org.threehundredtutor.ui_common.coroutines.launchJob
 import org.threehundredtutor.ui_common.flow.SingleSharedFlow
 import org.threehundredtutor.ui_common.fragment.base.BaseViewModel
@@ -46,6 +47,7 @@ class MainViewModel @Inject constructor(
     private val getExtraButtonsUseCase: GetExtraButtonsUseCase,
     private val getAccountUseCase: GetAccountUseCase,
     private val createLoginLinkResultUseCase: CreateLoginLinkResultUseCase,
+    private val solutionFactory: SolutionFactory, // TODO унести потом
 ) : BaseViewModel() {
 
     private val uiItemsState = MutableStateFlow<List<MainUiItem>>(listOf())
@@ -63,12 +65,17 @@ class MainViewModel @Inject constructor(
     private fun loadListData() {
         viewModelScope.launchJob(tryBlock = {
             loadingState.tryEmit(true)
-            val applicationUrl = getSettingAppUseCase(false).applicationUrl
-            val imagePackModel = getSettingAppUseCase(false).imagesPack
+            val settings = getSettingAppUseCase(false)
 
             val subjects = async {
                 getSubjectUseCase.invoke().map { subjectModel ->
-                    subjectModel.toSubjectUiModel(applicationUrl)
+                    val path = if (subjectModel.iconModel.name.isEmpty()) "" else {
+                        SolutionFactory.replaceUrl(
+                            url = settings.publicImageUrlFormat,
+                            fileId = subjectModel.iconModel.fileId.toString()
+                        )
+                    }
+                    subjectModel.toSubjectUiModel(path)
                 }
             }
 
@@ -79,10 +86,17 @@ class MainViewModel @Inject constructor(
             val courses =
                 async {
                     getCoursesUseCase(studentId.await()).map { progressModel: GroupWithCourseProgressModel ->
+                        val path = if (progressModel.iconModel.name.isEmpty()) "" else {
+                            SolutionFactory.replaceUrl(
+                                url = settings.publicImageUrlFormat,
+                                fileId = progressModel.iconModel.fileId.toString()
+                            )
+                        }
+
                         if (progressModel.useCourse) {
-                            progressModel.toCourseProgressUiModel(applicationUrl)
+                            progressModel.toCourseProgressUiModel(path)
                         } else {
-                            progressModel.toCourseUiModel(applicationUrl)
+                            progressModel.toCourseUiModel(path)
                         }
                     }
                 }
@@ -91,7 +105,7 @@ class MainViewModel @Inject constructor(
                 buildUiItems(
                     courses = courses.await(),
                     subjects = subjects.await(),
-                    emptyCoursesImagePath = imagePackModel.error
+                    emptyCoursesImagePath = settings.imagesPack.error
                 )
             }
         }, catchBlock =

@@ -15,3 +15,18 @@ fun AnswerSelectRightModel.toAnswerSelectRightUiModel(
         isValidated = isValidated,
         questionId = questionId,
     )
+
+
+fun AnswerSelectRightModel.toAnswerSelectRightUiModel(
+    questionId: String,
+    isValidated: Boolean,
+    checked: Boolean,
+    answer:String
+): SelectRightAnswerUiModel =
+    SelectRightAnswerUiModel(
+        rightAnswer = isRightAnswer,
+        answer = answer,
+        checked = checked,
+        isValidated = isValidated,
+        questionId = questionId,
+    )

@@ -4,7 +4,6 @@ data class IconModel(
     val fileId: Int,
     val id: String,
     val name: String,
-    val serverPath: String,
     val setId: String
 ) {
     companion object {
@@ -12,7 +11,6 @@ data class IconModel(
             fileId = -1,
             id = "",
             name = "",
-            serverPath = "",
             setId = ""
         )
     }

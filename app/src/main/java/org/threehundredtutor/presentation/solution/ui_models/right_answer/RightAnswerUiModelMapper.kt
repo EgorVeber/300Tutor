@@ -14,3 +14,16 @@ fun QuestionModel.toRightAnswerUiModel(
         rightAnswers = rightAnswersList,
         inputAnswer = EMPTY_STRING
     )
+
+fun QuestionModel.toRightAnswerUiModel(
+    rightAnswersList: List<String>,
+    caseInSensitive: Boolean,
+    inputAnswer: String
+): RightAnswerUiModel =
+    RightAnswerUiModel(
+        questionId = questionId,
+        title = title,
+        caseInSensitive = caseInSensitive,
+        rightAnswers = rightAnswersList,
+        inputAnswer = inputAnswer
+    )

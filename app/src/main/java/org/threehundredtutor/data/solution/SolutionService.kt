@@ -10,6 +10,7 @@ import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_QUERY
 import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_RESULT_POINTS
 import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_RESULT_QUESTIONS_VALIDATION_REMOVE
 import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_RESULT_QUESTIONS_VALIDATION_SAVE
+import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_SAVE_ANSWERS_WITH_HOUT
 import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_START_BY_DIRECTORY
 import org.threehundredtutor.data.solution.SolutionApi.TUTOR_TEST_SOLUTION_START_BY_TEST_ID
 import org.threehundredtutor.data.solution.models.BaseApiResponse
@@ -46,6 +47,8 @@ interface SolutionService {
 
     @POST(TUTOR_TEST_SOLUTION_FINISH)
     suspend fun finish(@Body params: FinishSolutionRequest): QuestionAnswersWithResultBaseApiResponse
+    @POST(TUTOR_TEST_SOLUTION_SAVE_ANSWERS_WITH_HOUT)
+    suspend fun saveAnswers(@Body params: FinishSolutionRequest): BaseApiResponse
 
     @POST(TUTOR_TEST_SOLUTION_RESULT_QUESTIONS_VALIDATION_SAVE)
     suspend fun resultQuestionsValidationSave(@Body params: SaveQuestionPointsValidationRequest): QuestionAnswerWithResultBaseApiResponse

@@ -1,6 +1,6 @@
 package org.threehundredtutor.data.common.network
 
-enum class ErrorType {
+enum class ErrorType { // TODO домен
     REGISTRATION_NOT_ENABLED,
     ALREADY_AUTHENTICATED,
     EMAIL_SHOULD_BE_SET,

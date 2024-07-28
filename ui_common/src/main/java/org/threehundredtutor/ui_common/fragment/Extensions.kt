@@ -2,7 +2,6 @@ package org.threehundredtutor.ui_common.fragment
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import android.widget.Toast

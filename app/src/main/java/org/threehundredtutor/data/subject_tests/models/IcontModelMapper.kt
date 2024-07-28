@@ -6,6 +6,5 @@ fun IconResponse.toIconModel(): IconModel = IconModel(
     id = id.orEmpty(),
     name = name.orEmpty(),
     fileId = fileId ?: -1,
-    serverPath = serverPath.orEmpty(),
     setId = setId.orEmpty()
 )

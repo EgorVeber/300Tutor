@@ -64,4 +64,7 @@ class SolutionRemoteDataSource @Inject constructor(
                 hasLike = hasLike
             )
         )
+
+    suspend fun saveAnswers(finishSolutionRequest: FinishSolutionRequest): BaseApiResponse =
+        service().saveAnswers(finishSolutionRequest)
 }
