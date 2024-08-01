@@ -30,13 +30,13 @@ class AccountViewModel @Inject constructor(
 
     private val accountInfoState = MutableStateFlow(AccountModel.EMPTY)
     private val accountErrorState = MutableStateFlow(false)
-    private val telegramVisibleState = MutableStateFlow(false)
+    private val telegramVisibleState         = MutableStateFlow(false to "")
 
     init {
         viewModelScope.launchJob(tryBlock = {
             val settingsAppModel = getSettingAppUseCase(false)
             if (settingsAppModel.telegramBotSettingsModel.hasBot && settingsAppModel.telegramBotSettingsModel != TelegramBotSettingsModel.empty()) {
-                telegramVisibleState.tryEmit(true)
+                telegramVisibleState.tryEmit(true to settingsAppModel.telegramBotSettingsModel.toBotWebButtonText)
             }
         }, catchBlock = { throwable ->
             handleError(throwable)

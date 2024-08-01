@@ -73,8 +73,9 @@ class AccountFragment : BaseFragment(UiCoreLayout.account_fragment) {
             if (errorAccount) updateAccountError()
         }
 
-        viewModel.getTelegramVisibleState().observeFlow(this) { visible ->
-            binding.telegramBotContainer.isVisible = visible
+        viewModel.getTelegramVisibleState().observeFlow(this) { result ->
+            binding.telegramBotContainer.isVisible = result.first
+            binding.telegramBotName.text = result.second
         }
     }
 
@@ -136,7 +137,7 @@ class AccountFragment : BaseFragment(UiCoreLayout.account_fragment) {
     }
 
     companion object {
-        private const val TELEGRAM_LINK = "tg://resolve?domain={botTelegram}"
-        private const val TELEGRAM_BOT_SUB_STRING = "{botTelegram}"
+        const val TELEGRAM_LINK = "tg://resolve?domain={botTelegram}"
+        const val TELEGRAM_BOT_SUB_STRING = "{botTelegram}"
     }
 }

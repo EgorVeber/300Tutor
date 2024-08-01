@@ -8,8 +8,10 @@ import org.threehundredtutor.data.main.mappers.toSubjectModel
 import org.threehundredtutor.data.main.request.GroupWithCourseRequest
 import org.threehundredtutor.domain.main.EnterGroupModel
 import org.threehundredtutor.domain.main.MainRepository
+import org.threehundredtutor.domain.main.models.CreateLinkTelegramModel
 import org.threehundredtutor.domain.main.models.ExtraButtonInfoModel
 import org.threehundredtutor.domain.main.models.GroupWithCourseModel
+import org.threehundredtutor.domain.main.models.TelegramDataModel
 import org.threehundredtutor.domain.subject_tests.models.SubjectModel
 import javax.inject.Inject
 
@@ -34,6 +36,14 @@ class MainRepositoryImpl @Inject constructor(
 
     override suspend fun enterGroup(key: String): EnterGroupModel {
         return mainRemoteDataSource.enterGroup(key).toEnterGroupModel()
+    }
+
+    override suspend fun getTelegramData(): TelegramDataModel {
+        return mainRemoteDataSource.getTelegramData()
+    }
+
+    override suspend fun createLinkTelegram(): CreateLinkTelegramModel {
+        return mainRemoteDataSource.createLinkTelegram()
     }
 
     override suspend fun getExtraButtons(): List<ExtraButtonInfoModel> {

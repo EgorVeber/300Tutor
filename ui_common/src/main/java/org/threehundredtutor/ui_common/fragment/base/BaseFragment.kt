@@ -92,5 +92,6 @@ abstract class BaseFragment(@LayoutRes layoutResourceId: Int) : Fragment(layoutR
         showMessage(toastText)
         viewModel.updateState()
     }
+
 }
 

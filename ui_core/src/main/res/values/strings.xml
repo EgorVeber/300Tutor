@@ -181,6 +181,10 @@
     <string name="main_to_web_screen_link_failed">Не удалось загрузить ссылку на курс.</string>
     <string name="main_key_input">Ввести ключ доступа к курсу</string>
     <string name="main_tuck_up_course">Подобрать курс</string>
+    <string name="main_telegram_bind">Привяжите вашу учетную запись к Telegram</string>
+    <string name="main_telegram_link">Ссылка скопирована в буфер обмена</string>
+    <string name="main_telegram_copy_description">Вставьте её в Telegram бот.</string>
+    <string name="main_telegram_open">Открыть %1$s.</string>
 
     //ActivateKeyDialog
     <string name="activate_key">Активация курса</string>
