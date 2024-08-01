@@ -16,6 +16,8 @@ import org.threehundredtutor.presentation.main.ui_models.HeaderUiItem
 import org.threehundredtutor.presentation.main.ui_models.MainDividerUiItem
 import org.threehundredtutor.presentation.main.ui_models.MainUiItem
 import org.threehundredtutor.presentation.main.ui_models.SubjectUiModel
+import org.threehundredtutor.presentation.main.ui_models.TelegramBindUiItem
+import org.threehundredtutor.presentation.main.ui_models.TelegramOpenUiItem
 import org.threehundredtutor.ui_common.util.addPercentSymbol
 import org.threehundredtutor.ui_common.view_components.getColorAttr
 import org.threehundredtutor.ui_common.view_components.loadIcon
@@ -31,6 +33,8 @@ import org.threehundredtutor.ui_core.databinding.MainExtraButtonItemBinding
 import org.threehundredtutor.ui_core.databinding.SubjectFooterItemBinding
 import org.threehundredtutor.ui_core.databinding.SubjectHeaderItemBinding
 import org.threehundredtutor.ui_core.databinding.SubjectItemBinding
+import org.threehundredtutor.ui_core.databinding.TelegramBindItemBinding
+import org.threehundredtutor.ui_core.databinding.TelegramOpenItemBinding
 import kotlin.math.abs
 
 object MainAdapters {
@@ -176,6 +180,27 @@ object MainAdapters {
             }) {
             bind {
                 binding.rootTextView.text = item.title
+            }
+        }
+
+    fun getTelegramBindUiItemAdapter(telegramUiItemClickListener: () -> Unit) =
+        adapterDelegateViewBinding<TelegramBindUiItem, MainUiItem, TelegramBindItemBinding>({ layoutInflater, root ->
+            TelegramBindItemBinding.inflate(layoutInflater, root, false)
+        }) {
+            binding.root.setOnClickListener {
+                telegramUiItemClickListener.invoke()
+            }
+        }
+
+    fun getTelegramOpenUiItemAdapter(telegramOpenUiItemClickListener: () -> Unit) =
+        adapterDelegateViewBinding<TelegramOpenUiItem, MainUiItem, TelegramOpenItemBinding>({ layoutInflater, root ->
+            TelegramOpenItemBinding.inflate(layoutInflater, root, false)
+        }) {
+            binding.root.setOnClickListener {
+                telegramOpenUiItemClickListener.invoke()
+            }
+            bind {
+                binding.button.text = item.telegramName
             }
         }
 }

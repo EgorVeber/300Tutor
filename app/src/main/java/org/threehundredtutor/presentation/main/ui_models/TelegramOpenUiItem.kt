@@ -1,4 +1,4 @@
 package org.threehundredtutor.presentation.main.ui_models
 
 @JvmInline
-value class ActivateKeyUiItem(val enableTuckUp: Boolean) : MainUiItem
+value class TelegramOpenUiItem(val telegramName: String) : MainUiItem

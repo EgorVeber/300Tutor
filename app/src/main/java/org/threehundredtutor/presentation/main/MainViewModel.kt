@@ -9,13 +9,14 @@ import kotlinx.coroutines.flow.update
 import org.threehundredtutor.core.UiCoreStrings
 import org.threehundredtutor.domain.account.usecase.CreateLoginLinkResultUseCase
 import org.threehundredtutor.domain.account.usecase.GetAccountUseCase
-import org.threehundredtutor.domain.common.GetConfigUseCase
 import org.threehundredtutor.domain.main.models.GroupWithCourseProgressModel
-import org.threehundredtutor.domain.main.usecase.EnterGroupUseCase
+import org.threehundredtutor.domain.main.usecase.CreateTelegramLinkUseCase
 import org.threehundredtutor.domain.main.usecase.GetCoursesUseCase
-import org.threehundredtutor.domain.main.usecase.GetExtraButtonsUseCase
 import org.threehundredtutor.domain.main.usecase.GetSubjectUseCase
+import org.threehundredtutor.domain.main.usecase.GetTelegramDataUseCase
 import org.threehundredtutor.domain.settings_app.GetSettingAppUseCase
+import org.threehundredtutor.domain.settings_app.TelegramBotSettingsModel
+import org.threehundredtutor.presentation.account.AccountViewModel
 import org.threehundredtutor.presentation.common.ResourceProvider
 import org.threehundredtutor.presentation.main.mapper.toCourseProgressUiModel
 import org.threehundredtutor.presentation.main.mapper.toCourseUiModel
@@ -30,24 +31,26 @@ import org.threehundredtutor.presentation.main.ui_models.HeaderUiItem
 import org.threehundredtutor.presentation.main.ui_models.MainDividerUiItem
 import org.threehundredtutor.presentation.main.ui_models.MainUiItem
 import org.threehundredtutor.presentation.main.ui_models.SubjectUiModel
+import org.threehundredtutor.presentation.main.ui_models.TelegramBindUiItem
+import org.threehundredtutor.presentation.main.ui_models.TelegramOpenUiItem
 import org.threehundredtutor.presentation.solution.solution_factory.SolutionFactory
+import org.threehundredtutor.ui_common.DEFAULT_NOT_VALID_VALUE_INT
 import org.threehundredtutor.ui_common.coroutines.launchJob
 import org.threehundredtutor.ui_common.flow.SingleSharedFlow
 import org.threehundredtutor.ui_common.fragment.base.BaseViewModel
 import org.threehundredtutor.ui_core.SnackBarType
+import java.util.Collections
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
     private val getSubjectUseCase: GetSubjectUseCase,
     private val getCoursesUseCase: GetCoursesUseCase,
-    private val getConfigUseCase: GetConfigUseCase,
     private val getSettingAppUseCase: GetSettingAppUseCase,
     private val resourceProvider: ResourceProvider,
-    private val enterGroupUseCase: EnterGroupUseCase,
-    private val getExtraButtonsUseCase: GetExtraButtonsUseCase,
     private val getAccountUseCase: GetAccountUseCase,
     private val createLoginLinkResultUseCase: CreateLoginLinkResultUseCase,
-    private val solutionFactory: SolutionFactory, // TODO унести потом
+    private val getTelegramDataUseCase: GetTelegramDataUseCase,
+    private val createTelegramLinkUseCase: CreateTelegramLinkUseCase,
 ) : BaseViewModel() {
 
     private val uiItemsState = MutableStateFlow<List<MainUiItem>>(listOf())
@@ -66,6 +69,12 @@ class MainViewModel @Inject constructor(
         viewModelScope.launchJob(tryBlock = {
             loadingState.tryEmit(true)
             val settings = getSettingAppUseCase(false)
+            val hasTelegramApp =
+                settings.telegramBotSettingsModel != TelegramBotSettingsModel.empty() && settings.telegramBotSettingsModel.hasBot
+
+            val hasTelegramAccount = async {
+                getTelegramDataUseCase().telegramUserId == DEFAULT_NOT_VALID_VALUE_INT
+            }
 
             val subjects = async {
                 getSubjectUseCase.invoke().map { subjectModel ->
@@ -105,7 +114,8 @@ class MainViewModel @Inject constructor(
                 buildUiItems(
                     courses = courses.await(),
                     subjects = subjects.await(),
-                    emptyCoursesImagePath = settings.imagesPack.error
+                    emptyCoursesImagePath = settings.imagesPack.error,
+                    hasTelegramBind = hasTelegramApp && hasTelegramAccount.await()
                 )
             }
         }, catchBlock =
@@ -124,7 +134,9 @@ class MainViewModel @Inject constructor(
         courses: List<MainUiItem>,
         subjects: List<SubjectUiModel>,
         emptyCoursesImagePath: String,
+        hasTelegramBind: Boolean
     ): List<MainUiItem> = buildList {
+        if (hasTelegramBind) add(TelegramBindUiItem)
         add(HeaderUiItem(resourceProvider.string(UiCoreStrings.my_course)))
         if (courses.isNotEmpty()) addAll(courses)
         else add(CourseLottieUiItem(emptyCoursesImagePath))
@@ -201,6 +213,62 @@ class MainViewModel @Inject constructor(
         loadListData()
     }
 
+    fun onTelegramClicked() {
+        viewModelScope.launchJob(tryBlock = {
+            val result = createTelegramLinkUseCase()
+            if (result.isSucceeded) {
+                uiEventState.tryEmit(
+                    UiEvent.CopyLinkKeyboard(
+                        link = result.command
+                    )
+                )
+
+                val botWebButtonText =
+                    getSettingAppUseCase(false).telegramBotSettingsModel.toBotWebButtonText
+
+                val uiList = uiItemsState.value.toMutableList()
+                Collections.replaceAll(
+                    /* list = */ uiList,
+                    /* oldVal = */
+                    TelegramBindUiItem,
+                    /* newVal = */
+                    TelegramOpenUiItem(
+                        resourceProvider.string(
+                            UiCoreStrings.main_telegram_open,
+                            botWebButtonText
+                        )
+                    )
+                )
+                uiItemsState.update { uiList }
+
+
+            } else {
+                uiEventState.tryEmit(
+                    UiEvent.ShowSnack(
+                        result.message,
+                        SnackBarType.ERROR
+                    )
+                )
+            }
+        }, catchBlock = { throwable ->
+            handleError(throwable)
+        })
+    }
+
+    fun onOpenTelegramClicked() {
+        viewModelScope.launchJob(tryBlock = {
+            val botName = getSettingAppUseCase(false).telegramBotSettingsModel.botName
+            uiEventState.tryEmit(
+                UiEvent.OpenTelegram(
+                    telegramBotUrl = AccountViewModel.TELEGRAM_DOMAIN + botName,
+                    telegramBotName = botName
+                )
+            )
+        }, catchBlock = { throwable ->
+            handleError(throwable)
+        })
+    }
+
     sealed interface UiEvent {
         data class NavigateToDetailedSubject(val subjectInfo: Pair<String, String>) : UiEvent
 
@@ -211,6 +279,11 @@ class MainViewModel @Inject constructor(
         ) : UiEvent
 
         object OpenActivateKeyDialog : UiEvent
+
+        @JvmInline
+        value class CopyLinkKeyboard(val link: String) : UiEvent
+
+        data class OpenTelegram(val telegramBotUrl: String, val telegramBotName: String) : UiEvent
 
         data class ShowSnack(
             val message: String,

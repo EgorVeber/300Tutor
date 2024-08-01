@@ -12,6 +12,8 @@ import org.threehundredtutor.presentation.main.adapter.MainAdapters.getFooterUiI
 import org.threehundredtutor.presentation.main.adapter.MainAdapters.getMainDividerUiItemAdapter
 import org.threehundredtutor.presentation.main.adapter.MainAdapters.getSubjectHeaderUiItemAdapter
 import org.threehundredtutor.presentation.main.adapter.MainAdapters.getSubjectUiModelAdapted
+import org.threehundredtutor.presentation.main.adapter.MainAdapters.getTelegramBindUiItemAdapter
+import org.threehundredtutor.presentation.main.adapter.MainAdapters.getTelegramOpenUiItemAdapter
 import org.threehundredtutor.presentation.main.ui_models.CourseProgressUiModel
 import org.threehundredtutor.presentation.main.ui_models.CourseUiModel
 import org.threehundredtutor.presentation.main.ui_models.MainUiItem
@@ -24,7 +26,9 @@ class MainManager(
     courseProgressUiModelClickListener: (CourseProgressUiModel) -> Unit,
     courseUiModelClickListener: (CourseUiModel) -> Unit,
     extraButtonClickListener: (String) -> Unit,
-    courseLottieUiItemClickListener: () -> Unit
+    courseLottieUiItemClickListener: () -> Unit,
+    telegramUiItemClickListener: () -> Unit,
+    telegramOpenUiItemClickListener: () -> Unit,
 ) : AsyncListDifferDelegationAdapter<MainUiItem>(DIFF_CALLBACK) {
 
     init {
@@ -39,6 +43,8 @@ class MainManager(
             .addDelegate(getExtraButtonUiItemAdapter(extraButtonClickListener))
             .addDelegate(getCourseLottieUiItemAdapter(courseLottieUiItemClickListener))
             .addDelegate(getEmptyMainUiItem())
+            .addDelegate(getTelegramBindUiItemAdapter(telegramUiItemClickListener))
+            .addDelegate(getTelegramOpenUiItemAdapter(telegramOpenUiItemClickListener))
     }
 
     companion object {

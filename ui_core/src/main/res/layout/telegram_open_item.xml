@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.button.MaterialButton xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/button"
+    android:layout_marginBottom="@dimen/space_12"
+    android:paddingVertical="@dimen/margin_8"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textSize="@dimen/text_16"
+    app:cornerRadius="@dimen/radius_16"
+    app:icon="@drawable/ic_send"
+    app:iconGravity="textStart"
+    app:iconSize="@dimen/size_24" />
