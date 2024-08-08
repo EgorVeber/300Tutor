@@ -10,6 +10,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.threehundredtutor.ui_common.EMPTY_STRING
 import org.threehundredtutor.ui_common.UiCoreStrings
 import org.threehundredtutor.ui_common.UiCoreStyle
+import org.threehundredtutor.ui_common.util_class.BundleString
 import org.threehundredtutor.ui_core.databinding.DialogFragmentBinding
 
 class ActionDialogFragment : DialogFragment() {
@@ -17,25 +18,14 @@ class ActionDialogFragment : DialogFragment() {
     private lateinit var binding: DialogFragmentBinding
 
     // TODO при смене темы текс и клили не сохраняется добавить конструктор наверное. Проиграть с большим текстом кнопок.
-    private var title: String = EMPTY_STRING
-    private var message: String = EMPTY_STRING
-    private var positiveText: String = EMPTY_STRING
-    private var negativeText: String = EMPTY_STRING
-    private var neutralText: String = EMPTY_STRING
+    private var title by BundleString(KEY_TITLE, EMPTY_STRING)
+    private var message by BundleString(KEY_MESSAGE, EMPTY_STRING)
+    private var positiveText by BundleString(KEY_POSITIVE_TEXT, EMPTY_STRING)
+    private var negativeText by BundleString(KEY_NEGATIVE_TEXT, EMPTY_STRING)
+    private var neutralText by BundleString(KEY_NEUTRAL_TEXT, EMPTY_STRING)
     private var onPositiveClick: (() -> Unit)? = null
     private var onNegativeClick: (() -> Unit)? = null
     private var onNeutralClick: (() -> Unit)? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            title = it.getString(KEY_TITLE, EMPTY_STRING)
-            message = it.getString(KEY_MESSAGE, EMPTY_STRING)
-            positiveText = it.getString(KEY_POSITIVE_TEXT, EMPTY_STRING)
-            negativeText = it.getString(KEY_NEGATIVE_TEXT, EMPTY_STRING)
-            neutralText = it.getString(KEY_NEUTRAL_TEXT, EMPTY_STRING)
-        }
-    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = DialogFragmentBinding.inflate(layoutInflater)
@@ -97,13 +87,11 @@ class ActionDialogFragment : DialogFragment() {
         ) {
             if (fragmentManager.findFragmentByTag(TAG) == null) {
                 ActionDialogFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(KEY_TITLE, title)
-                        putString(KEY_MESSAGE, message)
-                        putString(KEY_POSITIVE_TEXT, positiveText)
-                        putString(KEY_NEGATIVE_TEXT, negativeText)
-                        putString(KEY_NEUTRAL_TEXT, neutralText)
-                    }
+                    this.title = title ?: EMPTY_STRING
+                    this.message = message.ifEmpty { EMPTY_STRING }
+                    this.positiveText = positiveText ?: EMPTY_STRING
+                    this.negativeText = negativeText ?: EMPTY_STRING
+                    this.neutralText = neutralText ?: EMPTY_STRING
                 }
                     .show(fragmentManager, TAG)
             }
