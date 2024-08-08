@@ -36,6 +36,12 @@ class AccountFragment : BaseFragment(UiCoreLayout.account_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = AccountFragmentBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
+
+        childFragmentManager.setFragmentResultListener(ActionDialogFragment.REQUEST_KEY, this) { _, bundle ->
+            when (bundle.getString(ActionDialogFragment.RESULT_KEY)) {
+                ActionDialogFragment.POSITIVE_BUTTON_CLICKED -> viewModel.onLogoutClick()
+            }
+        }
     }
 
 
@@ -89,10 +95,9 @@ class AccountFragment : BaseFragment(UiCoreLayout.account_fragment) {
 
     private fun showLogoutDialog() {
         ActionDialogFragment.showDialog(
-            title = getString(UiCoreStrings.confirm_logout),
             fragmentManager = childFragmentManager,
+            title = getString(UiCoreStrings.confirm_logout),
             message = getString(UiCoreStrings.warning_logout),
-            onPositiveClick = { viewModel.onLogoutClick() }
         )
     }
 
