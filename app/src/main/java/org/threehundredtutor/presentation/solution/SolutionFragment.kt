@@ -119,6 +119,13 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = SolutionFragmentBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
+
+        childFragmentManager.setFragmentResultListener(ActionDialogFragment.REQUEST_KEY, this) { _, bundle ->
+            when (bundle.getString(ActionDialogFragment.RESULT_KEY)) {
+                ActionDialogFragment.POSITIVE_BUTTON_CLICKED -> viewModel.onSaveAnswersClicked()
+                ActionDialogFragment.NEGATIVE_BUTTON_CLICKED -> findNavController().popBackStack()
+            }
+        }
     }
 
     override fun onBackPressed() {
@@ -205,12 +212,6 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
                         positiveText = getString(UiCoreStrings.save),
                         negativeText = getString(UiCoreStrings.not_save),
                         neutralText = getString(UiCoreStrings.cancel),
-                        onPositiveClick = {
-                            viewModel.onSaveAnswersClicked()
-                        },
-                        onNegativeClick = {
-                            findNavController().popBackStack()
-                        }
                     )
                 }
 
