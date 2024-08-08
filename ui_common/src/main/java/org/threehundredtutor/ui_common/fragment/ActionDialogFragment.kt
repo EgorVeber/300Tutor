@@ -17,15 +17,11 @@ class ActionDialogFragment : DialogFragment() {
 
     private lateinit var binding: DialogFragmentBinding
 
-    // TODO при смене темы текс и клили не сохраняется добавить конструктор наверное. Проиграть с большим текстом кнопок.
     private var title by BundleString(KEY_TITLE, EMPTY_STRING)
     private var message by BundleString(KEY_MESSAGE, EMPTY_STRING)
     private var positiveText by BundleString(KEY_POSITIVE_TEXT, EMPTY_STRING)
     private var negativeText by BundleString(KEY_NEGATIVE_TEXT, EMPTY_STRING)
     private var neutralText by BundleString(KEY_NEUTRAL_TEXT, EMPTY_STRING)
-    private var onPositiveClick: (() -> Unit)? = null
-    private var onNegativeClick: (() -> Unit)? = null
-    private var onNeutralClick: (() -> Unit)? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = DialogFragmentBinding.inflate(layoutInflater)
@@ -43,13 +39,17 @@ class ActionDialogFragment : DialogFragment() {
             negativeButton.text = negativeText.ifEmpty { getString(UiCoreStrings.cancel) }
             neutralButton.text = neutralText
             positiveButton.setOnClickListener {
-                parentFragmentManager.setFragmentResult(REQUEST_KEY, bundleOf(RESULT_KEY to POSITIVE_BUTTON_CLICKED))
-                onPositiveClick?.invoke()
+                parentFragmentManager.setFragmentResult(
+                    REQUEST_KEY,
+                    bundleOf(RESULT_KEY to POSITIVE_BUTTON_CLICKED)
+                )
                 dismiss()
             }
             negativeButton.setOnClickListener {
-                parentFragmentManager.setFragmentResult(REQUEST_KEY, bundleOf(RESULT_KEY to NEGATIVE_BUTTON_CLICKED))
-                onNegativeClick?.invoke()
+                parentFragmentManager.setFragmentResult(
+                    REQUEST_KEY,
+                    bundleOf(RESULT_KEY to NEGATIVE_BUTTON_CLICKED)
+                )
                 dismiss()
             }
             neutralText.ifEmpty {
@@ -57,8 +57,10 @@ class ActionDialogFragment : DialogFragment() {
                 neutralView.isVisible = false
             }
             neutralButton.setOnClickListener {
-                parentFragmentManager.setFragmentResult(REQUEST_KEY, bundleOf(RESULT_KEY to NEUTRAL_BUTTON_CLICKED))
-                onNeutralClick?.invoke()
+                parentFragmentManager.setFragmentResult(
+                    REQUEST_KEY,
+                    bundleOf(RESULT_KEY to NEUTRAL_BUTTON_CLICKED)
+                )
                 dismiss()
             }
         }
@@ -92,8 +94,7 @@ class ActionDialogFragment : DialogFragment() {
                     this.positiveText = positiveText ?: EMPTY_STRING
                     this.negativeText = negativeText ?: EMPTY_STRING
                     this.neutralText = neutralText ?: EMPTY_STRING
-                }
-                    .show(fragmentManager, TAG)
+                }.show(fragmentManager, TAG)
             }
         }
     }
