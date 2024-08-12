@@ -9,6 +9,7 @@ import org.threehundredtutor.core.UiCoreDrawable
 import org.threehundredtutor.presentation.favorites.AnswerFavoritesWithErrorsResultUiItem
 import org.threehundredtutor.presentation.favorites.EmptyUiItem
 import org.threehundredtutor.presentation.favorites.SuccessAnswerTitleUiItem
+import org.threehundredtutor.presentation.favorites.TouchUiModel
 import org.threehundredtutor.presentation.solution.solution_factory.GravityAlign.Companion.getGravity
 import org.threehundredtutor.presentation.solution.ui_models.SolutionUiItem
 import org.threehundredtutor.presentation.solution.ui_models.answer_erros.AnswerWithErrorsResultUiItem
@@ -61,7 +62,6 @@ import org.threehundredtutor.ui_core.databinding.SuccessAnswerTitleItemBinding
 
 object SolutionAdapters {
 
-    /** Общие адаптеры для построения всех типом вопросов.*/
     fun getHeaderUiItemAdapter(questionLikeClickListener: (HeaderUiItem) -> Unit) =
         adapterDelegateViewBinding<HeaderUiItem, SolutionUiItem, SolutionHeaderItemBinding>({ layoutInflater, root ->
             SolutionHeaderItemBinding.inflate(layoutInflater, root, false)
@@ -85,6 +85,22 @@ object SolutionAdapters {
                 } else {
                     bindLikeQuestionIcon()
                 }
+            }
+        }
+
+    /** Общие адаптеры для построения всех типом вопросов.*/
+
+    fun getTouchUiItemAdapter() =
+        adapterDelegateViewBinding<TouchUiModel, TouchUiModel, SolutionHeaderItemBinding>({ layoutInflater, root ->
+            SolutionHeaderItemBinding.inflate(layoutInflater, root, false)
+        }) {
+            bind {
+                if (item.isQuestionLikedByStudent) {
+                    binding.favoriteImage.setTint(UiCoreAttr.defaultRed)
+                } else {
+                    binding.favoriteImage.setTint(UiCoreAttr.defaultBlack40)
+                }
+                binding.solutionTitle.text = item.title
             }
         }
 
@@ -455,7 +471,6 @@ object SolutionAdapters {
                 bindAnswerIcon()
             }
         }
-
 
 
     fun getEmptyUiItem() =

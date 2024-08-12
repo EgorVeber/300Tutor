@@ -11,11 +11,13 @@ import org.threehundredtutor.domain.account.usecase.GetAccountUseCase
 import org.threehundredtutor.domain.account.usecase.LogoutUseCase
 import org.threehundredtutor.domain.settings_app.GetSettingAppUseCase
 import org.threehundredtutor.domain.settings_app.TelegramBotSettingsModel
+import org.threehundredtutor.presentation.favorites.TouchUiModel
 import org.threehundredtutor.ui_common.EMPTY_STRING
 import org.threehundredtutor.ui_common.coroutines.launchJob
 import org.threehundredtutor.ui_common.flow.SingleSharedFlow
 import org.threehundredtutor.ui_common.fragment.base.BaseViewModel
 import org.threehundredtutor.ui_common.util.UnknownServerException
+import java.util.Collections
 import javax.inject.Inject
 
 class AccountViewModel @Inject constructor(
@@ -30,7 +32,22 @@ class AccountViewModel @Inject constructor(
 
     private val accountInfoState = MutableStateFlow(AccountModel.EMPTY)
     private val accountErrorState = MutableStateFlow(false)
-    private val telegramVisibleState         = MutableStateFlow(false to "")
+    private val telegramVisibleState = MutableStateFlow(false to "")
+    private val uiItems = MutableStateFlow<List<TouchUiModel>>(listOf())
+
+    fun getItems(): List<TouchUiModel> {
+        return listOf(
+            TouchUiModel("1 true",true),
+            TouchUiModel("2 false",false),
+            TouchUiModel("3 false",false),
+            TouchUiModel("4 false",false),
+            TouchUiModel("5 true",true),
+            TouchUiModel("6 false",false)
+        )
+    }
+
+
+    var cache = mutableListOf<TouchUiModel>()
 
     init {
         viewModelScope.launchJob(tryBlock = {
@@ -42,6 +59,9 @@ class AccountViewModel @Inject constructor(
             handleError(throwable)
         })
         getAccountInfo()
+
+        cache.addAll(getItems())
+        uiItems.update { getItems() }
     }
 
     fun getAccountInfoStateFlow() = accountInfoState.asStateFlow()
@@ -49,6 +69,7 @@ class AccountViewModel @Inject constructor(
     fun getAccountUiEventState() = accountUiEventState.asSharedFlow()
     fun getAccountErrorStateFlow() = accountErrorState.asSharedFlow()
     fun getTelegramVisibleState() = telegramVisibleState.asSharedFlow()
+    fun getUiItems() = uiItems
 
     private fun getAccountInfo() {
         viewModelScope.launchJob(tryBlock = {
@@ -118,6 +139,14 @@ class AccountViewModel @Inject constructor(
         }, finallyBlock = {
             loadingState.update { false }
         })
+    }
+
+    fun fromTo(from: Int, to: Int) {
+        Collections.swap(cache, from, to)
+    }
+
+    fun finish() {
+        uiItems.update { cache }
     }
 
     sealed interface AccountUiEvent {

@@ -7,17 +7,21 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import org.threehundredtutor.R
 import org.threehundredtutor.core.UiCoreLayout
 import org.threehundredtutor.core.UiCoreStrings
 import org.threehundredtutor.core.navigate
 import org.threehundredtutor.di.account.AccountComponent
 import org.threehundredtutor.domain.account.models.AccountModel
+import org.threehundredtutor.presentation.favorites.SimpleItemTouchHelperCallback
+import org.threehundredtutor.presentation.favorites.TouchManager
 import org.threehundredtutor.ui_common.flow.observeFlow
 import org.threehundredtutor.ui_common.fragment.ActionDialogFragment
 import org.threehundredtutor.ui_common.fragment.base.BaseFragment
 import org.threehundredtutor.ui_common.fragment.showMessage
 import org.threehundredtutor.ui_core.databinding.AccountFragmentBinding
+
 
 class AccountFragment : BaseFragment(UiCoreLayout.account_fragment) {
 
@@ -37,19 +41,35 @@ class AccountFragment : BaseFragment(UiCoreLayout.account_fragment) {
         binding = AccountFragmentBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
 
-        childFragmentManager.setFragmentResultListener(ActionDialogFragment.REQUEST_KEY, this) { _, bundle ->
+        childFragmentManager.setFragmentResultListener(
+            ActionDialogFragment.REQUEST_KEY,
+            this
+        ) { _, bundle ->
             when (bundle.getString(ActionDialogFragment.RESULT_KEY)) {
                 ActionDialogFragment.POSITIVE_BUTTON_CLICKED -> viewModel.onLogoutClick()
             }
         }
     }
 
+    private val delegateAdapter: TouchManager = TouchManager(
+        onFinishedListener = { ->
+            viewModel.finish()
+        },
+        onItemMoveListener = { from, to ->
+            viewModel.fromTo(from, to)
+        }
+    )
 
     override fun onInitView(savedInstanceState: Bundle?) {
+        binding.recyclerSolution.adapter = delegateAdapter
         binding.logout.setOnClickListener { showLogoutDialog() }
         binding.mainToolBar.setNavigationOnClickListener { findNavController().popBackStack() }
         binding.telegramBotContainer.setOnClickListener { viewModel.onTelegramClicked() }
         binding.siteContainer.setOnClickListener { viewModel.onSiteClicked() }
+
+        val callback: ItemTouchHelper.Callback = SimpleItemTouchHelperCallback(delegateAdapter)
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(binding.recyclerSolution)
     }
 
     override fun onObserveData() {
@@ -80,8 +100,10 @@ class AccountFragment : BaseFragment(UiCoreLayout.account_fragment) {
         }
 
         viewModel.getTelegramVisibleState().observeFlow(this) { result ->
-            binding.telegramBotContainer.isVisible = result.first
-            binding.telegramBotName.text = result.second
+
+        }
+        viewModel.getUiItems().observeFlow(this) {
+            delegateAdapter.items = it
         }
     }
 
@@ -145,4 +167,9 @@ class AccountFragment : BaseFragment(UiCoreLayout.account_fragment) {
         const val TELEGRAM_LINK = "tg://resolve?domain={botTelegram}"
         const val TELEGRAM_BOT_SUB_STRING = "{botTelegram}"
     }
+}
+
+interface ItemTouchHelperAdapter {
+    fun onItemMove(fromPosition: Int, toPosition: Int)
+    fun onFinished()
 }

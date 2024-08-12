@@ -25,6 +25,19 @@
             app:titleTextAppearance="@style/TitleToolbarTextAppearance"
             app:titleTextColor="?attr/secondary" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerSolution"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:paddingHorizontal="@dimen/margin_12"
+            android:paddingVertical="@dimen/space_16"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainToolBar" />
+
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/accountInfoContainer"
@@ -36,6 +49,7 @@
             android:paddingStart="@dimen/space_12"
             android:paddingEnd="@dimen/space_12"
             android:paddingBottom="@dimen/space_16"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mainToolBar"
@@ -143,8 +157,8 @@
             android:layout_marginTop="@dimen/margin_12"
             android:background="?attr/contentBackground"
             android:orientation="horizontal"
-            android:visibility="gone"
             android:paddingVertical="@dimen/margin_8"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/accountInfoContainer">
@@ -163,8 +177,8 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:rotation="-35"
                     android:layout_gravity="center"
+                    android:rotation="-35"
                     android:src="@drawable/ic_send"
                     app:tint="?attr/primary" />
             </androidx.cardview.widget.CardView>
@@ -187,6 +201,7 @@
             android:background="?attr/contentBackground"
             android:orientation="horizontal"
             android:paddingVertical="@dimen/margin_8"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/telegramBotContainer">
@@ -229,6 +244,7 @@
             android:background="@drawable/rectangle_12_content_background"
             android:orientation="horizontal"
             android:paddingVertical="@dimen/margin_8"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
