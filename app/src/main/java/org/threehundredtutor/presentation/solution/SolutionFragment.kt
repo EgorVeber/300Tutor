@@ -194,8 +194,9 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
             when (state) {
                 is SolutionViewModel.UiEvent.ShowMessage -> showMessage(state.message)
                 is SolutionViewModel.UiEvent.OpenYoutube -> openYoutubeLink(state.link)
-                is SolutionViewModel.UiEvent.NavigatePhotoDetailed -> navigatePhotoDetailed(
-                    imagePath = state.imagePath,
+                is SolutionViewModel.UiEvent.NavigatePhotoDetailed -> PhotoDetailsFragment.showDialog(
+                    childFragmentManager,
+                    state.imagePath
                 )
 
                 is SolutionViewModel.UiEvent.ShowSnack -> showSnack(

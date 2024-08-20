@@ -6,10 +6,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import org.threehundredtutor.R
 import org.threehundredtutor.core.UiCoreDimens
 import org.threehundredtutor.core.UiCoreLayout
-import org.threehundredtutor.core.navigate
 import org.threehundredtutor.di.favorites.FavoritesComponent
 import org.threehundredtutor.presentation.solution.PhotoDetailsFragment
 import org.threehundredtutor.presentation.solution.adapter.SolutionItemDecoration
@@ -90,9 +88,7 @@ class FavoritesFragment : BaseFragment(UiCoreLayout.favorites_fragment) {
                 }
 
                 is FavoritesViewModel.UiEvent.NavigatePhotoDetailed -> {
-                    navigate(R.id.action_favoritesFragment_to_photoDetailsFragment, Bundle().apply {
-                        putString(PhotoDetailsFragment.PHOTO_DETAILED_IMAGE_PATH, uiEvent.imagePath)
-                    })
+                    PhotoDetailsFragment.showDialog(childFragmentManager, uiEvent.imagePath)
                 }
             }
         }
