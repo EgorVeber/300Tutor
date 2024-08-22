@@ -87,14 +87,6 @@
         <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
     </style>
 
-    <style name="PhotoDialogStyle" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-    </style>
-
     <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>
