@@ -8,14 +8,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import org.threehundredtutor.R
 import org.threehundredtutor.core.UiCoreDimens
 import org.threehundredtutor.core.UiCoreLayout
 import org.threehundredtutor.core.UiCoreStrings
-import org.threehundredtutor.core.navigate
 import org.threehundredtutor.di.solution.SolutionComponent
 import org.threehundredtutor.domain.solution.models.test_model.HtmlPageTestType
-import org.threehundredtutor.presentation.solution.PhotoDetailsFragment.Companion.PHOTO_DETAILED_IMAGE_PATH
 import org.threehundredtutor.presentation.solution.adapter.SolutionItemDecoration
 import org.threehundredtutor.presentation.solution.adapter.SolutionManager
 import org.threehundredtutor.ui_common.EMPTY_STRING
@@ -194,8 +191,9 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
             when (state) {
                 is SolutionViewModel.UiEvent.ShowMessage -> showMessage(state.message)
                 is SolutionViewModel.UiEvent.OpenYoutube -> openYoutubeLink(state.link)
-                is SolutionViewModel.UiEvent.NavigatePhotoDetailed -> navigatePhotoDetailed(
-                    imagePath = state.imagePath,
+                is SolutionViewModel.UiEvent.NavigatePhotoDetailed -> PhotoDetailsFragment.showDialog(
+                    childFragmentManager,
+                    state.imagePath
                 )
 
                 is SolutionViewModel.UiEvent.ShowSnack -> showSnack(
@@ -241,12 +239,6 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
         } else {
             LoadingDialog.close(requireActivity().supportFragmentManager)
         }
-    }
-
-    private fun navigatePhotoDetailed(imagePath: String) {
-        navigate(R.id.action_solutionFragment_to_photoDetailsFragment, Bundle().apply {
-            putString(PHOTO_DETAILED_IMAGE_PATH, imagePath)
-        })
     }
 
     companion object {

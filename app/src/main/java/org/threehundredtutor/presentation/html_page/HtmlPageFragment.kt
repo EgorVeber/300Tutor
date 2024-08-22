@@ -89,9 +89,7 @@ class HtmlPageFragment : BaseFragment(UiCoreLayout.html_page_fragment) {
         viewModel.getUiEventStateFlow().observeFlow(this) { uiEvent ->
             when (uiEvent) {
                 is HtmlPageViewModel.UiEvent.NavigatePhotoDetailed -> {
-                    navigate(R.id.action_htmlPageFragment_to_photoDetailsFragment, Bundle().apply {
-                        putString(PhotoDetailsFragment.PHOTO_DETAILED_IMAGE_PATH, uiEvent.imagePath)
-                    })
+                    PhotoDetailsFragment.showDialog(childFragmentManager, uiEvent.imagePath)
                 }
 
                 is HtmlPageViewModel.UiEvent.OpenYoutube -> {

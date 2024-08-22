@@ -78,23 +78,6 @@
         android:id="@+id/solutionFragment"
         android:name="org.threehundredtutor.presentation.solution.SolutionFragment"
         android:label="SolutionFragment">
-        <action
-            android:id="@+id/action_solutionFragment_to_photoDetailsFragment"
-            app:destination="@id/photoDetailsFragment"
-            app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out"
-            app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out" />
-    </fragment>
-    <fragment
-        android:id="@+id/photoDetailsFragment"
-        android:name="org.threehundredtutor.presentation.solution.PhotoDetailsFragment"
-        android:label="fragment_photo_details"
-        tools:layout="@layout/fragment_photo_details">
-
-        <action
-            android:id="@+id/action_photoDetailsFragment_to_solutionFragment"
-            app:destination="@id/solutionFragment" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -204,13 +187,6 @@
         android:name="org.threehundredtutor.presentation.html_page.HtmlPageFragment"
         android:label="HtmlPageFragment">
         <action
-            android:id="@+id/action_htmlPageFragment_to_photoDetailsFragment"
-            app:destination="@id/photoDetailsFragment"
-            app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-        <action
             android:id="@+id/action_htmlPageFragment_to_solutionFragment"
             app:destination="@id/solutionFragment"
             app:enterAnim="@android:anim/fade_in"
@@ -282,9 +258,6 @@
         android:id="@+id/favoritesFragment"
         android:name="org.threehundredtutor.presentation.favorites.FavoritesFragment"
         android:label="FavoritesFragment" >
-        <action
-            android:id="@+id/action_favoritesFragment_to_photoDetailsFragment"
-            app:destination="@id/photoDetailsFragment" />
     </fragment>
 
 </navigation>
