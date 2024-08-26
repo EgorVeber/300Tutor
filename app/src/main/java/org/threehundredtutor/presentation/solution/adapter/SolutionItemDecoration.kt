@@ -16,6 +16,6 @@ class SolutionItemDecoration(
         parent: RecyclerView,
         s: RecyclerView.State
     ) {
-        view.updatePadding(left = paddingItems.toInt(), right = paddingItems.toInt())
+        view.updatePadding(top = paddingItems.toInt(), bottom = paddingItems.toInt())
     }
 }

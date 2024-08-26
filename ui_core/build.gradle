@@ -39,4 +39,6 @@ dependencies {
     implementation "ir.mahozad.android:pie-chart:$versions.piechart"
     implementation "com.github.chrisbanes:PhotoView:$versions.photoView"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$versions.swiperefreshlayout"
+
+    implementation "com.github.bumptech.glide:glide:$versions.glide"
 }

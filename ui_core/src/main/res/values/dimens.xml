@@ -23,6 +23,7 @@
     <dimen name="size_72">72dp</dimen>
     <dimen name="size_80">80dp</dimen>
     <dimen name="size_96">96dp</dimen>
+    <dimen name="size_108">108dp</dimen>
     <dimen name="size_128">128dp</dimen>
     <dimen name="size_144">144dp</dimen>
     <dimen name="size_192">192dp</dimen>

@@ -1,14 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/sadsd"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIconTint="?attr/secondary"
+        app:subtitleCentered="true"
+        app:subtitleTextColor="?attr/secondary"
+        app:title="@string/authorization_text"
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/TitleToolbarTextAppearance"
+        app:titleTextColor="?attr/secondary"
+        tools:subtitle="Школа: Kursbio" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mainRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:background="@color/content_background_tutor"
+        android:padding="@dimen/space_12"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/photo_item" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/authorizationToolbar"
@@ -128,9 +156,9 @@
                         android:autofillHints="phone"
                         android:fontFamily="@font/roboto"
                         android:imeOptions="actionDone"
-                        android:maxLength="10"
                         android:inputType="phone"
                         android:lines="1"
+                        android:maxLength="10"
                         android:textColor="?attr/textPrimary"
                         android:textColorHint="?attr/secondary"
                         android:theme="@style/EditTextCursorColor" />
@@ -293,4 +321,4 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone" />
-</FrameLayout>
+</LinearLayout>

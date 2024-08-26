@@ -52,4 +52,9 @@
         <item name="chipBackgroundColor">@color/chip_background_color</item>
     </style>
 
+    <style name="ShapeAppearanceOverlay.MyApp.MaterialCardView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
 </resources>
