@@ -16,7 +16,7 @@
     //Аккаунт
     <string name="account_title">Аккаунт</string>
 
-    <string name="app_name">Mega Academy</string>
+    <string name="app_name">V Points</string>
     <string name="register_button">Register</string>
     <string name="register_text">Регистрация</string>
     <string name="email_text">E-mail</string>

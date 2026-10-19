@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
     id 'org.jetbrains.kotlin.plugin.compose'
+    id 'com.google.gms.google-services' version '4.4.2' apply false
 }
 
 android {
@@ -15,6 +16,11 @@ android {
         targetSdk 36
         versionCode 1
         versionName "1.0"
+
+        applicationId "org.threehundredtutor.demo"
+        dimension "org.threehundredtutor"
+        buildConfigField "String", "BASE_URL", "\"https://app.mega-academy.online\""
+        buildConfigField "Boolean", "CHANGE_DOMAIN", "true"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -36,21 +42,6 @@ android {
         buildConfig = true
         viewBinding true
         compose = true
-    }
-    flavorDimensions "org.threehundredtutor"
-    productFlavors {
-        demo {
-            applicationId "org.threehundredtutor.demo"
-            dimension "org.threehundredtutor"
-            buildConfigField "String", "BASE_URL", "\"https://app.mega-academy.online\""
-            buildConfigField "Boolean", "CHANGE_DOMAIN", "true"
-        }
-        kursbio {
-            applicationId "org.threehundredtutor.kursbio"
-            dimension "org.threehundredtutor"
-            buildConfigField "String", "BASE_URL", "\"https://api.kursbio.ru\""
-            buildConfigField "Boolean", "CHANGE_DOMAIN", "false"
-        }
     }
 }
 apply from: "../dependencies.gradle"
