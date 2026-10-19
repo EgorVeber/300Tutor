@@ -37,7 +37,7 @@ class StartedFragment : BaseFragment(UiCoreLayout.started_fragment) {
         viewModel.getUiEventStateFlow().observeFlow(this) { state ->
             when (state) {
                 StarterViewModel.UiEvent.NavigateAuthorizationScreen -> {
-                    navigate(R.id.action_startedFragment_to_authorizationFragment)
+                    navigate(R.id.action_startedFragment_to_homeFragment)
                 }
 
                 StarterViewModel.UiEvent.NavigateHomeScreen -> {
@@ -45,7 +45,7 @@ class StartedFragment : BaseFragment(UiCoreLayout.started_fragment) {
                 }
 
                 StarterViewModel.UiEvent.NavigateRegistrationScreen -> {
-                    navigate(R.id.action_startedFragment_to_registrationFragment)
+                    navigate(R.id.action_startedFragment_to_homeFragment)
                 }
 
                 StarterViewModel.UiEvent.Empty -> {}

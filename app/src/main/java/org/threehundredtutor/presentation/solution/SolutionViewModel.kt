@@ -15,13 +15,13 @@ import org.threehundredtutor.domain.solution.models.params_model.SaveQuestionPoi
 import org.threehundredtutor.domain.solution.models.solution_models.AnswerModel
 import org.threehundredtutor.domain.solution.usecase.ChangeLikeQuestionUseCase
 import org.threehundredtutor.domain.solution.usecase.CheckAnswerUseCase
+import org.threehundredtutor.domain.solution.usecase.ContainsAnswersRemoteWithLocalUseCase
 import org.threehundredtutor.domain.solution.usecase.FinishSolutionUseCase
 import org.threehundredtutor.domain.solution.usecase.GetAnswerByQuestionIdUseCase
 import org.threehundredtutor.domain.solution.usecase.GetPointsUseCase
 import org.threehundredtutor.domain.solution.usecase.GetSolutionAnswersFlowUseCase
 import org.threehundredtutor.domain.solution.usecase.GetSolutionUseCase
 import org.threehundredtutor.domain.solution.usecase.IsAllQuestionHaveAnswerUseCase
-import org.threehundredtutor.domain.solution.usecase.ContainsAnswersRemoteWithLocalUseCase
 import org.threehundredtutor.domain.solution.usecase.ResultQuestionsValidationRemoveUseCase
 import org.threehundredtutor.domain.solution.usecase.ResultQuestionsValidationSaveUseCase
 import org.threehundredtutor.domain.solution.usecase.SaveLocalAnswerUseCase

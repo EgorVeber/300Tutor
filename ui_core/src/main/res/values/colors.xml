@@ -38,23 +38,6 @@
     <color name="default_background">#66000000</color>
     <color name="default_transparent">#00000000</color>
 
-    //Theme Dark
-    <!--  <color name="primary_tutor">#C88117</color>
-  <color name="primary_tutor_40">#66C88117</color>
-  <color name="secondary_tutor">#939A9d</color>
-  <color name="secondary_40_tutor">#66939A9d</color>
-  <color name="secondary_60_tutor">#99939A9d</color>
-  <color name="separator_tutor">#4D5A60</color>
-  <color name="separator_60_tutor">#994D5A60</color>
-  <color name="text_primary_tutor">#EDF2F8</color>
-  <color name="background_tutor">#283033</color>
-  <color name="content_background_tutor">#373f42</color>
-  <color name="warning_tutor">#F54B4B</color>
-  <color name="warning_background_tutor">#5D4648</color>
-  <color name="ripple_tutor">#F9F2E7</color>
-  <color name="ripple_15_tutor">#26F9F2E7</color>-->
-
-
     <color name="primary_tutor">#34c1d6</color>
     <color name="primary_tutor_40">#6634c1d6</color>
     <color name="secondary_tutor">#79939D</color>

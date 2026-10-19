@@ -68,54 +68,13 @@ class MainViewModel @Inject constructor(
     private fun loadListData() {
         viewModelScope.launchJob(tryBlock = {
             loadingState.tryEmit(true)
-            val settings = getSettingAppUseCase(false)
-            val hasTelegramApp =
-                settings.telegramBotSettingsModel != TelegramBotSettingsModel.empty() && settings.telegramBotSettingsModel.hasBot
-
-            val hasTelegramAccount = async {
-                getTelegramDataUseCase().telegramUserId == DEFAULT_NOT_VALID_VALUE_INT
-            }
-
-            val subjects = async {
-                getSubjectUseCase.invoke().map { subjectModel ->
-                    val path = if (subjectModel.iconModel.name.isEmpty()) "" else {
-                        SolutionFactory.replaceUrl(
-                            url = settings.publicImageUrlFormat,
-                            fileId = subjectModel.iconModel.fileId.toString()
-                        )
-                    }
-                    subjectModel.toSubjectUiModel(path)
-                }
-            }
-
-            val studentId = async {
-                getAccountUseCase(false).userId
-            }
-
-            val courses =
-                async {
-                    getCoursesUseCase(studentId.await()).map { progressModel: GroupWithCourseProgressModel ->
-                        val path = if (progressModel.iconModel.name.isEmpty()) "" else {
-                            SolutionFactory.replaceUrl(
-                                url = settings.publicImageUrlFormat,
-                                fileId = progressModel.iconModel.fileId.toString()
-                            )
-                        }
-
-                        if (progressModel.useCourse) {
-                            progressModel.toCourseProgressUiModel(path)
-                        } else {
-                            progressModel.toCourseUiModel(path)
-                        }
-                    }
-                }
 
             uiItemsState.update {
                 buildUiItems(
-                    courses = courses.await(),
-                    subjects = subjects.await(),
-                    emptyCoursesImagePath = settings.imagesPack.error,
-                    hasTelegramBind = hasTelegramApp && hasTelegramAccount.await()
+                    courses = listOf(),
+                    subjects = listOf(),
+                    emptyCoursesImagePath = "",
+                    hasTelegramBind = true
                 )
             }
         }, catchBlock =
