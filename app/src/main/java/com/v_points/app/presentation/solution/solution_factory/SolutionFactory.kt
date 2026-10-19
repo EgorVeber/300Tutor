@@ -1,0 +1,621 @@
+package com.v_points.app.presentation.solution.solution_factory
+
+import org.jsoup.Jsoup
+import org.jsoup.select.Elements
+import com.v_points.app.core.UiCoreStrings
+import com.v_points.app.domain.solution.models.TestSolutionGeneralModel
+import com.v_points.app.domain.solution.models.solution_models.AnswerModel
+import com.v_points.app.domain.solution.models.test_model.AnswerSelectRightModel
+import com.v_points.app.domain.solution.models.test_model.QuestionModel
+import com.v_points.app.domain.solution.models.test_model.TestQuestionType
+import com.v_points.app.domain.subject_workspace.models.DirectoryModel
+import com.v_points.app.presentation.common.ResourceProvider
+import com.v_points.app.presentation.favorites.AnswerFavoritesWithErrorsResultUiItem
+import com.v_points.app.presentation.favorites.SuccessAnswerTitleUiItem
+import com.v_points.app.presentation.html_page.adapter.HtmlPageHeaderItem
+import com.v_points.app.presentation.html_page.adapter.HtmlPageStartTestUiModel
+import com.v_points.app.presentation.solution.mapper.toAnswerSelectRightUiModel
+import com.v_points.app.presentation.solution.ui_models.SolutionUiItem
+import com.v_points.app.presentation.solution.ui_models.answer_erros.AnswerWithErrorsResultUiItem
+import com.v_points.app.presentation.solution.ui_models.answer_erros.toAnswerWithErrorsUiModel
+import com.v_points.app.presentation.solution.ui_models.detailed_answer.DetailedAnswerInputUiItem
+import com.v_points.app.presentation.solution.ui_models.detailed_answer.DetailedAnswerValidationUiItem
+import com.v_points.app.presentation.solution.ui_models.detailed_answer.DetailedAnswerYourAnswerUiItem
+import com.v_points.app.presentation.solution.ui_models.item_common.DividerUiItem
+import com.v_points.app.presentation.solution.ui_models.item_common.FooterUiItem
+import com.v_points.app.presentation.solution.ui_models.item_common.HeaderUiItem
+import com.v_points.app.presentation.solution.ui_models.item_common.ImageUiItem
+import com.v_points.app.presentation.solution.ui_models.item_common.ResultButtonUiItem
+import com.v_points.app.presentation.solution.ui_models.item_common.SupSubUiItem
+import com.v_points.app.presentation.solution.ui_models.item_common.TextUiItem
+import com.v_points.app.presentation.solution.ui_models.item_common.YoutubeUiItem
+import com.v_points.app.presentation.solution.ui_models.right_answer.RightAnswerResultUiItem
+import com.v_points.app.presentation.solution.ui_models.right_answer.toRightAnswerUiModel
+import com.v_points.app.presentation.solution.ui_models.select_right_answer.SelectRightAnswerCheckButtonUiItem
+import com.v_points.app.presentation.solution.ui_models.select_right_answer.SelectRightAnswerTitleUiItem
+import com.v_points.app.ui_common.EMPTY_STRING
+import javax.inject.Inject
+
+class SolutionFactory @Inject constructor(
+    private val resourceProvider: ResourceProvider
+) {
+    private var solutionUiItems: MutableList<SolutionUiItem> = mutableListOf()
+
+    fun createSolution(
+        testSolutionGeneralModel: TestSolutionGeneralModel,
+        staticUrl: String
+    ): List<SolutionUiItem> {
+        val lastIndex = testSolutionGeneralModel.testSolutionModel.lastIndex
+
+        return testSolutionGeneralModel.testSolutionModel.flatMapIndexed { index, testSolutionUnionModel ->
+            createSolutionItems(
+                questionModel = testSolutionUnionModel.questionModel,
+                answerModel = testSolutionUnionModel.answerModel,
+                isQuestionLikedByStudent = testSolutionUnionModel.isQuestionLikedByStudent,
+                staticUrl = staticUrl,
+                isLastItem = index == lastIndex
+            )
+        }
+    }
+
+    fun createHtmlPage(
+        directoryModel: DirectoryModel,
+        htmlString: String,
+        staticUrl: String
+    ): List<SolutionUiItem> {
+        return buildList {
+            add(HtmlPageHeaderItem)
+            addAll(createQuestionWithHtml(htmlString = htmlString, staticUrl = staticUrl))
+            add(FooterUiItem)
+            add(DividerUiItem(DividerType.BACKGROUND))
+            if (directoryModel.hasTest()) {
+                add(
+                    HtmlPageStartTestUiModel(
+                        firstCount = directoryModel.getFirstPathCount().toString(),
+                        secondCount = directoryModel.getSecondPathCount().toString(),
+                        fullCount = directoryModel.getFullTestCount().toString(),
+                        firstVisible = directoryModel.hasFirstPath(),
+                        secondVisible = directoryModel.hasSecondPath(),
+                        fullVisible = directoryModel.hasFullTest()
+                    )
+                )
+                add(DividerUiItem(DividerType.BACKGROUND))
+            }
+        }
+    }
+
+    fun createFavoritesQuestion(
+        questionList: List<QuestionModel>,
+        staticUrl: String,
+    ): List<SolutionUiItem> {
+        val lastQuestionIndex = questionList.lastIndex
+        return questionList.flatMapIndexed { index: Int, questionModel: QuestionModel ->
+            solutionUiItems.clear()
+            solutionUiItems.add(
+                HeaderUiItem(
+                    questionId = questionModel.questionId,
+                    questionNumber = resourceProvider.string(UiCoreStrings.question),
+                    isQuestionLikedByStudent = true
+                )
+            )
+            solutionUiItems += createQuestionWithHtml(
+                htmlString = questionModel.titleBodyMarkUp,
+                staticUrl = staticUrl
+            )
+
+            createSolutionFavoritesWithType(questionModel = questionModel, staticUrl = staticUrl)
+            if (index == lastQuestionIndex) {
+                createBottomItems(0)
+            } else {
+                createBottomItems(COUNT_DIVIDER_BOTTOM_QUESTION)
+            }
+            solutionUiItems
+        }
+    }
+
+    private fun createSolutionItems(
+        questionModel: QuestionModel,
+        answerModel: AnswerModel,
+        isQuestionLikedByStudent: Boolean,
+        countDividerBottomQuestion: Int = COUNT_DIVIDER_BOTTOM_QUESTION,
+        staticUrl: String,
+        isLastItem: Boolean
+    ): List<SolutionUiItem> {
+        solutionUiItems.clear()
+        solutionUiItems.add(
+            HeaderUiItem(
+                questionId = questionModel.questionId,
+                questionNumber = resourceProvider.string(
+                    UiCoreStrings.question_number,
+                    questionModel.questionNumber.toString()
+                ),
+                isQuestionLikedByStudent = isQuestionLikedByStudent
+            )
+        )
+        solutionUiItems += createQuestionWithHtml(
+            htmlString = questionModel.titleBodyMarkUp,
+            staticUrl = staticUrl
+        )
+
+        if (answerModel.isHaveAnswer()) {
+            createResultAnswerWithType(
+                questionModel = questionModel,
+                answerModel = answerModel,
+                staticUrl = staticUrl
+            )
+        } else if (answerModel.answerOrAnswers.isNotEmpty()) {
+            createSolutionWithAnswerNotChecked(
+                questionModel = questionModel,
+                staticUrl = staticUrl,
+                answerOrAnswers = answerModel.answerOrAnswers
+            )
+        } else {
+            createSolutionForAnswerWithType(questionModel = questionModel, staticUrl = staticUrl)
+        }
+
+        if (isLastItem) {
+            createBottomItems(0)
+        } else {
+            createBottomItems(countDividerBottomQuestion)
+        }
+        return solutionUiItems
+    }
+
+    private fun createQuestionWithHtml(
+        htmlString: String,
+        staticUrl: String
+    ): List<SolutionUiItem> {
+        val solutionUiItems: MutableList<SolutionUiItem> = mutableListOf()
+        val elements = Jsoup.parse(htmlString).body().children()
+        elements.forEach { element ->
+            val gravityAlign: GravityAlign = GravityAlign.getGravity(element.attr(H_ALIGN_ATTR))
+
+            val itemImage: Elements = element.getElementsByTag(FILE_IMAGE_TAG)
+            val isImageItem = itemImage.size != 0
+
+            val itemVideo: Elements = element.getElementsByTag(EXTERNAL_VIDEO)
+            val isYoutubeItem = itemVideo.attr(LINK).isNotEmpty()
+
+            val itemSub: Elements = element.getElementsByTag(SUP_TEXT_TAG)
+            val itemSup: Elements = element.getElementsByTag(SUB_TEXT_TAG)
+            val isSupSubItem = itemSub.text().isNotEmpty() || itemSup.text().isNotEmpty()
+
+            val text: String = element.text()
+            val isTextItem = text.isNotEmpty() && !isSupSubItem
+            val isDividerItem = text.isEmpty()
+
+            when {
+                isImageItem -> {
+                    val imageId = element.attr(FILE_ID_ATTR)
+                    solutionUiItems.add(
+                        ImageUiItem(
+                            idImage = imageId,
+                            path = replaceUrl(staticUrl, imageId)
+                        )
+                    )
+                }
+
+                isYoutubeItem -> {
+                    solutionUiItems.add(YoutubeUiItem(element.attr(LINK)))
+                }
+
+                isTextItem -> {
+                    solutionUiItems.add(TextUiItem(element.toString(), gravityAlign))
+                }
+
+                isSupSubItem -> {
+                    solutionUiItems.add(SupSubUiItem(element.toString(), gravityAlign))
+                }
+
+                isDividerItem -> {
+                    solutionUiItems.add(DividerUiItem(DividerType.CONTENT_BACKGROUND))
+                }
+            }
+        }
+        return solutionUiItems
+    }
+
+    private fun createResultAnswerWithType(
+        questionModel: QuestionModel,
+        answerModel: AnswerModel,
+        staticUrl: String
+    ) {
+        when (questionModel.testQuestionType) {
+            TestQuestionType.SELECT_RIGHT_ANSWER_OR_ANSWERS -> {
+                createSelectAnswersResult(
+                    questionModel = questionModel,
+                    answerModel = answerModel,
+                )
+            }
+
+            TestQuestionType.TYPE_ANSWER_WITH_ERRORS -> {
+                createResultAnswerWithErrors(
+                    rightAnswer = questionModel.typeAnswerWithErrorsModel.rightAnswer,
+                    answerModel = answerModel,
+                )
+            }
+
+            TestQuestionType.TYPE_RIGHT_ANSWER -> {
+                createResultRightAnswer(
+                    rightAnswers = questionModel.typeRightAnswerQuestionModel.rightAnswers,
+                    answerModel = answerModel,
+                )
+            }
+
+            TestQuestionType.DETAILED_ANSWER -> {
+                createDetailedResultAnswer(
+                    questionModel = questionModel,
+                    answerModel = answerModel,
+                    staticUrl = staticUrl
+                )
+            }
+
+            TestQuestionType.UNKNOWN -> {}
+        }
+    }
+
+    private fun createSelectAnswersResult(
+        questionModel: QuestionModel,
+        answerModel: AnswerModel,
+    ) {
+        solutionUiItems.add(SelectRightAnswerTitleUiItem(questionModel.selectRightAnswerOrAnswersModel.selectRightAnswerTitle))
+
+        val answerList =
+            answerModel.answerOrAnswers.split(ANSWERS_DELIMITERS).filter { answerItem ->
+                answerItem.isNotEmpty()
+            }
+
+        val rightAnswersList = questionModel.selectRightAnswerOrAnswersModel.answersList
+
+        rightAnswersList.forEach { answerSelectRightModel ->
+            solutionUiItems.add(
+                answerSelectRightModel.toAnswerSelectRightUiModel(
+                    questionId = questionModel.questionId,
+                    isValidated = true,
+                    checked = answerList.contains(answerSelectRightModel.text),
+                )
+            )
+        }
+
+        solutionUiItems.add(
+            ResultButtonUiItem(
+                questionId = questionModel.questionId,
+                answerValidationResultType = answerModel.answerValidationResultType,
+                pointString = getPointString(answerModel)
+            )
+        )
+    }
+
+    private fun createResultAnswerWithErrors(
+        rightAnswer: String,
+        answerModel: AnswerModel,
+    ) {
+        val answer =
+            answerModel.answerOrAnswers.ifEmpty { resourceProvider.string(UiCoreStrings.your_not_answer) }
+
+        solutionUiItems.add(
+            AnswerWithErrorsResultUiItem(
+                questionId = answerModel.questionId,
+                answer = answer,
+                rightAnswer = rightAnswer,
+                answerValidationResultType = answerModel.answerValidationResultType,
+                pointString = getPointString(answerModel)
+            )
+        )
+    }
+
+    private fun createResultRightAnswer(
+        rightAnswers: List<String>,
+        answerModel: AnswerModel,
+    ) {
+        val answer =
+            answerModel.answerOrAnswers.ifEmpty { resourceProvider.string(UiCoreStrings.your_not_answer) }
+
+        val pointsString = with(answerModel) {
+            if (pointsValidationModel.isValidated) {
+                resourceProvider.string(
+                    UiCoreStrings.points_question,
+                    answerModel.pointsValidationModel.answerPoints,
+                    answerModel.pointsValidationModel.questionTotalPoints
+                )
+            } else EMPTY_STRING
+        }
+
+        solutionUiItems.add(
+            RightAnswerResultUiItem(
+                questionId = answerModel.questionId,
+                answer = answer,
+                rightAnswer = rightAnswers.joinToString(separator = "\n"),
+                answerValidationResultType = answerModel.answerValidationResultType,
+                pointsString = pointsString
+            )
+        )
+    }
+
+    private fun createDetailedResultAnswer(
+        questionModel: QuestionModel,
+        answerModel: AnswerModel,
+        staticUrl: String,
+    ) {
+        val answer =
+            answerModel.answerOrAnswers.ifEmpty { resourceProvider.string(UiCoreStrings.your_not_answer) }
+        val explanationList =
+            createQuestionWithHtml(questionModel.answerExplanationMarkUp, staticUrl)
+        val pointsValidationModel = answerModel.pointsValidationModel
+        val isValidated = pointsValidationModel.isValidated
+
+        solutionUiItems.add(DetailedAnswerYourAnswerUiItem(answer))
+        solutionUiItems.addAll(explanationList)
+
+        solutionUiItems.add(
+            DetailedAnswerValidationUiItem(
+                inputPoint = if (isValidated) pointsValidationModel.answerPoints.toString() else EMPTY_STRING,
+                pointTotal = pointsValidationModel.questionTotalPoints.toString(),
+                questionId = questionModel.questionId,
+                type = answerModel.answerValidationResultType,
+                isValidated = isValidated,
+                pointsString = getPointString(answerModel),
+            )
+        )
+    }
+
+    private fun getPointString(answerModel: AnswerModel): String {
+        val pointsString =
+            if (answerModel.pointsValidationModel.isValidated) {
+                resourceProvider.string(
+                    UiCoreStrings.points_question,
+                    answerModel.pointsValidationModel.answerPoints,
+                    answerModel.pointsValidationModel.questionTotalPoints
+                )
+            } else EMPTY_STRING
+        return pointsString
+    }
+
+    private fun createSolutionForAnswerWithType(
+        questionModel: QuestionModel,
+        staticUrl: String
+    ) {
+        when (questionModel.testQuestionType) {
+            TestQuestionType.SELECT_RIGHT_ANSWER_OR_ANSWERS -> createSelectAnswers(questionModel)
+            TestQuestionType.TYPE_ANSWER_WITH_ERRORS -> createTypeAnswerWithErrors(questionModel)
+            TestQuestionType.TYPE_RIGHT_ANSWER -> createTypeRightAnswer(questionModel)
+            TestQuestionType.DETAILED_ANSWER -> createDetailedAnswer(questionModel, staticUrl)
+            TestQuestionType.UNKNOWN -> {}
+        }
+    }
+
+    private fun createSolutionWithAnswerNotChecked(
+        questionModel: QuestionModel,
+        staticUrl: String,
+        answerOrAnswers: String,
+    ) {
+        when (questionModel.testQuestionType) {
+            TestQuestionType.SELECT_RIGHT_ANSWER_OR_ANSWERS -> createSelectAnswersNotChecked(
+                questionModel,
+                answerOrAnswers
+            )
+
+            TestQuestionType.TYPE_ANSWER_WITH_ERRORS -> createTypeAnswerNotCheckedWithErrors(
+                questionModel,
+                answerOrAnswers
+            )
+
+            TestQuestionType.TYPE_RIGHT_ANSWER -> createTypeRightAnswerNotChecked(
+                questionModel,
+                answerOrAnswers
+            )
+
+            TestQuestionType.DETAILED_ANSWER -> createDetailedAnswerNotChecked(
+                questionModel,
+                staticUrl,
+                answerOrAnswers
+            )
+
+            TestQuestionType.UNKNOWN -> {}
+        }
+    }
+
+    private fun createSolutionFavoritesWithType(
+        questionModel: QuestionModel,
+        staticUrl: String
+    ) {
+        when (questionModel.testQuestionType) {
+            TestQuestionType.SELECT_RIGHT_ANSWER_OR_ANSWERS -> createFavoritesSelectAnswers(
+                answers = questionModel.selectRightAnswerOrAnswersModel.answersList
+            )
+
+            TestQuestionType.TYPE_ANSWER_WITH_ERRORS -> createTypeAnswerWithErrorsFavorites(
+                rightsAnswer = questionModel.typeAnswerWithErrorsModel.rightAnswer
+            )
+
+            TestQuestionType.TYPE_RIGHT_ANSWER -> {
+                createTypeRightAnswerFavorites(
+                    rightsAnswers = questionModel.typeRightAnswerQuestionModel.rightAnswers
+                )
+            }
+
+            TestQuestionType.DETAILED_ANSWER -> createDetailedAnswerFavorites(
+                questionModel,
+                staticUrl
+            )
+
+            TestQuestionType.UNKNOWN -> {}
+        }
+    }
+
+
+    private fun createSelectAnswers(questionModel: QuestionModel) {
+        solutionUiItems.add(SelectRightAnswerTitleUiItem(questionModel.selectRightAnswerOrAnswersModel.selectRightAnswerTitle))
+        val listAnswer = questionModel.selectRightAnswerOrAnswersModel.answersList
+        listAnswer.forEach { answerSelectRightModel ->
+            solutionUiItems.add(
+                answerSelectRightModel.toAnswerSelectRightUiModel(
+                    checked = false,
+                    isValidated = false,
+                    questionId = questionModel.questionId,
+                )
+            )
+        }
+        solutionUiItems.add(SelectRightAnswerCheckButtonUiItem(questionModel.questionId))
+    }
+
+    private fun createSelectAnswersNotChecked(
+        questionModel: QuestionModel,
+        answerOrAnswers: String
+    ) {
+        solutionUiItems.add(SelectRightAnswerTitleUiItem(questionModel.selectRightAnswerOrAnswersModel.selectRightAnswerTitle))
+        val listAnswer = questionModel.selectRightAnswerOrAnswersModel.answersList
+
+        val answerList = answerOrAnswers.split(ANSWERS_DELIMITERS).filter { answerItem ->
+            answerItem.isNotEmpty()
+        }
+
+        listAnswer.forEach { answerSelectRightModel ->
+            solutionUiItems.add(
+                answerSelectRightModel.toAnswerSelectRightUiModel(
+                    checked = answerList.contains(answerSelectRightModel.text),
+                    isValidated = false,
+                    questionId = questionModel.questionId,
+                )
+            )
+        }
+        solutionUiItems.add(SelectRightAnswerCheckButtonUiItem(questionModel.questionId))
+    }
+
+    private fun createFavoritesSelectAnswers(answers: List<AnswerSelectRightModel>) {
+        solutionUiItems.add(SuccessAnswerTitleUiItem(resourceProvider.string(UiCoreStrings.correct_answers)))
+        answers.forEach { answerSelectRightModel ->
+            solutionUiItems.add(
+                answerSelectRightModel.toAnswerSelectRightUiModel(
+                    questionId = "-1",
+                    isValidated = true,
+                    checked = answerSelectRightModel.isRightAnswer,
+                )
+            )
+        }
+    }
+
+    private fun createTypeAnswerNotCheckedWithErrors(
+        questionModel: QuestionModel,
+        answerOrAnswers: String
+    ) {
+        solutionUiItems.add(
+            questionModel.toAnswerWithErrorsUiModel(
+                rightAnswer = questionModel.typeAnswerWithErrorsModel.rightAnswer,
+                inputAnswer = answerOrAnswers
+            )
+        )
+    }
+
+    private fun createTypeAnswerWithErrors(questionModel: QuestionModel) {
+        solutionUiItems.add(
+            questionModel.toAnswerWithErrorsUiModel(
+                rightAnswer = questionModel.typeAnswerWithErrorsModel.rightAnswer
+            )
+        )
+    }
+
+    private fun createTypeAnswerWithErrorsFavorites(rightsAnswer: String) {
+        solutionUiItems.add(
+            AnswerFavoritesWithErrorsResultUiItem(
+                answer = rightsAnswer,
+                title = resourceProvider.string(UiCoreStrings.correct_answer_without_errors)
+            )
+        )
+    }
+
+    private fun createTypeRightAnswer(questionModel: QuestionModel) {
+        solutionUiItems.add(
+            questionModel.toRightAnswerUiModel(
+                rightAnswersList = questionModel.typeRightAnswerQuestionModel.rightAnswers,
+                caseInSensitive = questionModel.typeRightAnswerQuestionModel.caseInSensitive,
+            )
+        )
+    }
+
+    private fun createTypeRightAnswerNotChecked(
+        questionModel: QuestionModel,
+        answerOrAnswers: String
+    ) {
+        solutionUiItems.add(
+            questionModel.toRightAnswerUiModel(
+                rightAnswersList = questionModel.typeRightAnswerQuestionModel.rightAnswers,
+                caseInSensitive = questionModel.typeRightAnswerQuestionModel.caseInSensitive,
+                inputAnswer = answerOrAnswers
+            )
+        )
+    }
+
+    private fun createTypeRightAnswerFavorites(rightsAnswers: List<String>) {
+        solutionUiItems.add(
+            AnswerFavoritesWithErrorsResultUiItem(
+                answer = rightsAnswers.joinToString(separator = "\n"),
+                title = resourceProvider.string(UiCoreStrings.correct_answers)
+            )
+        )
+    }
+
+    private fun createDetailedAnswer(questionModel: QuestionModel, staticUrl: String) {
+        val explanationList =
+            createQuestionWithHtml(questionModel.answerExplanationMarkUp, staticUrl)
+        solutionUiItems.add(
+            DetailedAnswerInputUiItem(
+                questionId = questionModel.questionId,
+                inputAnswer = EMPTY_STRING,
+                explanationList = explanationList,
+            )
+        )
+    }
+
+    private fun createDetailedAnswerNotChecked(
+        questionModel: QuestionModel,
+        staticUrl: String,
+        answerOrAnswers: String
+    ) {
+        val explanationList =
+            createQuestionWithHtml(questionModel.answerExplanationMarkUp, staticUrl)
+        solutionUiItems.add(
+            DetailedAnswerInputUiItem(
+                questionId = questionModel.questionId,
+                inputAnswer = answerOrAnswers,
+                explanationList = explanationList,
+            )
+        )
+    }
+
+    private fun createDetailedAnswerFavorites(questionModel: QuestionModel, staticUrl: String) {
+        solutionUiItems.add(SuccessAnswerTitleUiItem(resourceProvider.string(UiCoreStrings.explanation_answer)))
+        val explanationList =
+            createQuestionWithHtml(questionModel.answerExplanationMarkUp, staticUrl)
+        solutionUiItems.addAll(explanationList)
+    }
+
+    private fun createBottomItems(countDividerBottomQuestion: Int) {
+        solutionUiItems.add(FooterUiItem)
+        repeat(countDividerBottomQuestion) {
+            solutionUiItems.add(DividerUiItem(DividerType.BACKGROUND))
+        }
+    }
+
+    companion object {
+        private const val COUNT_DIVIDER_BOTTOM_QUESTION = 2
+        private const val FILE_IMAGE_TAG = "file-image"
+        private const val SUP_TEXT_TAG = "sup"
+        private const val SUB_TEXT_TAG = "sub"
+        private const val H_ALIGN_ATTR = "h-align"
+        private const val FILE_ID_ATTR = "file-id"
+        private const val EXTERNAL_VIDEO = "external-video"
+        private const val LINK = "link"
+
+        private const val FORMAT_SIZE_TYPE = "{sizeType}"
+        private const val FORMAT_FILE_ID = "{fileId}"
+        private const val IMAGE_MEDIUM_TYPE = "Medium"
+        const val IMAGE_ORIGINAL_TYPE = "Original"
+
+        const val ANSWERS_DELIMITERS = ";"
+
+        fun replaceUrl(url: String, fileId: String, type: String = IMAGE_MEDIUM_TYPE): String {
+            return url.replace(FORMAT_FILE_ID, fileId).replace(FORMAT_SIZE_TYPE, type)
+        }
+    }
+}

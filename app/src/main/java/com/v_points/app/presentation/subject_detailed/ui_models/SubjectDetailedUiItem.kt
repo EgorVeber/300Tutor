@@ -1,0 +1,3 @@
+package com.v_points.app.presentation.subject_detailed.ui_models
+
+interface SubjectDetailedUiItem

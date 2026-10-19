@@ -1,0 +1,12 @@
+package com.v_points.app.presentation.solution.ui_models.answer_erros
+
+import com.v_points.app.domain.solution.models.solution_models.AnswerValidationResultType
+import com.v_points.app.presentation.solution.ui_models.SolutionUiItem
+
+data class AnswerWithErrorsResultUiItem(
+    val questionId: String,
+    val answer: String,
+    val rightAnswer: String,
+    val answerValidationResultType: AnswerValidationResultType,
+    val pointString: String,
+) : SolutionUiItem

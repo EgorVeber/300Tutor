@@ -1,0 +1,5 @@
+package com.v_points.app.ui_common.fragment
+
+interface BottomNavigationVisibility {
+    fun visibility(show: Boolean)
+}

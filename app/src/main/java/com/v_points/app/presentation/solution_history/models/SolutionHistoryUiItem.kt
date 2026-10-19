@@ -1,0 +1,3 @@
+package com.v_points.app.presentation.solution_history.models
+
+interface SolutionHistoryUiItem

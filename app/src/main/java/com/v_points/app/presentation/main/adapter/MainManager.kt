@@ -1,0 +1,68 @@
+package com.v_points.app.presentation.main.adapter
+
+import androidx.recyclerview.widget.DiffUtil
+import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
+import com.v_points.app.presentation.main.adapter.MainAdapters.getActivateKeyUiItemAdapter
+import com.v_points.app.presentation.main.adapter.MainAdapters.getCourseLottieUiItemAdapter
+import com.v_points.app.presentation.main.adapter.MainAdapters.getCourseProgressUiModelAdapter
+import com.v_points.app.presentation.main.adapter.MainAdapters.getCourseUiModelAdapter
+import com.v_points.app.presentation.main.adapter.MainAdapters.getEmptyMainUiItem
+import com.v_points.app.presentation.main.adapter.MainAdapters.getExtraButtonUiItemAdapter
+import com.v_points.app.presentation.main.adapter.MainAdapters.getFooterUiItemAdapter
+import com.v_points.app.presentation.main.adapter.MainAdapters.getMainDividerUiItemAdapter
+import com.v_points.app.presentation.main.adapter.MainAdapters.getSubjectHeaderUiItemAdapter
+import com.v_points.app.presentation.main.adapter.MainAdapters.getSubjectUiModelAdapted
+import com.v_points.app.presentation.main.adapter.MainAdapters.getTelegramBindUiItemAdapter
+import com.v_points.app.presentation.main.adapter.MainAdapters.getTelegramOpenUiItemAdapter
+import com.v_points.app.presentation.main.ui_models.CourseProgressUiModel
+import com.v_points.app.presentation.main.ui_models.CourseUiModel
+import com.v_points.app.presentation.main.ui_models.MainUiItem
+import com.v_points.app.presentation.main.ui_models.SubjectUiModel
+
+class MainManager(
+    subjectClickListener: (SubjectUiModel) -> Unit,
+    activateKeyClickListener: () -> Unit,
+    tickUpClickListener: () -> Unit,
+    courseProgressUiModelClickListener: (CourseProgressUiModel) -> Unit,
+    courseUiModelClickListener: (CourseUiModel) -> Unit,
+    extraButtonClickListener: (String) -> Unit,
+    courseLottieUiItemClickListener: () -> Unit,
+    telegramUiItemClickListener: () -> Unit,
+    telegramOpenUiItemClickListener: () -> Unit,
+) : AsyncListDifferDelegationAdapter<MainUiItem>(DIFF_CALLBACK) {
+
+    init {
+        delegatesManager
+            .addDelegate(getSubjectHeaderUiItemAdapter())
+            .addDelegate(getFooterUiItemAdapter())
+            .addDelegate(getActivateKeyUiItemAdapter(activateKeyClickListener, tickUpClickListener))
+            .addDelegate(getSubjectUiModelAdapted(subjectClickListener))
+            .addDelegate(getCourseProgressUiModelAdapter(courseProgressUiModelClickListener))
+            .addDelegate(getMainDividerUiItemAdapter())
+            .addDelegate(getCourseUiModelAdapter(courseUiModelClickListener))
+            .addDelegate(getExtraButtonUiItemAdapter(extraButtonClickListener))
+            .addDelegate(getCourseLottieUiItemAdapter(courseLottieUiItemClickListener))
+            .addDelegate(getEmptyMainUiItem())
+            .addDelegate(getTelegramBindUiItemAdapter(telegramUiItemClickListener))
+            .addDelegate(getTelegramOpenUiItemAdapter(telegramOpenUiItemClickListener))
+    }
+
+    companion object {
+
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MainUiItem>() {
+            override fun areItemsTheSame(
+                oldItem: MainUiItem,
+                newItem: MainUiItem
+            ): Boolean {
+                return oldItem.javaClass == newItem.javaClass
+            }
+
+            override fun areContentsTheSame(
+                oldItem: MainUiItem,
+                newItem: MainUiItem
+            ): Boolean {
+                return oldItem.equals(newItem)
+            }
+        }
+    }
+}

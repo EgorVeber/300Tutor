@@ -1,0 +1,40 @@
+package com.v_points.app.presentation.test_section
+
+import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
+import com.v_points.app.ui_core.databinding.EmptyItemBinding
+import com.v_points.app.ui_core.databinding.TestSectionDomainItemBinding
+
+object SchoolAdapter {
+    fun getSchoolUiModelAdapted(schoolClickListener: (String, String) -> Unit) =
+        adapterDelegateViewBinding<SchoolUiModel, SchoolUiItem, TestSectionDomainItemBinding>(
+            { layoutInflater, root ->
+                TestSectionDomainItemBinding.inflate(layoutInflater, root, false)
+            }) {
+            binding.root.setOnClickListener {
+                if (binding.radioButton.isChecked) return@setOnClickListener
+                schoolClickListener.invoke(item.hostUrl, item.name)
+            }
+            binding.radioButton.setOnCheckedChangeListener { buttonView, isChecked ->
+                if (isChecked) return@setOnCheckedChangeListener
+            }
+            bind { payloadList ->
+                if (payloadList.isNotEmpty()) {
+                    binding.radioButton.isChecked = item.checked
+                } else {
+                    binding.name.text = item.name
+                    binding.domain.text = item.hostUrl
+                    binding.radioButton.isChecked = item.checked
+                }
+            }
+        }
+
+    fun getErrorSchoolUiItem() =
+        adapterDelegateViewBinding<ErrorSchool, SchoolUiItem, EmptyItemBinding>(
+            { layoutInflater, root ->
+                EmptyItemBinding.inflate(layoutInflater, root, false)
+            }) {
+            bind {
+                binding.rootTextView.text = item.title
+            }
+        }
+}
