@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace 'org.threehundredtutor.ui_core'
+    namespace 'org.v_points.ui_core'
     compileSdk 36
 
     defaultConfig {

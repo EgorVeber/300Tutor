@@ -1,3 +1,0 @@
-package org.threehundredtutor.presentation.solution_history.models
-
-interface SolutionHistoryUiItem

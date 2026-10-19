@@ -1,0 +1,3 @@
+package org.v_points.presentation.subject_workspace.adapter
+
+object EmptyDirectoryUiItem : WorkspaceDirectoryUiItem

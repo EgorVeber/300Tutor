@@ -1,3 +1,0 @@
-package org.threehundredtutor.presentation.subject_workspace.adapter
-
-object EmptyDirectoryUiItem : WorkspaceDirectoryUiItem

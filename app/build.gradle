@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace 'org.threehundredtutor'
+    namespace 'org.v_points'
     compileSdk 36
 
     defaultConfig {
@@ -17,8 +17,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        applicationId "org.threehundredtutor.demo"
-        dimension "org.threehundredtutor"
+        applicationId "org.v_points.app"
         buildConfigField "String", "BASE_URL", "\"https://app.mega-academy.online\""
         buildConfigField "Boolean", "CHANGE_DOMAIN", "true"
 
