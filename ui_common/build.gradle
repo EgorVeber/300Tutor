@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'org.v_points.ui_common'
+    namespace 'com.v_points.app.ui_common'
     compileSdk 36
 
     defaultConfig {

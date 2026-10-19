@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace 'org.v_points'
+    namespace 'com.v_points.app'
     compileSdk 36
 
     defaultConfig {
@@ -17,7 +17,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        applicationId "org.v_points.app"
+        applicationId "com.v_points.app"
         buildConfigField "String", "BASE_URL", "\"https://app.mega-academy.online\""
         buildConfigField "Boolean", "CHANGE_DOMAIN", "true"
 

@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/startedFragment"
-        android:name="org.v_points.presentation.starter.StartedFragment"
+        android:name="com.v_points.app.presentation.starter.StartedFragment"
         android:label="StartedFragment">
         <action
             android:id="@+id/action_startedFragment_to_registrationFragment"
@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/authorizationFragment"
-        android:name="org.v_points.presentation.authorization.AuthorizationFragment"
+        android:name="com.v_points.app.presentation.authorization.AuthorizationFragment"
         android:label="AuthorizationFragment"
         app:launchSingleTop="true"
         app:popUpTo="@+id/main_nav_graph"
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
-        android:name="org.v_points.presentation.registration.RegistrationFragment"
+        android:name="com.v_points.app.presentation.registration.RegistrationFragment"
         android:label="RegistrationFragment">
         <action
             android:id="@+id/action_registrationFragment_to_authorizationFragment"
@@ -56,7 +56,7 @@
     </fragment>
     <fragment
         android:id="@+id/restorPasswordFragment"
-        android:name="org.v_points.presentation.restore.RestorePasswordFragment"
+        android:name="com.v_points.app.presentation.restore.RestorePasswordFragment"
         android:label="RestorPasswordFragment">
         <action
             android:id="@+id/action_restorPasswordFragment_to_authorizationFragment"
@@ -64,7 +64,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountFragment"
-        android:name="org.v_points.presentation.account.AccountFragment"
+        android:name="com.v_points.app.presentation.account.AccountFragment"
         android:label="AccountFragment">
         <action
             android:id="@+id/action_accountFragment_to_authorizationFragment"
@@ -75,12 +75,12 @@
     </fragment>
     <fragment
         android:id="@+id/solutionFragment"
-        android:name="org.v_points.presentation.solution.SolutionFragment"
+        android:name="com.v_points.app.presentation.solution.SolutionFragment"
         android:label="SolutionFragment">
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="org.v_points.presentation.main.MainFragment"
+        android:name="com.v_points.app.presentation.main.MainFragment"
         android:label="MainFragment">
         <action
             android:id="@+id/action_mainFragment_to_subjectDetailedFragment"
@@ -102,7 +102,7 @@
     </fragment>
     <fragment
         android:id="@+id/solutionHistoryFragment"
-        android:name="org.v_points.presentation.solution_history.SolutionHistoryFragment"
+        android:name="com.v_points.app.presentation.solution_history.SolutionHistoryFragment"
         android:label="SolutionHistoryFragment">
         <action
             android:id="@+id/action_solutionHistoryFragment_to_homeFragment"
@@ -113,7 +113,7 @@
     </fragment>
     <fragment
         android:id="@+id/subjectDetailedFragment"
-        android:name="org.v_points.presentation.subject_detailed.SubjectDetailedFragment"
+        android:name="com.v_points.app.presentation.subject_detailed.SubjectDetailedFragment"
         android:label="SubjectDetailedFragment">
         <action
             android:id="@+id/action_subjectDetailedFragment_to_subjectTestsFragment"
@@ -139,7 +139,7 @@
         app:popExitAnim="@anim/slide_out_right" />
     <fragment
         android:id="@+id/subjectTestsFragment"
-        android:name="org.v_points.presentation.subject_tests.SubjectTestsFragment"
+        android:name="com.v_points.app.presentation.subject_tests.SubjectTestsFragment"
         android:label="SubjectTestsFragment">
         <action
             android:id="@+id/action_subjectTestsFragment_to_testFragment"
@@ -151,7 +151,7 @@
     </fragment>
     <fragment
         android:id="@+id/testFragment"
-        android:name="org.v_points.presentation.subjetc_start_test.SubjectStartTestFragment"
+        android:name="com.v_points.app.presentation.subjetc_start_test.SubjectStartTestFragment"
         android:label="TestFragment">
         <action
             android:id="@+id/action_testFragment_to_solutionFragment"
@@ -163,7 +163,7 @@
     </fragment>
     <fragment
         android:id="@+id/subjectWorkspaceFragment"
-        android:name="org.v_points.presentation.subject_workspace.SubjectWorkspaceFragment"
+        android:name="com.v_points.app.presentation.subject_workspace.SubjectWorkspaceFragment"
         android:label="SubjectWorkspaceFragment">
         <action
             android:id="@+id/action_subjectWorkspaceFragment_to_htmlPageFragment"
@@ -183,7 +183,7 @@
         app:popExitAnim="@anim/slide_out_right" />
     <fragment
         android:id="@+id/htmlPageFragment"
-        android:name="org.v_points.presentation.html_page.HtmlPageFragment"
+        android:name="com.v_points.app.presentation.html_page.HtmlPageFragment"
         android:label="HtmlPageFragment">
         <action
             android:id="@+id/action_htmlPageFragment_to_solutionFragment"
@@ -197,7 +197,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainMenuFragment"
-        android:name="org.v_points.presentation.main_menu.MainMenuFragment"
+        android:name="com.v_points.app.presentation.main_menu.MainMenuFragment"
         android:label="MainMenuFragment">
         <action
             android:id="@+id/action_mainMenuFragment_to_accountFragment"
@@ -229,7 +229,7 @@
     </fragment>
     <fragment
         android:id="@+id/schoolFragment"
-        android:name="org.v_points.presentation.test_section.SchoolFragment"
+        android:name="com.v_points.app.presentation.test_section.SchoolFragment"
         android:label="SchoolFragment">
         <action
             android:id="@+id/action_schoolFragment_to_authorizationFragment"
@@ -243,11 +243,11 @@
     </fragment>
     <fragment
         android:id="@+id/webViewFragment"
-        android:name="org.v_points.presentation.course.WebViewFragment"
+        android:name="com.v_points.app.presentation.course.WebViewFragment"
         android:label="WebViewFragment" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="org.v_points.presentation.settings.SettingsFragment"
+        android:name="com.v_points.app.presentation.settings.SettingsFragment"
         android:label="SettingsFragment">
         <action
             android:id="@+id/action_settingsFragment_to_schoolFragment"
@@ -255,7 +255,7 @@
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
-        android:name="org.v_points.presentation.favorites.FavoritesFragment"
+        android:name="com.v_points.app.presentation.favorites.FavoritesFragment"
         android:label="FavoritesFragment" >
     </fragment>
 

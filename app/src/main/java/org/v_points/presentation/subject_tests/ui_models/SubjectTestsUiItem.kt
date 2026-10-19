@@ -1,3 +1,0 @@
-package org.v_points.presentation.subject_tests.ui_models
-
-interface SubjectTestsUiItem
