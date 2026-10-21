@@ -1,4 +1,4 @@
-package com.v_points.app.presentation.main// ui/feature/MyFeatureScreen.kt
+package com.v_points.app.presentation.main
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -20,6 +20,7 @@ fun MyFeatureScreen(
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.getUiItemStateFlow().collectAsStateWithLifecycle()
+    val users by viewModel.getUsersStateFlow().collectAsStateWithLifecycle()
 
     Column(
         Modifier
@@ -28,11 +29,7 @@ fun MyFeatureScreen(
             .verticalScroll(rememberScrollState())
     ) {
         NamedTappableScale(
-            names = listOf(
-                "Вадим", "Вячеслав", "Дарья", "Дима",
-                "Евгений", "Егор", "Иван", "Максим",
-                "Олеся", "Саша", "Света", "Юля"
-            ),
+            names = users,
             onResultChange = {}
         )
     }

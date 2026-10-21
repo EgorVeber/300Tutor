@@ -1,6 +1,10 @@
 package com.v_points.app.presentation.main
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -31,6 +35,9 @@ import com.v_points.app.ui_common.coroutines.launchJob
 import com.v_points.app.ui_common.flow.SingleSharedFlow
 import com.v_points.app.ui_common.fragment.base.BaseViewModel
 import com.v_points.app.ui_core.SnackBarType
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.time.delay
 import java.util.Collections
 import javax.inject.Inject
 
@@ -45,40 +52,193 @@ class MainViewModel @Inject constructor(
     private val createTelegramLinkUseCase: CreateTelegramLinkUseCase,
 ) : BaseViewModel() {
 
+    private val db by lazy { FirebaseFirestore.getInstance() }
+
     private val uiItemsState = MutableStateFlow<List<MainUiItem>>(listOf())
+    private val usersState = MutableStateFlow<List<String>>(listOf())
     private val uiEventState = SingleSharedFlow<UiEvent>()
     private val loadingState = MutableStateFlow(false)
 
     fun getUiEventStateFlow() = uiEventState.asSharedFlow()
     fun getUiItemStateFlow() = uiItemsState.asStateFlow()
     fun getLoadingState() = loadingState.asStateFlow()
+    fun getUsersStateFlow() = usersState.asStateFlow()
 
     init {
         loadListData()
     }
 
-    private fun loadListData() {
-        viewModelScope.launchJob(tryBlock = {
-            loadingState.tryEmit(true)
+    private fun getInitUser(): List<Triple<String, String, String>> {
+        return listOf(
+            Triple("Егор", "Вебер", "v_admin"),
+            Triple("Вв", "Г", "v_user"),
+            Triple("Евгений", "Строгонов", "v_user"),
+            Triple("Максим", "Коровин", "v_user"),
+            Triple("Юлия", "Чермарева", "v_user"),
+            Triple("Вячеслав", "Сафронов", "v_user"),
+            Triple("Светлана", "Му", "v_user"),
+            Triple("Иван", "Архипов", "v_user"),
+            Triple("Дмитрий", "Картавенко", "v_user"),
+            Triple("Екатерина", "Новикова", "v_user"),
+            Triple("Дарья", "Столбова", "v_user"),
+            Triple("Олеся", "Волкова", "v_user"),
+            Triple("Саша", "Гагарин", "v_user"),
+            Triple("Максим", "Панаскин", "v_guest"),
+            Triple("Макс", "Кречетов", "v_guest"),
+        )
+    }
 
-            uiItemsState.update {
-                buildUiItems(
-                    courses = listOf(),
-                    subjects = listOf(),
-                    emptyCoursesImagePath = "",
-                    hasTelegramBind = true
+    private fun getRoles(): List<String> {
+        return listOf(
+            "v_admin",
+            "v_user",
+            "v_guest",
+        )
+    }
+
+    private fun getStats(): List<String> {
+        return listOf(
+            "Подача",//Serve
+            "Прием",//Reception
+            "Атака",//Attack
+            "Пас",//Set
+            "Защита",//Defense
+        )
+    }
+
+    data class User(
+        val id: String = "",
+        val v_name: String = "",
+        val v_lastName: String = "",
+        val v_role_type: String = "",
+    )
+
+    fun DocumentSnapshot.toUser(): User? {
+        val user = toObject(User::class.java) ?: return null
+        return user.copy(id = id)   // подставляем ID документа
+    }
+
+    private suspend  fun getUsers(): List<User> {
+        return FirebaseFirestore.getInstance()
+            .collection("v_users").get().await()
+            .documents
+            .mapNotNull { it.toUser() }
+    }
+
+    private fun loadListData() {
+        viewModelScope.launchJob(
+            tryBlock = {
+                loadingState.tryEmit(true)
+
+               val users = getUsers().map { it.v_name + it.v_lastName[0] }
+
+                usersState.update { users }
+            }, catchBlock =
+                { throwable ->
+                    handleError(throwable)
+                    uiItemsState.update {
+                        listOf(EmptyMainUiItem(resourceProvider.string(UiCoreStrings.error_loading_common)))
+                    }
+                }, finallyBlock =
+                {
+                    loadingState.tryEmit(false)
+                })
+    }
+
+    suspend fun addUsers(users: List<Triple<String, String, String>>) {
+        try {
+            // Добавляем каждый Triple как отдельный документ
+            users.forEach { (name, lastName, role) ->
+                val user = hashMapOf(
+                    "v_name" to name,
+                    "v_lastName" to lastName,
+                    "v_roleType" to role
                 )
+                db.collection("v_users").add(user).await()
             }
-        }, catchBlock =
-        { throwable ->
-            handleError(throwable)
-            uiItemsState.update {
-                listOf(EmptyMainUiItem(resourceProvider.string(UiCoreStrings.error_loading_common)))
+            Log.d("Firestore", "Добавлено пользователей: ${users.size}")
+        } catch (e: Exception) {
+            Log.w("Firestore", "Ошибка добавления", e)
+        }
+    }
+
+    suspend fun addRoles(users: List<String>) {
+        try {
+            // Добавляем каждый Triple как отдельный документ
+            users.forEach { name ->
+                val user = hashMapOf(
+                    "v_role_type" to name
+                )
+                db.collection("v_roles").add(user).await()
             }
-        }, finallyBlock =
-        {
-            loadingState.tryEmit(false)
-        })
+            Log.d("Firestore", "Добавлено пользователей: ${users.size}")
+        } catch (e: Exception) {
+            Log.w("Firestore", "Ошибка добавления", e)
+        }
+    }
+
+    suspend fun addStats(users: List<String>) {
+        try {
+            // Добавляем каждый Triple как отдельный документ
+            users.forEach { name ->
+                val user = hashMapOf(
+                    "v_stat" to name
+                )
+                db.collection("v_stats").add(user).await()
+            }
+            Log.d("Firestore", "Добавлено пользователей: ${users.size}")
+        } catch (e: Exception) {
+            Log.w("Firestore", "Ошибка добавления", e)
+        }
+    }
+
+
+    suspend fun migrateRoles() {
+        val db = FirebaseFirestore.getInstance()
+
+        try {
+            // 1. Загружаем роли: строим карту "значение v_role_type -> ID документа"
+            val rolesSnapshot = db.collection("v_roles").get().await()
+            val valueToRoleId = rolesSnapshot.documents.associate { doc ->
+                (doc.getString("v_role_type") ?: "").trim() to doc.id
+            }
+            Log.d("Migration", "Загружено ролей: ${valueToRoleId.size}")
+            Log.d("Migration", "Карта ролей: $valueToRoleId")
+
+            // 2. Загружаем пользователей
+            val usersSnapshot = db.collection("v_users").get().await()
+            Log.d("Migration", "Загружено пользователей: ${usersSnapshot.size()}")
+
+            // 3. Обновляем каждого пользователя
+            val batch = db.batch()
+            var updated = 0
+            var skipped = 0
+
+            usersSnapshot.documents.forEach { userDoc ->
+                val oldRole = userDoc.getString("v_roleType")  // старое поле в v_users
+                val roleId = valueToRoleId[oldRole?.trim()]
+
+                if (roleId != null) {
+                    batch.update(
+                        userDoc.reference,
+                        mapOf(
+                            "v_roleType" to FieldValue.delete(),  // удаляем старое поле
+                            "v_role_type" to roleId               // создаём новое с ID роли
+                        )
+                    )
+                    updated++
+                } else {
+                    Log.w("Migration", "Не найдена роль для '${oldRole}' у ${userDoc.id}")
+                    skipped++
+                }
+            }
+
+            batch.commit().await()
+            Log.d("Migration", "Обновлено: $updated, пропущено: $skipped")
+
+        } catch (e: Exception) {
+            Log.w("Migration", "Ошибка миграции", e)
+        }
     }
 
     private fun buildUiItems(

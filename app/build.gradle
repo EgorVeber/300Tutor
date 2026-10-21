@@ -4,7 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
     id 'org.jetbrains.kotlin.plugin.compose'
-    id 'com.google.gms.google-services' version '4.4.2' apply false
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -21,6 +21,7 @@ android {
         buildConfigField "String", "BASE_URL", "\"https://app.mega-academy.online\""
         buildConfigField "Boolean", "CHANGE_DOMAIN", "true"
 
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -116,4 +117,8 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-tooling'
 
     implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.9.1'
+
+    implementation platform('com.google.firebase:firebase-bom:34.19.0')
+    implementation 'com.google.firebase:firebase-firestore'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.1'
 }

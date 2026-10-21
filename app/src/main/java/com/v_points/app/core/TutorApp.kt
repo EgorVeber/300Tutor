@@ -1,6 +1,7 @@
 package com.v_points.app.core
 
 import android.app.Application
+import com.google.firebase.FirebaseApp
 import com.v_points.app.di.common.DaggerAppComponent
 
 class TutorApp : Application() {
@@ -11,6 +12,7 @@ class TutorApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        FirebaseApp.initializeApp(this)
         tutorAppInstance = this
         initDi()
     }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "121599939145",
+    "project_id": "voleybolpoints",
+    "storage_bucket": "voleybolpoints.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:121599939145:android:e32742010c731ce56c2598",
+        "android_client_info": {
+          "package_name": "com.v_points.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWcF-qdOUYoy8yU-FRPbqTIRBANAolTcU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
