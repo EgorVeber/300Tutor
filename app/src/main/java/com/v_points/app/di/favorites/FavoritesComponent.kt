@@ -1,11 +1,13 @@
 package com.v_points.app.di.favorites
 
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.BindsInstance
 import dagger.Component
 import com.v_points.app.core.DiSetHelper
 import com.v_points.app.data.common.data_source.AccountLocalDataSource
 import com.v_points.app.data.common.network.ServiceGeneratorProvider
 import com.v_points.app.di.common.ViewModelMapFactory
+import com.v_points.app.di.main.MainComponent
 import com.v_points.app.domain.settings_app.SettingsAppRepository
 import com.v_points.app.presentation.common.ResourceProvider
 
@@ -27,6 +29,7 @@ interface FavoritesComponent {
 
         @BindsInstance
         fun getAccountLocalDataSource(accountLocalDataSource: AccountLocalDataSource): Builder
+
         fun getFavoritesComponent(): FavoritesComponent
     }
 

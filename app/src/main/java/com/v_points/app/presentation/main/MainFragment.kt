@@ -1,5 +1,6 @@
 package com.v_points.app.presentation.main
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,14 +10,14 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.viewModels
 import com.google.firebase.firestore.FirebaseFirestore
+import com.v_points.app.admin_section.JsonHelper
 import com.v_points.app.core.UiCoreLayout
 import com.v_points.app.di.main.MainComponent
 import com.v_points.app.ui_common.fragment.base.BaseFragment
 import com.v_points.app.ui_core.theme.TutorTheme
+import java.io.IOException
 
 class MainFragment : BaseFragment(UiCoreLayout.main_fragment) {
-
-    private val db by lazy { FirebaseFirestore.getInstance() }
 
     private val mainComponent by lazy {
         MainComponent.createHomeComponent()
@@ -43,6 +44,37 @@ class MainFragment : BaseFragment(UiCoreLayout.main_fragment) {
                 }
             }
         }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val jsonInfo = context?.readJsonFromAssets(
+            fileName = "IMG_1322.json"
+        ).toString()
+
+
+        val model = JsonHelper.parseGame(jsonInfo)
+
+        Log.d(
+            "JsonHelper",
+            " $model"
+        )
+
+        Log.d(
+            "onViewCreated",
+            context?.readJsonFromAssets(
+                fileName = "IMG_1322.json"
+            ).toString()
+        )
+    }
+
+    fun Context.readJsonFromAssets(fileName: String): String? {
+        return try {
+            assets.open(fileName).bufferedReader().use { it.readText() }
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        }
+    }
 
     companion object {
         const val ACTIVATE_KEY_KEY = "ACTIVATE_KEY_KEY"

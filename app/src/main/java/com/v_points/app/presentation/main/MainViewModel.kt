@@ -68,44 +68,6 @@ class MainViewModel @Inject constructor(
         loadListData()
     }
 
-    private fun getInitUser(): List<Triple<String, String, String>> {
-        return listOf(
-            Triple("Егор", "Вебер", "v_admin"),
-            Triple("Вв", "Г", "v_user"),
-            Triple("Евгений", "Строгонов", "v_user"),
-            Triple("Максим", "Коровин", "v_user"),
-            Triple("Юлия", "Чермарева", "v_user"),
-            Triple("Вячеслав", "Сафронов", "v_user"),
-            Triple("Светлана", "Му", "v_user"),
-            Triple("Иван", "Архипов", "v_user"),
-            Triple("Дмитрий", "Картавенко", "v_user"),
-            Triple("Екатерина", "Новикова", "v_user"),
-            Triple("Дарья", "Столбова", "v_user"),
-            Triple("Олеся", "Волкова", "v_user"),
-            Triple("Саша", "Гагарин", "v_user"),
-            Triple("Максим", "Панаскин", "v_guest"),
-            Triple("Макс", "Кречетов", "v_guest"),
-        )
-    }
-
-    private fun getRoles(): List<String> {
-        return listOf(
-            "v_admin",
-            "v_user",
-            "v_guest",
-        )
-    }
-
-    private fun getStats(): List<String> {
-        return listOf(
-            "Подача",//Serve
-            "Прием",//Reception
-            "Атака",//Attack
-            "Пас",//Set
-            "Защита",//Defense
-        )
-    }
-
     data class User(
         val id: String = "",
         val v_name: String = "",
@@ -130,7 +92,13 @@ class MainViewModel @Inject constructor(
             tryBlock = {
                 loadingState.tryEmit(true)
 
-               val users = getUsers().map { it.v_name + it.v_lastName[0] }
+                val users1 = getUsers()
+                val users = users1.map { it.v_name + it.v_lastName[0] }
+
+                users1.map {
+                    Log.d("Users",it.v_name + " "+ it.v_lastName)
+                }
+
 
                 usersState.update { users }
             }, catchBlock =

@@ -1,5 +1,6 @@
 package com.v_points.app.di.main
 
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.BindsInstance
 import dagger.Component
 import com.v_points.app.core.DiSetHelper
@@ -33,6 +34,9 @@ interface MainComponent {
         fun getPrivateDataSource(privateDataSource: PrivateDataSource): Builder
 
         @BindsInstance
+        fun getFirestoreInstance(firebaseFirestore: FirebaseFirestore): Builder
+
+        @BindsInstance
         fun getSettingsAppLocalDataSource(settingsAppLocalDataSource: SettingsAppLocalDataSource): Builder
 
         fun getMainComponentBuilder(): MainComponent
@@ -48,6 +52,7 @@ interface MainComponent {
                 .getAccountLocalDataSource(DiSetHelper.appComponent.getAccountLocalDataSource())
                 .getPrivateDataSource(DiSetHelper.appComponent.getPrivateDataSource())
                 .getSettingsAppLocalDataSource(DiSetHelper.appComponent.getSettingsAppLocalDataSource())
+                .getFirestoreInstance(DiSetHelper.appComponent.getFirestoreInstance())
                 .getMainComponentBuilder()
     }
 }
