@@ -36,6 +36,7 @@ fun MainMenuItem(
     showArrow: Boolean = true,
     onClick: () -> Unit = {}
 ) {
+
     val painter = rememberVectorPainter(
         when (mainMenuUiModel) {
             is MainMenuUiModel.Games -> Icons.Default.VerifiedUser
