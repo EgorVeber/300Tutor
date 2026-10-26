@@ -40,7 +40,7 @@ class MainFragment : BaseFragment(UiCoreLayout.main_fragment) {
             )
             setContent {
                 TutorTheme {
-                    MyFeatureScreen(viewModel = viewModel)
+                    MainScreenRoute(viewModel = viewModel)
                 }
             }
         }

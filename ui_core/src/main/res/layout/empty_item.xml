@@ -6,5 +6,6 @@
     android:layout_gravity="center"
     android:layout_marginHorizontal="@dimen/margin_16"
     android:gravity="center"
+    android:text="Не удалось загрузить данные"
     android:textColor="?attr/textPrimary"
     android:textSize="@dimen/text_18" />

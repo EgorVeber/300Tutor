@@ -196,5 +196,8 @@
     <string name="favorites_title">Избранные вопросы</string>
     <string name="favorites_empty">Нет избранных вопросов.</string>
 
-
+    //VPoint
+    <string name="v_participants">Участники</string>
+    <string name="v_games">Игры</string>
+    <string name="v_profile">Профиль</string>
 </resources>

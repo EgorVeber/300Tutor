@@ -20,12 +20,12 @@ abstract class MainModule {
     @ViewModelInjectMapKey(MainViewModel::class)
     abstract fun getMainViewModel(mainViewModel: MainViewModel): ViewModel
 
-    @Binds
-    abstract fun bindsSubjectRepository(subjectRepositoryImpl: MainRepositoryImpl): MainRepository
+   //@Binds
+   //abstract fun bindsSubjectRepository(subjectRepositoryImpl: MainRepositoryImpl): MainRepository
 
-    @Binds
-    abstract fun bindsAccountRepository(accountRepositoryImpl: AccountRepositoryImpl): AccountRepository
+   //@Binds
+   //abstract fun bindsAccountRepository(accountRepositoryImpl: AccountRepositoryImpl): AccountRepository
 
-    @Binds
-    abstract fun bindsSettingsAppRepository(settingsAppRepositoryImpl: SettingsAppRepositoryImpl): SettingsAppRepository
+   //@Binds
+   //abstract fun bindsSettingsAppRepository(settingsAppRepositoryImpl: SettingsAppRepositoryImpl): SettingsAppRepository
 }

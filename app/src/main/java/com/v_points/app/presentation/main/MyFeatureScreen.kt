@@ -1,44 +1,38 @@
 package com.v_points.app.presentation.main
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.v_points.app.presentation.main.ui_models.MainUiItem
-import com.v_points.app.ui_core.theme.extendedColors
+import com.v_points.app.ui_core.components.menu_item.MainMenuItem
+import com.v_points.app.ui_core.components.menu_item.MainMenuUiModel
+import com.v_points.app.ui_core.theme.TutorTheme
 
 @Composable
-fun MyFeatureScreen(
+fun MainScreenRoute(
     viewModel: MainViewModel,
-    modifier: Modifier = Modifier
 ) {
-    val uiState by viewModel.getUiItemStateFlow().collectAsStateWithLifecycle()
-    val users by viewModel.getUsersStateFlow().collectAsStateWithLifecycle()
+    val mainState = viewModel.getMainState()
 
-    Column(
-        Modifier
-            .safeDrawingPadding()
-            .padding(top = 20.dp)
-            .verticalScroll(rememberScrollState())
-    ) {
-        NamedTappableScale(
-            names = users,
-            onResultChange = {}
+    Column(Modifier) {
+        MainScreenContent(
+            mainState = mainState
         )
     }
 }
 
 @Composable
-fun MyFeatureContent(
+fun MainScreenContent(
     modifier: Modifier = Modifier,
-    uiState: List<MainUiItem>
+    mainState: MainState
 ) {
     Surface(
         modifier = modifier.fillMaxSize(),
@@ -49,22 +43,44 @@ fun MyFeatureContent(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(uiState) { item ->
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { },
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.extendedColors.contentBackground
-                    )
-                ) {
-                    Text(
-                        text = item.toString(),
-                        color = MaterialTheme.colorScheme.error,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
+            items(mainState.items) { item ->
+                MainMenuItem(
+                    mainMenuUiModel = item,
+                    onClick = {}
+                )
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MenuTilesPreview() {
+    TutorTheme {
+        MainScreenContent(mainState = MutableMainState().apply {
+            items = buildList {
+                add(
+                    MainMenuUiModel.Users(
+                        title = "Участники",
+                        subtitle = null,
+                        iconRes = null
+                    )
+                )
+                add(
+                    MainMenuUiModel.Games(
+                        title = "Игры",
+                        subtitle = null,
+                        iconRes = null
+                    )
+                )
+                add(
+                    MainMenuUiModel.Profile(
+                        title = "Профиль",
+                        subtitle = null,
+                        iconRes = null
+                    )
+                )
+            }
+        })
     }
 }
