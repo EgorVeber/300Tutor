@@ -76,8 +76,7 @@
     <fragment
         android:id="@+id/solutionFragment"
         android:name="com.v_points.app.presentation.solution.SolutionFragment"
-        android:label="SolutionFragment">
-    </fragment>
+        android:label="SolutionFragment"></fragment>
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.v_points.app.vpoint.main.MainFragment"
@@ -99,6 +98,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_mainFragment_to_participantsFScreen"
+            app:destination="@id/participantsFScreen" />
     </fragment>
     <fragment
         android:id="@+id/solutionHistoryFragment"
@@ -256,7 +258,19 @@
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.v_points.app.presentation.favorites.FavoritesFragment"
-        android:label="FavoritesFragment" >
+        android:label="FavoritesFragment"></fragment>
+    <fragment
+        android:id="@+id/participantsFScreen"
+        android:name="com.v_points.app.vpoint.participants.presentation.ParticipantsFScreen"
+        android:label="ParticipantsFScreen">
+        <action
+            android:id="@+id/action_participantsFScreen_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        />
     </fragment>
 
 </navigation>

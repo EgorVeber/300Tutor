@@ -3,9 +3,12 @@ package com.v_points.app.vpoint.main
 import androidx.lifecycle.viewModelScope
 import com.v_points.app.core.UiCoreStrings
 import com.v_points.app.presentation.common.ResourceProvider
+import com.v_points.app.presentation.main_menu.MainMenuViewModel.UiAction
 import com.v_points.app.ui_common.coroutines.launchJob
+import com.v_points.app.ui_common.flow.SingleSharedFlow
 import com.v_points.app.ui_common.fragment.base.BaseViewModel
 import com.v_points.app.ui_core.components.menu_item.MainMenuUiModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
@@ -17,6 +20,9 @@ class MainViewModel @Inject constructor(
     private val uiItemsState = MutableMainState()
     private val usersState = MutableStateFlow<List<String>>(listOf())
     private val loadingState = MutableStateFlow(false)
+
+    private val navigateAction = SingleSharedFlow<MainScreenNavigateAction>()
+    fun getNavigateAction(): Flow<MainScreenNavigateAction> = navigateAction
 
     fun getMainState(): MainState = uiItemsState
     fun getLoadingState() = loadingState.asStateFlow()
@@ -71,15 +77,15 @@ class MainViewModel @Inject constructor(
     private fun onMenuItemCLick(menuItem: MainMenuUiModel) {
         when (menuItem) {
             is MainMenuUiModel.Games -> {
-
+                navigateAction.tryEmit(MainScreenNavigateAction.Game)
             }
 
             is MainMenuUiModel.Profile -> {
-
+                navigateAction.tryEmit(MainScreenNavigateAction.Profile)
             }
 
             is MainMenuUiModel.Users -> {
-
+                navigateAction.tryEmit(MainScreenNavigateAction.Users)
             }
         }
     }

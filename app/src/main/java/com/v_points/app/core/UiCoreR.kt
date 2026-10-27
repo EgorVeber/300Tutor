@@ -9,4 +9,5 @@ typealias UiCoreDrawable = com.v_points.app.ui_core.R.drawable
 typealias UiCoreId = com.v_points.app.ui_core.R.id
 typealias UiCoreStyle = com.v_points.app.ui_core.R.style
 typealias UiCoreLayout = com.v_points.app.ui_core.R.layout
+typealias AppLayout = com.v_points.app.R.layout
 typealias UiCoreAttr = com.v_points.app.ui_core.R.attr

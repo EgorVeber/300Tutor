@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.v_points.app.ui_core.components.menu_item.MainMenuItem
@@ -36,6 +37,7 @@ fun MainScreenContent(
     mainState: MainState,
     onAction: (MainScreenAction) -> Unit
 ) {
+    val context = LocalContext.current
     Surface(
         modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -59,7 +61,7 @@ fun MainScreenContent(
 
 @Preview(showBackground = true)
 @Composable
-fun MenuTilesPreview() {
+fun MainScreenContentPreview() {
     TutorTheme {
         MainScreenContent(
             onAction = {},
