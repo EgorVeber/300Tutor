@@ -80,7 +80,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.v_points.app.presentation.main.MainFragment"
+        android:name="com.v_points.app.vpoint.main.MainFragment"
         android:label="MainFragment">
         <action
             android:id="@+id/action_mainFragment_to_subjectDetailedFragment"

@@ -1,28 +1,14 @@
-package com.v_points.app.presentation.main
+package com.v_points.app.vpoint.main
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.v_points.app.core.UiCoreStrings
 import com.v_points.app.presentation.common.ResourceProvider
-import com.v_points.app.presentation.main.ui_models.MainUiItem
 import com.v_points.app.ui_common.coroutines.launchJob
 import com.v_points.app.ui_common.fragment.base.BaseViewModel
 import com.v_points.app.ui_core.components.menu_item.MainMenuUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import javax.inject.Inject
-
-interface MainState {
-    val items: List<MainMenuUiModel>
-}
-
-class MutableMainState : MainState {
-    override var items: List<MainMenuUiModel> by mutableStateOf(listOf())
-}
-
 
 class MainViewModel @Inject constructor(
     private val resourceProvider: ResourceProvider,
@@ -32,7 +18,7 @@ class MainViewModel @Inject constructor(
     private val usersState = MutableStateFlow<List<String>>(listOf())
     private val loadingState = MutableStateFlow(false)
 
-    fun getMainState():MainState = uiItemsState
+    fun getMainState(): MainState = uiItemsState
     fun getLoadingState() = loadingState.asStateFlow()
     fun getUsersStateFlow() = usersState.asStateFlow()
 
@@ -75,4 +61,26 @@ class MainViewModel @Inject constructor(
                 )
             )
         }
+
+    fun onAction(action: MainScreenAction) {
+        when (action) {
+            is MainScreenAction.OnMenuItemCLick -> onMenuItemCLick(action.item)
+        }
+    }
+
+    private fun onMenuItemCLick(menuItem: MainMenuUiModel) {
+        when (menuItem) {
+            is MainMenuUiModel.Games -> {
+
+            }
+
+            is MainMenuUiModel.Profile -> {
+
+            }
+
+            is MainMenuUiModel.Users -> {
+
+            }
+        }
+    }
 }

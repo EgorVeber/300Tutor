@@ -1,9 +1,8 @@
-package com.v_points.app.fiersote
+package com.v_points.app.vpoint.fiersote
 
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 @Module
 abstract class FirestoreModule {

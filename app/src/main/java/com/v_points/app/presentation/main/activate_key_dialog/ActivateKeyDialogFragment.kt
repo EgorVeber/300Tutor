@@ -14,8 +14,6 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.v_points.app.core.UiCoreStyle
 import com.v_points.app.di.main.ActivateKeyComponent
-import com.v_points.app.presentation.main.MainFragment.Companion.ACTIVATE_KEY_DATA
-import com.v_points.app.presentation.main.MainFragment.Companion.ACTIVATE_KEY_KEY
 import com.v_points.app.ui_common.flow.observeFlow
 import com.v_points.app.ui_common.fragment.LoadingDialog
 import com.v_points.app.ui_common.fragment.showSnack
@@ -110,6 +108,10 @@ class ActivateKeyDialogFragment : BottomSheetDialogFragment() {
     companion object {
         private val activateKeyDialogFragment =
             ActivateKeyDialogFragment::class.java.simpleName
+
+
+        const val ACTIVATE_KEY_KEY = "ACTIVATE_KEY_KEY"
+        const val ACTIVATE_KEY_DATA = "ACTIVATE_KEY_DATA"
 
         fun showDialog(
             childFragmentManager: FragmentManager

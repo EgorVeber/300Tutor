@@ -1,4 +1,4 @@
-package com.v_points.app.fiersote
+package com.v_points.app.vpoint.fiersote
 
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore

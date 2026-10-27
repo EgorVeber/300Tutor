@@ -1,11 +1,12 @@
-package com.v_points.app.admin_section
+package com.v_points.app.vpoint.admin_section
 
-import com.google.gson.Gson
-import com.google.gson.annotations.SerializedName
+import android.content.Context
+import android.util.Log
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import java.io.IOException
 
 object JsonHelper {
 
@@ -13,6 +14,38 @@ object JsonHelper {
 
     fun parseGame(raw: String): GameData =
         json.decodeFromString<GameData>(raw)
+
+
+    fun jsonGet(context: Context) {
+        val jsonInfo = context?.readJsonFromAssets(
+            fileName = "IMG_1322.json"
+        ).toString()
+
+
+        val model = parseGame(jsonInfo)
+
+        Log.d(
+            "JsonHelper",
+            " $model"
+        )
+
+        Log.d(
+            "onViewCreated",
+            context?.readJsonFromAssets(
+                fileName = "IMG_1322.json"
+            ).toString()
+        )
+    }
+
+    fun Context.readJsonFromAssets(fileName: String): String? {
+        return try {
+            assets.open(fileName).bufferedReader().use { it.readText() }
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
 }
 
 @Serializable
@@ -23,33 +56,33 @@ data class GameData(
 
 @Serializable
 data class GameInfo(
-    @SerialName("GameName")   val gameName: String,
-    @SerialName("TeamOne")    val teamOne: Int,
-    @SerialName("TeamTwo")    val teamTwo: Int,
+    @SerialName("GameName") val gameName: String,
+    @SerialName("TeamOne") val teamOne: Int,
+    @SerialName("TeamTwo") val teamTwo: Int,
     @SerialName("LocationID") val locationId: Int,
-    @SerialName("Time")       val time: Long,
+    @SerialName("Time") val time: Long,
     @SerialName("Description") val description: String,
     @SerialName("IsStatsServe") val isStatsServe: Int,
-    @SerialName("IsGameStats")  val isGameStats: Int
+    @SerialName("IsGameStats") val isGameStats: Int
 )
 
 @Serializable
 data class PlayerStat(
-    @SerialName("TeamName")       val teamName: String,
-    @SerialName("StartP")         val startP: Int,
-    @SerialName("EndP")           val endP: Int,
-    @SerialName("UserName")       val userName: String,
-    @SerialName("Out")            val out: Int,
-    @SerialName("Net")            val net: Int,
-    @SerialName("Undershoot")     val undershoot: Int,
-    @SerialName("Clean")          val clean: Int,
-    @SerialName("Grace")          val grace: Int,
-    @SerialName("Ace")            val ace: Int,
-    @SerialName("NotReception")   val notReception: Int,
+    @SerialName("TeamName") val teamName: String,
+    @SerialName("StartP") val startP: Int,
+    @SerialName("EndP") val endP: Int,
+    @SerialName("UserName") val userName: String,
+    @SerialName("Out") val out: Int,
+    @SerialName("Net") val net: Int,
+    @SerialName("Undershoot") val undershoot: Int,
+    @SerialName("Clean") val clean: Int,
+    @SerialName("Grace") val grace: Int,
+    @SerialName("Ace") val ace: Int,
+    @SerialName("NotReception") val notReception: Int,
     @SerialName("TransitionBall") val transitionBall: Int,
-    @SerialName("TotalLabel")     val totalLabel: String,
-    @SerialName("SuccessServe")   val successServe: Int,
-    @SerialName("ErrorServe")     val errorServe: Int
+    @SerialName("TotalLabel") val totalLabel: String,
+    @SerialName("SuccessServe") val successServe: Int,
+    @SerialName("ErrorServe") val errorServe: Int
 )
 
 private fun getInitUser(): List<Triple<String, String, String>> {

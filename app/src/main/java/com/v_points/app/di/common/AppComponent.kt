@@ -16,7 +16,7 @@ import com.v_points.app.di.subject_workspase.SubjectWorkspaceAppModule
 import com.v_points.app.domain.account.AccountRepository
 import com.v_points.app.domain.common.AccountAuthorizationInfoRepository
 import com.v_points.app.domain.settings_app.SettingsAppRepository
-import com.v_points.app.fiersote.FirestoreModule
+import com.v_points.app.vpoint.fiersote.FirestoreModule
 import com.v_points.app.presentation.common.ResourceProvider
 import javax.inject.Singleton
 

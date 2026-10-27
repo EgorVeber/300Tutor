@@ -1,4 +1,4 @@
-package com.v_points.app.presentation.main
+package com.v_points.app.vpoint.main
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,7 +24,8 @@ fun MainScreenRoute(
 
     Column(Modifier) {
         MainScreenContent(
-            mainState = mainState
+            mainState = mainState,
+            onAction = viewModel::onAction
         )
     }
 }
@@ -32,7 +33,8 @@ fun MainScreenRoute(
 @Composable
 fun MainScreenContent(
     modifier: Modifier = Modifier,
-    mainState: MainState
+    mainState: MainState,
+    onAction: (MainScreenAction) -> Unit
 ) {
     Surface(
         modifier = modifier.fillMaxSize(),
@@ -46,7 +48,9 @@ fun MainScreenContent(
             items(mainState.items) { item ->
                 MainMenuItem(
                     mainMenuUiModel = item,
-                    onClick = {}
+                    onClick = {
+                        onAction.invoke(MainScreenAction.OnMenuItemCLick(item))
+                    }
                 )
             }
         }
@@ -57,30 +61,33 @@ fun MainScreenContent(
 @Composable
 fun MenuTilesPreview() {
     TutorTheme {
-        MainScreenContent(mainState = MutableMainState().apply {
-            items = buildList {
-                add(
-                    MainMenuUiModel.Users(
-                        title = "Участники",
-                        subtitle = null,
-                        iconRes = null
+        MainScreenContent(
+            onAction = {},
+            mainState = MutableMainState().apply {
+                items = buildList {
+                    add(
+                        MainMenuUiModel.Users(
+                            title = "Участники",
+                            subtitle = null,
+                            iconRes = null
+                        )
                     )
-                )
-                add(
-                    MainMenuUiModel.Games(
-                        title = "Игры",
-                        subtitle = null,
-                        iconRes = null
+                    add(
+                        MainMenuUiModel.Games(
+                            title = "Игры",
+                            subtitle = null,
+                            iconRes = null
+                        )
                     )
-                )
-                add(
-                    MainMenuUiModel.Profile(
-                        title = "Профиль",
-                        subtitle = null,
-                        iconRes = null
+                    add(
+                        MainMenuUiModel.Profile(
+                            title = "Профиль",
+                            subtitle = null,
+                            iconRes = null
+                        )
                     )
-                )
-            }
-        })
+                }
+            },
+        )
     }
 }

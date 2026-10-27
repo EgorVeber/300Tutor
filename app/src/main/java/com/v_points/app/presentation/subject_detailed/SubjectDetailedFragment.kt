@@ -9,7 +9,6 @@ import com.v_points.app.R
 import com.v_points.app.core.UiCoreLayout
 import com.v_points.app.core.navigate
 import com.v_points.app.di.subject_detailed.SubjectDetailedComponent
-import com.v_points.app.presentation.main.MainFragment
 import com.v_points.app.presentation.subject_detailed.adapter.SubjectDetailedManager
 import com.v_points.app.presentation.subject_detailed.ui_models.SubjectMenuItemUiModel
 import com.v_points.app.presentation.subject_workspace.SubjectWorkspaceFragment.Companion.SUBJECT_WORKSPACE_SUB_TITLE_WORKSPACE_OR_DIRECTORY_NAME
@@ -31,8 +30,8 @@ class SubjectDetailedFragment : BaseFragment(UiCoreLayout.subject_detailed_fragm
     }
 
     private lateinit var binding: SubjectDetailedFragmentBinding
-    private val subjectId by BundleString(MainFragment.SUBJECT_DETAILED_KEY_ID, EMPTY_STRING)
-    private val subjectName by BundleString(MainFragment.SUBJECT_DETAILED_KEY_NAME, EMPTY_STRING)
+    private val subjectId by BundleString(SUBJECT_DETAILED_KEY_ID, EMPTY_STRING)
+    private val subjectName by BundleString(SUBJECT_DETAILED_KEY_NAME, EMPTY_STRING)
     private val menuItem by BundleParcelable(
         SUBJECT_DETAILED_KEY_MENU_ITEMS, SubjectMenuItemUiModel.EMPTY
     )
@@ -81,8 +80,8 @@ class SubjectDetailedFragment : BaseFragment(UiCoreLayout.subject_detailed_fragm
                     navigate(
                         R.id.action_subjectDetailedFragment_to_subjectDetailedFragment,
                         Bundle().apply {
-                            putString(MainFragment.SUBJECT_DETAILED_KEY_ID, "")
-                            putString(MainFragment.SUBJECT_DETAILED_KEY_NAME, state.title)
+                            putString(SUBJECT_DETAILED_KEY_ID, "")
+                            putString(SUBJECT_DETAILED_KEY_NAME, state.title)
                             putParcelable(SUBJECT_DETAILED_KEY_MENU_ITEMS, state.menuItem)
                         })
                 }
@@ -124,5 +123,8 @@ class SubjectDetailedFragment : BaseFragment(UiCoreLayout.subject_detailed_fragm
         const val SUBJECT_TESTS_SUBJECT_ID = "SUBJECT_TESTS_SUBJECT_ID"
         const val SUBJECT_TESTS_SUBJECT_NAME = "SUBJECT_TESTS_SUBJECT_NAME"
         const val SUBJECT_TESTS_MENU_ITEM_NAME = "SUBJECT_TESTS_MENU_ITEM_NAME"
+
+        const val SUBJECT_DETAILED_KEY_ID = "SUBJECT_DETAILED_KEY_ID"
+        const val SUBJECT_DETAILED_KEY_NAME = "SUBJECT_DETAILED_KEY_NAME"
     }
 }
