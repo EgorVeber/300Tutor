@@ -22,7 +22,7 @@ class MainFragment : BaseFragment(UiCoreLayout.main_fragment) {
         MainComponent.createHomeComponent()
     }
 
-    override var customHandlerBackStackWithDelay = false
+    override var customHandlerBackStackWithDelay = true
 
     override val viewModel: MainViewModel by viewModels {
         mainComponent.viewModelMapFactory()

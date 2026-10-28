@@ -4,25 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/mainBottomNavigation"
-        style="@style/Widget.MaterialComponents.BottomNavigationView.PrimarySurface"
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/bottomNavCompose"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="bottom"
-        android:background="@color/content_background_tutor"
-        android:visibility="gone"
-        app:itemActiveIndicatorStyle="@null"
-        app:itemHorizontalTranslationEnabled="true"
-        app:itemIconSize="@dimen/size_28"
-        app:itemIconTint="@color/bnv_tab_item_selector"
-        app:itemRippleColor="@color/default_white"
-        app:itemTextColor="@color/bnv_tab_item_selector"
-        app:labelVisibilityMode="labeled"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/main_menu" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <fragment
         android:id="@+id/nav_host_fragment_activity_main"
@@ -30,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@+id/mainBottomNavigation"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavCompose"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

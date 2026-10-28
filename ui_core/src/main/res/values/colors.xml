@@ -37,6 +37,7 @@
     <color name="default_dark_pink">#C2185C</color>
     <color name="default_background">#66000000</color>
     <color name="default_transparent">#00000000</color>
+    <color name="default_color">#FEF7FF</color>
 
     <color name="primary_tutor">#34c1d6</color>
     <color name="primary_tutor_40">#6634c1d6</color>
