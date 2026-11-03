@@ -1,4 +1,4 @@
-package com.v_points.app.vpoint.fiersote
+package com.v_points.app.vpoint.fiersote.di
 
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module

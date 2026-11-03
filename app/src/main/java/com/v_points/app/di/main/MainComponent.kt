@@ -1,5 +1,6 @@
 package com.v_points.app.di.main
 
+import com.google.firebase.firestore.FirebaseFirestore
 import com.v_points.app.core.DiSetHelper
 import com.v_points.app.di.common.ViewModelMapFactory
 import com.v_points.app.presentation.common.ResourceProvider
@@ -16,6 +17,9 @@ interface MainComponent {
         @BindsInstance
         fun getResourceProvider(resourceProvider: ResourceProvider): Builder
 
+        @BindsInstance
+        fun getFirestoreInstance(firebaseFirestore: FirebaseFirestore): Builder
+
 
         fun getMainComponentBuilder(): MainComponent
     }
@@ -25,6 +29,7 @@ interface MainComponent {
             DaggerMainComponent
                 .builder()
                 .getResourceProvider(DiSetHelper.appComponent.getResourceProvider())
+                .getFirestoreInstance(DiSetHelper.appComponent.getFirestoreInstance())
                 .getMainComponentBuilder()
     }
 }

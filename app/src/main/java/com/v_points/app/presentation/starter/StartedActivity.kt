@@ -3,8 +3,6 @@ package com.v_points.app.presentation.starter
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -34,54 +32,33 @@ class StartedActivity : AppCompatActivity(), BottomNavigationVisibility {
         binding = StartedActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        binding.mainBottomNavigation.setupWithNavController(navController)
 
-        binding.bottomNavCompose.setViewCompositionStrategy(
-            ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
-        )
-        binding.bottomNavCompose.setContent {
-            MaterialTheme {
-                BottomNavBar(
-                    navController = navController,
-                    onGamesClick = {
-                        navController.navigate(R.id.mainFragment)
-                    },
-                    onRatingClick = {
-                        navController.navigate(R.id.participantsFScreen)
-                    },
-                    onProfileClick = {
-                        navController.navigate(R.id.mainMenuFragment)
-                    },
-                )
+        binding.mainBottomNavigation.setOnItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.mainFragment -> {
+                    navController.navigate(R.id.mainFragment)
+                }
+
+                R.id.solutionHistoryFragment -> {
+                    navController.navigate(R.id.solutionHistoryFragment)
+                }
+
+                R.id.mainMenuFragment -> {
+                    navController.navigate(R.id.mainMenuFragment)
+                }
             }
+            true
         }
-
-       //binding.mainBottomNavigation.setupWithNavController(navController)
-
-       //binding.mainBottomNavigation.setOnItemSelectedListener { menuItem ->
-       //    when (menuItem.itemId) {
-       //        R.id.mainFragment -> {
-       //            navController.navigate(R.id.mainFragment)
-       //        }
-
-       //        R.id.solutionHistoryFragment -> {
-       //            navController.navigate(R.id.solutionHistoryFragment)
-       //        }
-
-       //        R.id.mainMenuFragment -> {
-       //            navController.navigate(R.id.mainMenuFragment)
-       //        }
-       //    }
-       //    true
-       //}
-       //binding.mainBottomNavigation.setOnItemReselectedListener {}
+        binding.mainBottomNavigation.setOnItemReselectedListener {}
     }
 
     override fun visibility(show: Boolean) {
         TransitionSet().also { transition ->
             transition.addTransition(Fade(Fade.IN))
             transition.addTransition(Fade(Fade.OUT))
-            beginDelayedTransition(binding.bottomNavCompose, transition)
+            beginDelayedTransition(binding.mainBottomNavigation, transition)
         }
-        binding.bottomNavCompose.isVisible = show
+        binding.mainBottomNavigation.isVisible = show
     }
 }

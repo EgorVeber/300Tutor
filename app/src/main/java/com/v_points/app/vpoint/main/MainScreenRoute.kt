@@ -7,15 +7,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.v_points.app.ui_core.components.menu_item.MainMenuItem
-import com.v_points.app.ui_core.components.menu_item.MainMenuUiModel
-import com.v_points.app.ui_core.theme.TutorTheme
+import com.v_points.app.ui_core.components.game_day.GameDayCardColorful
+import com.v_points.app.ui_core.components.game_day.GameDayUiModel
 
 @Composable
 fun MainScreenRoute(
@@ -37,24 +34,18 @@ fun MainScreenContent(
     mainState: MainState,
     onAction: (MainScreenAction) -> Unit
 ) {
-    val context = LocalContext.current
-    Surface(
+    LazyColumn(
         modifier = modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            items(mainState.items) { item ->
-                MainMenuItem(
-                    mainMenuUiModel = item,
-                    onClick = {
-                        onAction.invoke(MainScreenAction.OnMenuItemCLick(item))
-                    }
-                )
-            }
+        items(mainState.items) { item ->
+            GameDayCardColorful(
+                gameDay = item,
+                onClick = {
+                    onAction.invoke(MainScreenAction.OnGameDayClick(item))
+                }
+            )
         }
     }
 }
@@ -62,32 +53,28 @@ fun MainScreenContent(
 @Preview(showBackground = true)
 @Composable
 fun MainScreenContentPreview() {
-    TutorTheme {
+    MaterialTheme {
+        val mockDay = GameDayUiModel(
+            id = "1",
+            formattedDate = "02 Ноября 2026",
+            gymName = "Спортзал на Ленина",
+            gamesCount = 5,
+            isUserParticipated = true
+        )
+
+
         MainScreenContent(
             onAction = {},
             mainState = MutableMainState().apply {
                 items = buildList {
-                    add(
-                        MainMenuUiModel.Users(
-                            title = "Участники",
-                            subtitle = null,
-                            iconRes = null
-                        )
-                    )
-                    add(
-                        MainMenuUiModel.Games(
-                            title = "Игры",
-                            subtitle = null,
-                            iconRes = null
-                        )
-                    )
-                    add(
-                        MainMenuUiModel.Profile(
-                            title = "Профиль",
-                            subtitle = null,
-                            iconRes = null
-                        )
-                    )
+                    add(mockDay)
+                    add(mockDay.copy(isUserParticipated = false))
+                    add(mockDay)
+                    add(mockDay.copy(isUserParticipated = false))
+                    add(mockDay)
+                    add(mockDay)
+                    add(mockDay)
+                    add(mockDay.copy(isUserParticipated = false))
                 }
             },
         )

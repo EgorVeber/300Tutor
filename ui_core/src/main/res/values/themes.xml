@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:forceDarkAllowed" tools:targetApi="Q">false</item>
-        <item name="android:statusBarColor">?attr/background</item>
+        <item name="android:statusBarColor">?attr/defaultWhite</item>
         <item name="android:navigationBarColor">?attr/contentBackground</item>
         <item name="android:colorBackground">?attr/background</item>
         <item name="android:textColorPrimary">?attr/primary</item>

@@ -1,8 +1,8 @@
 <resources>
     // BottomMenuItems
-    <string name="bottom_menu_home_title">Главная</string>
-    <string name="bottom_menu_test_solution_title">Решения тестов</string>
-    <string name="bottom_menu_menu_title">Меню</string>
+    <string name="bottom_menu_home_title">Игры</string>
+    <string name="bottom_menu_test_solution_title">Рейтинг</string>
+    <string name="bottom_menu_menu_title">Профиль</string>
 
     // MainMenuItems
     <string name="main_menu_schedule">Расписания</string>

@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/mainFragment"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/outline_sports_volleyball_24"
         android:title="@string/bottom_menu_home_title"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/solutionHistoryFragment"
-        android:icon="@drawable/ic_notes"
+        android:icon="@drawable/outline_leaderboard_24"
         android:title="@string/bottom_menu_test_solution_title"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/mainMenuFragment"
-        android:icon="@drawable/ic_menu"
+        android:icon="@drawable/ic_persone"
         android:title="@string/bottom_menu_menu_title"
         app:showAsAction="ifRoom" />
 </menu>
