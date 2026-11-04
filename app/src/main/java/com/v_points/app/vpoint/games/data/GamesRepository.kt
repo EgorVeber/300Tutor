@@ -9,9 +9,11 @@ import javax.inject.Inject
 class GamesRepository @Inject constructor(
     private val dataSource: FirestoreDataSource
 ) {
-    suspend fun getAllGames(): List<GameModel> {
-        return dataSource.getAllGames()
-            .mapNotNull { doc -> doc.toObject(GameResponse::class.java) }
-            .mapNotNull { it.toGameModel() }
-    }
+    suspend fun getAllGames(): List<GameModel> = dataSource.getAllGames()
+        .mapNotNull { doc -> doc.toObject(GameResponse::class.java)?.toGameModel() }
+
+    suspend fun getGamesForDay(dayId: String): List<GameModel> = dataSource.getGamesForDay(dayId)
+        .mapNotNull { doc ->
+            doc.toObject(GameResponse::class.java)?.toGameModel()
+        }
 }

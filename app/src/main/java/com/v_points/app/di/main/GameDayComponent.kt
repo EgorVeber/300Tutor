@@ -8,7 +8,7 @@ import dagger.BindsInstance
 import dagger.Component
 
 @Component(modules = [MainModule::class])
-interface MainComponent {
+interface GameDayComponent {
     fun viewModelMapFactory(): ViewModelMapFactory
 
     @Component.Builder
@@ -21,12 +21,12 @@ interface MainComponent {
         fun getFirestoreInstance(firebaseFirestore: FirebaseFirestore): Builder
 
 
-        fun getMainComponentBuilder(): MainComponent
+        fun getMainComponentBuilder(): GameDayComponent
     }
 
     companion object {
-        fun createHomeComponent(): MainComponent =
-            DaggerMainComponent
+        fun createHomeComponent(): GameDayComponent =
+            DaggerGameDayComponent
                 .builder()
                 .getResourceProvider(DiSetHelper.appComponent.getResourceProvider())
                 .getFirestoreInstance(DiSetHelper.appComponent.getFirestoreInstance())

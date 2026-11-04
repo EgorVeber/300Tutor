@@ -8,8 +8,6 @@ import com.v_points.app.ui_common.fragment.base.BaseViewModel
 import com.v_points.app.ui_core.components.game_day.GameDayUiModel
 import com.v_points.app.vpoint.fiersote.data.repository.GymsRepository
 import com.v_points.app.vpoint.fiersote.domain.GameDayStatModel
-import com.v_points.app.vpoint.game_day.MainScreenAction
-import com.v_points.app.vpoint.game_day.MainScreenNavigateAction
 import com.v_points.app.vpoint.game_day.MainState
 import com.v_points.app.vpoint.game_day.MutableMainState
 import com.v_points.app.vpoint.game_day.domain.GetGameDaysUseCase
@@ -25,13 +23,13 @@ class GameDaysViewModel @Inject constructor(
     private val gymsRepository: GymsRepository,
 ) : BaseViewModel() {
 
-    private val screenState = MutableMainState()
+    private val screenGameDayState = MutableMainState()
     private val loadingState = MutableStateFlow(false)
 
     private val navigateAction = SingleSharedFlow<MainScreenNavigateAction>()
     fun getNavigateAction(): Flow<MainScreenNavigateAction> = navigateAction
 
-    fun getScreenState(): MainState = screenState
+    fun getScreenGameDayState(): MainState = screenGameDayState
 
     fun getLoadingState() = loadingState.asStateFlow()
 
@@ -46,7 +44,7 @@ class GameDaysViewModel @Inject constructor(
             loadingState.tryEmit(true)
             val gameDays: List<GameDayStatModel> = getGameDaysUseCase(userId)
             val gyms: Map<String, String> = gymsRepository.getGyms().associate { it.id to it.name }
-            screenState.items = gameDays.map { gameDayStat ->
+            screenGameDayState.items = gameDays.map { gameDayStat ->
                 gameDayStat.toGameDayUiModel(gyms)
             }
         }, catchBlock = { throwable ->
@@ -65,7 +63,7 @@ class GameDaysViewModel @Inject constructor(
     private fun onGameDayClick(item: GameDayUiModel) {
         viewModelScope.launchJob(tryBlock = {
             loadingState.tryEmit(true)
-            navigateAction.tryEmit(MainScreenNavigateAction.Game)
+            navigateAction.tryEmit(MainScreenNavigateAction.GamesScreen(item.id))
         }, catchBlock = { throwable ->
             throwable.printStackTrace()
             handleError(throwable)

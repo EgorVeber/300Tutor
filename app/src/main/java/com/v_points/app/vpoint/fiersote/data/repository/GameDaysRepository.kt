@@ -25,11 +25,6 @@ class GameDaysRepository @Inject constructor(
             doc.toObject(GameResponse::class.java)?.toGameModel()
         }
 
-    suspend fun getGamesForDay(dayId: String): List<GameModel> = dataSource.getGamesForDay(dayId)
-        .mapNotNull { doc ->
-            doc.toObject(GameResponse::class.java)?.toGameModel()
-        }
-
     suspend fun getAllUserStats(): List<UserStatModel> = dataSource.getAllUserStats()
         .mapNotNull { doc ->
             doc.toObject(UserStatResponse::class.java)?.toUserStatModel()

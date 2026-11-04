@@ -14,12 +14,13 @@ import androidx.compose.ui.unit.dp
 import com.v_points.app.ui_core.components.game_day.GameDayCardColorful
 import com.v_points.app.ui_core.components.game_day.GameDayUiModel
 import com.v_points.app.vpoint.game_day.presentation.GameDaysViewModel
+import com.v_points.app.vpoint.game_day.presentation.MainScreenAction
 
 @Composable
 fun MainScreenRoute(
     viewModel: GameDaysViewModel,
 ) {
-    val mainState = viewModel.getScreenState()
+    val mainState = viewModel.getScreenGameDayState()
 
     Column(Modifier) {
         MainScreenContent(

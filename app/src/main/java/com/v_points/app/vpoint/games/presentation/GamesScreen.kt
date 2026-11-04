@@ -2,42 +2,32 @@ package com.v_points.app.vpoint.games.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.SportsVolleyball
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.v_points.app.ui_core.components.day.GameCardClassic
+import com.v_points.app.ui_core.components.day.GameCardSplit
+import com.v_points.app.ui_core.components.day.GameUiModel
+import com.v_points.app.ui_core.components.participant.ParticipantsCardAvatarsWithRating
+import com.v_points.app.ui_core.components.participant.ParticipantsCardCompactV2
+import com.v_points.app.ui_core.components.participant.PlayerUiModel
+import com.v_points.app.ui_core.components.participant.TeamParticipantsUiModel
 
 @Composable
 fun GamesScreen(
     viewModel: GamesViewModel,
 ) {
-    val state: MutableGamesState = viewModel.getMainState()
+    val state: MutableGamesState = viewModel.getScreenGameState()
 
-    Column(Modifier.safeDrawingPadding()) {
-        GamesScreenContent(
-            state = state
-        )
-    }
+    GamesScreenContent(state = state)
 }
 
 @Composable
@@ -45,75 +35,66 @@ fun GamesScreenContent(
     modifier: Modifier = Modifier,
     state: GamesState,
 ) {
+    Column(Modifier.safeDrawingPadding()) {
+        state.participantsBlock?.let { model ->
+            ParticipantsBlock(state = model)
+        }
+        GamesBlock(modifier, state.gamesBlock)
+    }
+}
+
+@Composable
+private fun GamesBlock(
+    modifier: Modifier,
+    state: List<GameUiModel>
+) {
     Column(
         modifier = modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .verticalScroll(rememberScrollState())
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+            .padding(vertical = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        state.games.forEach { game ->
-            GameCard(game = game)
+        state.forEach { game ->
+            GameCardClassic(game = game) {}
         }
     }
 }
 
 @Composable
-fun GameCard(
-    game: GameUiModel,
-    onClick: () -> Unit = {}
+private fun ParticipantsBlock(
+    modifier: Modifier = Modifier,
+    state: TeamParticipantsUiModel
 ) {
-    Card(
-        onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = Icons.Default.SportsVolleyball,
-                contentDescription = null,
-                modifier = Modifier.padding(end = 16.dp),
-                tint = MaterialTheme.colorScheme.primary
-            )
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = game.name,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = "Игроков: Команда 1 (${game.teamOneCount}) vs Команда 2 (${game.teamTwoCount})",
-                    fontSize = 13.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-            Text(
-                text = game.scoreText,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.ExtraBold,
-                color = MaterialTheme.colorScheme.primary
-            )
-        }
-    }
+    ParticipantsCardCompactV2(state)
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GamesScreenContentPreview() {
+    val mockParticipantsWithRatingWithRating = TeamParticipantsUiModel(
+        teamOneName = "К1",
+        teamTwoName = "К2",
+        teamOnePlayers = listOf(
+            PlayerUiModel("Иван", 67), PlayerUiModel("Вячеслав", 72),
+            PlayerUiModel("Максим", 80), PlayerUiModel("Дима", 55),
+            PlayerUiModel("Егор", 90), PlayerUiModel("Вадим", 61)
+        ),
+        teamTwoPlayers = listOf(
+            PlayerUiModel("Евгений", 65), PlayerUiModel("Юля", 78),
+            PlayerUiModel("Света", 45), PlayerUiModel("Саша", 88),
+            PlayerUiModel("Дарья", 70), PlayerUiModel("Олеся", 59)
+        )
+    )
+
     MaterialTheme {
         GamesScreenContent(
             state = MutableGamesState().apply {
-                games = listOf(
+                gamesBlock = listOf(
                     GameUiModel("1", "Игра 1", "3 : 1", 5, 5),
                     GameUiModel("2", "Игра 2", "2 : 3", 4, 4)
                 )
+                participantsBlock = mockParticipantsWithRatingWithRating
             }
         )
     }

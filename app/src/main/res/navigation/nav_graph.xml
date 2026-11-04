@@ -79,7 +79,7 @@
         android:label="SolutionFragment"></fragment>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.v_points.app.vpoint.game_day.MainFragment"
+        android:name="com.v_points.app.vpoint.game_day.presentation.GameDayFragment"
         android:label="MainFragment">
         <action
             android:id="@+id/action_mainFragment_to_subjectDetailedFragment"
