@@ -271,7 +271,7 @@ fun GameDayCardColorful(
                                 .padding(horizontal = 8.dp, vertical = 4.dp)
                         ) {
                             Text(
-                                text = "Вы участовали",
+                                text = "Вы играли",
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color(0xFF2E7D32) // Темно-зеленый

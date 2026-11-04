@@ -10,7 +10,7 @@ data class GameDayResponse(
 
 data class GameResponse(
     @DocumentId val id: String? = null,
-    val gameDayId: String? = null, // <-- НОВОЕ ПОЛЕ
+    val gameDayId: String? = null,
     val name: String? = null,
     val scoreTeamOne: Int? = null,
     val scoreTeamTwo: Int? = null,

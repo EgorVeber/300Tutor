@@ -1,4 +1,4 @@
-package com.v_points.app.vpoint.main
+package com.v_points.app.vpoint.game_day
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,12 +13,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.v_points.app.ui_core.components.game_day.GameDayCardColorful
 import com.v_points.app.ui_core.components.game_day.GameDayUiModel
+import com.v_points.app.vpoint.game_day.presentation.GameDaysViewModel
 
 @Composable
 fun MainScreenRoute(
-    viewModel: MainViewModel,
+    viewModel: GameDaysViewModel,
 ) {
-    val mainState = viewModel.getMainState()
+    val mainState = viewModel.getScreenState()
 
     Column(Modifier) {
         MainScreenContent(

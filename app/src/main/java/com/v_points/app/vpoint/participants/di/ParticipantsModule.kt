@@ -5,7 +5,6 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import com.v_points.app.di.common.ViewModelInjectMapKey
-import com.v_points.app.vpoint.main.MainViewModel
 import com.v_points.app.vpoint.participants.presentation.ParticipantsViewModel
 
 @Module

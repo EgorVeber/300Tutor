@@ -1,4 +1,4 @@
-package com.v_points.app.vpoint.main
+package com.v_points.app.vpoint.game_day
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,12 +9,11 @@ import com.v_points.app.R
 import com.v_points.app.core.UiCoreLayout
 import com.v_points.app.core.navigate
 import com.v_points.app.di.main.MainComponent
-import com.v_points.app.presentation.course.WebViewFragment
-import com.v_points.app.presentation.main_menu.MainMenuViewModel
 import com.v_points.app.ui_common.flow.observeFlow
 import com.v_points.app.ui_common.fragment.base.BaseFragment
 import com.v_points.app.ui_core.databinding.MainFragmentBinding
 import com.v_points.app.ui_core.setComposeContent
+import com.v_points.app.vpoint.game_day.presentation.GameDaysViewModel
 
 class MainFragment : BaseFragment(UiCoreLayout.main_fragment) {
 
@@ -24,7 +23,7 @@ class MainFragment : BaseFragment(UiCoreLayout.main_fragment) {
 
     override var customHandlerBackStackWithDelay = true
 
-    override val viewModel: MainViewModel by viewModels {
+    override val viewModel: GameDaysViewModel by viewModels {
         mainComponent.viewModelMapFactory()
     }
 
@@ -52,7 +51,7 @@ class MainFragment : BaseFragment(UiCoreLayout.main_fragment) {
         viewModel.getNavigateAction().observeFlow(this) { action ->
             when (action) {
                 MainScreenNavigateAction.Game -> {
-
+                    navigate(R.id.action_mainFragment_to_gamesFScreen)
                 }
                 MainScreenNavigateAction.Profile -> {
 
