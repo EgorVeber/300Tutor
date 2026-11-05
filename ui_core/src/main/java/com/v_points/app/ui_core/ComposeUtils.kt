@@ -2,6 +2,8 @@ package com.v_points.app.ui_core
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.MaterialTheme
@@ -12,6 +14,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
 
 fun ComposeView.setComposeContent(
     insets: @Composable (() -> WindowInsets)? = { WindowInsets.statusBars },
@@ -38,3 +41,11 @@ fun Int.pxToDp(): Dp = LocalDensity.current.run { toDp() }
 
 @Composable
 fun Float.pxToDp(): Dp = LocalDensity.current.run { toDp() }
+
+val baseModifier = Modifier.safeDrawingPadding()
+
+val contentModifier =
+    Modifier
+        .padding(horizontal = 16.dp)
+
+

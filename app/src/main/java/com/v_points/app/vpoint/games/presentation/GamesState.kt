@@ -7,11 +7,17 @@ import com.v_points.app.ui_core.components.day.GameUiModel
 import com.v_points.app.ui_core.components.participant.TeamParticipantsUiModel
 
 interface GamesState {
-    val gamesBlock: List<GameUiModel>
-    val participantsBlock: TeamParticipantsUiModel?
+    val gamesContentState: GamesContentState
 }
 
 class MutableGamesState : GamesState {
-    override var gamesBlock: List<GameUiModel> by mutableStateOf(listOf())
-    override var participantsBlock: TeamParticipantsUiModel? by mutableStateOf(null)
+    override var gamesContentState: GamesContentState by mutableStateOf(GamesContentState.Empty)
+}
+
+sealed interface GamesContentState {
+    data object Empty : GamesContentState
+    data class Content(
+        val gamesBlock: List<GameUiModel>,
+        val participantsBlock: TeamParticipantsUiModel
+    ) : GamesContentState
 }

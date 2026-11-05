@@ -471,7 +471,10 @@ fun ParticipantsCardCompact(
             ) {
                 // Команда 1
                 Column(modifier = Modifier.weight(1f)) {
-                    TeamBadge(name = participants.teamOneName, color = MaterialTheme.colorScheme.primary)
+                    TeamBadge(
+                        name = participants.teamOneName,
+                        color = MaterialTheme.colorScheme.primary
+                    )
                     Spacer(modifier = Modifier.height(8.dp))
                     participants.teamOnePlayers.forEach { player ->
                         PlayerRowCompact(player, MaterialTheme.colorScheme.primary)
@@ -481,7 +484,10 @@ fun ParticipantsCardCompact(
 
                 // Команда 2
                 Column(modifier = Modifier.weight(1f)) {
-                    TeamBadge(name = participants.teamTwoName, color = MaterialTheme.colorScheme.secondary)
+                    TeamBadge(
+                        name = participants.teamTwoName,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
                     Spacer(modifier = Modifier.height(8.dp))
                     participants.teamTwoPlayers.forEach { player ->
                         PlayerRowCompact(player, MaterialTheme.colorScheme.secondary)
@@ -546,6 +552,7 @@ private fun PlayerRowCompact(player: PlayerUiModel, color: Color) {
         )
     }
 }
+
 val mockParticipantsCompact = TeamParticipantsUiModel(
     teamOneName = "К1",
     teamTwoName = "К2",
@@ -590,8 +597,7 @@ fun ParticipantsCardCompactV2(
 ) {
     Card(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 6.dp),
+            .fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         shape = RoundedCornerShape(12.dp)
@@ -649,9 +655,10 @@ private fun TeamHeaderLabel(name: String) {
 @Composable
 private fun PlayerRowCompact(player: PlayerUiModel) {
     // Определяем цвета в зависимости от того, текущий это юзер или нет
-    val backgroundColor =  Color.Transparent
-    val textColor = if (player.isCurrentUser) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
-    val ratingBgColor =MaterialTheme.colorScheme.surfaceVariant
+    val backgroundColor = Color.Transparent
+    val textColor =
+        if (player.isCurrentUser) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
+    val ratingBgColor = MaterialTheme.colorScheme.surfaceVariant
     val ratingTextColor = MaterialTheme.colorScheme.onSurfaceVariant
 
     Row(
@@ -696,6 +703,6 @@ private fun PlayerRowCompact(player: PlayerUiModel) {
 @Composable
 fun PreviewParticipantsCompactV2() {
     MaterialTheme {
-        ParticipantsCardCompactV2(mockParticipantsCompact)
+        ParticipantsCardCompactV2(mockParticipantsCompact, Modifier.padding(16.dp))
     }
 }

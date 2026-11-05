@@ -1,11 +1,10 @@
 package com.v_points.app.vpoint.games.presentation
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -13,60 +12,46 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.v_points.app.ui_core.components.day.GameCardClassic
-import com.v_points.app.ui_core.components.day.GameCardSplit
+import androidx.room.util.TableInfo
+import com.v_points.app.ui_core.baseModifier
 import com.v_points.app.ui_core.components.day.GameUiModel
-import com.v_points.app.ui_core.components.participant.ParticipantsCardAvatarsWithRating
+import com.v_points.app.ui_core.components.day.GamesListCardV4
+import com.v_points.app.ui_core.components.nav_bar.NavBar
 import com.v_points.app.ui_core.components.participant.ParticipantsCardCompactV2
 import com.v_points.app.ui_core.components.participant.PlayerUiModel
 import com.v_points.app.ui_core.components.participant.TeamParticipantsUiModel
+import com.v_points.app.ui_core.contentModifier
 
 @Composable
 fun GamesScreen(
     viewModel: GamesViewModel,
 ) {
     val state: MutableGamesState = viewModel.getScreenGameState()
-
     GamesScreenContent(state = state)
 }
 
 @Composable
 fun GamesScreenContent(
-    modifier: Modifier = Modifier,
     state: GamesState,
 ) {
-    Column(Modifier.safeDrawingPadding()) {
-        state.participantsBlock?.let { model ->
-            ParticipantsBlock(state = model)
-        }
-        GamesBlock(modifier, state.gamesBlock)
-    }
-}
+    Column(baseModifier) {
+        NavBar(title = "Игровой день", subtitle = "17.06.2026", onBackClick = {})
+        Box(contentModifier) {
+            when (val data = state.gamesContentState) {
+                is GamesContentState.Content -> {
+                    Column(
+                        Modifier.verticalScroll(rememberScrollState()).padding(PaddingValues(top = 8.dp, bottom = 24.dp)),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        ParticipantsCardCompactV2(data.participantsBlock)
+                        GamesListCardV4(games = data.gamesBlock)
+                    }
+                }
 
-@Composable
-private fun GamesBlock(
-    modifier: Modifier,
-    state: List<GameUiModel>
-) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
-            .padding(vertical = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        state.forEach { game ->
-            GameCardClassic(game = game) {}
+                GamesContentState.Empty -> {}
+            }
         }
     }
-}
-
-@Composable
-private fun ParticipantsBlock(
-    modifier: Modifier = Modifier,
-    state: TeamParticipantsUiModel
-) {
-    ParticipantsCardCompactV2(state)
 }
 
 @Preview(showBackground = true)
@@ -90,11 +75,23 @@ fun GamesScreenContentPreview() {
     MaterialTheme {
         GamesScreenContent(
             state = MutableGamesState().apply {
-                gamesBlock = listOf(
-                    GameUiModel("1", "Игра 1", "3 : 1", 5, 5),
-                    GameUiModel("2", "Игра 2", "2 : 3", 4, 4)
+                gamesContentState = GamesContentState.Content(
+                    gamesBlock = listOf(
+                        GameUiModel("1", "Игра 1", "3 : 1", 5, 5),
+                        GameUiModel("2", "Игра 2", "2 : 3", 4, 4),
+                        GameUiModel("2", "Игра 2", "2 : 3", 4, 4),
+                        GameUiModel("2", "Игра 2", "2 : 3", 4, 4),
+                        GameUiModel("2", "Игра 2", "2 : 3", 4, 4),
+                        GameUiModel("2", "Игра 2", "2 : 3", 4, 4),
+                        GameUiModel("2", "Игра 2", "2 : 3", 4, 4),
+                        GameUiModel("2", "Игра 2", "2 : 3", 4, 4),
+                        GameUiModel("2", "Игра 2", "2 : 3", 4, 4),
+                        GameUiModel("2", "Игра 2", "2 : 3", 4, 4),
+                        GameUiModel("2", "Игра 2", "2 : 3", 4, 4),
+                        GameUiModel("2", "Игра 2", "2 : 3", 4, 4),
+                    ),
+                    participantsBlock = mockParticipantsWithRatingWithRating
                 )
-                participantsBlock = mockParticipantsWithRatingWithRating
             }
         )
     }

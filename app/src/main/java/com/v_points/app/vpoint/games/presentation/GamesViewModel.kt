@@ -48,14 +48,12 @@ class GamesViewModel @Inject constructor(
                 games.firstOrNull() ?: return@launchJob // Пока берем участников из первой игры
 
             val users = usersDeferred.await()
-            Snapshot.withMutableSnapshot {
-                screenGameState.participantsBlock =
-                    getTeamParticipantsUiModel(game, users)
-
-                screenGameState.gamesBlock = games.mapIndexed { index, game ->
+            screenGameState.gamesContentState = GamesContentState.Content(
+                gamesBlock = games.mapIndexed { index, game ->
                     game.toGameUiModel(index)
-                }
-            }
+                },
+                participantsBlock = getTeamParticipantsUiModel(game, users)
+            )
 
         }, catchBlock = { throwable ->
             handleError(throwable)
