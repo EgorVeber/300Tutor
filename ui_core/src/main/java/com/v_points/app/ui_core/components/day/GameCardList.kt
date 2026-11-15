@@ -734,8 +734,8 @@ fun GamesListContent(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    "Игры дня",
-                    fontSize = 16.sp,
+                    "Игры",
+                    fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.weight(1f)

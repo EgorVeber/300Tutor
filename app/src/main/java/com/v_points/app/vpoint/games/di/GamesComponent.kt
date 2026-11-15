@@ -23,18 +23,18 @@ interface GamesComponent {
         fun getFirestoreInstance(firebaseFirestore: FirebaseFirestore): Builder
 
         @BindsInstance
-        fun getGameId(gameId: String): Builder
+        fun getGameId(gameComponentModel: GameComponentModel): Builder
 
         fun getGamesComponentBuilder(): GamesComponent
     }
 
     companion object {
-        fun createGamesComponent(gameDayId: String): GamesComponent =
+        fun createGamesComponent(gameComponentModel: GameComponentModel): GamesComponent =
             DaggerGamesComponent
                 .builder()
                 .getResourceProvider(DiSetHelper.appComponent.getResourceProvider())
                 .getFirestoreInstance(DiSetHelper.appComponent.getFirestoreInstance())
-                .getGameId(gameDayId)
+                .getGameId(gameComponentModel)
                 .getGamesComponentBuilder()
     }
 }

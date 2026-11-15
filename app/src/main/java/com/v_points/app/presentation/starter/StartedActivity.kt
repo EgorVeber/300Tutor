@@ -1,8 +1,13 @@
 package com.v_points.app.presentation.starter
 
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.view.Window
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -28,6 +33,7 @@ class StartedActivity : AppCompatActivity(), BottomNavigationVisibility {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setupWhiteStatusBar(window)
         setTheme(viewModel.onCreateActivity())
         binding = StartedActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -60,5 +66,24 @@ class StartedActivity : AppCompatActivity(), BottomNavigationVisibility {
             beginDelayedTransition(binding.mainBottomNavigation, transition)
         }
         binding.mainBottomNavigation.isVisible = show
+    }
+
+
+    private fun setupWhiteStatusBar(window: Window) {
+        // 1. Устанавливаем белый цвет (работает на API 21+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.statusBarColor = Color.WHITE
+        }
+
+        // 2. Включаем тёмные иконки (работает на API 23+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // Современный способ через WindowInsetsControllerCompat
+            WindowCompat.getInsetsController(window, window.decorView)
+                .isAppearanceLightStatusBars = true
+        } else {
+            // Запасной вариант для старых версий (API 21-22)
+            @Suppress("DEPRECATION")
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
     }
 }

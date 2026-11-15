@@ -7,7 +7,7 @@ sealed interface MainScreenAction {
 }
 
 sealed interface MainScreenNavigateAction {
-    data class GamesScreen(val gameDayId: String) : MainScreenNavigateAction
+    data class GamesScreen(val gameDayId: String,val gameDayDate: String) : MainScreenNavigateAction
     data object Profile : MainScreenNavigateAction
     data object Users : MainScreenNavigateAction
 }

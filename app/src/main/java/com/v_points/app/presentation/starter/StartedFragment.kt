@@ -30,7 +30,7 @@ class StartedFragment : BaseFragment(UiCoreLayout.started_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = StartedFragmentBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
-        applyWindowColor(UiCoreAttr.defaultBlack)
+        //applyWindowColor(UiCoreAttr.defaultBlack)//TODO НЕ забыть что сделать можно сетить статус бар и добавить на 15
     }
 
     override fun onObserveData() {
@@ -54,7 +54,7 @@ class StartedFragment : BaseFragment(UiCoreLayout.started_fragment) {
     }
 
     override fun onDestroyView() {
-        dropWindowColor()
+        //dropWindowColor()
         super.onDestroyView()
     }
 }

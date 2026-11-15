@@ -8,10 +8,12 @@ import com.v_points.app.ui_core.components.participant.TeamParticipantsUiModel
 
 interface GamesState {
     val gamesContentState: GamesContentState
+    val title: String
 }
 
 class MutableGamesState : GamesState {
     override var gamesContentState: GamesContentState by mutableStateOf(GamesContentState.Empty)
+    override var title: String by mutableStateOf("")
 }
 
 sealed interface GamesContentState {

@@ -57,7 +57,10 @@ class GameDayFragment : BaseFragment(UiCoreLayout.main_fragment) {
                 is MainScreenNavigateAction.GamesScreen -> {
                     navigate(
                         resId = R.id.action_mainFragment_to_gamesFScreen,
-                        bundle = bundleOf(GAME_DAY_ID to action.gameDayId)
+                        bundle = bundleOf(
+                            GAME_DAY_ID to action.gameDayId,
+                            GAME_DAY_DATE to action.gameDayDate
+                        )
                     )
                 }
 
@@ -77,5 +80,6 @@ class GameDayFragment : BaseFragment(UiCoreLayout.main_fragment) {
 
     companion object {
         const val GAME_DAY_ID = "GAME_DAY_ID"
+        const val GAME_DAY_DATE = "GAME_DAY_DATE"
     }
 }

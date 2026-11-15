@@ -31,35 +31,36 @@ class StarterViewModel @Inject constructor(
     private val isFirstStartApp = getFirstStartAppUseCase()
 
     init {
+        uiEventState.tryEmit(UiEvent.NavigateHomeScreen)
         viewModelScope.launchJob(tryBlock = {
-            getSettingAppUseCase(true)
-            val (login, password) = getAccountAuthorizationInfoUseCase.invoke()
-            when {
-                isFirstStartApp -> {
-                    uiEventState.tryEmit(UiEvent.NavigateRegistrationScreen)
-                    setFirstStartAppUseCase.invoke()
-                }
-
-                login.isNotEmpty() && password.isNotEmpty() -> {
-                    val loginModel = loginUseCase.invoke(
-                        LoginParamsModel(
-                            password = password,
-                            rememberMe = true,
-                            emailOrPhoneNumber = login
-                        )
-                    )
-                    if (loginModel.succeeded || loginModel.errorType == ErrorType.ALREADY_AUTHENTICATED) {
-                        getAccountUseCase(true)
-                        uiEventState.tryEmit(UiEvent.NavigateHomeScreen)
-                    } else {
-                        uiEventState.tryEmit(UiEvent.NavigateAuthorizationScreen)
-                    }
-                }
-
-                else -> {
-                    uiEventState.tryEmit(UiEvent.NavigateAuthorizationScreen)
-                }
-            }
+            // getSettingAppUseCase(true)
+            // val (login, password) = getAccountAuthorizationInfoUseCase.invoke()
+            // when {
+            //     isFirstStartApp -> {
+            //         uiEventState.tryEmit(UiEvent.NavigateRegistrationScreen)
+            //         setFirstStartAppUseCase.invoke()
+            //     }
+//
+            //     login.isNotEmpty() && password.isNotEmpty() -> {
+            //         val loginModel = loginUseCase.invoke(
+            //             LoginParamsModel(
+            //                 password = password,
+            //                 rememberMe = true,
+            //                 emailOrPhoneNumber = login
+            //             )
+            //         )
+            //         if (loginModel.succeeded || loginModel.errorType == ErrorType.ALREADY_AUTHENTICATED) {
+            //             getAccountUseCase(true)
+            //             uiEventState.tryEmit(UiEvent.NavigateHomeScreen)
+            //         } else {
+            //             uiEventState.tryEmit(UiEvent.NavigateAuthorizationScreen)
+            //         }
+            //     }
+//
+            //     else -> {
+            //         uiEventState.tryEmit(UiEvent.NavigateAuthorizationScreen)
+            //     }
+            // }
         }, catchBlock = { throwable ->
             handleError(throwable) {
                 uiEventState.tryEmit(UiEvent.NavigateAuthorizationScreen)

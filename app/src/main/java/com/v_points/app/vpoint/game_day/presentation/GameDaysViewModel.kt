@@ -63,7 +63,12 @@ class GameDaysViewModel @Inject constructor(
     private fun onGameDayClick(item: GameDayUiModel) {
         viewModelScope.launchJob(tryBlock = {
             loadingState.tryEmit(true)
-            navigateAction.tryEmit(MainScreenNavigateAction.GamesScreen(item.id))
+            navigateAction.tryEmit(
+                MainScreenNavigateAction.GamesScreen(
+                    gameDayId = item.id,
+                    gameDayDate = item.formattedDate
+                )
+            )
         }, catchBlock = { throwable ->
             throwable.printStackTrace()
             handleError(throwable)

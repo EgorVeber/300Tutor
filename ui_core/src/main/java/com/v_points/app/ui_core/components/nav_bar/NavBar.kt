@@ -17,15 +17,15 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun NavBar(
+    modifier: Modifier = Modifier,
     title: String,
     subtitle: String? = null,
     onBackClick: (() -> Unit)? = null,
     onMenuClick: (() -> Unit)? = null,
-    modifier: Modifier = Modifier,
 ) {
     Surface(
         modifier = modifier.fillMaxWidth(),
-        color = Color.Transparent,
+        color = Color.White,
         tonalElevation = 3.dp
     ) {
         Row(

@@ -603,7 +603,6 @@ fun ParticipantsCardCompactV2(
         shape = RoundedCornerShape(12.dp)
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
-
             Text(
                 text = "Составы команд",
                 fontSize = 14.sp,
@@ -614,7 +613,7 @@ fun ParticipantsCardCompactV2(
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp) // Отступ между колонками
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 // Команда 1
                 Column(modifier = Modifier.weight(1f)) {

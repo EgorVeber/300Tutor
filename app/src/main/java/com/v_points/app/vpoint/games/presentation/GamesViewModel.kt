@@ -5,21 +5,25 @@ import androidx.compose.runtime.snapshots.Snapshot
 import androidx.lifecycle.viewModelScope
 import com.v_points.app.presentation.common.ResourceProvider
 import com.v_points.app.ui_common.coroutines.launchJob
+import com.v_points.app.ui_common.flow.SingleSharedFlow
 import com.v_points.app.ui_common.fragment.base.BaseViewModel
 import com.v_points.app.ui_core.components.participant.PlayerUiModel
 import com.v_points.app.ui_core.components.participant.TeamParticipantsUiModel
 import com.v_points.app.vpoint.fiersote.domain.GameModel
 import com.v_points.app.vpoint.fiersote.domain.UserModel
+import com.v_points.app.vpoint.game_day.presentation.MainScreenNavigateAction
+import com.v_points.app.vpoint.games.di.GameComponentModel
 import com.v_points.app.vpoint.games.domain.GetGamesForDayUseCase
 import com.v_points.app.vpoint.games.presentation.mappers.toGameUiModel
 import com.v_points.app.vpoint.participants.domain.GetParticipantsUseCase
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class GamesViewModel @Inject constructor(
-    private val gameDayId: String,
+    private val gameComponentModel: GameComponentModel,
     private val resourceProvider: ResourceProvider,
     private val getGamesForDayUseCase: GetGamesForDayUseCase,
     private val getParticipantsUseCase: GetParticipantsUseCase,
@@ -27,18 +31,28 @@ class GamesViewModel @Inject constructor(
 
     private val screenGameState = MutableGamesState()
     private val loadingState = MutableStateFlow(false)
-
+    private val navigateAction = SingleSharedFlow<GameScreenNavigateAction>()
     fun getScreenGameState(): MutableGamesState = screenGameState
     fun getLoadingState() = loadingState.asStateFlow()
+    fun getNavigateAction(): Flow<GameScreenNavigateAction> = navigateAction
 
     init {
         loadListData()
+        screenGameState.title = gameComponentModel.gameDayDate
+    }
+
+    fun onNavigate(action: GameScreenNavigateAction) {
+        when (action) {
+            is GameScreenNavigateAction.OnBackClick -> {
+                navigateAction.tryEmit(GameScreenNavigateAction.OnBackClick)
+            }
+        }
     }
 
     private fun loadListData() {
         viewModelScope.launchJob(tryBlock = {
             loadingState.tryEmit(true)
-            val gamesDeferred = async { getGamesForDayUseCase(gameDayId) }
+            val gamesDeferred = async { getGamesForDayUseCase(gameComponentModel.gameDayId) }
 
             val usersDeferred =
                 async { getParticipantsUseCase() } // Добавить кеш юзеров и всех справочников на старте
