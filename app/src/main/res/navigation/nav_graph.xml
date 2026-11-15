@@ -257,6 +257,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_schoolFragment"
             app:destination="@id/schoolFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_createGameDayFragment"
+            app:destination="@id/createGameDayFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
@@ -277,6 +280,14 @@
         android:label="GamesFScreen">
         <action
             android:id="@+id/action_gamesFScreen_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createGameDayFragment"
+        android:name="com.v_points.app.vpoint.game_day_create.presentation.CreateGameDayFragment"
+        android:label="CreateGameDayFragment">
+        <action
+            android:id="@+id/action_createGameDayFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
     </fragment>
 

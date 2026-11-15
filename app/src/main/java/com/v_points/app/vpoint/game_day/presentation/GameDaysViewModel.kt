@@ -8,8 +8,6 @@ import com.v_points.app.ui_common.fragment.base.BaseViewModel
 import com.v_points.app.ui_core.components.game_day.GameDayUiModel
 import com.v_points.app.vpoint.fiersote.data.repository.GymsRepository
 import com.v_points.app.vpoint.fiersote.domain.GameDayStatModel
-import com.v_points.app.vpoint.game_day.MainState
-import com.v_points.app.vpoint.game_day.MutableMainState
 import com.v_points.app.vpoint.game_day.domain.GetGameDaysUseCase
 import com.v_points.app.vpoint.game_day.mappers.toGameDayUiModel
 import kotlinx.coroutines.flow.Flow

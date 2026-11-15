@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -51,7 +52,8 @@ fun MenuListCard(
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    icon, null,
+                    painter = icon,
+                    contentDescription = null,
                     tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier.size(22.dp)
                 )
@@ -80,6 +82,23 @@ fun MenuListCard(
     }
 }
 
+@Composable
+fun MenuListCard(
+    title: String,
+    subtitle: String?,
+    imageVector: ImageVector,
+    badge: String? = null,
+    onClick: () -> Unit = {}
+) {
+    MenuListCard(
+        title = title,
+        subtitle = subtitle,
+        icon = rememberVectorPainter(imageVector),
+        badge = badge,
+        onClick = onClick
+    )
+}
+
 @Preview(showBackground = true, backgroundColor = 0xFFF5F5F5, widthDp = 360, heightDp = 440)
 @Composable
 fun MenuListPreview() {
@@ -90,11 +109,11 @@ fun MenuListPreview() {
         ) {
             MenuListCard(
                 "Профиль", "Личные данные",
-                rememberVectorPainter(Icons.Default.Person)
+                imageVector = Icons.Default.Person
             )
             MenuListCard(
                 "Уведомления", "5 непрочитанных",
-                rememberVectorPainter(Icons.Default.Notifications),
+                imageVector = Icons.Default.Notifications,
                 badge = "5"
             )
             MenuListCard(

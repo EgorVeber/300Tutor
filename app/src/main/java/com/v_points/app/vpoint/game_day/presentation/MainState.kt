@@ -1,4 +1,4 @@
-package com.v_points.app.vpoint.game_day
+package com.v_points.app.vpoint.game_day.presentation
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

@@ -1,8 +1,9 @@
 package com.v_points.app.presentation.settings
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.core.view.isVisible
+import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.v_points.app.R
@@ -11,37 +12,59 @@ import com.v_points.app.core.navigate
 import com.v_points.app.di.settings.SettingsComponent
 import com.v_points.app.ui_common.flow.observeFlow
 import com.v_points.app.ui_common.fragment.base.BaseFragment
-import com.v_points.app.ui_core.databinding.SettingFragmentBinding
+import com.v_points.app.ui_core.databinding.MainFragmentBinding
+import com.v_points.app.ui_core.setComposeContent
 
 class SettingsFragment : BaseFragment(UiCoreLayout.setting_fragment) {
 
     override val bottomMenuVisible: Boolean = false
 
-    private lateinit var binding: SettingFragmentBinding
-
     private val settingsComponent by lazy {
         SettingsComponent.createSettingsComponent()
     }
 
-    override val viewModel by viewModels<SettingsViewModel> {
+    override val viewModel: SettingsViewModel by viewModels {
         settingsComponent.viewModelMapFactory()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding = SettingFragmentBinding.bind(view)
-        super.onViewCreated(view, savedInstanceState)
+    override fun onBackPressed() {
+        findNavController().popBackStack()
     }
 
-    override fun onInitView(savedInstanceState: Bundle?) {
-        binding.rootSchool.setOnClickListener {
-            navigate(R.id.action_settingsFragment_to_schoolFragment)
+    private var _binding: MainFragmentBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = MainFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.composeView.setComposeContent {
+            SettingsScreen(
+                viewModel = viewModel,
+                onBackClick = { findNavController().popBackStack() },
+            )
         }
-        binding.settingsToolbar.setNavigationOnClickListener { findNavController().popBackStack() }
     }
 
     override fun onObserveData() {
-        viewModel.getChosenSchoolState().observeFlow(this) { visible ->
-            binding.rootSchool.isVisible = visible
+        viewModel.getNavigateAction().observeFlow(this) { action ->
+            when (action) {
+                SettingsNavigateAction.CreateGameDay -> {
+                    navigate(R.id.action_settingsFragment_to_createGameDayFragment)
+                }
+            }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

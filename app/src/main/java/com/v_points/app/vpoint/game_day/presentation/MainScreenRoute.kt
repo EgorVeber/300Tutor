@@ -15,6 +15,8 @@ import com.v_points.app.ui_core.components.game_day.GameDayCardColorful
 import com.v_points.app.ui_core.components.game_day.GameDayUiModel
 import com.v_points.app.vpoint.game_day.presentation.GameDaysViewModel
 import com.v_points.app.vpoint.game_day.presentation.MainScreenAction
+import com.v_points.app.vpoint.game_day.presentation.MainState
+import com.v_points.app.vpoint.game_day.presentation.MutableMainState
 
 @Composable
 fun MainScreenRoute(
