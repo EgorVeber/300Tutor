@@ -2,16 +2,13 @@ package com.v_points.app.presentation.main_menu
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.viewModels
 import com.v_points.app.R
-import com.v_points.app.core.UiCoreAttr
 import com.v_points.app.core.UiCoreLayout
 import com.v_points.app.core.navigate
 import com.v_points.app.di.main_menu.MainMenuComponent
 import com.v_points.app.presentation.course.WebViewFragment
 import com.v_points.app.ui_common.flow.observeFlow
-import com.v_points.app.ui_common.fragment.applyWindowColor
 import com.v_points.app.ui_common.fragment.base.BaseFragment
 import com.v_points.app.ui_core.setComposeContent
 
@@ -33,10 +30,7 @@ class MainMenuFragment : BaseFragment(UiCoreLayout.main_menu_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-                //applyWindowColor(UiCoreAttr.contentBackground)
-                //WindowInsetsControllerCompat(requireActivity().window, view).isAppearanceLightStatusBars = true
-
-        (view as androidx.compose.ui.platform.ComposeView).setComposeContent {
+        (view as androidx.compose.ui.platform.ComposeView).setComposeContent(insets = null) {
             MainMenuScreen(
                 viewModel = viewModel,
                 onAccountClick = {

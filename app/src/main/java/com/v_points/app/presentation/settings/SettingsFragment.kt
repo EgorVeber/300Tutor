@@ -33,7 +33,7 @@ class SettingsFragment : BaseFragment(UiCoreLayout.setting_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (view as androidx.compose.ui.platform.ComposeView).setComposeContent {
+        (view as androidx.compose.ui.platform.ComposeView).setComposeContent(insets = null) {
             SettingsScreen(
                 viewModel = viewModel,
                 onBackClick = { findNavController().popBackStack() },

@@ -37,7 +37,7 @@ fun MainMenuScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .safeDrawingPadding()
+            .navigationBarsPadding()
     ) {
         TopAppBar(
             title = {

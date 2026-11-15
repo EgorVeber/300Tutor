@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -16,9 +17,11 @@ import androidx.transition.Fade
 import androidx.transition.TransitionManager.beginDelayedTransition
 import androidx.transition.TransitionSet
 import com.v_points.app.R
+import com.v_points.app.core.UiCoreAttr
 import com.v_points.app.databinding.StartedActivityBinding
 import com.v_points.app.di.activity.ActivityComponent
 import com.v_points.app.ui_common.fragment.BottomNavigationVisibility
+import com.v_points.app.ui_common.fragment.applyWindowColor
 
 class StartedActivity : AppCompatActivity(), BottomNavigationVisibility {
 
@@ -86,5 +89,8 @@ class StartedActivity : AppCompatActivity(), BottomNavigationVisibility {
             @Suppress("DEPRECATION")
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
+
+       // applyWindowColor(UiCoreAttr.defaultRed)
+        // WindowInsetsControllerCompat(requireActivity().window, view).isAppearanceLightStatusBars = true
     }
 }

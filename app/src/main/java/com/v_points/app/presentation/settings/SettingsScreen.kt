@@ -42,7 +42,7 @@ fun SettingsScreenContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .safeDrawingPadding()
+            .navigationBarsPadding()
     ) {
         TopAppBar(
             title = {

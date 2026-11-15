@@ -1,5 +1,6 @@
 package com.v_points.app.vpoint.game_day_create.presentation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -44,7 +45,7 @@ fun CreateGameDayScreenContent(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .safeDrawingPadding()
+            .navigationBarsPadding()
     ) {
         TopAppBar(
             title = {
@@ -226,7 +227,9 @@ fun CreateGameDayScreenPreview() {
 @Composable
 fun DatePickerDialogPreview() {
     MaterialTheme {
-        Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)) {
             DatePickerDialogComponent(
                 onDateSelected = {},
                 onDismiss = {}
@@ -239,7 +242,9 @@ fun DatePickerDialogPreview() {
 @Composable
 fun GymSelectionDialogPreview() {
     MaterialTheme {
-        Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)) {
             GymSelectionDialog(
                 gyms = listOf(
                     GymModel("1", "Зал №1", "Спортивный зал №1 на Ленина", 0.0, 0.0),

@@ -32,10 +32,7 @@ class CreateGameDayFragment : BaseFragment(AppLayout.create_game_day_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        applyWindowColor(UiCoreAttr.contentBackground)
-        WindowInsetsControllerCompat(requireActivity().window, view).isAppearanceLightStatusBars = true
-
-        (view as androidx.compose.ui.platform.ComposeView).setComposeContent {
+        (view as androidx.compose.ui.platform.ComposeView).setComposeContent(insets = null) {
             CreateGameDayScreen(
                 viewModel = viewModel,
                 onBackClick = { findNavController().popBackStack() }
