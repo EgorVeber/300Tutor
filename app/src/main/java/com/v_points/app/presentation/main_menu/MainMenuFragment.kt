@@ -1,17 +1,19 @@
 package com.v_points.app.presentation.main_menu
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.v_points.app.R
 import com.v_points.app.core.UiCoreLayout
 import com.v_points.app.core.navigate
 import com.v_points.app.di.main_menu.MainMenuComponent
 import com.v_points.app.presentation.course.WebViewFragment
-import com.v_points.app.presentation.main_menu.adapter.MainMenuManager
 import com.v_points.app.ui_common.flow.observeFlow
 import com.v_points.app.ui_common.fragment.base.BaseFragment
-import com.v_points.app.ui_core.databinding.MainMenuFragmentBinding
+import com.v_points.app.ui_core.databinding.MainFragmentBinding
+import com.v_points.app.ui_core.setComposeContent
 
 class MainMenuFragment : BaseFragment(UiCoreLayout.main_menu_fragment) {
 
@@ -23,43 +25,40 @@ class MainMenuFragment : BaseFragment(UiCoreLayout.main_menu_fragment) {
         mainMenuComponent.viewModelMapFactory()
     }
 
-    private lateinit var binding: MainMenuFragmentBinding
-
     override var customHandlerBackStack = true
-
-    private val delegateAdapter: MainMenuManager = MainMenuManager(
-        mainMenuUiItemClickListener = { mainMenuItem ->
-            viewModel.onMenuItemClicked(mainMenuItem)
-        },
-    )
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding = MainMenuFragmentBinding.bind(view)
-        super.onViewCreated(view, savedInstanceState)
-    }
 
     override fun onBackPressed() {
         navigate(R.id.action_mainMenuFragment_to_mainFragment)
     }
 
-    override fun onInitView(savedInstanceState: Bundle?) {
-        binding.mainRecycler.adapter = delegateAdapter
-        binding.accountInfo.setOnClickListener {
-            navigate(R.id.action_mainMenuFragment_to_accountFragment)
-        }
-        binding.settingsImageView.setOnClickListener {
-            navigate(R.id.action_mainMenuFragment_to_settingsFragment)
+    private var _binding: MainFragmentBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = MainFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.composeView.setComposeContent {
+            MainMenuScreen(
+                viewModel = viewModel,
+                onAccountClick = {
+                    navigate(R.id.action_mainMenuFragment_to_accountFragment)
+                },
+                onSettingsClick = {
+                    navigate(R.id.action_mainMenuFragment_to_settingsFragment)
+                }
+            )
         }
     }
 
     override fun onObserveData() {
-        viewModel.getAccountStateFlow().observeFlow(this) { accountModel ->
-            binding.accountName.text = accountModel.name + " " + accountModel.surname
-            binding.accountSubtitle.text = accountModel.email
-        }
-        viewModel.getUiItemStateFlow().observeFlow(this) { subjectUiItems ->
-            delegateAdapter.items = subjectUiItems
-        }
         viewModel.getUiAction().observeFlow(this) { action ->
             when (action) {
                 is MainMenuViewModel.UiAction.NavigateWebScreen -> {
@@ -75,5 +74,10 @@ class MainMenuFragment : BaseFragment(UiCoreLayout.main_menu_fragment) {
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -100,10 +100,18 @@
             app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_mainFragment_to_participantsFScreen"
-            app:destination="@id/participantsFScreen" />
+            app:destination="@id/participantsFScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_mainFragment_to_gamesFScreen"
-            app:destination="@id/gamesFScreen" />
+            app:destination="@id/gamesFScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/solutionHistoryFragment"
@@ -216,7 +224,11 @@
             app:destination="@id/mainFragment" />
         <action
             android:id="@+id/action_mainMenuFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_mainMenuFragment_to_webViewFragment"
             app:destination="@id/webViewFragment"
@@ -256,10 +268,18 @@
         android:label="SettingsFragment">
         <action
             android:id="@+id/action_settingsFragment_to_schoolFragment"
-            app:destination="@id/schoolFragment" />
+            app:destination="@id/schoolFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_settingsFragment_to_createGameDayFragment"
-            app:destination="@id/createGameDayFragment" />
+            app:destination="@id/createGameDayFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
@@ -271,8 +291,11 @@
         android:label="ParticipantsFScreen">
         <action
             android:id="@+id/action_participantsFScreen_to_mainFragment"
-            app:destination="@id/mainFragment" />
-        />
+            app:destination="@id/mainFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/gamesFScreen"
@@ -280,7 +303,11 @@
         android:label="GamesFScreen">
         <action
             android:id="@+id/action_gamesFScreen_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/mainFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/createGameDayFragment"
@@ -288,7 +315,11 @@
         android:label="CreateGameDayFragment">
         <action
             android:id="@+id/action_createGameDayFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/mainFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
 </navigation>

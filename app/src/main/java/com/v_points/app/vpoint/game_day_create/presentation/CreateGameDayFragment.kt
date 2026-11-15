@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.v_points.app.core.AppLayout
+import com.v_points.app.ui_common.flow.observeFlow
 import com.v_points.app.ui_common.fragment.base.BaseFragment
 import com.v_points.app.ui_core.databinding.MainFragmentBinding
 import com.v_points.app.ui_core.setComposeContent
@@ -47,6 +48,17 @@ class CreateGameDayFragment : BaseFragment(AppLayout.create_game_day_fragment) {
                 viewModel = viewModel,
                 onBackClick = { findNavController().popBackStack() }
             )
+        }
+    }
+
+    override fun onObserveData() {
+        viewModel.getNavigateAction().observeFlow(this) { action ->
+            when (action) {
+                CreateGameDayNavigateAction.Back,
+                CreateGameDayNavigateAction.SuccessCreated -> {
+                    findNavController().popBackStack()
+                }
+            }
         }
     }
 
