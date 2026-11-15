@@ -76,7 +76,7 @@
     <fragment
         android:id="@+id/solutionFragment"
         android:name="com.v_points.app.presentation.solution.SolutionFragment"
-        android:label="SolutionFragment"></fragment>
+        android:label="SolutionFragment" />
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.v_points.app.vpoint.game_day.presentation.GameDayFragment"

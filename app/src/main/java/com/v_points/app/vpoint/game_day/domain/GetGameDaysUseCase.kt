@@ -5,7 +5,6 @@ import com.v_points.app.vpoint.fiersote.domain.GameDayModel
 import com.v_points.app.vpoint.fiersote.domain.GameDayStatModel
 import com.v_points.app.vpoint.fiersote.domain.GameModel
 import javax.inject.Inject
-import kotlin.text.get
 
 class GetGameDaysUseCase @Inject constructor(
     private val repo: GameDaysRepository
@@ -16,7 +15,7 @@ class GetGameDaysUseCase @Inject constructor(
         val gamesByDayId: Map<String, List<GameModel>> = games.groupBy { game -> game.gameDayId }
         return days.map { day ->
             day.toGameDayStatModel(gamesByDayId, userId)
-        }
+        }.sortedByDescending { it.date }
     }
 }
 

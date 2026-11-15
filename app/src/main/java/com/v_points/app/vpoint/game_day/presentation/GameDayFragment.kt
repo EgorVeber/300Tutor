@@ -10,16 +10,13 @@ import com.v_points.app.R
 import com.v_points.app.core.UiCoreLayout
 import com.v_points.app.core.navigate
 import com.v_points.app.di.main.GameDayComponent
-import com.v_points.app.presentation.subject_workspace.SubjectWorkspaceFragment.Companion.SUBJECT_WORKSPACE_SUB_TITLE_WORKSPACE_OR_DIRECTORY_NAME
-import com.v_points.app.presentation.subject_workspace.SubjectWorkspaceFragment.Companion.SUBJECT_WORKSPACE_TITLE_SUBJECT_OR_DIRECTORY_KEY
-import com.v_points.app.presentation.subject_workspace.SubjectWorkspaceFragment.Companion.SUBJECT_WORKSPACE_WORKSPACE_ID_KEY
 import com.v_points.app.ui_common.flow.observeFlow
 import com.v_points.app.ui_common.fragment.base.BaseFragment
-import com.v_points.app.ui_core.databinding.MainFragmentBinding
+import com.v_points.app.ui_core.databinding.GameDayFragmentBinding
 import com.v_points.app.ui_core.setComposeContent
 import com.v_points.app.vpoint.game_day.MainScreenRoute
 
-class GameDayFragment : BaseFragment(UiCoreLayout.main_fragment) {
+class GameDayFragment : BaseFragment(UiCoreLayout.game_day_fragment) {
 
     private val gameDayComponent by lazy {
         GameDayComponent.createHomeComponent()
@@ -31,7 +28,7 @@ class GameDayFragment : BaseFragment(UiCoreLayout.main_fragment) {
         gameDayComponent.viewModelMapFactory()
     }
 
-    private var _binding: MainFragmentBinding? = null
+    private var _binding: GameDayFragmentBinding? = null
 
     private val binding get() = _binding!!
 
@@ -40,7 +37,7 @@ class GameDayFragment : BaseFragment(UiCoreLayout.main_fragment) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = MainFragmentBinding.inflate(inflater, container, false)
+        _binding = GameDayFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
