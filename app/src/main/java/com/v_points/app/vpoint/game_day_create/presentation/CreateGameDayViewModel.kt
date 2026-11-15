@@ -5,6 +5,8 @@ import com.v_points.app.presentation.common.ResourceProvider
 import com.v_points.app.ui_common.coroutines.launchJob
 import com.v_points.app.ui_common.flow.SingleSharedFlow
 import com.v_points.app.ui_common.fragment.base.BaseViewModel
+import com.v_points.app.vpoint.fiersote.data.models.GameDayResponse
+import com.v_points.app.vpoint.fiersote.data.repository.GameDaysRepository
 import com.v_points.app.vpoint.fiersote.data.repository.GymsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +23,8 @@ sealed interface CreateGameDayNavigateAction {
 
 class CreateGameDayViewModel @Inject constructor(
     private val resourceProvider: ResourceProvider,
-    private val gymsRepository: GymsRepository
+    private val gymsRepository: GymsRepository,
+    private val gameDaysRepository: GameDaysRepository,
 ) : BaseViewModel() {
 
     private val state = MutableCreateGameDayState()
@@ -52,6 +55,7 @@ class CreateGameDayViewModel @Inject constructor(
             is CreateGameDayAction.OnDateClick -> {
                 state.isDateDialogVisible = true
             }
+
             is CreateGameDayAction.OnDateSelected -> {
                 state.isDateDialogVisible = false
                 state.selectedTimestamp = action.timestamp
@@ -64,19 +68,23 @@ class CreateGameDayViewModel @Inject constructor(
                 }
                 updateCreateEnabled()
             }
+
             is CreateGameDayAction.OnGymClick -> {
                 state.isGymDialogVisible = true
             }
+
             is CreateGameDayAction.OnGymSelected -> {
                 state.isGymDialogVisible = false
                 state.selectedGymId = action.gym?.id
-                state.selectedGymName = action.gym?.name ?: action.gym?.fullName
+                state.selectedGymName = action.gym?.name + action.gym?.fullName
                 updateCreateEnabled()
             }
+
             is CreateGameDayAction.OnDismissDialogs -> {
                 state.isDateDialogVisible = false
                 state.isGymDialogVisible = false
             }
+
             is CreateGameDayAction.OnCreateClick -> {
                 createGameDay()
             }
@@ -84,13 +92,19 @@ class CreateGameDayViewModel @Inject constructor(
     }
 
     private fun updateCreateEnabled() {
-        state.isCreateEnabled = state.selectedTimestamp != null && !state.selectedGymId.isNullOrEmpty()
+        state.isCreateEnabled =
+            state.selectedTimestamp != null && !state.selectedGymId.isNullOrEmpty()
     }
 
     private fun createGameDay() {
+        val timestamp = state.selectedTimestamp ?: return
+        val locationId = state.selectedGymId ?: return
         viewModelScope.launchJob(tryBlock = {
             loadingState.tryEmit(true)
-            // TODO: Call repository to create game day if needed, or navigate back
+            gameDaysRepository.addGameDay(
+                date = timestamp,
+                locationId = locationId
+            )
             navigateAction.tryEmit(CreateGameDayNavigateAction.SuccessCreated)
         }, catchBlock = { throwable ->
             handleError(throwable)

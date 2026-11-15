@@ -73,11 +73,13 @@ fun CreateGameDayScreenContent(
                 title = "Дата",
                 subtitle = state.selectedDateText ?: "Нажмите, чтобы выбрать дату",
                 imageVector = Icons.Default.DateRange,
+                shoNextIcon = false,
                 onClick = { onAction(CreateGameDayAction.OnDateClick) }
             )
 
             MenuListCard(
                 title = "Зал",
+                shoNextIcon = false,
                 subtitle = state.selectedGymName ?: "Нажмите, чтобы выбрать зал",
                 imageVector = Icons.Default.LocationOn,
                 onClick = { onAction(CreateGameDayAction.OnGymClick) }

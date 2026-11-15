@@ -27,6 +27,7 @@ fun MenuListCard(
     subtitle: String?,
     icon: Painter,
     badge: String? = null,
+    shoNextIcon: Boolean = true,
     onClick: () -> Unit = {}
 ) {
     Card(
@@ -73,11 +74,13 @@ fun MenuListCard(
                     Text(badge, modifier = Modifier.padding(horizontal = 6.dp))
                 }
             }
-            Icon(
-                Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            if (shoNextIcon) {
+                Icon(
+                    Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                    null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
     }
 }
@@ -88,11 +91,13 @@ fun MenuListCard(
     subtitle: String?,
     imageVector: ImageVector,
     badge: String? = null,
+    shoNextIcon: Boolean = true,
     onClick: () -> Unit = {}
 ) {
     MenuListCard(
         title = title,
         subtitle = subtitle,
+        shoNextIcon = shoNextIcon,
         icon = rememberVectorPainter(imageVector),
         badge = badge,
         onClick = onClick

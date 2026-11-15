@@ -4,13 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.viewModels
 import com.v_points.app.R
+import com.v_points.app.core.UiCoreAttr
 import com.v_points.app.core.UiCoreLayout
 import com.v_points.app.core.navigate
 import com.v_points.app.di.main_menu.MainMenuComponent
 import com.v_points.app.presentation.course.WebViewFragment
 import com.v_points.app.ui_common.flow.observeFlow
+import com.v_points.app.ui_common.fragment.applyWindowColor
 import com.v_points.app.ui_common.fragment.base.BaseFragment
 import com.v_points.app.ui_core.databinding.MainFragmentBinding
 import com.v_points.app.ui_core.setComposeContent

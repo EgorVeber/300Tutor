@@ -7,6 +7,7 @@ import com.v_points.app.vpoint.fiersote.data.models.UserStatResponse
 import com.v_points.app.vpoint.fiersote.data.mappers.toGameDayModel
 import com.v_points.app.vpoint.fiersote.data.mappers.toUserStatModel
 import com.v_points.app.vpoint.fiersote.data.mappers.toGameModel
+import com.v_points.app.vpoint.fiersote.data.models.GameDayRequest
 import com.v_points.app.vpoint.fiersote.domain.GameDayModel
 import com.v_points.app.vpoint.fiersote.domain.GameModel
 import com.v_points.app.vpoint.fiersote.domain.UserStatModel
@@ -24,6 +25,13 @@ class GameDaysRepository @Inject constructor(
         .mapNotNull { doc ->
             doc.toObject(GameResponse::class.java)?.toGameModel()
         }
+
+    suspend fun addGameDay(date: Long, locationId: String) = dataSource.addGameDay(
+        GameDayRequest(
+            date = date,
+            locationId = locationId
+        )
+    )
 
     suspend fun getAllUserStats(): List<UserStatModel> = dataSource.getAllUserStats()
         .mapNotNull { doc ->

@@ -2,6 +2,7 @@ package com.v_points.app.vpoint.fiersote.data
 
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.v_points.app.vpoint.fiersote.data.models.GameDayRequest
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -32,6 +33,13 @@ class FirestoreDataSource @Inject constructor(
 
     suspend fun getAllUserStats(): List<DocumentSnapshot> =
         firebaseFirestore.collectionGroup(USER_STATS_COLLECTION).get().await().documents
+
+    suspend fun addGameDay(gameDay: GameDayRequest): String =
+        firebaseFirestore
+            .collection(GAME_DAYS_COLLECTION)
+            .add(gameDay)
+            .await()
+            .id
 
     companion object {
         const val USERS_COLLECTION = "users"
