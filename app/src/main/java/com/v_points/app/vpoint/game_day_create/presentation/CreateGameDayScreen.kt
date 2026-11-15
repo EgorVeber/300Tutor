@@ -10,6 +10,7 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -172,7 +173,27 @@ fun GymSelectionDialog(
                         onClick = { onGymSelected(gym) },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text(text = gym.name.ifEmpty { gym.fullName })
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 4.dp),
+                            horizontalAlignment = Alignment.Start
+                        ) {
+                            Text(
+                                text = gym.name,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 16.sp,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                            if (gym.fullName.isNotEmpty() && gym.fullName != gym.name) {
+                                Spacer(modifier = Modifier.height(2.dp))
+                                Text(
+                                    text = gym.fullName,
+                                    fontSize = 13.sp,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -198,5 +219,35 @@ fun CreateGameDayScreenPreview() {
             onAction = {},
             onBackClick = {}
         )
+    }
+}
+
+@Preview(showBackground = true, name = "Date Picker Dialog Preview")
+@Composable
+fun DatePickerDialogPreview() {
+    MaterialTheme {
+        Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+            DatePickerDialogComponent(
+                onDateSelected = {},
+                onDismiss = {}
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true, name = "Gym Selection Dialog Preview")
+@Composable
+fun GymSelectionDialogPreview() {
+    MaterialTheme {
+        Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+            GymSelectionDialog(
+                gyms = listOf(
+                    GymModel("1", "Зал №1", "Спортивный зал №1 на Ленина", 0.0, 0.0),
+                    GymModel("2", "Зал №2", "Физкультурный комплекс на Победы", 0.0, 0.0)
+                ),
+                onGymSelected = {},
+                onDismiss = {}
+            )
+        }
     }
 }

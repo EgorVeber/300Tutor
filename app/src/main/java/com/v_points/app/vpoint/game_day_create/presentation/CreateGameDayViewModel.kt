@@ -5,7 +5,7 @@ import com.v_points.app.presentation.common.ResourceProvider
 import com.v_points.app.ui_common.coroutines.launchJob
 import com.v_points.app.ui_common.flow.SingleSharedFlow
 import com.v_points.app.ui_common.fragment.base.BaseViewModel
-import com.v_points.app.vpoint.fiersote.data.models.GameDayResponse
+import com.v_points.app.ui_core.SnackBarType
 import com.v_points.app.vpoint.fiersote.data.repository.GameDaysRepository
 import com.v_points.app.vpoint.fiersote.data.repository.GymsRepository
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +17,7 @@ import java.util.Locale
 import javax.inject.Inject
 
 sealed interface CreateGameDayNavigateAction {
-    data object Back : CreateGameDayNavigateAction
+    data class ShowSnack(val message: String, val snackBarType: SnackBarType) : CreateGameDayNavigateAction
     data object SuccessCreated : CreateGameDayNavigateAction
 }
 
@@ -76,7 +76,7 @@ class CreateGameDayViewModel @Inject constructor(
             is CreateGameDayAction.OnGymSelected -> {
                 state.isGymDialogVisible = false
                 state.selectedGymId = action.gym?.id
-                state.selectedGymName = action.gym?.name + action.gym?.fullName
+                state.selectedGymName = "${action.gym?.name}-${action.gym?.fullName}"
                 updateCreateEnabled()
             }
 
@@ -101,13 +101,24 @@ class CreateGameDayViewModel @Inject constructor(
         val locationId = state.selectedGymId ?: return
         viewModelScope.launchJob(tryBlock = {
             loadingState.tryEmit(true)
-            gameDaysRepository.addGameDay(
-                date = timestamp,
+            val resultId = gameDaysRepository.addGameDay(
+                date = timestamp/1000,
                 locationId = locationId
             )
-            navigateAction.tryEmit(CreateGameDayNavigateAction.SuccessCreated)
+            navigateAction.tryEmit(
+                CreateGameDayNavigateAction.ShowSnack(
+                    "Игровой день успешно создан. ID: $resultId",
+                    SnackBarType.SUCCESS
+                )
+            )
         }, catchBlock = { throwable ->
             handleError(throwable)
+            navigateAction.tryEmit(
+                CreateGameDayNavigateAction.ShowSnack(
+                    throwable.localizedMessage ?: "Ошибка создания игрового дня",
+                    SnackBarType.ERROR
+                )
+            )
         }, finallyBlock = {
             loadingState.tryEmit(false)
         })

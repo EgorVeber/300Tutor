@@ -4,14 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.v_points.app.core.AppLayout
-import com.v_points.app.core.UiCoreAttr
 import com.v_points.app.ui_common.flow.observeFlow
-import com.v_points.app.ui_common.fragment.applyWindowColor
 import com.v_points.app.ui_common.fragment.base.BaseFragment
+import com.v_points.app.ui_common.fragment.showSnack
 import com.v_points.app.ui_core.databinding.MainFragmentBinding
 import com.v_points.app.ui_core.setComposeContent
 import com.v_points.app.vpoint.game_day_create.di.CreateGameDayComponent
@@ -57,7 +55,12 @@ class CreateGameDayFragment : BaseFragment(AppLayout.create_game_day_fragment) {
     override fun onObserveData() {
         viewModel.getNavigateAction().observeFlow(this) { action ->
             when (action) {
-                CreateGameDayNavigateAction.Back,
+                is CreateGameDayNavigateAction.ShowSnack -> {
+                    showSnack(
+                        title = action.message,
+                        backgroundColor = action.snackBarType.colorRes
+                    )
+                }
                 CreateGameDayNavigateAction.SuccessCreated -> {
                     findNavController().popBackStack()
                 }
