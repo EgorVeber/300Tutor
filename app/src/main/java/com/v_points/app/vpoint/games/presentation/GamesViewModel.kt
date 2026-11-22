@@ -48,7 +48,7 @@ class GamesViewModel @Inject constructor(
             }
 
             GameScreenNavigateAction.OnCreateGameClick -> {
-
+                navigateAction.tryEmit(GameScreenNavigateAction.OnCreateGameClick)
             }
         }
     }
@@ -86,8 +86,6 @@ class GamesViewModel @Inject constructor(
     ): TeamParticipantsUiModel {
         val usersMap =
             users.associate { user -> user.id to "${user.firstName} ${user.lastName.take(1)}" }
-        Log.d("TAG", "getTeamParticipantsUiModel() called with: game = $game, users = $users")
-        Log.d("TAG", ", usersMap = $usersMap")
         val currentUserId = "SEp15Ot5vihizaL7zPSB"
         return TeamParticipantsUiModel(
             teamOneName = "Команда 1",

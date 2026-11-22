@@ -308,6 +308,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_gamesFScreen_to_createGameFragment"
+            app:destination="@id/createGameFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/createGameDayFragment"
@@ -315,6 +322,22 @@
         android:label="CreateGameDayFragment">
         <action
             android:id="@+id/action_createGameDayFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/createGameFragment"
+        android:name="com.v_points.app.vpoint.game_create.presentation.CreateGameFragment"
+        android:label="CreateGameFragment">
+        <argument
+            android:name="GAME_DAY_ID"
+            app:argType="string"
+            android:defaultValue="" />
+        <action
+            android:id="@+id/action_createGameFragment_to_mainFragment"
             app:destination="@id/mainFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@anim/slide_out_left"

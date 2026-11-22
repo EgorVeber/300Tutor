@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
@@ -28,6 +29,7 @@ fun MenuListCard(
     icon: Painter,
     badge: String? = null,
     shoNextIcon: Boolean = true,
+    showSuccessIcon: Boolean = false,     // новая опция
     onClick: () -> Unit = {}
 ) {
     Card(
@@ -59,6 +61,7 @@ fun MenuListCard(
                     modifier = Modifier.size(22.dp)
                 )
             }
+
             Column(Modifier.weight(1f)) {
                 Text(title, fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
                 if (subtitle != null) {
@@ -69,12 +72,22 @@ fun MenuListCard(
                     )
                 }
             }
+
             if (badge != null) {
                 Badge(containerColor = MaterialTheme.colorScheme.error) {
                     Text(badge, modifier = Modifier.padding(horizontal = 6.dp))
                 }
             }
-            if (shoNextIcon) {
+
+            // Зелёная галочка успеха (приоритетнее стрелки)
+            if (showSuccessIcon) {
+                Icon(
+                    imageVector = Icons.Filled.CheckCircle,
+                    contentDescription = "Успешно",
+                    tint = SuccessGreen,
+                    modifier = Modifier.size(22.dp)
+                )
+            } else if (shoNextIcon) {
                 Icon(
                     Icons.AutoMirrored.Filled.KeyboardArrowRight,
                     null,
@@ -85,6 +98,8 @@ fun MenuListCard(
     }
 }
 
+// Зелёный цвет — вынесите в тему/палитру
+private val SuccessGreen = Color(0xFF4CAF50)
 @Composable
 fun MenuListCard(
     title: String,
@@ -92,6 +107,7 @@ fun MenuListCard(
     imageVector: ImageVector,
     badge: String? = null,
     shoNextIcon: Boolean = true,
+    showSuccessIcon : Boolean = false,
     onClick: () -> Unit = {}
 ) {
     MenuListCard(
@@ -100,7 +116,8 @@ fun MenuListCard(
         shoNextIcon = shoNextIcon,
         icon = rememberVectorPainter(imageVector),
         badge = badge,
-        onClick = onClick
+        onClick = onClick,
+        showSuccessIcon =  false
     )
 }
 
@@ -131,7 +148,8 @@ fun MenuListPreview() {
             )
             MenuListCard(
                 "Выход", null,
-                rememberVectorPainter(Icons.Default.ExitToApp)
+                rememberVectorPainter(Icons.Default.ExitToApp),
+                showSuccessIcon = true
             )
         }
     }

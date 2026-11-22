@@ -7,5 +7,7 @@ import javax.inject.Inject
 class GetParticipantsUseCase @Inject constructor(
     private val participantsRepository: ParticipantsRepository
 ) {
-    suspend operator fun invoke(): List<UserModel> = participantsRepository.getUsers()
+    suspend operator fun invoke(): List<UserModel> {
+        return participantsRepository.getUsers().sortedBy { it.isGuest }
+    }
 }

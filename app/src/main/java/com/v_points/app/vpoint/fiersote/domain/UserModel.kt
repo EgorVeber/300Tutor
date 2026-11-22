@@ -4,5 +4,8 @@ data class UserModel(
     val id: String,
     val firstName: String,
     val lastName: String,
-    val roleId: String
+    val roleId: String,
+    val isUser: Boolean,
+    val isGuest: Boolean,
+    val isAdmin: Boolean
 )

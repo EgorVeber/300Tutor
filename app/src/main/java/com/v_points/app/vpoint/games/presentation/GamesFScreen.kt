@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.v_points.app.R
 import com.v_points.app.core.AppLayout
+import com.v_points.app.core.navigate
 import com.v_points.app.ui_common.EMPTY_STRING
 import com.v_points.app.ui_common.flow.observeFlow
 import com.v_points.app.ui_common.fragment.base.BaseFragment
@@ -40,7 +42,11 @@ class GamesFScreen : BaseFragment(AppLayout.games_screen) {
         viewModel.getNavigateAction().observeFlow(this) { action ->
             when (action) {
                 GameScreenNavigateAction.OnBackClick -> findNavController().popBackStack()
-                GameScreenNavigateAction.OnCreateGameClick -> {}
+                GameScreenNavigateAction.OnCreateGameClick -> {
+                    navigate(R.id.action_gamesFScreen_to_createGameFragment, bundle = Bundle().apply {
+                        putString(GAME_DAY_ID, gameDayId)
+                    })
+                }
             }
         }
     }
