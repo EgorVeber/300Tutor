@@ -1,6 +1,7 @@
 package com.v_points.app.vpoint.game_create.presentation
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 
@@ -18,6 +19,8 @@ interface CreateGameState {
     val showScoreBottom: Boolean
     val players: List<PlayerUiModel>
     val enabledSaveBtnPLayer: Boolean
+    val scoreOneTeam: Int
+    val scoreTwoTeam: Int
 }
 
 class MutableCreateGameState : CreateGameState {
@@ -34,4 +37,6 @@ class MutableCreateGameState : CreateGameState {
     override var showScoreBottom: Boolean by mutableStateOf(false)
     override var showNameBottom: Boolean by mutableStateOf(false)
     override var enabledSaveBtnPLayer: Boolean by mutableStateOf(true)
+    override var scoreOneTeam: Int by mutableIntStateOf(25)
+    override var scoreTwoTeam: Int by mutableIntStateOf(25)
 }

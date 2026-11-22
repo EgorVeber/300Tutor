@@ -1,6 +1,8 @@
 package com.v_points.app.vpoint.game_create.presentation
 
+
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -124,6 +126,7 @@ fun CreateGameScreenContent(
 
     PLayersBottom(state, onAction)
     NameInputBottomSheet(state, onAction)
+    ScoreBottomSheet(state, onAction)
 }
 
 @Composable
@@ -169,6 +172,72 @@ fun NameInputBottomSheet(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ScoreBottomSheet(
+    state: CreateGameState,
+    onAction: (CreateGameAction) -> Unit
+) {
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    if (state.showScoreBottom) {
+        ModalBottomSheet(
+            modifier = Modifier.statusBarsPadding(),
+            onDismissRequest = { onAction(CreateGameAction.OnDismissScore) },
+            sheetState = sheetState,
+        ) {
+            ScoreBottomContent(state.scoreOneTeam, state.scoreTwoTeam, onAction)
+        }
+    }
+}
+
+@Composable
+private fun ScoreBottomContent(
+    scoreOneTeam: Int,
+    scoreTwoTeam: Int,
+    onAction: (CreateGameAction) -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+    ) {
+        Text(
+            text = "Выберите счет",
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(vertical = 12.dp)
+        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            NumberWheel(
+                label = "К1",
+                initialValue = scoreOneTeam,
+                onValueChange = { onAction.invoke(CreateGameAction.OnScoreOneChange(it)) }
+            )
+            NumberWheel(
+                label = "К2",
+                initialValue = scoreTwoTeam,
+                onValueChange = { onAction.invoke(CreateGameAction.OnScoreTwoChange(it)) }
+            )
+        }
+        Spacer(modifier = Modifier.height(24.dp))
+        Button(
+            onClick = {
+                onAction.invoke(CreateGameAction.OnScoreSaveClick)
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 12.dp)
+                .height(50.dp),
+            shape = RoundedCornerShape(12.dp)
+        ) {
+            Text(text = "Сохранить", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+        }
+    }
+}
+
 @Composable
 private fun NameDialogContent(
     name: String,
@@ -182,8 +251,8 @@ private fun NameDialogContent(
     ) {
         Text(
             text = "Введите название игры",
-            style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.padding(bottom = 16.dp)
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(vertical = 12.dp)
         )
 
         OutlinedTextField(
@@ -368,5 +437,14 @@ fun NamesBottomPreview() {
         )
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun ScoreBottomPreview() {
+    MaterialTheme {
+        ScoreBottomContent(2, 3) {}
+    }
+}
+
 
 

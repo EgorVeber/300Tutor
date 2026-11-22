@@ -87,7 +87,14 @@ class CreateGameViewModel @Inject constructor(
                 state.showPlayersBottom = true
             }
 
-            CreateGameAction.OnScoreClick -> {}
+            CreateGameAction.OnScoreClick -> {
+                state.showScoreBottom = true
+            }
+
+            CreateGameAction.OnDismissScore -> {
+                state.showScoreBottom = false
+            }
+
             CreateGameAction.OnPlayersTwoTeamClick -> {
                 currentDialog = 2
                 state.players = cacheUsers.map {
@@ -138,6 +145,21 @@ class CreateGameViewModel @Inject constructor(
 
             is CreateGameAction.OnNameTextChanges -> {
                 state.gameName = action.text
+            }
+
+            CreateGameAction.OnScoreSaveClick -> {
+                state.scoreTitle = "К1 ${state.scoreOneTeam}:${state.scoreTwoTeam} К2"
+                state.isScoreEnabled = true
+                state.showScoreBottom = false
+                createButtonEnabled()
+            }
+
+            is CreateGameAction.OnScoreOneChange -> {
+                state.scoreOneTeam = action.value
+            }
+
+            is CreateGameAction.OnScoreTwoChange -> {
+                state.scoreTwoTeam = action.value
             }
         }
     }
