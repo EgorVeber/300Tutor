@@ -5,4 +5,5 @@ sealed interface GameScreenAction {
 
 sealed interface GameScreenNavigateAction {
     data object OnBackClick : GameScreenNavigateAction
+    data object OnCreateGameClick : GameScreenNavigateAction
 }

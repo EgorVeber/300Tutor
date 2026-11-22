@@ -31,7 +31,7 @@ class GamesFScreen : BaseFragment(AppLayout.games_screen) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (view as androidx.compose.ui.platform.ComposeView).setComposeContent {
+        (view as androidx.compose.ui.platform.ComposeView).setComposeContent(insets = null) {
             GamesScreen(viewModel = viewModel)
         }
     }
@@ -40,6 +40,7 @@ class GamesFScreen : BaseFragment(AppLayout.games_screen) {
         viewModel.getNavigateAction().observeFlow(this) { action ->
             when (action) {
                 GameScreenNavigateAction.OnBackClick -> findNavController().popBackStack()
+                GameScreenNavigateAction.OnCreateGameClick -> {}
             }
         }
     }

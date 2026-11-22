@@ -4,34 +4,35 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.v_points.app.ui_core.baseModifier
 import com.v_points.app.ui_core.components.day.GameUiModel
 import com.v_points.app.ui_core.components.day.GamesListCardV4
-import com.v_points.app.ui_core.components.nav_bar.NavBar
 import com.v_points.app.ui_core.components.participant.ParticipantsCardCompactV2
 import com.v_points.app.ui_core.components.participant.PlayerUiModel
 import com.v_points.app.ui_core.components.participant.TeamParticipantsUiModel
-import com.v_points.app.ui_core.contentModifier
 import kotlinx.coroutines.launch
 
 @Composable
@@ -42,20 +43,47 @@ fun GamesScreen(
     GamesScreenContent(state = state, onAction = viewModel::onNavigate)
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GamesScreenContent(
     state: GamesState,
     onAction: (GameScreenNavigateAction) -> Unit,
 ) {
-    Column(baseModifier) {
-        NavBar(
-            title = state.title, onBackClick = {
-                onAction.invoke(
-                    GameScreenNavigateAction.OnBackClick
-                )
-            }
+    Column(modifier = Modifier.fillMaxSize()) {
+        TopAppBar(
+            title = {
+                Text(text = state.title)
+            },
+
+            navigationIcon = {
+                IconButton(onClick = {
+                    onAction.invoke(
+                        GameScreenNavigateAction.OnBackClick
+                    )
+                }) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Back"
+                    )
+                }
+            }, actions = {
+                IconButton(onClick = {
+                    onAction.invoke(
+                        GameScreenNavigateAction.OnCreateGameClick
+                    )
+                }) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Settings",
+                        tint = MaterialTheme.colorScheme.secondary
+                    )
+                }
+            },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.surface
+            )
         )
-        Box(contentModifier) {
+        Box {
             when (val data = state.gamesContentState) {
                 is GamesContentState.Content -> {
                     val tabs = listOf("Игры", "Подачи", "Оценка")
@@ -81,7 +109,8 @@ fun GamesScreenContent(
                                     Column(
                                         Modifier
                                             .verticalScroll(rememberScrollState())
-                                            .padding(PaddingValues(top = 8.dp, bottom = 24.dp)),
+                                            .padding(PaddingValues(top = 8.dp, bottom = 24.dp))
+                                            .padding(horizontal = 16.dp),
                                         verticalArrangement = Arrangement.spacedBy(8.dp)
                                     ) {
                                         ParticipantsCardCompactV2(data.participantsBlock)
@@ -109,7 +138,7 @@ fun GamesScreenContent(
                 GamesContentState.Empty -> {}
             }
         }
-    }  
+    }
 }
 
 @Preview(showBackground = true)

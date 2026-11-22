@@ -46,6 +46,10 @@ class GamesViewModel @Inject constructor(
             is GameScreenNavigateAction.OnBackClick -> {
                 navigateAction.tryEmit(GameScreenNavigateAction.OnBackClick)
             }
+
+            GameScreenNavigateAction.OnCreateGameClick -> {
+
+            }
         }
     }
 
