@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -40,16 +41,16 @@ fun GamesScreen(
     viewModel: GamesViewModel,
 ) {
     val state: MutableGamesState = viewModel.getScreenGameState()
-    GamesScreenContent(state = state, onAction = viewModel::onNavigate)
+    GamesScreenContent(state = state, onAction = viewModel::onAction)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GamesScreenContent(
     state: GamesState,
-    onAction: (GameScreenNavigateAction) -> Unit,
+    onAction: (GameScreenAction) -> Unit,
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize().navigationBarsPadding()) {
         TopAppBar(
             title = {
                 Text(text = state.title)
@@ -58,7 +59,7 @@ fun GamesScreenContent(
             navigationIcon = {
                 IconButton(onClick = {
                     onAction.invoke(
-                        GameScreenNavigateAction.OnBackClick
+                        GameScreenAction.OnBackClick
                     )
                 }) {
                     Icon(
@@ -69,7 +70,7 @@ fun GamesScreenContent(
             }, actions = {
                 IconButton(onClick = {
                     onAction.invoke(
-                        GameScreenNavigateAction.OnCreateGameClick
+                        GameScreenAction.OnCreateGameClick
                     )
                 }) {
                     Icon(
@@ -148,14 +149,14 @@ fun GamesScreenContentPreview() {
         teamOneName = "К1",
         teamTwoName = "К2",
         teamOnePlayers = listOf(
-            PlayerUiModel("Иван", 67), PlayerUiModel("Вячеслав", 72),
-            PlayerUiModel("Максим", 80), PlayerUiModel("Дима", 55),
-            PlayerUiModel("Егор", 90), PlayerUiModel("Вадим", 61)
+            PlayerUiModel(id="", "Иван", 67), PlayerUiModel(id="", "Вячеслав", 72),
+            PlayerUiModel(id="", "Максим", 80), PlayerUiModel(id="", "Дима", 55),
+            PlayerUiModel(id="", "Егор", 90), PlayerUiModel(id="", "Вадим", 61)
         ),
         teamTwoPlayers = listOf(
-            PlayerUiModel("Евгений", 65), PlayerUiModel("Юля", 78),
-            PlayerUiModel("Света", 45), PlayerUiModel("Саша", 88),
-            PlayerUiModel("Дарья", 70), PlayerUiModel("Олеся", 59)
+            PlayerUiModel(id="", "Евгений", 65), PlayerUiModel(id="", "Юля", 78),
+            PlayerUiModel(id="", "Света", 45), PlayerUiModel(id="", "Саша", 88),
+            PlayerUiModel(id="", "Дарья", 70), PlayerUiModel(id="", "Олеся", 59)
         )
     )
 

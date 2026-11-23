@@ -2,6 +2,7 @@ package com.v_points.app.vpoint.games.presentation
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.v_points.app.R
@@ -42,12 +43,22 @@ class GamesFScreen : BaseFragment(AppLayout.games_screen) {
         viewModel.getNavigateAction().observeFlow(this) { action ->
             when (action) {
                 GameScreenNavigateAction.OnBackClick -> findNavController().popBackStack()
-                GameScreenNavigateAction.OnCreateGameClick -> {
-                    navigate(R.id.action_gamesFScreen_to_createGameFragment, bundle = Bundle().apply {
-                        putString(GAME_DAY_ID, gameDayId)
-                    })
+                is GameScreenNavigateAction.OnCreateGameClick -> {
+                    navigate(
+                        R.id.action_gamesFScreen_to_createGameFragment,
+                        bundle = bundleOf(
+                            GAME_DAY_ID to gameDayId,
+                            ONE_TEAM_IDS_KEY to ArrayList(action.one),
+                            TWO_TEAM_IDS_KEY to ArrayList(action.two),
+                        )
+                    )
                 }
             }
         }
+    }
+
+    companion object {
+        const val ONE_TEAM_IDS_KEY = "ONE_TEAM_IDS_KEY"
+        const val TWO_TEAM_IDS_KEY = "TWO_TEAM_IDS_KEY"
     }
 }

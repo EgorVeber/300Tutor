@@ -23,14 +23,14 @@ val mockParticipantsWithRatingWithRating = TeamParticipantsUiModel(
     teamOneName = "К1",
     teamTwoName = "К2",
     teamOnePlayers = listOf(
-        PlayerUiModel("Иван", 67), PlayerUiModel("Вячеслав", 72),
-        PlayerUiModel("Максим", 80), PlayerUiModel("Дима", 55),
-        PlayerUiModel("Егор", 90), PlayerUiModel("Вадим", 61)
+        PlayerUiModel(id = "","Иван", 67), PlayerUiModel(id = "","Вячеслав", 72),
+        PlayerUiModel(id = "","Максим", 80), PlayerUiModel(id = "","Дима", 55),
+        PlayerUiModel(id = "","Егор", 90), PlayerUiModel(id = "","Вадим", 61)
     ),
     teamTwoPlayers = listOf(
-        PlayerUiModel("Евгений", 65), PlayerUiModel("Юля", 78),
-        PlayerUiModel("Света", 45), PlayerUiModel("Саша", 88),
-        PlayerUiModel("Дарья", 70), PlayerUiModel("Олеся", 59)
+        PlayerUiModel(id = "","Евгений", 65), PlayerUiModel(id = "","Юля", 78),
+        PlayerUiModel(id = "","Света", 45), PlayerUiModel(id = "","Саша", 88),
+        PlayerUiModel(id = "","Дарья", 70), PlayerUiModel(id = "","Олеся", 59)
     )
 )
 
@@ -558,25 +558,28 @@ val mockParticipantsCompact = TeamParticipantsUiModel(
     teamTwoName = "К2",
     teamOnePlayers = listOf(
         PlayerUiModel(
+            id = "",
             "Иван",
             67,
         ), PlayerUiModel(
+            id = "",
             "Вячеслав",
             72
         ),
         PlayerUiModel(
+            id = "",
             "Максим",
             80,
-        ), PlayerUiModel("Дима", 55),
-        PlayerUiModel(
+        ), PlayerUiModel(id = "","Дима", 55),
+        PlayerUiModel(id = "",
             "Егор",
             90,
-        ), PlayerUiModel("Вадим", 61)
+        ), PlayerUiModel(id = "","Вадим", 61)
     ),
     teamTwoPlayers = listOf(
-        PlayerUiModel("Евгений", 65), PlayerUiModel("Юля", 78),
-        PlayerUiModel("Света", 45), PlayerUiModel("Саша", 88),
-        PlayerUiModel("Дарья", 70), PlayerUiModel("Олеся", 59)
+        PlayerUiModel(id = "","Евгений", 65), PlayerUiModel(id = "","Юля", 78),
+        PlayerUiModel(id = "","Света", 45), PlayerUiModel(id = "","Саша", 88),
+        PlayerUiModel(id = "","Дарья", 70), PlayerUiModel(id = "","Олеся", 59)
     )
 )
 

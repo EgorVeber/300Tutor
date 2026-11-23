@@ -1,5 +1,7 @@
 package com.v_points.app.vpoint.fiersote.domain
 
+import com.google.firebase.firestore.DocumentId
+
 data class UserStatModel(
     val id: String,
     val userId: String,
@@ -23,7 +25,7 @@ data class GameDayStatModel(
 )
 
 data class GameModel(
-    val id: String,
+    @DocumentId val id: String,
     val gameDayId: String,
     val name: String,
     val scoreTeamOne: Int,

@@ -1,7 +1,5 @@
 package com.v_points.app.vpoint.games.presentation
 
-import android.util.Log
-import androidx.compose.runtime.snapshots.Snapshot
 import androidx.lifecycle.viewModelScope
 import com.v_points.app.presentation.common.ResourceProvider
 import com.v_points.app.ui_common.coroutines.launchJob
@@ -11,7 +9,6 @@ import com.v_points.app.ui_core.components.participant.PlayerUiModel
 import com.v_points.app.ui_core.components.participant.TeamParticipantsUiModel
 import com.v_points.app.vpoint.fiersote.domain.GameModel
 import com.v_points.app.vpoint.fiersote.domain.UserModel
-import com.v_points.app.vpoint.game_day.presentation.MainScreenNavigateAction
 import com.v_points.app.vpoint.games.di.GameComponentModel
 import com.v_points.app.vpoint.games.domain.GetGamesForDayUseCase
 import com.v_points.app.vpoint.games.presentation.mappers.toGameUiModel
@@ -41,14 +38,30 @@ class GamesViewModel @Inject constructor(
         screenGameState.title = gameComponentModel.gameDayDate
     }
 
-    fun onNavigate(action: GameScreenNavigateAction) {
+    fun onAction(action: GameScreenAction) {
         when (action) {
-            is GameScreenNavigateAction.OnBackClick -> {
-                navigateAction.tryEmit(GameScreenNavigateAction.OnBackClick)
+            GameScreenAction.OnCreateGameClick -> {
+                val content = screenGameState.gamesContentState as? GamesContentState.Content
+                if (content == null) {
+                    navigateAction.tryEmit(
+                        GameScreenNavigateAction.OnCreateGameClick(
+                            one = listOf(),
+                            two = listOf()
+                        )
+                    )
+                } else {
+                    //TODO Из послденей игры брать
+                    navigateAction.tryEmit(
+                        GameScreenNavigateAction.OnCreateGameClick(
+                            one = content.participantsBlock.teamOnePlayers.map { it.id },
+                            two = content.participantsBlock.teamTwoPlayers.map { it.id }
+                        )
+                    )
+                }
             }
 
-            GameScreenNavigateAction.OnCreateGameClick -> {
-                navigateAction.tryEmit(GameScreenNavigateAction.OnCreateGameClick)
+            GameScreenAction.OnBackClick -> {
+                navigateAction.tryEmit(GameScreenNavigateAction.OnBackClick)
             }
         }
     }
@@ -72,7 +85,6 @@ class GamesViewModel @Inject constructor(
                 },
                 participantsBlock = getTeamParticipantsUiModel(game, users)
             )
-
         }, catchBlock = { throwable ->
             handleError(throwable)
         }, finallyBlock = {
@@ -86,12 +98,13 @@ class GamesViewModel @Inject constructor(
     ): TeamParticipantsUiModel {
         val usersMap =
             users.associate { user -> user.id to "${user.firstName} ${user.lastName.take(1)}" }
-        val currentUserId = "SEp15Ot5vihizaL7zPSB"
+        val currentUserId = "SEp15Ot5vihizaL7zPSB" // TODO
         return TeamParticipantsUiModel(
             teamOneName = "Команда 1",
             teamTwoName = "Команда 2",
             teamOnePlayers = game.participantsIdsTeamOne.map { user ->
                 PlayerUiModel(
+                    id = user,
                     name = usersMap[user] ?: user,
                     rating = 0, // Тянуть рейтинг на момент игры а не текущий,
                     isCurrentUser = user == currentUserId
@@ -99,6 +112,7 @@ class GamesViewModel @Inject constructor(
             },
             teamTwoPlayers = game.participantsIdsTeamTwo.map { user ->
                 PlayerUiModel(
+                    id = user,
                     name = usersMap[user] ?: "Unknown",
                     rating = 0, // Тянуть рейтинг на момент игры а не текущий
                     isCurrentUser = user == currentUserId

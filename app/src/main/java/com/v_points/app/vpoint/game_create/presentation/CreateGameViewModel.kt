@@ -6,22 +6,21 @@ import com.v_points.app.ui_common.coroutines.launchJob
 import com.v_points.app.ui_common.flow.SingleSharedFlow
 import com.v_points.app.ui_common.fragment.base.BaseViewModel
 import com.v_points.app.ui_core.SnackBarType
-import com.v_points.app.vpoint.fiersote.domain.UserModel
+import com.v_points.app.vpoint.fiersote.domain.GameModel
 import com.v_points.app.vpoint.game_create.di.CreateGameComponentModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import javax.inject.Inject
+import com.v_points.app.vpoint.games.domain.AddGameToDayUseCase
 import com.v_points.app.vpoint.participants.domain.GetParticipantsUseCase
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 class CreateGameViewModel @Inject constructor(
     private val componentModel: CreateGameComponentModel,
     private val resourceProvider: ResourceProvider,
-    private val getParticipantsUseCase: GetParticipantsUseCase
+    private val getParticipantsUseCase: GetParticipantsUseCase,
+    private val addGameToDayUseCase: AddGameToDayUseCase
 ) : BaseViewModel() {
 
     private val state = MutableCreateGameState()
-    private val loadingState = MutableStateFlow(false)
     private val navigateAction = SingleSharedFlow<CreateGameNavigateAction>()
 
     private var cacheUsers: List<PlayerUiModel> = listOf()
@@ -29,7 +28,6 @@ class CreateGameViewModel @Inject constructor(
     val gameDayId: String get() = componentModel.gameDayId
 
     fun getState(): CreateGameState = state
-    fun getLoadingState() = loadingState.asStateFlow()
     fun getNavigateAction(): Flow<CreateGameNavigateAction> = navigateAction
 
     init {
@@ -43,9 +41,35 @@ class CreateGameViewModel @Inject constructor(
                     checked = false
                 )
             }
-            cacheUsers = users
-            state.players = users
 
+            if (componentModel.one.isNotEmpty() && componentModel.two.isNotEmpty()) {
+                val listOne = componentModel.one
+                val listTwo = componentModel.two
+                val userGames = users.map {
+                    when (it.id) {
+                        in listOne -> {
+                            it.copy(teamId = 1, checked = true)
+                        }
+
+                        in listTwo -> {
+                            it.copy(teamId = 2, checked = true)
+                        }
+
+                        else -> {
+                            it
+                        }
+                    }
+                }
+                cacheUsers = userGames
+                state.players = users
+                state.playersOneTeamTitle =
+                    cacheUsers.filter { it.teamId == 1 }.joinToString(", ") { it.name.toString() }
+                state.playersTwoTeamTitle =
+                    cacheUsers.filter { it.teamId == 2 }.joinToString(", ") { it.name.toString() }
+            } else {
+                cacheUsers = users
+                state.players = users
+            }
         }, catchBlock = { throwable ->
             handleError(throwable)
         })
@@ -87,14 +111,6 @@ class CreateGameViewModel @Inject constructor(
                 state.showPlayersBottom = true
             }
 
-            CreateGameAction.OnScoreClick -> {
-                state.showScoreBottom = true
-            }
-
-            CreateGameAction.OnDismissScore -> {
-                state.showScoreBottom = false
-            }
-
             CreateGameAction.OnPlayersTwoTeamClick -> {
                 currentDialog = 2
                 state.players = cacheUsers.map {
@@ -111,6 +127,14 @@ class CreateGameViewModel @Inject constructor(
                 }.filter { it.teamId != 1 }.sortedByDescending { it.teamId == 2 }
                 state.playersBottomTitle = "Выберите игроков К2"
                 state.showPlayersBottom = true
+            }
+
+            CreateGameAction.OnScoreClick -> {
+                state.showScoreBottom = true
+            }
+
+            CreateGameAction.OnDismissScore -> {
+                state.showScoreBottom = false
             }
 
             is CreateGameAction.OnCheckedChange -> {
@@ -191,15 +215,26 @@ class CreateGameViewModel @Inject constructor(
 
     private fun createGame() {
         viewModelScope.launchJob(tryBlock = {
-            loadingState.tryEmit(true)
-
+            state.loading = true
+            val gameModel = GameModel(
+                id = "",
+                gameDayId = gameDayId,
+                name = state.gameName,
+                scoreTeamOne = state.scoreOneTeam,
+                scoreTeamTwo = state.scoreTwoTeam,
+                participantsIdsTeamOne = cacheUsers.mapNotNull { if (it.teamId == 1) it.id else null },
+                participantsIdsTeamTwo = cacheUsers.mapNotNull { if (it.teamId == 2) it.id else null },
+                allParticipantsIds = cacheUsers.mapNotNull { if (it.teamId == 2 || it.teamId == 1) it.id else null }
+            )
+            val newId = addGameToDayUseCase(gameModel)
             navigateAction.tryEmit(
                 CreateGameNavigateAction.ShowSnack(
-                    "Игра успешно создана для дня: $gameDayId",
+                    "Игра успешно создана для дня: $newId",
                     SnackBarType.SUCCESS
                 )
             )
             navigateAction.tryEmit(CreateGameNavigateAction.SuccessCreated)
+            //  TODO  автообновление пред экрана
         }, catchBlock = { throwable ->
             handleError(throwable)
             navigateAction.tryEmit(
@@ -209,7 +244,7 @@ class CreateGameViewModel @Inject constructor(
                 )
             )
         }, finallyBlock = {
-            loadingState.tryEmit(false)
+            state.loading = true
         })
     }
 }

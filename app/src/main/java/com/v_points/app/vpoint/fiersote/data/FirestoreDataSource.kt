@@ -3,6 +3,7 @@ package com.v_points.app.vpoint.fiersote.data
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.v_points.app.vpoint.fiersote.data.models.GameDayRequest
+import com.v_points.app.vpoint.fiersote.domain.GameModel
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -40,6 +41,41 @@ class FirestoreDataSource @Inject constructor(
             .add(gameDay)
             .await()
             .id
+
+    suspend fun addGameToDay(game: GameModel): String {
+        return firebaseFirestore
+            .collection(GAME_DAYS_COLLECTION)
+            .document(game.gameDayId)
+            .collection(GAMES_COLLECTION)
+            .add(game)
+            .await()
+            .id
+    }
+
+    suspend fun addGamesToDay(games: List<GameModel>): List<String> {
+        if (games.isEmpty()) return emptyList()
+
+        val batch = firebaseFirestore.batch()
+        val generatedIds = mutableListOf<String>()
+
+        for (game in games) {
+            // 1. Создаем ссылку на документ (Firestore генерирует ID локально)
+            val gameRef = firebaseFirestore
+                .collection(GAME_DAYS_COLLECTION)
+                .document(game.gameDayId)
+                .collection(GAMES_COLLECTION)
+                .document()
+
+            // 2. Сохраняем в батч саму модель (без id)
+            batch.set(gameRef, game)
+
+            // 3. Запоминаем ID, чтобы вернуть его в UI
+            generatedIds.add(gameRef.id)
+        }
+
+        batch.commit().await()
+        return generatedIds
+    }
 
     companion object {
         const val USERS_COLLECTION = "users"

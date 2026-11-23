@@ -1,6 +1,5 @@
 package com.v_points.app.vpoint.game_create.presentation
 
-
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,6 +16,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
@@ -25,7 +25,9 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.v_points.app.ui_core.components.FullScreenLoader
 import com.v_points.app.ui_core.components.menu_variants.MenuListCard
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun CreateGameScreen(
@@ -33,7 +35,6 @@ fun CreateGameScreen(
     onBackClick: () -> Unit
 ) {
     val state = viewModel.getState()
-
     CreateGameScreenContent(
         state = state,
         onAction = viewModel::onAction,
@@ -127,6 +128,7 @@ fun CreateGameScreenContent(
     PLayersBottom(state, onAction)
     NameInputBottomSheet(state, onAction)
     ScoreBottomSheet(state, onAction)
+    FullScreenLoader(isLoading = state.loading)
 }
 
 @Composable

@@ -16,4 +16,8 @@ class GamesRepository @Inject constructor(
         .mapNotNull { doc ->
             doc.toObject(GameResponse::class.java)?.toGameModel()
         }
+    
+    suspend fun addGameToDay(game: GameModel): String {
+        return dataSource.addGameToDay(game)
+    }
 }

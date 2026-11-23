@@ -21,6 +21,7 @@ interface CreateGameState {
     val enabledSaveBtnPLayer: Boolean
     val scoreOneTeam: Int
     val scoreTwoTeam: Int
+    val loading: Boolean
 }
 
 class MutableCreateGameState : CreateGameState {
@@ -35,6 +36,7 @@ class MutableCreateGameState : CreateGameState {
     override var isScoreEnabled: Boolean by mutableStateOf(false)
     override var showPlayersBottom: Boolean by mutableStateOf(false)
     override var showScoreBottom: Boolean by mutableStateOf(false)
+    override var loading: Boolean by mutableStateOf(false)
     override var showNameBottom: Boolean by mutableStateOf(false)
     override var enabledSaveBtnPLayer: Boolean by mutableStateOf(true)
     override var scoreOneTeam: Int by mutableIntStateOf(25)

@@ -63,6 +63,47 @@ class BundleSerializable<B : Serializable>(
     }
 }
 
+
+class BundleStringArray(
+    private val key: String,
+    private val defaultValue: Array<String> = emptyArray(),
+) : ReadWriteProperty<Fragment, Array<String>> {
+
+    private var cache: Array<String>? = null
+
+    override fun getValue(thisRef: Fragment, property: KProperty<*>): Array<String> {
+        return cache ?: (thisRef.arguments?.getStringArray(key) ?: defaultValue).also {
+            cache = it
+        }
+    }
+
+    override fun setValue(thisRef: Fragment, property: KProperty<*>, value: Array<String>) {
+        (thisRef.arguments ?: Bundle().also { thisRef.arguments = it })
+            .putStringArray(key, value)
+        cache = value
+    }
+}
+
+class BundleStringList(
+    private val key: String,
+    private val defaultValue: List<String> = emptyList(),
+) : ReadWriteProperty<Fragment, List<String>> {
+
+    private var cache: List<String>? = null
+
+    override fun getValue(thisRef: Fragment, property: KProperty<*>): List<String> {
+        return cache ?: (thisRef.arguments?.getStringArrayList(key) ?: defaultValue).also {
+            cache = it
+        }
+    }
+
+    override fun setValue(thisRef: Fragment, property: KProperty<*>, value: List<String>) {
+        (thisRef.arguments ?: Bundle().also { thisRef.arguments = it })
+            .putStringArrayList(key, ArrayList(value))
+        cache = value
+    }
+}
+
 class BundleInt(
     private val key: String,
     private val defaultValue: Int,

@@ -8,6 +8,7 @@ data class TeamParticipantsUiModel(
 )
 
 data class PlayerUiModel(
+    val id: String,
     val name: String,
     val rating: Int,
     val isCurrentUser: Boolean = false
