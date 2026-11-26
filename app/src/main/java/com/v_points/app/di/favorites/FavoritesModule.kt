@@ -1,10 +1,6 @@
 package com.v_points.app.di.favorites
 
 import androidx.lifecycle.ViewModel
-import dagger.Binds
-import dagger.Module
-import dagger.Provides
-import dagger.multibindings.IntoMap
 import com.v_points.app.data.account.AccountRepositoryImpl
 import com.v_points.app.data.favorites.FavoritesRepositoryImpl
 import com.v_points.app.data.solution.SolutionLocalDataSource
@@ -14,6 +10,10 @@ import com.v_points.app.domain.account.AccountRepository
 import com.v_points.app.domain.favorites.FavoritesRepository
 import com.v_points.app.domain.solution.SolutionRepository
 import com.v_points.app.presentation.favorites.FavoritesViewModel
+import dagger.Binds
+import dagger.Module
+import dagger.Provides
+import dagger.multibindings.IntoMap
 
 @Module
 abstract class FavoritesModule {

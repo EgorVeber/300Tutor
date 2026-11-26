@@ -1,10 +1,6 @@
 package com.v_points.app.presentation.account
 
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import com.v_points.app.domain.account.models.AccountModel
 import com.v_points.app.domain.account.usecase.CreateLoginLinkResultUseCase
 import com.v_points.app.domain.account.usecase.GetAccountUseCase
@@ -16,6 +12,10 @@ import com.v_points.app.ui_common.coroutines.launchJob
 import com.v_points.app.ui_common.flow.SingleSharedFlow
 import com.v_points.app.ui_common.fragment.base.BaseViewModel
 import com.v_points.app.ui_common.util.UnknownServerException
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 class AccountViewModel @Inject constructor(
@@ -30,7 +30,7 @@ class AccountViewModel @Inject constructor(
 
     private val accountInfoState = MutableStateFlow(AccountModel.EMPTY)
     private val accountErrorState = MutableStateFlow(false)
-    private val telegramVisibleState         = MutableStateFlow(false to "")
+    private val telegramVisibleState = MutableStateFlow(false to "")
 
     init {
         viewModelScope.launchJob(tryBlock = {

@@ -1,13 +1,13 @@
 package com.v_points.app.di.main
 
 import androidx.lifecycle.ViewModel
-import dagger.Binds
-import dagger.Module
-import dagger.multibindings.IntoMap
 import com.v_points.app.data.main.MainRepositoryImpl
 import com.v_points.app.di.common.ViewModelInjectMapKey
 import com.v_points.app.domain.main.MainRepository
 import com.v_points.app.presentation.main.activate_key_dialog.ActivateKeyViewModel
+import dagger.Binds
+import dagger.Module
+import dagger.multibindings.IntoMap
 
 @Module
 abstract class ActivateKeyModule {

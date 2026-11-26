@@ -47,11 +47,13 @@ class MainMenuFragment : BaseFragment(UiCoreLayout.main_menu_fragment) {
         viewModel.getUiAction().observeFlow(this) { action ->
             when (action) {
                 is MainMenuViewModel.UiAction.NavigateWebScreen -> {
-                    navigate(R.id.action_mainMenuFragment_to_webViewFragment, bundle = Bundle().apply {
-                        putString(WebViewFragment.LINK_KEY, action.urlAuthentication)
-                        putString(WebViewFragment.SCHOOL_KEY, action.schoolName)
-                        putString(WebViewFragment.SITE_URL_KEY, action.siteUrl)
-                    })
+                    navigate(
+                        R.id.action_mainMenuFragment_to_webViewFragment,
+                        bundle = Bundle().apply {
+                            putString(WebViewFragment.LINK_KEY, action.urlAuthentication)
+                            putString(WebViewFragment.SCHOOL_KEY, action.schoolName)
+                            putString(WebViewFragment.SITE_URL_KEY, action.siteUrl)
+                        })
                 }
 
                 MainMenuViewModel.UiAction.NavigateFavoritesScreen -> {

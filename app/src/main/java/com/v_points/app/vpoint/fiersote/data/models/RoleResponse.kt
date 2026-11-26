@@ -1,4 +1,3 @@
-
 package com.v_points.app.vpoint.fiersote.data.models
 
 import com.google.firebase.firestore.DocumentId

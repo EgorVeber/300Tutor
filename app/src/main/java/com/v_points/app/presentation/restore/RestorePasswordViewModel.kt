@@ -1,7 +1,6 @@
 package com.v_points.app.presentation.restore
 
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.Flow
 import com.v_points.app.core.UiCoreStrings
 import com.v_points.app.domain.restore.ForgotStartUseCase
 import com.v_points.app.presentation.common.ResourceProvider
@@ -9,6 +8,7 @@ import com.v_points.app.ui_common.coroutines.launchJob
 import com.v_points.app.ui_common.flow.SingleSharedFlow
 import com.v_points.app.ui_common.fragment.base.BaseViewModel
 import com.v_points.app.ui_core.SnackBarType
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class RestorePasswordViewModel @Inject constructor(

@@ -22,23 +22,23 @@ fun SolutionPointsModel.toResultTestUiModel(
             hasRightAnswerQuestionsCount,
         ),
         questionCountNeedCheckText =
-        when {
-            questionCountNeedCheck == 1 -> {
-                resourceProvider.quantityString(
-                    UiCorePlurals.result_test_need_to_check_questions,
-                    questionCountNeedCheck, questionCountNeedCheck
-                ) + resourceProvider.string(UiCoreStrings.result_test_need_to_check_question)
-            }
+            when {
+                questionCountNeedCheck == 1 -> {
+                    resourceProvider.quantityString(
+                        UiCorePlurals.result_test_need_to_check_questions,
+                        questionCountNeedCheck, questionCountNeedCheck
+                    ) + resourceProvider.string(UiCoreStrings.result_test_need_to_check_question)
+                }
 
-            questionCountNeedCheck > 1 -> {
-                resourceProvider.quantityString(
-                    UiCorePlurals.result_test_need_to_check_questions,
-                    questionCountNeedCheck, questionCountNeedCheck
-                ) + resourceProvider.string(UiCoreStrings.result_test_need_to_check_questions)
-            }
+                questionCountNeedCheck > 1 -> {
+                    resourceProvider.quantityString(
+                        UiCorePlurals.result_test_need_to_check_questions,
+                        questionCountNeedCheck, questionCountNeedCheck
+                    ) + resourceProvider.string(UiCoreStrings.result_test_need_to_check_questions)
+                }
 
-            else -> EMPTY_STRING
-        },
+                else -> EMPTY_STRING
+            },
         titlePoint = resourceProvider.string(
             UiCoreStrings.pie_chat_title_point,
             studentTotalPoints.toString(),

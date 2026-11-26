@@ -172,6 +172,7 @@ class CreateGameViewModel @Inject constructor(
             }
 
             CreateGameAction.OnScoreSaveClick -> {
+                if (state.scoreOneTeam == state.scoreTwoTeam) return
                 state.scoreTitle = "К1 ${state.scoreOneTeam}:${state.scoreTwoTeam} К2"
                 state.isScoreEnabled = true
                 state.showScoreBottom = false

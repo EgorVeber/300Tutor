@@ -1,11 +1,11 @@
 package com.v_points.app.vpoint.games.di
 
 import androidx.lifecycle.ViewModel
+import com.v_points.app.di.common.ViewModelInjectMapKey
+import com.v_points.app.vpoint.games.presentation.GamesViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import com.v_points.app.di.common.ViewModelInjectMapKey
-import com.v_points.app.vpoint.games.presentation.GamesViewModel
 
 @Module
 abstract class GamesModule {

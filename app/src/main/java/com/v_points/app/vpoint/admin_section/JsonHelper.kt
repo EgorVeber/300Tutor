@@ -2,6 +2,8 @@ package com.v_points.app.vpoint.admin_section
 
 import android.content.Context
 import android.util.Log
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -121,4 +123,45 @@ private fun getStats(): List<String> {
         "Пас",//Set
         "Защита",//Defense
     )
+}
+
+suspend fun migrateServeStats(firestore: FirebaseFirestore) {
+    println("Начинаем миграцию serveStats...")
+
+    // 1. Получаем все игровые дни
+    val gameDays = firestore.collection("gameDays").get().await().documents
+
+    for (dayDoc in gameDays) {
+        val gameDayId = dayDoc.id
+
+        // 2. Получаем все игры для этого дня
+        val games = dayDoc.reference.collection("games").get().await().documents
+
+        for (gameDoc in games) {
+            val gameId = gameDoc.id
+
+            // 3. Получаем все serveStats для этой игры
+            val serveStats = gameDoc.reference.collection("serveStats").get().await().documents
+
+            for (statDoc in serveStats) {
+                val data = statDoc.data
+
+                // Проверяем, нужно ли обновлять (если нет gameId)
+                if (data?.get("gameId") == null || data["gameDayId"] == null) {
+
+                    // Формируем данные для обновления
+                    val updates = mapOf(
+                        "gameId" to gameId,
+                        "gameDayId" to gameDayId,
+                        "transitionBall" to 0 // Добавляем новое поле
+                    )
+
+                    // Обновляем документ
+                    statDoc.reference.update(updates).await()
+                    println("Обновлен serveStat ${statDoc.id} (Игра: $gameId, День: $gameDayId)")
+                }
+            }
+        }
+    }
+    println("Миграция завершена!")
 }

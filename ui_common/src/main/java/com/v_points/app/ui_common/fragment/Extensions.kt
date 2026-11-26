@@ -10,12 +10,12 @@ import androidx.annotation.AttrRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import com.v_points.app.ui_common.UiCoreAttr
 import com.v_points.app.ui_common.UiCoreStrings
 import com.v_points.app.ui_common.util.getUrlYoutube
 import com.v_points.app.ui_core.TutorSnackbar
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 fun Fragment.getColorAttr(@AttrRes attrRes: Int, needResId: Boolean = true): Int {
     val typedValue = TypedValue()
@@ -29,7 +29,8 @@ fun Fragment.showMessage(text: String, length: Int = Toast.LENGTH_SHORT) =
 fun Fragment.addBackPressedCallback(
     action: () -> Unit
 ) {
-    requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
+    requireActivity().onBackPressedDispatcher.addCallback(
+        viewLifecycleOwner,
         object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 action.invoke()

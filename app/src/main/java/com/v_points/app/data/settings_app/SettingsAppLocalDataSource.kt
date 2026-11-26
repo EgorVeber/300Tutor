@@ -1,10 +1,10 @@
 package com.v_points.app.data.settings_app
 
 import android.util.Log
+import com.v_points.app.domain.settings_app.SettingsAppModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
-import com.v_points.app.domain.settings_app.SettingsAppModel
 import javax.inject.Inject
 
 class SettingsAppLocalDataSource @Inject constructor(

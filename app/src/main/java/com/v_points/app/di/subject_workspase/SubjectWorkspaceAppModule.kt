@@ -1,8 +1,8 @@
 package com.v_points.app.di.subject_workspase
 
+import com.v_points.app.data.subject_workspace.SubjectWorkspaceLocalDataSource
 import dagger.Module
 import dagger.Provides
-import com.v_points.app.data.subject_workspace.SubjectWorkspaceLocalDataSource
 import javax.inject.Singleton
 
 @Module

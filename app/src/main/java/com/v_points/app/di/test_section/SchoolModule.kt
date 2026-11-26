@@ -1,9 +1,6 @@
 package com.v_points.app.di.test_section
 
 import androidx.lifecycle.ViewModel
-import dagger.Binds
-import dagger.Module
-import dagger.multibindings.IntoMap
 import com.v_points.app.data.account.AccountRepositoryImpl
 import com.v_points.app.data.authorization.AuthorizationRepositoryImpl
 import com.v_points.app.data.school.SchoolRepositoryImpl
@@ -14,6 +11,9 @@ import com.v_points.app.domain.authorization.AuthorizationRepository
 import com.v_points.app.domain.school.SchoolRepository
 import com.v_points.app.domain.settings_app.SettingsAppRepository
 import com.v_points.app.presentation.test_section.SchoolViewModel
+import dagger.Binds
+import dagger.Module
+import dagger.multibindings.IntoMap
 
 @Module
 abstract class SchoolModule {

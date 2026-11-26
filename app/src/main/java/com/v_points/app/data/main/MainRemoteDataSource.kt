@@ -31,7 +31,7 @@ class MainRemoteDataSource @Inject constructor(
 
     suspend fun getExtraButtons(): ExtraButtonResponse = service().getExtraButtons()
     suspend fun getTelegramData(): TelegramDataModel {
-       return service().getTelegramData().toTelegramDataModel()
+        return service().getTelegramData().toTelegramDataModel()
     }
 
     suspend fun createLinkTelegram(): CreateLinkTelegramModel {

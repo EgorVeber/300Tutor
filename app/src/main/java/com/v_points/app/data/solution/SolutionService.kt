@@ -47,6 +47,7 @@ interface SolutionService {
 
     @POST(TUTOR_TEST_SOLUTION_FINISH)
     suspend fun finish(@Body params: FinishSolutionRequest): QuestionAnswersWithResultBaseApiResponse
+
     @POST(TUTOR_TEST_SOLUTION_SAVE_ANSWERS_WITH_HOUT)
     suspend fun saveAnswers(@Body params: FinishSolutionRequest): BaseApiResponse
 

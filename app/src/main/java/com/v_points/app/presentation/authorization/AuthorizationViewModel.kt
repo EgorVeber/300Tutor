@@ -1,11 +1,6 @@
 package com.v_points.app.presentation.authorization
 
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.update
 import com.v_points.app.core.UiCoreStrings
 import com.v_points.app.data.common.network.ErrorType
 import com.v_points.app.domain.authorization.LoginModel
@@ -19,6 +14,11 @@ import com.v_points.app.presentation.common.ResourceProvider
 import com.v_points.app.ui_common.coroutines.launchJob
 import com.v_points.app.ui_common.flow.SingleSharedFlow
 import com.v_points.app.ui_common.fragment.base.BaseViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 class AuthorizationViewModel @Inject constructor(
@@ -102,7 +102,7 @@ class AuthorizationViewModel @Inject constructor(
             ErrorType.CLIENT_ADDING_ERROR,
             ErrorType.UNACCEPTABLE_PASSWORD,
             ErrorType.NONE,
-            -> errorEventState.tryEmit(loginModel.errorMessage)
+                -> errorEventState.tryEmit(loginModel.errorMessage)
         }
     }
 

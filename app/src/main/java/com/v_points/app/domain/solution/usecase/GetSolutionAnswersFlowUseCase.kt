@@ -1,9 +1,9 @@
 package com.v_points.app.domain.solution.usecase
 
+import com.v_points.app.domain.solution.SolutionRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
-import com.v_points.app.domain.solution.SolutionRepository
 import javax.inject.Inject
 
 class GetSolutionAnswersFlowUseCase @Inject constructor(

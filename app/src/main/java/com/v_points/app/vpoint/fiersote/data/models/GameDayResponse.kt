@@ -26,3 +26,16 @@ data class UserStatResponse(
     val reviewerId: String? = null,
     val value: Double? = null
 )
+
+data class ServeStatResponse(
+    @DocumentId val id: String? = null,
+    val userId: String? = null,
+    val gameId: String? = null,
+    val gameDayId: String? = null,
+    val transitionBall: Int? = null,
+    val ace: Int? = null,
+    val grace: Int? = null,
+    val net: Int? = null,
+    val notReception: Int? = null,
+    val out: Int? = null
+)

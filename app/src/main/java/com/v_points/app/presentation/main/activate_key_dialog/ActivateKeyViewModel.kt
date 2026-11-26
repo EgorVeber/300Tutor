@@ -1,9 +1,6 @@
 package com.v_points.app.presentation.main.activate_key_dialog
 
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import com.v_points.app.core.UiCoreStrings
 import com.v_points.app.domain.main.usecase.EnterGroupUseCase
 import com.v_points.app.presentation.common.ResourceProvider
@@ -11,6 +8,9 @@ import com.v_points.app.ui_common.coroutines.launchJob
 import com.v_points.app.ui_common.flow.SingleSharedFlow
 import com.v_points.app.ui_common.fragment.base.BaseViewModel
 import com.v_points.app.ui_common.util.addQuotesSymbol
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class ActivateKeyViewModel @Inject constructor(

@@ -1,7 +1,6 @@
 package com.v_points.app.vpoint.games.presentation
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,7 +27,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.v_points.app.ui_core.baseModifier
 import com.v_points.app.ui_core.components.day.GameUiModel
 import com.v_points.app.ui_core.components.day.GamesListCardV4
 import com.v_points.app.ui_core.components.participant.ParticipantsCardCompactV2
@@ -50,7 +48,15 @@ fun GamesScreenContent(
     state: GamesState,
     onAction: (GameScreenAction) -> Unit,
 ) {
-    Column(modifier = Modifier.fillMaxSize().navigationBarsPadding()) {
+    val tabs = listOf("Игры", "Подачи", "Оценка")
+    val pagerState = rememberPagerState(pageCount = { tabs.size })
+    val coroutineScope = rememberCoroutineScope()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .navigationBarsPadding()
+    ) {
         TopAppBar(
             title = {
                 Text(text = state.title)
@@ -84,63 +90,69 @@ fun GamesScreenContent(
                 containerColor = MaterialTheme.colorScheme.surface
             )
         )
-        Box {
-            when (val data = state.gamesContentState) {
-                is GamesContentState.Content -> {
-                    val tabs = listOf("Игры", "Подачи", "Оценка")
-                    val pagerState = rememberPagerState(pageCount = { tabs.size })
-                    val coroutineScope = rememberCoroutineScope()
-                    Column {
-                        TabRow(selectedTabIndex = pagerState.currentPage) {
-                            tabs.forEachIndexed { index, title ->
-                                Tab(
-                                    selected = pagerState.currentPage == index,
-                                    onClick = {
-                                        coroutineScope.launch {
-                                            pagerState.animateScrollToPage(index)
-                                        }
-                                    },
-                                    text = { Text(text = title) }
-                                )
+        Column {
+            TabRow(selectedTabIndex = pagerState.currentPage) {
+                tabs.forEachIndexed { index, title ->
+                    Tab(
+                        selected = pagerState.currentPage == index,
+                        onClick = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(index)
                             }
-                        }
-                        HorizontalPager(state = pagerState) { page ->
-                            when (page) {
-                                0 -> {
-                                    Column(
-                                        Modifier
-                                            .verticalScroll(rememberScrollState())
-                                            .padding(PaddingValues(top = 8.dp, bottom = 24.dp))
-                                            .padding(horizontal = 16.dp),
-                                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                                    ) {
-                                        ParticipantsCardCompactV2(data.participantsBlock)
-                                        GamesListCardV4(games = data.gamesBlock)
-                                    }
-                                }
+                        },
+                        text = { Text(text = title) }
+                    )
+                }
+            }
+            val data = state.gamesContentState as? GamesContentState.Content ?: return@Column
 
-                                1 -> {
-                                    Text(text = "Содержимое: ${tabs[page]}")
-                                }
-
-                                2 -> {
-                                    Text(text = "Содержимое: ${tabs[page]}")
-                                }
-
-                                else -> {
-                                    Text(text = "Содержимое: ${tabs[page]}")
-                                }
-                            }
+            HorizontalPager(state = pagerState) { page ->
+                when (page) {
+                    0 -> {
+                        Column(
+                            Modifier
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState())
+                                .padding(PaddingValues(top = 8.dp, bottom = 24.dp))
+                                .padding(horizontal = 16.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            ParticipantsCardCompactV2(data.participantsBlock)
+                            GamesListCardV4(games = data.gamesBlock)
                         }
                     }
 
-                }
+                    1 -> {
+                        Column(
+                            Modifier
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState())
+                                .padding(PaddingValues(top = 8.dp, bottom = 24.dp))
+                                .padding(horizontal = 16.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                        }
+                    }
 
-                GamesContentState.Empty -> {}
+                    2 -> {
+                        Column(
+                            Modifier
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState())
+                                .padding(PaddingValues(top = 8.dp, bottom = 24.dp))
+                                .padding(horizontal = 16.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                        }
+                    }
+
+                    else -> {}
+                }
             }
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
@@ -149,14 +161,14 @@ fun GamesScreenContentPreview() {
         teamOneName = "К1",
         teamTwoName = "К2",
         teamOnePlayers = listOf(
-            PlayerUiModel(id="", "Иван", 67), PlayerUiModel(id="", "Вячеслав", 72),
-            PlayerUiModel(id="", "Максим", 80), PlayerUiModel(id="", "Дима", 55),
-            PlayerUiModel(id="", "Егор", 90), PlayerUiModel(id="", "Вадим", 61)
+            PlayerUiModel(id = "", "Иван", 67), PlayerUiModel(id = "", "Вячеслав", 72),
+            PlayerUiModel(id = "", "Максим", 80), PlayerUiModel(id = "", "Дима", 55),
+            PlayerUiModel(id = "", "Егор", 90), PlayerUiModel(id = "", "Вадим", 61)
         ),
         teamTwoPlayers = listOf(
-            PlayerUiModel(id="", "Евгений", 65), PlayerUiModel(id="", "Юля", 78),
-            PlayerUiModel(id="", "Света", 45), PlayerUiModel(id="", "Саша", 88),
-            PlayerUiModel(id="", "Дарья", 70), PlayerUiModel(id="", "Олеся", 59)
+            PlayerUiModel(id = "", "Евгений", 65), PlayerUiModel(id = "", "Юля", 78),
+            PlayerUiModel(id = "", "Света", 45), PlayerUiModel(id = "", "Саша", 88),
+            PlayerUiModel(id = "", "Дарья", 70), PlayerUiModel(id = "", "Олеся", 59)
         )
     )
 

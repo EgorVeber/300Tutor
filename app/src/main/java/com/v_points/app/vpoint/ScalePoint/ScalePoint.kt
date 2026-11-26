@@ -158,8 +158,9 @@ fun NamedTappableScale(
                                     var pointer = down
                                     while (true) {
                                         val event = awaitPointerEvent()
-                                        val change = event.changes.firstOrNull { it.id == pointer.id }
-                                            ?: break
+                                        val change =
+                                            event.changes.firstOrNull { it.id == pointer.id }
+                                                ?: break
                                         if (!change.pressed) break
                                         pointer = change
                                     }

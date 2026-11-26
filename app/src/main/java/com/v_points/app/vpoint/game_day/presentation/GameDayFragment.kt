@@ -14,7 +14,6 @@ import com.v_points.app.ui_common.flow.observeFlow
 import com.v_points.app.ui_common.fragment.base.BaseFragment
 import com.v_points.app.ui_core.databinding.GameDayFragmentBinding
 import com.v_points.app.ui_core.setComposeContent
-import com.v_points.app.vpoint.game_day.MainScreenRoute
 
 class GameDayFragment : BaseFragment(UiCoreLayout.game_day_fragment) {
 

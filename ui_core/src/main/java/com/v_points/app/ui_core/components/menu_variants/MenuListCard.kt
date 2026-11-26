@@ -2,13 +2,29 @@ package com.v_points.app.ui_core.components.menu_variants
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Badge
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -100,6 +116,7 @@ fun MenuListCard(
 
 // Зелёный цвет — вынесите в тему/палитру
 private val SuccessGreen = Color(0xFF4CAF50)
+
 @Composable
 fun MenuListCard(
     title: String,
@@ -107,7 +124,7 @@ fun MenuListCard(
     imageVector: ImageVector,
     badge: String? = null,
     shoNextIcon: Boolean = true,
-    showSuccessIcon : Boolean = false,
+    showSuccessIcon: Boolean = false,
     onClick: () -> Unit = {}
 ) {
     MenuListCard(
@@ -117,7 +134,7 @@ fun MenuListCard(
         icon = rememberVectorPainter(imageVector),
         badge = badge,
         onClick = onClick,
-        showSuccessIcon =  false
+        showSuccessIcon = false
     )
 }
 

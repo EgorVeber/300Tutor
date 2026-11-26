@@ -1,12 +1,12 @@
 package com.v_points.app.di.subject_workspase
 
-import dagger.BindsInstance
-import dagger.Component
 import com.v_points.app.core.DiSetHelper
 import com.v_points.app.data.common.network.ServiceGeneratorProvider
 import com.v_points.app.data.subject_workspace.SubjectWorkspaceLocalDataSource
 import com.v_points.app.di.common.ViewModelMapFactory
 import com.v_points.app.presentation.subject_workspace.SubjectWorkspaceBundleModel
+import dagger.BindsInstance
+import dagger.Component
 
 @Component(modules = [SubjectWorkspaceModule::class])
 interface SubjectWorkspaceComponent {

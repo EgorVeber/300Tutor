@@ -1,4 +1,5 @@
 package com.v_points.app.ui_core.components.day
+
 data class GameUiModel(
     val id: String,
     val name: String,

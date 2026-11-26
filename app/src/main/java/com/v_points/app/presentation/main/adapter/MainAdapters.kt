@@ -2,7 +2,6 @@ package com.v_points.app.presentation.main.adapter
 
 import androidx.core.view.isVisible
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
-import ir.mahozad.android.PieChart
 import com.v_points.app.core.UiCoreAttr
 import com.v_points.app.core.UiCoreDrawable
 import com.v_points.app.domain.main.models.ExtraButtonInfoModel
@@ -35,6 +34,7 @@ import com.v_points.app.ui_core.databinding.SubjectHeaderItemBinding
 import com.v_points.app.ui_core.databinding.SubjectItemBinding
 import com.v_points.app.ui_core.databinding.TelegramBindItemBinding
 import com.v_points.app.ui_core.databinding.TelegramOpenItemBinding
+import ir.mahozad.android.PieChart
 import kotlin.math.abs
 
 object MainAdapters {

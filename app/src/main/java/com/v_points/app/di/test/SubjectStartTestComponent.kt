@@ -1,12 +1,12 @@
 package com.v_points.app.di.test
 
-import dagger.BindsInstance
-import dagger.Component
 import com.v_points.app.core.DiSetHelper
 import com.v_points.app.data.common.network.ServiceGeneratorProvider
 import com.v_points.app.di.common.ViewModelMapFactory
 import com.v_points.app.presentation.common.ResourceProvider
 import com.v_points.app.presentation.subjetc_start_test.SubjectStartTestBundleModel
+import dagger.BindsInstance
+import dagger.Component
 
 @Component(modules = [SubjectStartTestModule::class])
 interface SubjectStartTestComponent {

@@ -13,7 +13,8 @@ object SolutionApi {
     const val TUTOR_TEST_SOLUTION_START_BY_TEST_ID = "/api/tutor/test-solution/start/By/TestId"
     const val TUTOR_TEST_SOLUTION_START_BY_DIRECTORY = "/api/tutor/test-solution/start/By/Directory"
 
-    const val TUTOR_TEST_SOLUTION_RESULT_POINTS = "/api/tutor/test-solution-result/points/{solutionId}"
+    const val TUTOR_TEST_SOLUTION_RESULT_POINTS =
+        "/api/tutor/test-solution-result/points/{solutionId}"
 
 
     const val TUTOR_TEST_SOLUTION_RESULT_QUESTIONS_VALIDATION_SAVE =
@@ -24,7 +25,8 @@ object SolutionApi {
 
     const val TUTOR_QUESTION_LIKES_CHANGE = "/api/tutor/question-likes/change"
 
-    const val TUTOR_TEST_SOLUTION_SAVE_ANSWERS_WITH_HOUT= "/api/tutor/test-solution/save-answers-without-validation"
+    const val TUTOR_TEST_SOLUTION_SAVE_ANSWERS_WITH_HOUT =
+        "/api/tutor/test-solution/save-answers-without-validation"
 
     const val ID = "id"
     const val SOLUTION_ID = "solutionId"

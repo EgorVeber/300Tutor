@@ -1,10 +1,6 @@
 package com.v_points.app.presentation.solution_history
 
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import com.v_points.app.core.UiCoreStrings
 import com.v_points.app.domain.solution_history.SearchSolutionFilteredUseCase
 import com.v_points.app.domain.solution_history.SolutionHistoryFilter
@@ -16,6 +12,10 @@ import com.v_points.app.ui_common.DEFAULT_NOT_VALID_VALUE_INT
 import com.v_points.app.ui_common.coroutines.launchJob
 import com.v_points.app.ui_common.flow.SingleSharedFlow
 import com.v_points.app.ui_common.fragment.base.BaseViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 class SolutionHistoryViewModel @Inject constructor(

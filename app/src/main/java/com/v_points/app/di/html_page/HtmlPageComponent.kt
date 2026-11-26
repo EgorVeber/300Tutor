@@ -1,7 +1,5 @@
 package com.v_points.app.di.html_page
 
-import dagger.BindsInstance
-import dagger.Component
 import com.v_points.app.core.DiSetHelper
 import com.v_points.app.data.common.data_source.ConfigLocalDataSource
 import com.v_points.app.data.common.network.ServiceGeneratorProvider
@@ -9,6 +7,8 @@ import com.v_points.app.data.subject_workspace.SubjectWorkspaceLocalDataSource
 import com.v_points.app.di.common.ViewModelMapFactory
 import com.v_points.app.domain.settings_app.SettingsAppRepository
 import com.v_points.app.presentation.common.ResourceProvider
+import dagger.BindsInstance
+import dagger.Component
 
 @Component(modules = [HtmlPageModule::class])
 interface HtmlPageComponent {

@@ -1,7 +1,5 @@
 package com.v_points.app.data.common.network.interceptor
 
-import okhttp3.Interceptor
-import okhttp3.Response
 import com.v_points.app.ui_common.util.BadGatewayException
 import com.v_points.app.ui_common.util.BadRequestException
 import com.v_points.app.ui_common.util.ForbiddenServerException
@@ -11,6 +9,8 @@ import com.v_points.app.ui_common.util.NotFoundServerException
 import com.v_points.app.ui_common.util.ServiceUnavailableException
 import com.v_points.app.ui_common.util.UnauthorizedUserException
 import com.v_points.app.ui_common.util.UnknownServerException
+import okhttp3.Interceptor
+import okhttp3.Response
 
 class ServerErrorInterceptor : Interceptor {
 

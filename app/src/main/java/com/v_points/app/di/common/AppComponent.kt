@@ -2,8 +2,6 @@ package com.v_points.app.di.common
 
 import android.content.Context
 import com.google.firebase.firestore.FirebaseFirestore
-import dagger.BindsInstance
-import dagger.Component
 import com.v_points.app.data.common.data_source.AccountLocalDataSource
 import com.v_points.app.data.common.data_source.ConfigLocalDataSource
 import com.v_points.app.data.common.data_source.DomainLocalDataSource
@@ -16,8 +14,10 @@ import com.v_points.app.di.subject_workspase.SubjectWorkspaceAppModule
 import com.v_points.app.domain.account.AccountRepository
 import com.v_points.app.domain.common.AccountAuthorizationInfoRepository
 import com.v_points.app.domain.settings_app.SettingsAppRepository
-import com.v_points.app.vpoint.fiersote.di.FirestoreModule
 import com.v_points.app.presentation.common.ResourceProvider
+import com.v_points.app.vpoint.fiersote.di.FirestoreModule
+import dagger.BindsInstance
+import dagger.Component
 import javax.inject.Singleton
 
 @Component(
@@ -40,7 +40,7 @@ interface AppComponent {
     fun getPublicDataSource(): PublicDataSource
     fun getAccountAuthorizationInfoRepository(): AccountAuthorizationInfoRepository
     fun getSettingsAppRepository(): SettingsAppRepository
-    fun getAccountRepository (): AccountRepository
+    fun getAccountRepository(): AccountRepository
     fun getPrivateDataSource(): PrivateDataSource
     fun getDomainLocalDataSource(): DomainLocalDataSource
     fun getFirestoreInstance(): FirebaseFirestore

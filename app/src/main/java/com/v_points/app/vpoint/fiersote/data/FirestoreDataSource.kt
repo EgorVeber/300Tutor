@@ -2,6 +2,7 @@ package com.v_points.app.vpoint.fiersote.data
 
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.v_points.app.vpoint.fiersote.data.FirestoreFields.F_GAME_DAY_ID
 import com.v_points.app.vpoint.fiersote.data.models.GameDayRequest
 import com.v_points.app.vpoint.fiersote.domain.GameModel
 import kotlinx.coroutines.tasks.await
@@ -77,13 +78,22 @@ class FirestoreDataSource @Inject constructor(
         return generatedIds
     }
 
+    suspend fun getServeStatsByGameDay(gameDayId: String): List<DocumentSnapshot> =
+        firebaseFirestore.collectionGroup(SERVE_STATS_COLLECTION)
+            .whereEqualTo(F_GAME_DAY_ID, gameDayId)
+            .get()
+            .await()
+            .documents
+
+    suspend fun getAllServeStats(): List<DocumentSnapshot> =
+        firebaseFirestore.collectionGroup(SERVE_STATS_COLLECTION).get().await().documents
+
     companion object {
         const val USERS_COLLECTION = "users"
         const val ROLES_COLLECTION = "roles"
         const val STATS_COLLECTION = "stats"
         const val GYMS_COLLECTION = "gyms"
-
-
+        const val SERVE_STATS_COLLECTION = "serveStats"
         const val GAME_DAYS_COLLECTION = "gameDays"
         const val GAMES_COLLECTION = "games"
         const val USER_STATS_COLLECTION = "userStats"

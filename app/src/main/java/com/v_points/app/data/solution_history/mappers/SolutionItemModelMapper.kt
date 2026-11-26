@@ -11,8 +11,9 @@ fun SolutionItemResponse.toSolutionHistoryItemModel(): SolutionHistoryItemModel 
     SolutionHistoryItemModel(
         solutionInfoModel = solutionInfoResponse?.toSolutionInfoModel() ?: SolutionInfoModel.EMPTY,
         solutionValidationModel =
-        if (solutionInfoResponse?.isFinished.orFalse()) {
-            solutionValidationResponse?.toSolutionValidationModel() ?: SolutionValidationModel.EMPTY
-        } else SolutionValidationModel.EMPTY,
+            if (solutionInfoResponse?.isFinished.orFalse()) {
+                solutionValidationResponse?.toSolutionValidationModel()
+                    ?: SolutionValidationModel.EMPTY
+            } else SolutionValidationModel.EMPTY,
         unreadMessagesCount = unreadMessagesCount ?: DEFAULT_NOT_VALID_VALUE_INT
     )

@@ -457,7 +457,6 @@ object SolutionAdapters {
         }
 
 
-
     fun getEmptyUiItem() =
         adapterDelegateViewBinding<EmptyUiItem, SolutionUiItem, EmptyItemBinding>(
             { layoutInflater, root ->

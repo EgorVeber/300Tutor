@@ -1,13 +1,13 @@
 package com.v_points.app.di.subject_tests
 
 import androidx.lifecycle.ViewModel
-import dagger.Binds
-import dagger.Module
-import dagger.multibindings.IntoMap
 import com.v_points.app.data.subject_tests.SubjectTestsRepositoryImpl
 import com.v_points.app.di.common.ViewModelInjectMapKey
 import com.v_points.app.domain.subject_tests.SubjectTestsRepository
 import com.v_points.app.presentation.subject_tests.SubjectTestsViewModel
+import dagger.Binds
+import dagger.Module
+import dagger.multibindings.IntoMap
 
 @Module
 abstract class SubjectTestsModule {

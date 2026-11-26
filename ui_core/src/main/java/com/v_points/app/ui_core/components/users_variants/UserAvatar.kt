@@ -212,9 +212,11 @@ fun UserCardStacked(
             containerColor = MaterialTheme.colorScheme.secondaryContainer
         )
     ) {
-        Column(Modifier
-            .fillMaxWidth()
-            .padding(14.dp)) {
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .padding(14.dp)
+        ) {
             Text(
                 user.fullName(),
                 fontSize = 16.sp,
@@ -346,9 +348,11 @@ fun UserCardBanner(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .height(IntrinsicSize.Min)) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min)
+        ) {
             Box(
                 modifier = Modifier
                     .width(88.dp)
@@ -469,13 +473,17 @@ fun UserCardWithStatsRight(
     onClick: (String) -> Unit = {}
 ) {
     Card(
-        modifier = modifier.fillMaxWidth().clickable { onClick(user.id) },
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onClick(user.id) },
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(12.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
@@ -517,12 +525,16 @@ fun UserCardWithStatsBottom(
     onClick: (String) -> Unit = {}
 ) {
     Card(
-        modifier = modifier.fillMaxWidth().clickable { onClick(user.id) },
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onClick(user.id) },
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
-        Column(Modifier.fillMaxWidth().padding(14.dp)) {
+        Column(Modifier
+            .fillMaxWidth()
+            .padding(14.dp)) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -628,7 +640,9 @@ private fun sampleUsersWithStats(): List<UserUiModel> = listOf(
 private fun UserStatsRightPreview() {
     MaterialTheme {
         Column(
-            modifier = Modifier.fillMaxSize().padding(16.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             sampleUsersWithStats().forEach { user ->
@@ -649,7 +663,9 @@ private fun UserStatsRightPreview() {
 private fun UserStatsBottomPreview() {
     MaterialTheme {
         Column(
-            modifier = Modifier.fillMaxSize().padding(16.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             sampleUsersWithStats().forEach { user ->

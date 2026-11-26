@@ -1,7 +1,5 @@
 package com.v_points.app.presentation.solution.solution_factory
 
-import org.jsoup.Jsoup
-import org.jsoup.select.Elements
 import com.v_points.app.core.UiCoreStrings
 import com.v_points.app.domain.solution.models.TestSolutionGeneralModel
 import com.v_points.app.domain.solution.models.solution_models.AnswerModel
@@ -34,6 +32,8 @@ import com.v_points.app.presentation.solution.ui_models.right_answer.toRightAnsw
 import com.v_points.app.presentation.solution.ui_models.select_right_answer.SelectRightAnswerCheckButtonUiItem
 import com.v_points.app.presentation.solution.ui_models.select_right_answer.SelectRightAnswerTitleUiItem
 import com.v_points.app.ui_common.EMPTY_STRING
+import org.jsoup.Jsoup
+import org.jsoup.select.Elements
 import javax.inject.Inject
 
 class SolutionFactory @Inject constructor(

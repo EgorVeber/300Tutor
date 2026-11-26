@@ -1,16 +1,16 @@
 package com.v_points.app.di.solution
 
 import androidx.lifecycle.ViewModel
-import dagger.Binds
-import dagger.Module
-import dagger.Provides
-import dagger.multibindings.IntoMap
 import com.v_points.app.data.solution.SolutionLocalDataSource
 import com.v_points.app.data.solution.SolutionRepositoryImpl
 import com.v_points.app.di.ScreenScope
 import com.v_points.app.di.common.ViewModelInjectMapKey
 import com.v_points.app.domain.solution.SolutionRepository
 import com.v_points.app.presentation.solution.SolutionViewModel
+import dagger.Binds
+import dagger.Module
+import dagger.Provides
+import dagger.multibindings.IntoMap
 
 @Module
 abstract class SolutionModule {

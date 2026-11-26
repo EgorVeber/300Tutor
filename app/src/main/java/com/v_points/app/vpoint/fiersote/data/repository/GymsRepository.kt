@@ -1,9 +1,8 @@
 package com.v_points.app.vpoint.fiersote.data.repository
 
 import com.v_points.app.vpoint.fiersote.data.FirestoreDataSource
-import com.v_points.app.vpoint.fiersote.data.models.GymResponse
-import com.v_points.app.vpoint.fiersote.data.mappers.toGameModel
 import com.v_points.app.vpoint.fiersote.data.mappers.toGymModel
+import com.v_points.app.vpoint.fiersote.data.models.GymResponse
 import com.v_points.app.vpoint.fiersote.domain.GymModel
 import javax.inject.Inject
 

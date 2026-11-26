@@ -2,13 +2,10 @@ package com.v_points.app.vpoint.game_day_create.presentation
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.v_points.app.core.AppLayout
-import com.v_points.app.core.UiCoreAttr
 import com.v_points.app.ui_common.flow.observeFlow
-import com.v_points.app.ui_common.fragment.applyWindowColor
 import com.v_points.app.ui_common.fragment.base.BaseFragment
 import com.v_points.app.ui_common.fragment.showSnack
 import com.v_points.app.ui_core.setComposeContent
@@ -50,6 +47,7 @@ class CreateGameDayFragment : BaseFragment(AppLayout.create_game_day_fragment) {
                     )
                     findNavController().popBackStack()
                 }
+
                 CreateGameDayNavigateAction.SuccessCreated -> {
                     findNavController().popBackStack()
                 }

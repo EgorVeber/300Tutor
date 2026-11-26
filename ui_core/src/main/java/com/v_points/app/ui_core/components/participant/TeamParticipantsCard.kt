@@ -2,12 +2,26 @@ package com.v_points.app.ui_core.components.participant
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,14 +37,14 @@ val mockParticipantsWithRatingWithRating = TeamParticipantsUiModel(
     teamOneName = "К1",
     teamTwoName = "К2",
     teamOnePlayers = listOf(
-        PlayerUiModel(id = "","Иван", 67), PlayerUiModel(id = "","Вячеслав", 72),
-        PlayerUiModel(id = "","Максим", 80), PlayerUiModel(id = "","Дима", 55),
-        PlayerUiModel(id = "","Егор", 90), PlayerUiModel(id = "","Вадим", 61)
+        PlayerUiModel(id = "", "Иван", 67), PlayerUiModel(id = "", "Вячеслав", 72),
+        PlayerUiModel(id = "", "Максим", 80), PlayerUiModel(id = "", "Дима", 55),
+        PlayerUiModel(id = "", "Егор", 90), PlayerUiModel(id = "", "Вадим", 61)
     ),
     teamTwoPlayers = listOf(
-        PlayerUiModel(id = "","Евгений", 65), PlayerUiModel(id = "","Юля", 78),
-        PlayerUiModel(id = "","Света", 45), PlayerUiModel(id = "","Саша", 88),
-        PlayerUiModel(id = "","Дарья", 70), PlayerUiModel(id = "","Олеся", 59)
+        PlayerUiModel(id = "", "Евгений", 65), PlayerUiModel(id = "", "Юля", 78),
+        PlayerUiModel(id = "", "Света", 45), PlayerUiModel(id = "", "Саша", 88),
+        PlayerUiModel(id = "", "Дарья", 70), PlayerUiModel(id = "", "Олеся", 59)
     )
 )
 
@@ -570,16 +584,17 @@ val mockParticipantsCompact = TeamParticipantsUiModel(
             id = "",
             "Максим",
             80,
-        ), PlayerUiModel(id = "","Дима", 55),
-        PlayerUiModel(id = "",
+        ), PlayerUiModel(id = "", "Дима", 55),
+        PlayerUiModel(
+            id = "",
             "Егор",
             90,
-        ), PlayerUiModel(id = "","Вадим", 61)
+        ), PlayerUiModel(id = "", "Вадим", 61)
     ),
     teamTwoPlayers = listOf(
-        PlayerUiModel(id = "","Евгений", 65), PlayerUiModel(id = "","Юля", 78),
-        PlayerUiModel(id = "","Света", 45), PlayerUiModel(id = "","Саша", 88),
-        PlayerUiModel(id = "","Дарья", 70), PlayerUiModel(id = "","Олеся", 59)
+        PlayerUiModel(id = "", "Евгений", 65), PlayerUiModel(id = "", "Юля", 78),
+        PlayerUiModel(id = "", "Света", 45), PlayerUiModel(id = "", "Саша", 88),
+        PlayerUiModel(id = "", "Дарья", 70), PlayerUiModel(id = "", "Олеся", 59)
     )
 )
 

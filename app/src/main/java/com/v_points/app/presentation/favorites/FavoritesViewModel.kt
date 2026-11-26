@@ -1,10 +1,6 @@
 package com.v_points.app.presentation.favorites
 
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import com.v_points.app.core.UiCoreStrings
 import com.v_points.app.domain.account.usecase.GetAccountUseCase
 import com.v_points.app.domain.favorites.GetFavoritesQuestionUseCase
@@ -18,6 +14,10 @@ import com.v_points.app.ui_common.coroutines.launchJob
 import com.v_points.app.ui_common.flow.SingleSharedFlow
 import com.v_points.app.ui_common.fragment.base.BaseViewModel
 import com.v_points.app.ui_core.SnackBarType
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 class FavoritesViewModel @Inject constructor(

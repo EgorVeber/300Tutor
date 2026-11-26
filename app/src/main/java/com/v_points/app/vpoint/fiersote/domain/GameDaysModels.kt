@@ -34,3 +34,16 @@ data class GameModel(
     val participantsIdsTeamTwo: List<String>,
     val allParticipantsIds: List<String>
 )
+
+data class ServeStatModel(
+    val id: String,
+    val userId: String,
+    val gameId: String,
+    val gameDayId: String,
+    val transitionBall: Int,
+    val ace: Int,
+    val grace: Int,
+    val net: Int,
+    val notReception: Int,
+    val out: Int,
+)

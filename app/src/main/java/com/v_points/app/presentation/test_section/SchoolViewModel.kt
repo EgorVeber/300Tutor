@@ -1,9 +1,6 @@
 package com.v_points.app.presentation.test_section
 
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 import com.v_points.app.core.UiCoreStrings
 import com.v_points.app.data.common.network.ErrorType
 import com.v_points.app.domain.account.usecase.GetAccountUseCase
@@ -20,6 +17,9 @@ import com.v_points.app.presentation.common.ResourceProvider
 import com.v_points.app.ui_common.coroutines.launchJob
 import com.v_points.app.ui_common.flow.SingleSharedFlow
 import com.v_points.app.ui_common.fragment.base.BaseViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 class SchoolViewModel @Inject constructor(

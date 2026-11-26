@@ -69,10 +69,11 @@ class SolutionHistoryFragment : BaseFragment(UiCoreLayout.fragment_solution_hist
     }
 
     private fun navigateToSolutionFragment(solutionId: String) {
-        navigate(R.id.action_solutionHistoryFragment_to_solutionFragment, Bundle().apply
-        {
-            putString(SOLUTION_SOLUTION_ID_KEY, solutionId)
-        })
+        navigate(
+            R.id.action_solutionHistoryFragment_to_solutionFragment, Bundle().apply
+            {
+                putString(SOLUTION_SOLUTION_ID_KEY, solutionId)
+            })
     }
 
     override fun onInitView(savedInstanceState: Bundle?) {

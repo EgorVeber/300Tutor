@@ -1,9 +1,9 @@
 package com.v_points.app.data.settings_app
 
-import kotlinx.coroutines.flow.Flow
 import com.v_points.app.data.settings_app.model.toSettingsAppModel
 import com.v_points.app.domain.settings_app.SettingsAppModel
 import com.v_points.app.domain.settings_app.SettingsAppRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class SettingsAppRepositoryImpl @Inject constructor(
@@ -20,7 +20,8 @@ class SettingsAppRepositoryImpl @Inject constructor(
             settingsModel
         }
     }
+
     override suspend fun getSettingAppStream(): Flow<SettingsAppModel> {
-       return settingsAppLocalDataSource.getSettingAppFlow()
+        return settingsAppLocalDataSource.getSettingAppFlow()
     }
 }

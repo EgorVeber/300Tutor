@@ -37,7 +37,10 @@ class AccountFragment : BaseFragment(UiCoreLayout.account_fragment) {
         binding = AccountFragmentBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
 
-        childFragmentManager.setFragmentResultListener(ActionDialogFragment.REQUEST_KEY, this) { _, bundle ->
+        childFragmentManager.setFragmentResultListener(
+            ActionDialogFragment.REQUEST_KEY,
+            this
+        ) { _, bundle ->
             when (bundle.getString(ActionDialogFragment.RESULT_KEY)) {
                 ActionDialogFragment.POSITIVE_BUTTON_CLICKED -> viewModel.onLogoutClick()
             }

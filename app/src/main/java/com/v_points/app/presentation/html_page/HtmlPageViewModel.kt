@@ -1,10 +1,6 @@
 package com.v_points.app.presentation.html_page
 
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import com.v_points.app.domain.common.GetConfigUseCase
 import com.v_points.app.domain.settings_app.GetSettingAppUseCase
 import com.v_points.app.domain.solution.models.test_model.HtmlPageTestType
@@ -21,6 +17,10 @@ import com.v_points.app.ui_common.EMPTY_STRING
 import com.v_points.app.ui_common.coroutines.launchJob
 import com.v_points.app.ui_common.flow.SingleSharedFlow
 import com.v_points.app.ui_common.fragment.base.BaseViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 class HtmlPageViewModel @Inject constructor(

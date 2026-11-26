@@ -1,10 +1,6 @@
 package com.v_points.app.presentation.subject_detailed
 
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import com.v_points.app.domain.subject_detailed.GetMenuSubjectConfigUseCase
 import com.v_points.app.domain.subject_detailed.models.SubjectMenuItemType.MENU_ITEM
 import com.v_points.app.domain.subject_detailed.models.SubjectMenuItemType.SUBJECT_TEST_LINK
@@ -16,6 +12,10 @@ import com.v_points.app.presentation.subject_detailed.ui_models.SubjectMenuItemU
 import com.v_points.app.ui_common.coroutines.launchJob
 import com.v_points.app.ui_common.flow.SingleSharedFlow
 import com.v_points.app.ui_common.fragment.base.BaseViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 class SubjectDetailedViewModel @Inject constructor(

@@ -1,8 +1,6 @@
 package com.v_points.app.vpoint.participants.domain
 
-import com.v_points.app.vpoint.fiersote.domain.GameModel
 import com.v_points.app.vpoint.fiersote.domain.UserModel
-import com.v_points.app.vpoint.games.data.GamesRepository
 import com.v_points.app.vpoint.participants.data.ParticipantsRepository
 import javax.inject.Inject
 

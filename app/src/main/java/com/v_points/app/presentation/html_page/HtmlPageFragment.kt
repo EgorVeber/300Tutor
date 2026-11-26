@@ -97,21 +97,22 @@ class HtmlPageFragment : BaseFragment(UiCoreLayout.html_page_fragment) {
                 }
 
                 is HtmlPageViewModel.UiEvent.NavigateToSolution -> {
-                    navigate(R.id.action_htmlPageFragment_to_solutionFragment, Bundle().apply
-                    {
-                        putString(
-                            SolutionFragment.SOLUTION_HTML_PAGE_DIRECTORY_ID_KEY,
-                            uiEvent.directoryId
-                        )
-                        putString(
-                            SolutionFragment.SOLUTION_HTML_PAGE_WORKSPACE_ID_KEY,
-                            uiEvent.workspaceId
-                        )
-                        putSerializable(
-                            SolutionFragment.SOLUTION_HTML_PAGE_TEST_TYPE_ID_KEY,
-                            uiEvent.htmlPageTestType
-                        )
-                    })
+                    navigate(
+                        R.id.action_htmlPageFragment_to_solutionFragment, Bundle().apply
+                        {
+                            putString(
+                                SolutionFragment.SOLUTION_HTML_PAGE_DIRECTORY_ID_KEY,
+                                uiEvent.directoryId
+                            )
+                            putString(
+                                SolutionFragment.SOLUTION_HTML_PAGE_WORKSPACE_ID_KEY,
+                                uiEvent.workspaceId
+                            )
+                            putSerializable(
+                                SolutionFragment.SOLUTION_HTML_PAGE_TEST_TYPE_ID_KEY,
+                                uiEvent.htmlPageTestType
+                            )
+                        })
                 }
             }
         }

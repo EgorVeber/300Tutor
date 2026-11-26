@@ -92,17 +92,19 @@ class SubjectStartTestFragment : BaseFragment(UiCoreLayout.test_fragment) {
         viewModel.getUiEventStateFlow().observeFlow(this) { state ->
             when (state) {
                 is SubjectStartTestViewModel.UiEvent.NavigateToSolutionLoadSolution -> {
-                    navigate(R.id.action_testFragment_to_solutionFragment, Bundle().apply
-                    {
-                        putString(SOLUTION_SOLUTION_ID_KEY, state.solutionId)
-                    })
+                    navigate(
+                        R.id.action_testFragment_to_solutionFragment, Bundle().apply
+                        {
+                            putString(SOLUTION_SOLUTION_ID_KEY, state.solutionId)
+                        })
                 }
 
                 is SubjectStartTestViewModel.UiEvent.NavigateToSolutionStartTest -> {
-                    navigate(R.id.action_testFragment_to_solutionFragment, Bundle().apply
-                    {
-                        putString(SOLUTION_TEST_ID_KEY, state.testId)
-                    })
+                    navigate(
+                        R.id.action_testFragment_to_solutionFragment, Bundle().apply
+                        {
+                            putString(SOLUTION_TEST_ID_KEY, state.testId)
+                        })
                 }
             }
         }

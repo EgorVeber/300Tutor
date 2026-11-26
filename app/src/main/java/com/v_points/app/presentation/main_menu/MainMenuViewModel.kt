@@ -1,10 +1,6 @@
 package com.v_points.app.presentation.main_menu
 
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import com.v_points.app.domain.account.models.AccountModel
 import com.v_points.app.domain.account.models.CreateLoginLinkResultModel
 import com.v_points.app.domain.account.usecase.CreateLoginLinkResultUseCase
@@ -15,6 +11,10 @@ import com.v_points.app.presentation.main_menu.adapter.MainMenuUiItem
 import com.v_points.app.ui_common.coroutines.launchJob
 import com.v_points.app.ui_common.flow.SingleSharedFlow
 import com.v_points.app.ui_common.fragment.base.BaseViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 class MainMenuViewModel @Inject constructor(

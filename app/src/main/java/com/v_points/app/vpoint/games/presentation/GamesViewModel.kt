@@ -10,7 +10,9 @@ import com.v_points.app.ui_core.components.participant.TeamParticipantsUiModel
 import com.v_points.app.vpoint.fiersote.domain.GameModel
 import com.v_points.app.vpoint.fiersote.domain.UserModel
 import com.v_points.app.vpoint.games.di.GameComponentModel
+import com.v_points.app.vpoint.games.domain.GetAllServeStatsUseCase
 import com.v_points.app.vpoint.games.domain.GetGamesForDayUseCase
+import com.v_points.app.vpoint.games.domain.GetServeStatsForDayUseCase
 import com.v_points.app.vpoint.games.presentation.mappers.toGameUiModel
 import com.v_points.app.vpoint.participants.domain.GetParticipantsUseCase
 import kotlinx.coroutines.async

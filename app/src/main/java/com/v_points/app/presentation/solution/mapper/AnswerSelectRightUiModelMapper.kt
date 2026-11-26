@@ -21,7 +21,7 @@ fun AnswerSelectRightModel.toAnswerSelectRightUiModel(
     questionId: String,
     isValidated: Boolean,
     checked: Boolean,
-    answer:String
+    answer: String
 ): SelectRightAnswerUiModel =
     SelectRightAnswerUiModel(
         rightAnswer = isRightAnswer,

@@ -1,11 +1,11 @@
 package com.v_points.app.di.restore_password
 
-import dagger.BindsInstance
-import dagger.Component
 import com.v_points.app.core.DiSetHelper
 import com.v_points.app.data.common.network.ServiceGeneratorProvider
 import com.v_points.app.di.common.ViewModelMapFactory
 import com.v_points.app.presentation.common.ResourceProvider
+import dagger.BindsInstance
+import dagger.Component
 
 @Component(modules = [RestorePasswordModule::class])
 interface RestorePasswordComponent {

@@ -1,11 +1,7 @@
 package com.v_points.app.presentation.starter
 
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import com.v_points.app.data.common.network.ErrorType
 import com.v_points.app.domain.account.usecase.GetAccountUseCase
-import com.v_points.app.domain.authorization.LoginParamsModel
 import com.v_points.app.domain.authorization.LoginUseCase
 import com.v_points.app.domain.common.GetConfigUseCase
 import com.v_points.app.domain.settings_app.GetSettingAppUseCase
@@ -14,6 +10,8 @@ import com.v_points.app.domain.starter.GetFirstStartAppUseCase
 import com.v_points.app.domain.starter.SetFirstStartAppUseCase
 import com.v_points.app.ui_common.coroutines.launchJob
 import com.v_points.app.ui_common.fragment.base.BaseViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class StarterViewModel @Inject constructor(

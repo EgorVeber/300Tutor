@@ -1,14 +1,14 @@
 package com.v_points.app.di.common
 
 import android.content.Context
-import dagger.Module
-import dagger.Provides
 import com.v_points.app.data.common.data_source.AccountLocalDataSource
 import com.v_points.app.data.common.data_source.ConfigLocalDataSource
 import com.v_points.app.data.common.data_source.DomainLocalDataSource
 import com.v_points.app.data.common.data_source.PrivateDataSource
 import com.v_points.app.data.common.data_source.PublicDataSource
 import com.v_points.app.data.settings_app.SettingsAppLocalDataSource
+import dagger.Module
+import dagger.Provides
 import javax.inject.Singleton
 
 @Module

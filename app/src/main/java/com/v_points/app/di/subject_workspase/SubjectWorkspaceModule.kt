@@ -1,13 +1,13 @@
 package com.v_points.app.di.subject_workspase
 
 import androidx.lifecycle.ViewModel
-import dagger.Binds
-import dagger.Module
-import dagger.multibindings.IntoMap
 import com.v_points.app.data.subject_workspace.SubjectWorkspaceRepositoryImpl
 import com.v_points.app.di.common.ViewModelInjectMapKey
 import com.v_points.app.domain.subject_workspace.SubjectWorkspaceRepository
 import com.v_points.app.presentation.subject_workspace.SubjectWorkspaceViewModel
+import dagger.Binds
+import dagger.Module
+import dagger.multibindings.IntoMap
 
 @Module
 abstract class SubjectWorkspaceModule {

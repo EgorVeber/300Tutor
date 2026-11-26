@@ -3,12 +3,12 @@ package com.v_points.app.data.common.network
 import android.util.Log
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import okhttp3.JavaNetCookieJar
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import com.v_points.app.BuildConfig
 import com.v_points.app.data.common.data_source.DomainLocalDataSource
 import com.v_points.app.data.common.network.interceptor.ServerErrorInterceptor
+import okhttp3.JavaNetCookieJar
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.CookieManager

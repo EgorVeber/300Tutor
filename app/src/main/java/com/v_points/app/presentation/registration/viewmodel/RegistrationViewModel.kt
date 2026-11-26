@@ -1,9 +1,6 @@
 package com.v_points.app.presentation.registration.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import com.v_points.app.domain.common.SetAccountAuthorizationInfUseCase
 import com.v_points.app.domain.registration.models.RegistrationAccountAndSignInModel
 import com.v_points.app.domain.registration.models.RegistrationStudentAndSignInModel
@@ -11,6 +8,9 @@ import com.v_points.app.domain.registration.usecases.RegistrationStudentUseCase
 import com.v_points.app.ui_common.coroutines.launchJob
 import com.v_points.app.ui_common.flow.SingleSharedFlow
 import com.v_points.app.ui_common.fragment.base.BaseViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import javax.inject.Inject
 
 class RegistrationViewModel @Inject constructor(

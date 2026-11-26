@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import ir.mahozad.android.PieChart.Slice
 import com.v_points.app.core.UiCoreAttr
 import com.v_points.app.core.UiCoreDrawable
 import com.v_points.app.core.UiCoreStyle
@@ -16,6 +15,7 @@ import com.v_points.app.ui_common.fragment.getColorAttr
 import com.v_points.app.ui_common.util_class.BundleParcelable
 import com.v_points.app.ui_common.view_components.loadIcon
 import com.v_points.app.ui_core.databinding.SolutionResultDialogBinding
+import ir.mahozad.android.PieChart.Slice
 import kotlin.math.abs
 
 

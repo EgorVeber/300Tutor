@@ -117,7 +117,10 @@ class SolutionFragment : BaseFragment(UiCoreLayout.solution_fragment) {
         binding = SolutionFragmentBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
 
-        childFragmentManager.setFragmentResultListener(ActionDialogFragment.REQUEST_KEY, this) { _, bundle ->
+        childFragmentManager.setFragmentResultListener(
+            ActionDialogFragment.REQUEST_KEY,
+            this
+        ) { _, bundle ->
             when (bundle.getString(ActionDialogFragment.RESULT_KEY)) {
                 ActionDialogFragment.POSITIVE_BUTTON_CLICKED -> viewModel.onSaveAnswersClicked()
                 ActionDialogFragment.NEGATIVE_BUTTON_CLICKED -> findNavController().popBackStack()

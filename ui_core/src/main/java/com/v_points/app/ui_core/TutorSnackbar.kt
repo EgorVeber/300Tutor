@@ -64,7 +64,7 @@ class TutorSnackbar(
 
             val button = customView.findViewById<MaterialButton>(R.id.snackbarButton)
             buttonClick?.let {
-                button.setOnClickListener { buttonClick.invoke();tutorSnackbar.dismiss() }
+                button.setOnClickListener { buttonClick.invoke(); tutorSnackbar.dismiss() }
                 backgroundColor?.let {
                     button.backgroundTintList = ColorStateList.valueOf(backgroundColor)
                 }

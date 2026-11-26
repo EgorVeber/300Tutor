@@ -73,7 +73,8 @@ class SubjectTestsFragment : BaseFragment(UiCoreLayout.subject_tests_fragment) {
         viewModel.getUiEventStateFlow().observeFlow(this) { state ->
             when (state) {
                 is SubjectTestsViewModel.UiEvent.NavigateToTest -> {
-                    navigate(R.id.action_subjectTestsFragment_to_testFragment,
+                    navigate(
+                        R.id.action_subjectTestsFragment_to_testFragment,
                         Bundle().apply {
                             putString(SUBJECT_TESTS_TEST_ID_KEY, state.subjectTestId)
                             putString(SUBJECT_TESTS_SUBJECT_NAME_KEY, subjectName)

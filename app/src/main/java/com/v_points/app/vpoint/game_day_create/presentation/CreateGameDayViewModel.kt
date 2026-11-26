@@ -17,7 +17,9 @@ import java.util.Locale
 import javax.inject.Inject
 
 sealed interface CreateGameDayNavigateAction {
-    data class ShowSnack(val message: String, val snackBarType: SnackBarType) : CreateGameDayNavigateAction
+    data class ShowSnack(val message: String, val snackBarType: SnackBarType) :
+        CreateGameDayNavigateAction
+
     data object SuccessCreated : CreateGameDayNavigateAction
 }
 
@@ -102,7 +104,7 @@ class CreateGameDayViewModel @Inject constructor(
         viewModelScope.launchJob(tryBlock = {
             loadingState.tryEmit(true)
             val resultId = gameDaysRepository.addGameDay(
-                date = timestamp/1000,
+                date = timestamp / 1000,
                 locationId = locationId
             )
             navigateAction.tryEmit(

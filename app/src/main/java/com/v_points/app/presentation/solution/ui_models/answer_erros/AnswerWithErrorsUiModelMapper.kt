@@ -15,7 +15,7 @@ fun QuestionModel.toAnswerWithErrorsUiModel(
 
 fun QuestionModel.toAnswerWithErrorsUiModel(
     rightAnswer: String,
-    inputAnswer:String
+    inputAnswer: String
 ): AnswerWithErrorsUiModel =
     AnswerWithErrorsUiModel(
         questionId = questionId,

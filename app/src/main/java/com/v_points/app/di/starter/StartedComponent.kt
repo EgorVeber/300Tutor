@@ -1,7 +1,5 @@
 package com.v_points.app.di.starter
 
-import dagger.BindsInstance
-import dagger.Component
 import com.v_points.app.core.DiSetHelper
 import com.v_points.app.data.common.data_source.AccountLocalDataSource
 import com.v_points.app.data.common.data_source.ConfigLocalDataSource
@@ -10,6 +8,8 @@ import com.v_points.app.data.common.network.ServiceGeneratorProvider
 import com.v_points.app.data.settings_app.SettingsAppLocalDataSource
 import com.v_points.app.di.common.ViewModelMapFactory
 import com.v_points.app.domain.common.AccountAuthorizationInfoRepository
+import dagger.BindsInstance
+import dagger.Component
 
 @Component(modules = [StarterModule::class])
 interface StartedComponent {

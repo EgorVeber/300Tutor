@@ -344,5 +344,21 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+    <fragment
+        android:id="@+id/createServeFragment"
+        android:name="com.v_points.app.vpoint.serve_create.presentation.CreateServeFragment"
+        android:label="CreateServeFragment">
+        <argument
+            android:name="GAME_DAY_ID"
+            app:argType="string"
+            android:defaultValue="" />
+        <action
+            android:id="@+id/action_createServeFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 
 </navigation>

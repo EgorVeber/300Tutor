@@ -6,6 +6,7 @@ import com.v_points.app.ui_common.UiCoreStrings
 enum class MainMenuItem {
     SCHEDULE,
     NOTES,
+
     //GROUPS,
     FAVORITES_QUESTION;
     // COMPLETED_TESTS,

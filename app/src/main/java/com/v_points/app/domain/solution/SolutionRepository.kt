@@ -1,6 +1,5 @@
 package com.v_points.app.domain.solution
 
-import kotlinx.coroutines.flow.Flow
 import com.v_points.app.domain.solution.models.BaseApiModel
 import com.v_points.app.domain.solution.models.QuestionAnswerWithResultBaseApiModel
 import com.v_points.app.domain.solution.models.QuestionAnswersWithResultBaseApiModel
@@ -8,6 +7,7 @@ import com.v_points.app.domain.solution.models.TestSolutionGeneralModel
 import com.v_points.app.domain.solution.models.directory.StartTestDirectoryParamsModel
 import com.v_points.app.domain.solution.models.params_model.SaveQuestionPointsValidationParamsModel
 import com.v_points.app.domain.solution.models.points.SolutionPointsModel
+import kotlinx.coroutines.flow.Flow
 
 interface SolutionRepository {
     suspend fun getSolution(solutionId: String): TestSolutionGeneralModel

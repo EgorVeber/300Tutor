@@ -1,13 +1,6 @@
 package com.v_points.app.presentation.solution
 
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.update
 import com.v_points.app.core.UiCoreStrings
 import com.v_points.app.domain.settings_app.GetSettingAppUseCase
 import com.v_points.app.domain.solution.models.params_model.QuestionSolutionIdParamsModel
@@ -50,6 +43,13 @@ import com.v_points.app.ui_common.flow.SingleSharedFlow
 import com.v_points.app.ui_common.fragment.base.BaseViewModel
 import com.v_points.app.ui_common.util.BadRequestException
 import com.v_points.app.ui_core.SnackBarType
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 import java.util.Collections
 import javax.inject.Inject
 
@@ -565,11 +565,11 @@ class SolutionViewModel @Inject constructor(
                 uiEventState.tryEmit(
                     UiEvent.NavigatePhotoDetailed(
                         imagePath =
-                        SolutionFactory.replaceUrl(
-                            url = getSettingAppUseCase(false).publicImageUrlFormat,
-                            fileId = imageId,
-                            type = SolutionFactory.IMAGE_ORIGINAL_TYPE
-                        )
+                            SolutionFactory.replaceUrl(
+                                url = getSettingAppUseCase(false).publicImageUrlFormat,
+                                fileId = imageId,
+                                type = SolutionFactory.IMAGE_ORIGINAL_TYPE
+                            )
                     )
                 )
             }, catchBlock = { throwable ->

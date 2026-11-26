@@ -1,11 +1,11 @@
 package com.v_points.app.di.settings
 
-import dagger.BindsInstance
-import dagger.Component
 import com.v_points.app.core.DiSetHelper
 import com.v_points.app.data.common.data_source.ConfigLocalDataSource
 import com.v_points.app.data.common.network.ServiceGeneratorProvider
 import com.v_points.app.di.common.ViewModelMapFactory
+import dagger.BindsInstance
+import dagger.Component
 
 @Component(modules = [SettingsModule::class])
 interface SettingsComponent {

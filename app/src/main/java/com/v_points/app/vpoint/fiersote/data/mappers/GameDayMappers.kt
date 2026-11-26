@@ -2,9 +2,11 @@ package com.v_points.app.vpoint.fiersote.data.mappers
 
 import com.v_points.app.vpoint.fiersote.data.models.GameDayResponse
 import com.v_points.app.vpoint.fiersote.data.models.GameResponse
+import com.v_points.app.vpoint.fiersote.data.models.ServeStatResponse
 import com.v_points.app.vpoint.fiersote.data.models.UserStatResponse
 import com.v_points.app.vpoint.fiersote.domain.GameDayModel
 import com.v_points.app.vpoint.fiersote.domain.GameModel
+import com.v_points.app.vpoint.fiersote.domain.ServeStatModel
 import com.v_points.app.vpoint.fiersote.domain.UserStatModel
 
 fun GameDayResponse.toGameDayModel(): GameDayModel {
@@ -35,5 +37,20 @@ fun UserStatResponse.toUserStatModel(): UserStatModel {
         statId = statId ?: error("UserStatResponse statId null"),
         reviewerId = reviewerId ?: error("UserStatResponse reviewerId null"),
         value = value ?: error("UserStatResponse value null")
+    )
+}
+
+fun ServeStatResponse.toServeStatModel(): ServeStatModel {
+    return ServeStatModel(
+        id = id ?: error("ServeStatResponse id null"),
+        userId = userId ?: error("ServeStatResponse userId null"),
+        gameId = gameId ?: error("ServeStatResponse gameId null"),
+        gameDayId = gameDayId ?: error("ServeStatResponse gameDayId null"),
+        transitionBall = transitionBall ?: 0,
+        ace = ace ?: 0,
+        grace = grace ?: 0,
+        net = net ?: 0,
+        notReception = notReception ?: 0,
+        out = out ?: 0,
     )
 }
